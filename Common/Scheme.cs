@@ -7,13 +7,10 @@ namespace UDBase.Common {
 	/* If you want some combination of components you need to inherit from that class
 	 * add call AddComponent for required components
 	 */
-	public abstract class Scheme : IScheme {
-		Dictionary<IComponent, ComponentHelperBase> _components = null;
+	public abstract class Scheme : ScriptableObject, IScheme {
+		Dictionary<IComponent, ComponentHelperBase> _components = new Dictionary<IComponent, ComponentHelperBase>();
 
 		public void AddComponent(ComponentHelperBase helper, IComponent component) {
-			if( _components == null ) {
-				_components = new Dictionary<IComponent, ComponentHelperBase>();
-			}
 			_components.Add(component, helper);
 		}
 
