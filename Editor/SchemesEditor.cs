@@ -4,21 +4,12 @@ using System;
 using System.Collections;
 
 namespace UDBase.Editor {
+	// TODO:
+	// View, remove, switch schemes
 	public class SchemesEditor : EditorWindow {
 		enum State {
 			Start,
-			NewSchemeScript,
-			NewSchemeAsset
-		}
-
-		SchemesTool _st;
-		SchemesTool st {
-			get {
-				if( _st == null ) {
-					_st = new SchemesTool();
-				}
-				return _st;
-			}
+			NewSchemeScript
 		}
 
 		State  _state         = State.Start;
@@ -37,11 +28,6 @@ namespace UDBase.Editor {
 
 				case State.NewSchemeScript: {
 						DrawState_NewSchemeScript();
-					}
-				break;
-
-				case State.NewSchemeAsset: {
-						DrawState_NewSchemeAsset();
 					}
 				break;
 			}
@@ -65,21 +51,9 @@ namespace UDBase.Editor {
 			_newSchemeName = GUILayout.TextArea(_newSchemeName);
 			if( _newSchemeName.Length > 0) {
 				if( GUILayout.Button("Create script") ) {
-					st.CreateDirectory(_newSchemeName);
-					st.CreateSchemeScript(_newSchemeName);
-					_state = State.NewSchemeAsset;
+					SchemesTool.CreateSchemeScript(_newSchemeName);
+					_state = State.Start;
 				}
-			}
-			GUILayout.EndVertical();
-		}
-
-		void DrawState_NewSchemeAsset() {
-			GUILayout.BeginVertical();
-			if( EditorApplication.isCompiling ) {
-				GUILayout.Label("Wait for compilation...");
-			} else if( GUILayout.Button("Create asset") ) {
-				st.CreateAsset(_newSchemeName);
-				_state = State.Start;
 			}
 			GUILayout.EndVertical();
 		}

@@ -10,7 +10,7 @@ namespace UDBase.Common {
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
 		static void OnApplicationStart() {
 			var manager = new SchemeManager();
-			manager.ApplyScheme(SchemeSetup.GetScheme());
+			manager.ApplyScheme(new ProjectScheme());
 		}
 	}
 }

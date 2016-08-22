@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿#if !Scheme_Declared
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UDBase.Components.Log;
 
 namespace UDBase.Common {
-	public class DefaultScheme : Scheme {
+	public class ProjectScheme : Scheme {
 
-		public DefaultScheme() {
+		public ProjectScheme() {
+			AddComponent(new Log(), new Log_Unity());
 		}
 	}
 }
+#endif
