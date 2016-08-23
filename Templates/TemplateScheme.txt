@@ -1,0 +1,13 @@
+﻿#if Scheme_[Name]
+using UnityEngine;
+using System.Collections;
+using UDBase.Common;
+using UDBase.Components.Log;
+
+public class ProjectScheme : Scheme {
+
+	public ProjectScheme() {
+		// Add your initialization code here
+	}
+}
+#endif
