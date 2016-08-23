@@ -74,7 +74,8 @@ namespace UDBase.Editor {
 			return ConvertBuildTarget(EditorUserBuildSettings.activeBuildTarget);
 		}
 
-		static BuildTargetGroup ConvertBuildTarget(BuildTarget target) {
+		// Obsolete BuildTargets is not supported
+		public static BuildTargetGroup ConvertBuildTarget(BuildTarget target) {
 			var group = BuildTargetGroup.Unknown;
 			if( !buildTargetMap.TryGetValue(target, out group) ) {
 				throw new UnityException("Unknown BuildTarget!");
