@@ -1,0 +1,4 @@
+﻿		[MenuItem("UDBase/Schemes/[Scheme]")]
+		static void SwitchToScheme_[Scheme]() {
+			SchemesTool.ApplyScheme("[Scheme]");
+		}

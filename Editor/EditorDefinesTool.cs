@@ -47,9 +47,13 @@ namespace UDBase.Editor {
 			}
 		}
 
-		public static void SetScheme(string schemeName) {
+		static string GetCurrentSymbols() {
 			var currentGroup = GetCurrentGroup();
-			var currentSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(currentGroup);
+			return PlayerSettings.GetScriptingDefineSymbolsForGroup(currentGroup);
+		}
+
+		public static void SetScheme(string schemeName) {
+			var currentSymbols = GetCurrentSymbols();
 			var newSymbols = currentSymbols.Length > 0 ? RemoveGroup(currentSymbols) : "";
 			newSymbols += "Scheme_" + schemeName + ";Scheme_Declared";
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, newSymbols);
@@ -81,6 +85,17 @@ namespace UDBase.Editor {
 				throw new UnityException("Unknown BuildTarget!");
 			}
 			return group;
+		}
+
+		public static bool IsActiveScheme(string name) {
+			string currentSymbols = GetCurrentSymbols();
+			if( currentSymbols.Contains("Scheme_" + name)) {
+				return true;
+			}
+			if( name == "Default" && !currentSymbols.Contains("Scheme_")) {
+				return true;
+			}
+			return false;
 		}
 	}
 }

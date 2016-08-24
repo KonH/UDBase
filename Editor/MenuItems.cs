@@ -4,21 +4,20 @@ using System.Collections;
 
 namespace UDBase.Editor {
 	public static class MenuItems {
-		// TODO: Generated menu items to switch schemes;
-
+		
 		[MenuItem("UDBase/Setup")]
 		static void DoSetup() {
 			ProjectSetup.PrepareFolders();
 		}
 
-		[MenuItem("UDBase/Schemes")]
+		[MenuItem("UDBase/Schemes/Edit", false, -99)]
 		static void OpenSchemes() {
 			SchemesEditor.GetWindow<SchemesEditor>("Schemes", true);
 		}
 
-		[MenuItem("UDBase/Setup TestScheme")]
+		[MenuItem("UDBase/Schemes/Update", false, -99)]
 		static void Scheme() {
-			EditorDefinesTool.SetScheme("TestScheme");
+			SchemesTool.UpdateSchemes();
 		}
 	}
 }
