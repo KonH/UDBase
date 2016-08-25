@@ -19,5 +19,10 @@ namespace UDBase.Editor {
 		static void Scheme() {
 			SchemesTool.UpdateSchemes();
 		}
+
+		[MenuItem("UDBase/Schemes/Default")]
+		static void SwitchToScheme_Default() {
+			SchemesTool.SwitchScheme("Default");
+		}
 	}
 }
