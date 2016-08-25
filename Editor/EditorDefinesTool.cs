@@ -2,6 +2,7 @@
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
+using UDBase.Common;
 
 namespace UDBase.Editor {
 	
@@ -55,7 +56,8 @@ namespace UDBase.Editor {
 		public static void SetScheme(string schemeName) {
 			var currentSymbols = GetCurrentSymbols();
 			var newSymbols = currentSymbols.Length > 0 ? RemoveGroup(currentSymbols) : "";
-			newSymbols += "Scheme_" + schemeName + ";Scheme_Declared";
+			newSymbols += UDBaseConfig.SchemeSymbolPrefix + schemeName; 
+			newSymbols += ";" + UDBaseConfig.SchemeDeclarationSymbols;
 			PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, newSymbols);
 			Debug.Log("Active scheme now: " + schemeName);
 		} 
@@ -65,7 +67,7 @@ namespace UDBase.Editor {
 				var parts = define.Split(';');
 				var newDefine = "";
 				for(int i = 0; i < parts.Length; i++) {
-					if( !parts[i].Contains("Scheme_") ) {
+					if( !parts[i].Contains(UDBaseConfig.SchemeSymbolPrefix) ) {
 						newDefine += parts[i] + ";";
 					}
 				}
@@ -89,10 +91,11 @@ namespace UDBase.Editor {
 
 		public static bool IsActiveScheme(string name) {
 			string currentSymbols = GetCurrentSymbols();
-			if( currentSymbols.Contains("Scheme_" + name)) {
+			if( currentSymbols.Contains(UDBaseConfig.SchemeSymbolPrefix + name)) {
 				return true;
 			}
-			if( name == "Default" && !currentSymbols.Contains("Scheme_")) {
+			if( name == UDBaseConfig.SchemeDefaultName && 
+				!currentSymbols.Contains(UDBaseConfig.SchemeSymbolPrefix)) {
 				return true;
 			}
 			return false;

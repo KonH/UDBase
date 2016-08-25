@@ -3,6 +3,7 @@ using UnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UDBase.Common;
 
 namespace UDBase.Editor {
 	public class SchemesEditor : EditorWindow {
@@ -70,7 +71,7 @@ namespace UDBase.Editor {
 			} else {
 				GUILayout.Space(104);
 			}
-			if( name != "Default" ) {
+			if( name != UDBaseConfig.SchemeDefaultName ) {
 				if( GUILayout.Button("Remove", GUILayout.Width(100)) ) {
 					SchemesTool.RemoveScheme(name);
 					UpdateSchemes();
