@@ -1,4 +1,4 @@
-﻿#if !Scheme_Declared
+﻿#if !Scheme_Declared || Scheme_Default
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
