@@ -12,6 +12,7 @@ Repository link: [https://github.com/KonH/UDBase](https://github.com/KonH/UDBase
 2. If you clone your project already with submodule:
 	1. Initialize submodule: `git submodule init`
 	2. Update submodule: `git submodule update`
+3. Use UDBase/Setup to make default user project structure
 
 ### Manual
 You can download last version here: [https://github.com/KonH/UDBase/archive/master.zip](https://github.com/KonH/UDBase/archive/master.zip)
@@ -23,6 +24,10 @@ Just update submodule: `git submodule update`
 
 ### Manual
 Also, you can re-install project as described above.
+
+## Features
+### Schemes
+TODO: To write
 
 ## Examples
 Example project - [https://github.com/KonH/UDBaseExample](https://github.com/KonH/UDBaseExample)
