@@ -81,6 +81,9 @@ namespace UDBase.Common {
 		}
 
 		// Config
-		public static string JsonConfigName = "config"; 
+		public static string JsonConfigName = "config";
+
+		// Save
+		public static string JsonSaveName = "save.json";
 	}
 }

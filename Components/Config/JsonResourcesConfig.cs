@@ -8,6 +8,7 @@ using UDBase.Components;
 namespace UDBase.Components.Config {
 	public class JsonResourcesConfig : IConfig {
 		// TODO: Caching
+		// TODO: Common class
 
 		class ConfigNodeHolder {
 			public string Name    {get; private set;}
