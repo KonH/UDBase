@@ -109,7 +109,38 @@ In example above, on that scheme any calls to **Test.MyMethod()** will be redire
 
 Now you can switch to your scheme using **Switch** in Schemes window or just appropriate menu item in **UDBase/Schemes/**.
 
- 
+## Built-in Components
+
+### Config
+
+You can simple load settings for you components or other classes via **Config** methods. It allow you to get any class instance (inherited from TODO) from some storage. By default Unity's JsonUtility is used (you can read about it here TODO), so you class need to correctly deserialized with it.
+
+TODO: Examples
+
+### Save
+
+Using **Save** methods you can load and save runtime specific data (). Currently it is used JsonUtility and store file(s) in *Application.persistantDataPath*.
+
+TODO: Examples
+
+## Notes
+
+### Config/Save Json
+
+Configs and saves stored not in pure Json format (because of limitation of Unity's JsonUtility). Format is simple:
+
+```
+header0
+{regular json-body}
+
+header1
+{...}
+
+etc...
+```
+
+Any block must contains header (allow you to get and save block data via code) and body in json format.
+Empty line between blocks is required.
 
 ## Examples
 Example project - [https://github.com/KonH/UDBaseExample](https://github.com/KonH/UDBaseExample)
