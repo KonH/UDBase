@@ -19,6 +19,11 @@ namespace UDBase.Helpers {
 		public abstract bool IsValid();
 		public abstract bool Contains(T value);
 		public abstract T    Random();
+
+		public override string ToString()
+		{
+			return string.Format("Range: [{0}, {1}]", Start, End);
+		}
 	}
 
 	[Serializable]
