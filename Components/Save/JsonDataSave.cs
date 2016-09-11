@@ -29,7 +29,10 @@ namespace UDBase.Components.Save {
 				Content = _builder.ToString();
 			}
 
-			// TODO: Write
+			// Write
+			public void Write(string content) {
+				Content = content;
+			}
 		}
 
 		bool                 _prettyJson    = false;
@@ -90,26 +93,48 @@ namespace UDBase.Components.Save {
 			return content.Split('\n');
 		}
 
+		SaveNodeHolder GetHolder(string name) {
+			for( int i = 0; i < _nodes.Count; i++ ) {
+				if( _nodes[i].Name == name ) {
+					return _nodes[i];
+				}
+			}
+			return null;
+		}
+
 		public T GetNode<T>() where T:class, ISaveNode, new()
 		{
 			T node = new T();
-			for( int i = 0; i < _nodes.Count; i++ ) {
-				if( _nodes[i].Name == node.Name ) {
-					var content = _nodes[i].Content;
-					JsonUtility.FromJsonOverwrite(content, node);
-					return node;
-				}
+			var holder = GetHolder(node.Name);
+			if( holder != null ) {
+				var content = holder.Content;
+				JsonUtility.FromJsonOverwrite(content, node);
+				return node;
 			}
 			return null;
 		}
 
 		public void SaveNode<T>(T node) where T : class, ISaveNode, new()
 		{
-			// TODO: Find existing node and save all
-			// TODO: Optional pretty use
-			var firstLine = node.Name;
 			var content = JsonUtility.ToJson(node, _prettyJson);
-			IOTool.WriteAllText(_filePath, firstLine + Environment.NewLine + content + Environment.NewLine);
+			var holder = GetHolder(node.Name);
+			if( holder == null ) {
+				holder = new SaveNodeHolder(node.Name);
+				_nodes.Add(holder);
+			}
+			holder.Write(content);
+			SaveAllNodes();
+		}
+
+		void SaveAllNodes() {
+			var lines = new List<string>(100);
+			for( int i = 0; i < _nodes.Count; i++ ) {
+				var node = _nodes[i];
+				lines.Add(node.Name);
+				lines.Add(node.Content);
+				lines.Add("");
+			}
+			IOTool.WriteAllLines(_filePath, lines);
 		}
 	}
 }
