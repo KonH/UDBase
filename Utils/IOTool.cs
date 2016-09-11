@@ -121,5 +121,18 @@ namespace UDBase.Utils {
 				return false;
 			}
 		}
+
+		public static bool Open(string path, bool silent = false) {
+			try {
+				string trimmedPath = path.TrimEnd(new[]{'\\', '/'});
+				System.Diagnostics.Process.Start(trimmedPath);
+				return true;
+			} catch (Exception e) {
+				if( !silent ) {
+					Debug.LogErrorFormat("Exception while open file at '{0}': {1}", path, e.ToString());
+				}
+				return false;
+			}
+		}
 	}
 }
