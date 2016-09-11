@@ -52,7 +52,6 @@ namespace UDBase.Components.Save {
 		// TODO: Multiplatform load?
 		public void Init() {
 			_filePath = IOTool.GetPath(Application.persistentDataPath, _fileName);
-			Debug.Log(_filePath);
 			var saveContent = IOTool.ReadAllLines(_filePath, true);
 			if( saveContent != null ) {
 				LoadNodes(saveContent);
