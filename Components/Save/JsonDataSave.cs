@@ -32,16 +32,18 @@ namespace UDBase.Components.Save {
 			// TODO: Write
 		}
 
+		bool                 _prettyJson    = false;
 		string               _fileName      = "";
 		string               _filePath      = "";
 		List<SaveNodeHolder> _nodes         = new List<SaveNodeHolder>();
 
-		public JsonDataSave() {
-			_fileName = UDBaseConfig.JsonSaveName;
-		}
+		public JsonDataSave():this(false, UDBaseConfig.JsonConfigName) {}
 
-		public JsonDataSave(string fileName) {
-			_fileName = fileName;
+		public JsonDataSave(bool prettyJson):this(prettyJson, UDBaseConfig.JsonSaveName) {}
+
+		public JsonDataSave(bool prettyJson, string fileName) {
+			_prettyJson = prettyJson;
+			_fileName   = fileName;
 		}
 
 		// TODO: Multiplatform load?
@@ -106,7 +108,7 @@ namespace UDBase.Components.Save {
 			// TODO: Find existing node and save all
 			// TODO: Optional pretty use
 			var firstLine = node.Name;
-			var content = JsonUtility.ToJson(node);
+			var content = JsonUtility.ToJson(node, _prettyJson);
 			IOTool.WriteAllText(_filePath, firstLine + Environment.NewLine + content + Environment.NewLine);
 		}
 	}
