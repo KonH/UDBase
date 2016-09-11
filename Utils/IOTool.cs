@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace UDBase.Utils {
 	public static class IOTool {
@@ -44,6 +45,20 @@ namespace UDBase.Utils {
 			} catch (Exception e) {
 				if( !silent ) {
 					Debug.LogErrorFormat("Exception while write text to '{0}': {1}", path, e.ToString());
+				}
+			}
+		}
+
+		public static void WriteAllLines(string path, List<string> contents, bool silent = false) {
+			WriteAllLines(path, contents.ToArray(), silent);
+		}
+
+		public static void WriteAllLines(string path, string[] contents, bool silent = false) {
+			try {
+				File.WriteAllLines(path, contents);
+			} catch (Exception e) {
+				if( !silent ) {
+					Debug.LogErrorFormat("Exception while write lines to '{0}': {1}", path, e.ToString());
 				}
 			}
 		}
