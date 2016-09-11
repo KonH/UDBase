@@ -40,7 +40,7 @@ namespace UDBase.Components.Save {
 		string               _filePath      = "";
 		List<SaveNodeHolder> _nodes         = new List<SaveNodeHolder>();
 
-		public JsonDataSave():this(false, UDBaseConfig.JsonConfigName) {}
+		public JsonDataSave():this(false, UDBaseConfig.JsonSaveName) {}
 
 		public JsonDataSave(bool prettyJson):this(prettyJson, UDBaseConfig.JsonSaveName) {}
 
