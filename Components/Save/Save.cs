@@ -2,19 +2,20 @@
 using System.Collections;
 using UDBase.Components;
 using UDBase.Utils;
+using UDBase.Utils.Json;
 using UDBase.Common;
 
 namespace UDBase.Components.Save {
 	public class Save:ComponentHelper<ISave> {
 
-		public static T GetNode<T>() where T:class, ISaveNode, new() {
+		public static T GetNode<T>() where T:class, IJsonNode, new() {
 			if( Instance != null ) {
 				return Instance.GetNode<T>();
 			}
 			return null;
 		}
 
-		public static void SaveNode<T>(T node) where T:class, ISaveNode, new() {
+		public static void SaveNode<T>(T node) where T:class, IJsonNode, new() {
 			if( Instance != null ) {
 				Instance.SaveNode(node);
 			}
