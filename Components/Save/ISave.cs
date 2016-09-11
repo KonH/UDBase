@@ -8,5 +8,6 @@ namespace UDBase.Components.Save {
 		
 		T GetNode<T>() where T:class, ISaveNode, new();
 		void SaveNode<T>(T node) where T:class, ISaveNode, new();
+		void Clear();
 	}
 }

@@ -135,5 +135,9 @@ namespace UDBase.Components.Save {
 			}
 			IOTool.WriteAllLines(_filePath, lines);
 		}
+
+		public void Clear() {
+			IOTool.DeleteFile(_filePath);
+		}
 	}
 }
