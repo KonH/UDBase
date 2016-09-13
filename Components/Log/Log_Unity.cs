@@ -7,8 +7,7 @@ namespace UDBase.Components.Log {
 			Debug.Log("Init Unity log");
 		}
 
-		public void Message(string msg)
-		{
+		public void Message(string msg) {
 			Debug.Log(msg);
 		}
 	}
