@@ -79,5 +79,8 @@ namespace UDBase.Common {
 				return IOTool.GetPath(AssetsFolder, ProjectFolder, ProjectEditorFolder, MenuItemsFile);
 			}
 		}
+
+		// Log
+		public static string LogVisualPrefabPath = "VisualLogger";
 	}
 }
