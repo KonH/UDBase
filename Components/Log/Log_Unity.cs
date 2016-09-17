@@ -3,12 +3,18 @@ using System.Collections;
 
 namespace UDBase.Components.Log {
 	public class Log_Unity : ILog {
-		public void Init() {
-			Debug.Log("Init Unity log");
+		Log_Tags _tagger = null;
+
+		public Log_Unity(Log_Tags tagger) {
+			_tagger = tagger;
 		}
 
-		public void Message(string msg) {
-			Debug.Log(msg);
+		public Log_Unity():this(new Log_Tags()) {}
+
+		public void Init() {}
+
+		public void Message(string msg, LogType type, int tag) {
+			Debug.logger.Log(type, _tagger.GetName(tag), msg);
 		}
 	}
 }
