@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace UDBase.Components.Log.UI {
 	public class VisualLogHandler : MonoBehaviour {
-		// TODO: Do not allocate with enum/string dictionary
 		class LogEntry {
 			public string  Message { get; private set; }
 			public LogType Type    { get; private set; }
@@ -34,11 +34,12 @@ namespace UDBase.Components.Log.UI {
 		Dictionary<LogType, bool> _typeStates = new Dictionary<LogType, bool>();
 		Dictionary<string, bool>  _tagStates  = new Dictionary<string, bool>();
 		LogContainer              _container  = new LogContainer();
+		StringBuilder             _sb         = new StringBuilder(10000);
 
 		// TODO: Add minimize buttons
 		// TODO: Setup scroll in text area
 		// TODO: Filter and string builder
-		// TODO: Save state in PlayerPrefs or State
+		// TODO: Save state in PlayerPrefs or State (later)
 
 		public void Init(string[] tags) {
 			Clear();
@@ -96,21 +97,35 @@ namespace UDBase.Components.Log.UI {
 
 		public void AddMessage(string msg, LogType type, string tag) {
 			_container.Store(msg, type, tag);
-			ApplyMessage(msg, type, tag);
+			ApplyMessage(msg, type, tag, true);
 		}
 
-		void ApplyMessage(string msg, LogType type, string tag) {
+		void ApplyMessage(string msg, LogType type, string tag, bool addNow) {
 			if( IsTagRequired(tag) && IsTypeRequired(type)) {
-				Text.text += string.Format("[{0}] {1}: {2}\n", tag, type, msg);
+				if( addNow ) {
+					Text.text += string.Format("[{0}] {1}: {2}\n", tag, type, msg);
+				} else {
+					_sb = _sb.AppendFormat("[{0}] {1}: {2}\n", tag, type, msg);
+				}
 			}
+		}
+
+		void InitApply() {
+			_sb.Length = 0;
+		}
+
+		void ApplyAll() {
+			Text.text += _sb.ToString();
 		}
 
 		void UpdateText() {
 			Clear();
+			InitApply();
 			for( int i = 0; i < _container.Entries.Count; i++) {
 				var entry = _container.Entries[i];
-				ApplyMessage(entry.Message, entry.Type, entry.Tag);
+				ApplyMessage(entry.Message, entry.Type, entry.Tag, false);
 			}
+			ApplyAll();
 		}
 	}
 }
