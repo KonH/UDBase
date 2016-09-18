@@ -13,6 +13,12 @@ namespace UDBase.Common {
 		public void AddComponent(ComponentHelperBase helper, IComponent component) {
 			_components.Add(component, helper);
 		}
+			
+		public void AddComponents<T>(CompositeHelper<T> helper, params IComponent[] components) where T:IComponent {
+			for(int i = 0; i < components.Length; i++) {
+				_components.Add(components[i], helper);
+			}
+		}
 
 		public void Init()
 		{
