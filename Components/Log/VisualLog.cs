@@ -4,11 +4,18 @@ using UDBase.Common;
 using UDBase.Components.Log.UI;
 
 namespace UDBase.Components.Log {
+	public enum ButtonPosition {
+		LeftTop,
+		RightTop,
+		LeftBottom,
+		RightBottom
+	}
+
 	public class VisualLog : ILog {
 		LogTags             _tagger  = null;
-		VisualLogHandler _handler = null;
+		VisualLogHandler    _handler = null;
 
-		public VisualLog(string prefabPath, LogTags tagger) {
+		public VisualLog(string prefabPath, LogTags tagger, ButtonPosition openButtonPos) {
 			_tagger = tagger;
 			// TODO: Common loader with holder
 			var prefabGo = Resources.Load(prefabPath) as GameObject;
@@ -17,20 +24,24 @@ namespace UDBase.Components.Log {
 				GameObject.DontDestroyOnLoad(instanceGo);
 				_handler = instanceGo.GetComponent<VisualLogHandler>();
 				if( _handler ) {
-					_handler.Init(_tagger.GetNames());
+					_handler.Init(_tagger.GetNames(), openButtonPos);
 					return;
 				}
 			}
 			Debug.LogError("Error while loading Log_Visual_Behaviour from Resources!");
 		}
 
-		public VisualLog():this(UDBaseConfig.LogVisualPrefabPath, new LogTags()) {}
+		public VisualLog(LogTags tagger):
+			this(UDBaseConfig.LogVisualPrefabPath, tagger, ButtonPosition.RightTop) {}
 
-		public VisualLog(LogTags tagger):this(UDBaseConfig.LogVisualPrefabPath, tagger) {}
+		public VisualLog(string prefabPath):
+			this(prefabPath, new LogTags(), ButtonPosition.RightTop) {}
 
-		public VisualLog(string prefabPath):this(prefabPath, new LogTags()) {}
+		public VisualLog(ButtonPosition openButtonPos):
+			this(UDBaseConfig.LogVisualPrefabPath, new LogTags(), openButtonPos) {}
 
-		// TODO: Create Unity UI overlay and use it for logging
+		public VisualLog():
+			this(UDBaseConfig.LogVisualPrefabPath, new LogTags(), ButtonPosition.RightTop) {}
 
 		public void Init() {}
 
