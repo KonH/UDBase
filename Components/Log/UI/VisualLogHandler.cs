@@ -103,7 +103,7 @@ namespace UDBase.Components.Log.UI {
 		string                    _formatStr  = "<color=\"{0}\">[{1}] {2}: {3}\n</color>";
 			
 
-		// TODO: Setup scroll in text area
+		// TODO: Setup scroll in text area (later)
 		// TODO: Save state in PlayerPrefs or State (later)
 
 		public void Init(string[] tags, ButtonPosition openButtonPos) {

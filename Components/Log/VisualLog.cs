@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UDBase.Common;
+using UDBase.Utils;
 using UDBase.Components.Log.UI;
 
 namespace UDBase.Components.Log {
@@ -17,18 +18,10 @@ namespace UDBase.Components.Log {
 
 		public VisualLog(string prefabPath, LogTags tagger, ButtonPosition openButtonPos) {
 			_tagger = tagger;
-			// TODO: Common loader with holder
-			var prefabGo = Resources.Load(prefabPath) as GameObject;
-			if( prefabGo ) {
-				var instanceGo = GameObject.Instantiate(prefabGo);
-				GameObject.DontDestroyOnLoad(instanceGo);
-				_handler = instanceGo.GetComponent<VisualLogHandler>();
-				if( _handler ) {
-					_handler.Init(_tagger.GetNames(), openButtonPos);
-					return;
-				}
+			_handler = ResourcesLoader.LoadPersistant<VisualLogHandler>(prefabPath);
+			if( _handler ) {
+				_handler.Init(_tagger.GetNames(), openButtonPos);
 			}
-			Debug.LogError("Error while loading Log_Visual_Behaviour from Resources!");
 		}
 
 		public VisualLog(LogTags tagger):
