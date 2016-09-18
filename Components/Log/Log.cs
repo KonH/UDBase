@@ -2,7 +2,7 @@
 using System.Collections;
 
 namespace UDBase.Components.Log {
-	public class Log : CompositeHelper<ILog> {
+	public class Log : ComponentHelper<ILog> {
 		
 		// Common 
 

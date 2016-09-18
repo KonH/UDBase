@@ -1,5 +1,8 @@
 # UDBase
+
 Repository link: [https://github.com/KonH/UDBase](https://github.com/KonH/UDBase)
+
+DevBlog: [http://konhit.blogspot.ru/] (http://konhit.blogspot.ru/)
 
 ## Overview
 *TODO*
@@ -27,7 +30,7 @@ Also, you can re-install project as described above.
 
 ## Features
 ### Components
-All logics in UDBase separated by components, that provide abstract interface to specific features. Components can be replaced in one place without any changes to other code. You can make your own components, that implements your logics (based on existing or completely new interface). 
+All logics in UDBase separated by components that provide abstract interface to specific features. Components can be replaced in one place without any changes to other code. You can make your own components, that implements your logics (based on existing or completely new interface). 
 
 **How to use:**
 
@@ -58,7 +61,7 @@ public class TestTwo: ITest {
 ```
 
 ### Component helpers
-You can call any component logics using helpers, that provide static methods, hides concrete component instance.
+You can call any component logics using helpers that provide static methods which hide concrete component instance.
 
 **How to use:**
  
@@ -84,7 +87,7 @@ public class Test : ComponentHelper<ITest> {
 
 
 ### Schemes
-Using schemes you can easily switch components or disable it. It based on scripting define symbols and don't cause runtime overhead.
+Using schemes you can easily switch components or disable it. It based on scripting define symbols and doesn't cause runtime overhead.
 
 **How to use:**
 
