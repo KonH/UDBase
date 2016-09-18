@@ -8,7 +8,7 @@ namespace UDBase.Common {
 	public class ProjectScheme : Scheme {
 
 		public ProjectScheme() {
-			AddComponent(new Log(), new Log_Unity());
+			AddComponent(new Log(), new UnityLog());
 		}
 	}
 }
