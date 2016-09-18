@@ -85,5 +85,8 @@ namespace UDBase.Common {
 
 		// Save
 		public static string JsonSaveName = "save.json";
+		
+		// Log
+		public static string LogVisualPrefabPath = "VisualLogger";
 	}
 }
