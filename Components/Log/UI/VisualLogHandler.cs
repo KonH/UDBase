@@ -100,9 +100,10 @@ namespace UDBase.Components.Log.UI {
 		LogContainer              _container  = new LogContainer();
 		StringBuilder             _sb         = new StringBuilder(10000);
 		LoggerState               _state      = null;
+		string                    _formatStr  = "<color=\"{0}\">[{1}] {2}: {3}\n</color>";
+			
 
 		// TODO: Setup scroll in text area
-		// TODO: Colors by type
 		// TODO: Save state in PlayerPrefs or State (later)
 
 		public void Init(string[] tags, ButtonPosition openButtonPos) {
@@ -204,12 +205,34 @@ namespace UDBase.Components.Log.UI {
 			ApplyMessage(msg, type, tag, true);
 		}
 
+		string GetColor(LogType type) {
+			switch( type ) {
+				case LogType.Assert: {
+						return "blue";
+					}
+
+				case LogType.Error: {
+						return "red";
+					}
+
+				case LogType.Exception: {
+						return "red";
+					}
+
+				case LogType.Warning: {
+						return "yellow";
+					}
+			}
+			return "";
+		}
+
 		void ApplyMessage(string msg, LogType type, string tag, bool addNow) {
 			if( IsTagRequired(tag) && IsTypeRequired(type)) {
+				var color = GetColor(type);
 				if( addNow ) {
-					Text.text += string.Format("[{0}] {1}: {2}\n", tag, type, msg);
+					Text.text += string.Format(_formatStr, color, tag, type, msg);
 				} else {
-					_sb = _sb.AppendFormat("[{0}] {1}: {2}\n", tag, type, msg);
+					_sb = _sb.AppendFormat(_formatStr, tag, color, type, msg);
 				}
 			}
 		}
