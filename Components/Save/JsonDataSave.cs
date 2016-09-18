@@ -28,18 +28,30 @@ namespace UDBase.Components.Save {
 		// TODO: Multiplatform load?
 		public void Init() {
 			_filePath = IOTool.GetPath(Application.persistentDataPath, _fileName);
-			var saveContent = IOTool.ReadAllLines(_filePath, true);
-			if( saveContent != null ) {
-				_container = new JsonNodeContainer(saveContent);
-			} else {
+			if( !TryLoadContainer() ) {
 				Debug.LogWarningFormat(
 					"JsonDataSave: Can't read save file from {0}, re-create it.", 
 					_fileName);
 				IOTool.CreateFile(_filePath);
+				TryLoadContainer();
+			}
+		}
+
+		bool TryLoadContainer() {
+			if( _container == null ) {
+				var saveContent = IOTool.ReadAllLines(_filePath, true);
+				if( saveContent != null ) {
+					_container = new JsonNodeContainer(saveContent);
+					return true;
+				}
+				return false;
+			} else {
+				return true;
 			}
 		}
 
 		public T GetNode<T>() where T : class, IJsonNode, new() {
+			TryLoadContainer();
 			if( _container != null ) {
 				return _container.LoadNode<T>();
 			}
@@ -47,6 +59,7 @@ namespace UDBase.Components.Save {
 		}
 
 		public void SaveNode<T>(T node) where T : class, IJsonNode, new() {
+			TryLoadContainer();
 			if( _container != null ) {
 				_container.SaveNode(node, _prettyJson);
 				var content = _container.GetNodesContent();
