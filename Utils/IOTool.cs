@@ -14,12 +14,26 @@ namespace UDBase.Utils {
 			return result;
 		}
 
+		public static bool DirectoryExist(string path) {
+			return Directory.Exists(path);
+		}
+
 		public static bool CreateDirectory(string path) {
 			try {
 				Directory.CreateDirectory(path);
 				return true;
 			} catch (Exception e) {
 				Debug.LogErrorFormat("Exception while create directory at '{0}': {1}", path, e.ToString());
+				return false;
+			}
+		}
+
+		public static bool DeleteDirectory(string path, bool recursive, bool silent = false) {
+			try {
+				Directory.Delete(path, recursive);
+				return true;
+			} catch (Exception e) {
+				Debug.LogErrorFormat("Exception while delete directory at '{0}': {1}", path, e.ToString());
 				return false;
 			}
 		}
@@ -72,6 +86,19 @@ namespace UDBase.Utils {
 			}
 			catch (Exception e) {
 				Debug.LogErrorFormat("Exception while delete file from '{0}': {1}", path, e.ToString());
+				return false;
+			}
+		}
+
+		public static bool Open(string path, bool silent = false) {
+			try {
+				string trimmedPath = path.TrimEnd(new[]{'\\', '/'});
+				System.Diagnostics.Process.Start(trimmedPath);
+				return true;
+			} catch (Exception e) {
+				if( !silent ) {
+					Debug.LogErrorFormat("Exception while open file at '{0}': {1}", path, e.ToString());
+				}
 				return false;
 			}
 		}

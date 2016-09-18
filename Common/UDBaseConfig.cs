@@ -82,5 +82,8 @@ namespace UDBase.Common {
 
 		// Log
 		public static string LogVisualPrefabPath = "VisualLogger";
+
+		// CaptureScreen
+		public static string ScreenshotsDirectory = "Screenshots";
 	}
 }

@@ -159,6 +159,12 @@ After that you can log your messages with custom tag:
 Log.Error("Some Error: ...", CustomLogTags.CustomTag);
 ```
 
+## Editor Tools
+
+### CaptureScreen
+
+Using menu items at **UDBase/Screenshots** you can make screenshots (with upscaling resolution) and manage directory to save this screenshots (you can clean or open it).
+
 ## Examples
 Example project - [https://github.com/KonH/UDBaseExample](https://github.com/KonH/UDBaseExample)
 
