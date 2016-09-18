@@ -2,14 +2,14 @@
 using System.Collections;
 
 namespace UDBase.Components.Log {
-	public class Log_Unity : ILog {
-		Log_Tags _tagger = null;
+	public class UnityLog : ILog {
+		LogTags _tagger = null;
 
-		public Log_Unity(Log_Tags tagger) {
+		public UnityLog(LogTags tagger) {
 			_tagger = tagger;
 		}
 
-		public Log_Unity():this(new Log_Tags()) {}
+		public UnityLog():this(new LogTags()) {}
 
 		public void Init() {}
 

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace UDBase.Components.Log.UI {
-	public class Log_Visual_Behaviour : MonoBehaviour {
+	public class VisualLogHandler : MonoBehaviour {
 		// TODO: Do not allocate with enum/string dictionary
 		class LogEntry {
 			public string  Message { get; private set; }

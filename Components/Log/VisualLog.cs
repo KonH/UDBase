@@ -4,18 +4,18 @@ using UDBase.Common;
 using UDBase.Components.Log.UI;
 
 namespace UDBase.Components.Log {
-	public class Log_Visual : ILog {
-		Log_Tags             _tagger  = null;
-		Log_Visual_Behaviour _handler = null;
+	public class VisualLog : ILog {
+		LogTags             _tagger  = null;
+		VisualLogHandler _handler = null;
 
-		public Log_Visual(string prefabPath, Log_Tags tagger) {
+		public VisualLog(string prefabPath, LogTags tagger) {
 			_tagger = tagger;
 			// TODO: Common loader with holder
 			var prefabGo = Resources.Load(prefabPath) as GameObject;
 			if( prefabGo ) {
 				var instanceGo = GameObject.Instantiate(prefabGo);
 				GameObject.DontDestroyOnLoad(instanceGo);
-				_handler = instanceGo.GetComponent<Log_Visual_Behaviour>();
+				_handler = instanceGo.GetComponent<VisualLogHandler>();
 				if( _handler ) {
 					_handler.Init(_tagger.GetNames());
 					return;
@@ -24,11 +24,11 @@ namespace UDBase.Components.Log {
 			Debug.LogError("Error while loading Log_Visual_Behaviour from Resources!");
 		}
 
-		public Log_Visual():this(UDBaseConfig.LogVisualPrefabPath, new Log_Tags()) {}
+		public VisualLog():this(UDBaseConfig.LogVisualPrefabPath, new LogTags()) {}
 
-		public Log_Visual(Log_Tags tagger):this(UDBaseConfig.LogVisualPrefabPath, tagger) {}
+		public VisualLog(LogTags tagger):this(UDBaseConfig.LogVisualPrefabPath, tagger) {}
 
-		public Log_Visual(string prefabPath):this(prefabPath, new Log_Tags()) {}
+		public VisualLog(string prefabPath):this(prefabPath, new LogTags()) {}
 
 		// TODO: Create Unity UI overlay and use it for logging
 

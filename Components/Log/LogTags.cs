@@ -2,7 +2,7 @@
 using System.Collections;
 
 namespace UDBase.Components.Log {
-	public class Log_Tags {
+	public class LogTags {
 		public const int Common = 1;
 		public const int UI     = 2;
 
