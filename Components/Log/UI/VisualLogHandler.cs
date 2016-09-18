@@ -232,7 +232,7 @@ namespace UDBase.Components.Log.UI {
 				if( addNow ) {
 					Text.text += string.Format(_formatStr, color, tag, type, msg);
 				} else {
-					_sb = _sb.AppendFormat(_formatStr, tag, color, type, msg);
+					_sb = _sb.AppendFormat(_formatStr, color, tag, type, msg);
 				}
 			}
 		}
