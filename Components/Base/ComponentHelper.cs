@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace UDBase.Components {
-	// TODO: Use one class for it?
+	public abstract class ComponentHelperBase {
+		public abstract void Attach(IComponent handler);
+	}
+
 	/* Base class to make static helper for component:
 	 * Implement your component logics in 'ComponentX' class and make ComponentHelper<T> class 'Component'
 	 * After it you can call your component logics with 'Component.Instance'
@@ -13,20 +16,7 @@ namespace UDBase.Components {
 				Instance.DoSomething();
 			}
 		}
-	*/
-	public abstract class ComponentHelperBase {
-		public abstract void Attach(IComponent handler);
-	}
-
-	public class ComponentHelper<TComponent>: ComponentHelperBase where TComponent:IComponent {
-		public static TComponent Instance { get; private set; }
-
-		public override void Attach(IComponent handler) {
-			Instance = (TComponent)handler;
-		}
-	}
-
-	/*
+	 *
 	 * Another version of component helper provide you opportunity to use multiple instances
 	 * e.g. for call method on all instances or using custom switch:
 		public static void DoSomething() {
@@ -35,8 +25,9 @@ namespace UDBase.Components {
 			}
 		}
 	 */
-	public class CompositeHelper<TComponent>: ComponentHelperBase where TComponent:IComponent {
+	public class ComponentHelper<TComponent>: ComponentHelperBase where TComponent:IComponent {
 		public static List<TComponent> Instances { get; private set; }
+		public static TComponent       Instance  { get; private set; }
 
 		public override void Attach(IComponent handler) {
 			var newHanlder = (TComponent)handler;
@@ -44,6 +35,9 @@ namespace UDBase.Components {
 				Instances = new List<TComponent>();
 			}
 			Instances.Add(newHanlder);
+			if( Instances.Count == 1 ) {
+				Instance = newHanlder;
+			}
 		}
 	}
 }
