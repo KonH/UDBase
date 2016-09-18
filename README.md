@@ -105,13 +105,13 @@ public class DesktopScheme : Scheme {
 }
 ```
 
-In example above, on that scheme any calls to **Test.MyMethod()** will be redirected to **TestOne** instance.
+In the example above, on that scheme any calls to **Test.MyMethod()** will be redirected to **TestOne** instance.
 
 Now you can switch to your scheme using **Switch** in Schemes window or just appropriate menu item in **UDBase/Schemes/**.
 
 ### Components.Log
 
-Component to log anything to console using custom tags (some integer) and default Unity **LogType**.
+Component for logging anything to console using custom tags (some integer) and default Unity **LogType**.
  
 Supported log handlers: 
 
