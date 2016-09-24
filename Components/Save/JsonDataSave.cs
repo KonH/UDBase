@@ -25,7 +25,6 @@ namespace UDBase.Components.Save {
 			_fileName   = fileName;
 		}
 
-		// TODO: Multiplatform load?
 		public void Init() {
 			_filePath = IOTool.GetPath(Application.persistentDataPath, _fileName);
 			if( !TryLoadContainer() ) {
