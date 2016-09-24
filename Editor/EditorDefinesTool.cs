@@ -58,7 +58,7 @@ namespace UDBase.Editor {
 			var newSymbols = currentSymbols.Length > 0 ? RemoveGroup(currentSymbols) : "";
 			newSymbols += UDBaseConfig.SchemeSymbolPrefix + schemeName; 
 			newSymbols += ";" + UDBaseConfig.SchemeDeclarationSymbols;
-			PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, newSymbols);
+			PlayerSettings.SetScriptingDefineSymbolsForGroup(GetCurrentGroup(), newSymbols);
 			Debug.Log("Active scheme now: " + schemeName);
 		} 
 

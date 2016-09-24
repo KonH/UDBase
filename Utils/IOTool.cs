@@ -15,6 +15,10 @@ namespace UDBase.Utils {
 			return result;
 		}
 
+		public static bool DirectoryExist(string path) {
+			return Directory.Exists(path);
+		}
+			
 		public static bool CreateDirectory(string path, bool silent = false) {
 			try {
 				Directory.CreateDirectory(path);
@@ -23,6 +27,16 @@ namespace UDBase.Utils {
 				if( !silent ) {
 					Debug.LogErrorFormat("Exception while create directory at '{0}': {1}", path, e.ToString());
 				}
+				return false;
+			}
+		}
+			
+		public static bool DeleteDirectory(string path, bool recursive, bool silent = false) {
+			try {
+				Directory.Delete(path, recursive);
+				return true;
+			} catch (Exception e) {
+				Debug.LogErrorFormat("Exception while delete directory at '{0}': {1}", path, e.ToString());
 				return false;
 			}
 		}

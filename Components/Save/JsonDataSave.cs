@@ -20,6 +20,8 @@ namespace UDBase.Components.Save {
 
 		public JsonDataSave(bool prettyJson):this(prettyJson, UDBaseConfig.JsonSaveName) {}
 
+		public JsonDataSave(string fileName):this(false, UDBaseConfig.JsonSaveName) {}
+
 		public JsonDataSave(bool prettyJson, string fileName) {
 			_prettyJson = prettyJson;
 			_fileName   = fileName;

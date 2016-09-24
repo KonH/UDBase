@@ -105,7 +105,7 @@ public class DesktopScheme : Scheme {
 }
 ```
 
-In example above, on that scheme any calls to **Test.MyMethod()** will be redirected to **TestOne** instance.
+In the example above, on that scheme any calls to **Test.MyMethod()** will be redirected to **TestOne** instance.
 
 Now you can switch to your scheme using **Switch** in Schemes window or just appropriate menu item in **UDBase/Schemes/**.
 
@@ -113,19 +113,100 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 
 ### Config
 
-You can simple load settings for you components or other classes via **Config** methods. It allow you to get any class instance (inherited from TODO) from some storage. By default Unity's JsonUtility is used (you can read about it here TODO), so you class need to correctly deserialized with it.
+You can simple load settings for you components or other classes via **Config** methods. It allow you to get any class instance (inherited from **IJsonNode** interface) from some storage. By default Unity's JsonUtility is used (you can read about it [here](https://docs.unity3d.com/ScriptReference/JsonUtility.html)), so you class need to correctly deserialized with it.
 
-TODO: Examples
+By default **Resources/config.json** file is used, but you can specify custom filename for it with this code in your Scheme constructor:
+
+```
+/* path - filename without extension */
+AddComponent(new Config(), new JsonResourcesConfig(path));
+```
+
+Simple class for config with one string value:
+
+	class ConcreteStateExampleConfig:IJsonNode {
+		public string Name { get { return "example_node"; } }
+		public string Value = "";
+	}
+
+And basic controller to get and use this data:
+
+```
+public class ConcreteStateExample : IStateExample {
+	/* ... */
+	
+	ConcreteStateExampleConfig _config = null;
+
+	public string GetConfigData()
+	{
+		_config = Config.GetNode<ConcreteStateExampleConfig>();
+		if( _config != null ) {
+			return _config.Value;
+		}
+		return "";
+	}
+}
+```
+
 
 ### Save
 
-Using **Save** methods you can load and save runtime specific data (). Currently it is used JsonUtility and store file(s) in *Application.persistantDataPath*.
+Using **Save** methods you can load and save runtime specific data (any class inherited from **IJsonNode**). Currently it is used JsonUtility and store file(s) in *Application.persistantDataPath*. Way to use is a simillar with Config component. 
 
-TODO: Examples
+By default, **save.json** file is used, but you can specify custom filename for it with this code in your Scheme constructor:
+
+```
+/* path - filename with extension */
+AddComponent(new Save(), new JsonDataSave(path));
+```
+
+And also you can change **prettyJson** value, what define how your json string is saved (small or human-readable):
+
+```
+AddComponent(new Save(), new JsonDataSave(prettyJson));
+/* or */
+AddComponent(new Save(), new JsonDataSave(prettyJson, path));
+```
+
+Simple class for save with one int value:
+
+	class ConcreteStateExampleSave:IJsonNode {
+		public string Name { get { return "save_node"; } }
+		public int IntValue = 0;
+	}
+
+And basic controller to get and modify this data:
+
+```
+public class ConcreteStateExample : IStateExample {
+	/*...*/
+	
+	ConcreteStateExampleSave   _save   = null;
+
+	public int GetSavedData()
+	{
+		_save = Save.GetNode<ConcreteStateExampleSave>();
+		if( _save != null ) {
+			return _save.IntValue;
+		}
+		return -1;
+	}
+
+	public void SetSavedData(int value) {
+		if( _save == null ) {
+			_save = new ConcreteStateExampleSave();
+		}
+		_save.IntValue = value;
+		Save.SaveNode(_save);
+	}
+}
+```
+
+Best practice in implementation your inner component state is a declaration private nested class for it and control all changes via this component methods.
 
 ### Log
 
-Component to log anything to console using custom tags (some integer) and default Unity **LogType**.
+Component for logging anything to console using custom tags (some integer) and default Unity **LogType**.
  
 Supported log handlers: 
 
@@ -191,6 +272,12 @@ etc...
 
 Any block must contains header (allow you to get and save block data via code) and body in json format.
 Empty line between blocks is required.
+
+## Editor Tools
+
+### CaptureScreen
+
+Using menu items at **UDBase/Screenshots** you can make screenshots (with upscaling resolution) and manage directory to save this screenshots (you can clean or open it).
 
 ## Examples
 Example project - [https://github.com/KonH/UDBaseExample](https://github.com/KonH/UDBaseExample)

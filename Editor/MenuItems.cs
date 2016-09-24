@@ -35,5 +35,35 @@ namespace UDBase.Editor {
 		static void ClearSave() {
 			Save.Clear();
 		}
+
+		[MenuItem("UDBase/Screenshots/Clear")]
+		public static void CleanScreenshots() {
+			CaptureScreen.Clear();
+		}
+			
+		[MenuItem("UDBase/Screenshots/Open")]
+		public static void OpenScreenshots() {
+			CaptureScreen.Open();
+		}
+
+		[MenuItem("UDBase/Screenshots/Make/X1 Resolution %#&1")]
+		public static void MakeScreenshotX1() {
+			CaptureScreen.Make(1);
+		}
+
+		[MenuItem("UDBase/Screenshots/Make/X2 Resolution %#&2")]
+		public static void MakeScreenshotX2() {
+			CaptureScreen.Make(2);
+		}
+
+		[MenuItem("UDBase/Screenshots/Make/X4 Resolution %#&4")]
+		public static void MakeScreenshotX4() {
+			CaptureScreen.Make(4);
+		}
+
+		[MenuItem("UDBase/Screenshots/Make/X8 Resolution %#&8")]
+		public static void MakeScreenshotX8() {
+			CaptureScreen.Make(8);
+		}
 	}
 }
