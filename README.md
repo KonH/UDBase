@@ -105,7 +105,7 @@ public class DesktopScheme : Scheme {
 }
 ```
 
-In the example above, on that scheme any calls to **Test.MyMethod()** will be redirected to **TestOne** instance.
+In the example above, on this scheme any calls to **Test.MyMethod()** will be redirected to **TestOne** instance.
 
 Now you can switch to your scheme using **Switch** in Schemes window or just appropriate menu item in **UDBase/Schemes/**.
 
@@ -113,7 +113,7 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 
 ### Config
 
-You can simple load settings for you components or other classes via **Config** methods. It allow you to get any class instance (inherited from **IJsonNode** interface) from some storage. By default Unity's JsonUtility is used (you can read about it [here](https://docs.unity3d.com/ScriptReference/JsonUtility.html)), so you class need to correctly deserialized with it.
+You can simple load settings for your components or other classes via **Config** methods. It allows you to get any class instance (inherited from **IJsonNode** interface) from some storage. By default Unity's JsonUtility is used (you can read about it [here](https://docs.unity3d.com/ScriptReference/JsonUtility.html)), so your class needs to be correctly deserialized with it.
 
 By default **Resources/config.json** file is used, but you can specify custom filename for it with this code in your Scheme constructor:
 
@@ -160,7 +160,7 @@ By default, **save.json** file is used, but you can specify custom filename for 
 AddComponent(new Save(), new JsonDataSave(path));
 ```
 
-And also you can change **prettyJson** value, what define how your json string is saved (small or human-readable):
+And also you can change **prettyJson** value, what defines how your json string is saved (small or human-readable):
 
 ```
 AddComponent(new Save(), new JsonDataSave(prettyJson));
@@ -270,14 +270,14 @@ header1
 etc...
 ```
 
-Any block must contains header (allow you to get and save block data via code) and body in json format.
+Any block must contain header (allows you to get and save block data via code) and body in json format.
 Empty line between blocks is required.
 
 ## Editor Tools
 
 ### CaptureScreen
 
-Using menu items at **UDBase/Screenshots** you can make screenshots (with upscaling resolution) and manage directory to save this screenshots (you can clean or open it).
+Using menu items at **UDBase/Screenshots** you can make screenshots (with upscaling resolution) and manage directory to save these screenshots (you can clean or open it).
 
 ## Examples
 Example project - [https://github.com/KonH/UDBaseExample](https://github.com/KonH/UDBaseExample)
