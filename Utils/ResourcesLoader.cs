@@ -51,5 +51,22 @@ namespace UDBase.Utils {
 			Debug.LogErrorFormat("Error while loading {0} from Resources!", prefabPath);
 			return default(T);
 		}
+
+		public static T CreatePersistant<T>() where T:Component {
+			return Create<T>(true);
+
+		}
+
+		public static T CreateForScene<T>() where T:Component {
+			return Create<T>(false);
+		}
+
+		static T Create<T>(bool persistant) where T:Component {
+			var root = persistant ? PersistantRoot : SceneRoot;
+			if( root ) {
+				return root.gameObject.AddComponent<T>();
+			}
+			return null;
+		}
 	}
 }
