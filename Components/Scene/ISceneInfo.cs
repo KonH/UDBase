@@ -2,7 +2,7 @@
 using System.Collections;
 
 namespace UDBase.Components.Scene {
-	public interface IScene : IComponent {
-		void LoadScene(ISceneInfo sceneInfo);
+	public interface ISceneInfo { 
+		string Name { get; }
 	}
 }
