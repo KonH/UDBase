@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UDBase.Utils;
 
-// TODO: Use ResourcesLoader
 namespace UDBase.Components.Scene {
 	public class AsyncSceneLoader : IScene {
 		AsyncLoadHelper _helper       = null;
@@ -13,9 +13,7 @@ namespace UDBase.Components.Scene {
 		}
 
 		public void Init() {
-			var go = new GameObject("temp");
-			GameObject.DontDestroyOnLoad(go);
-			_helper = go.AddComponent<AsyncLoadHelper>();
+			_helper = ResourcesLoader.AddPersistant<AsyncLoadHelper>();
 		}
 
 		public void LoadScene(ISceneInfo sceneInfo) {

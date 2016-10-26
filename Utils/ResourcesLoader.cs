@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// TODO: Rename
 namespace UDBase.Utils {
 	public static class ResourcesLoader {
 
@@ -50,6 +51,19 @@ namespace UDBase.Utils {
 			}
 			Debug.LogErrorFormat("Error while loading {0} from Resources!", prefabPath);
 			return default(T);
+		}
+
+		public static T AddPersistant<T>() where T:Component {
+			return Add<T>(true);
+		}
+
+		public static T AddForScene<T>() where T:Component {
+			return Add<T>(false);
+		}
+
+		static T Add<T>(bool persistant) where T:Component {
+			var parent = persistant ? PersistantRoot : SceneRoot;
+			return parent.gameObject.AddComponent<T>();
 		}
 	}
 }
