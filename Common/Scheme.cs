@@ -16,8 +16,7 @@ namespace UDBase.Common {
 			}
 		}
 
-		public void Init()
-		{
+		public void Init() {
 			var iter = _components.GetEnumerator();
 			while(iter.MoveNext()) {
 				var component = iter.Current.Key;

@@ -26,14 +26,21 @@ namespace UDBase.Components {
 		}
 	 */
 	public class ComponentHelper<TComponent>: ComponentHelperBase where TComponent:IComponent {
-		public static List<TComponent> Instances { get; private set; }
-		public static TComponent       Instance  { get; private set; }
+		static List<TComponent> _instances = null;
+
+		public static List<TComponent> Instances { 
+			get {
+				if( _instances == null ) {
+					_instances = new List<TComponent>();
+				}
+				return _instances;	
+			}
+		}
+
+		public static TComponent Instance { get; private set; }
 
 		public override void Attach(IComponent handler) {
 			var newHanlder = (TComponent)handler;
-			if( Instances == null ) {
-				Instances = new List<TComponent>();
-			}
 			Instances.Add(newHanlder);
 			if( Instances.Count == 1 ) {
 				Instance = newHanlder;
