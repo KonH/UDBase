@@ -16,6 +16,7 @@ namespace UDBase.Components.Scene {
 			var operation = SceneManager.LoadSceneAsync(name);
 			operation.allowSceneActivation = false;
 			while (!operation.isDone && operation.progress + Mathf.Epsilon < 0.9f ) {
+				// TODO: Make EventSystem
 				if( text ) {
 					text.text = operation.progress.ToString();
 				}
