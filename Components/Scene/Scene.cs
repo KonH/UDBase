@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace UDBase.Components.Scene {
 	public class Scene : ComponentHelper<IScene> {
@@ -24,6 +28,32 @@ namespace UDBase.Components.Scene {
 
 		public static void LoadScene<T>(T type, params string[] param) {
 			LoadScene(GetInfo(type, param));
+		}
+
+		public static bool IsSceneNameValid(string scene_name) {
+			#if UNITY_EDITOR
+			foreach( var scene in EditorBuildSettings.scenes ) {
+				if( ConvertPathToName(scene.path) == scene_name ) {
+					return true;
+				}
+			}
+			return false;
+			#else
+			return true;
+			#endif
+		}
+
+		// TODO: Get asset name helper
+		static string ConvertPathToName(string path) {
+			var parts = path.Split('/');
+			if( parts.Length > 0 ) {
+				var result = parts[parts.Length-1];
+				if( result.Length > 6 ) {
+					result = result.Remove(result.Length - 6, 6);
+					return result;
+				}
+			}
+			return null;
 		}
 
 		static ISceneInfo GetInfo<T>(T type) {

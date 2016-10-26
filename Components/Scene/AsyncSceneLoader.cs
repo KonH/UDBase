@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UDBase.Components.Log;
 using UDBase.Utils;
 
 namespace UDBase.Components.Scene {
@@ -17,8 +18,13 @@ namespace UDBase.Components.Scene {
 		}
 
 		public void LoadScene(ISceneInfo sceneInfo) {
-			TryLoadLoadingScene(sceneInfo); 
-			_helper.LoadScene(sceneInfo.Name);
+			var sceneName = sceneInfo.Name;
+			if( Scene.IsSceneNameValid(sceneName) ) {
+				TryLoadLoadingScene(sceneInfo); 
+				_helper.LoadScene(sceneName);
+			} else {
+				Log.Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
+			}
 		}
 
 		void TryLoadLoadingScene(ISceneInfo sceneInfo) {
