@@ -18,7 +18,7 @@ namespace UDBase.Components.Log {
 
 		public VisualLog(string prefabPath, LogTags tagger, ButtonPosition openButtonPos) {
 			_tagger = tagger;
-			_handler = ResourcesLoader.LoadPersistant<VisualLogHandler>(prefabPath);
+			_handler = UnityHelper.LoadPersistant<VisualLogHandler>(prefabPath);
 			if( _handler ) {
 				_handler.Init(_tagger.GetNames(), openButtonPos);
 			}

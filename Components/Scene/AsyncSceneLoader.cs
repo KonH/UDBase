@@ -14,7 +14,7 @@ namespace UDBase.Components.Scene {
 		}
 
 		public void Init() {
-			_helper = ResourcesLoader.AddPersistant<AsyncLoadHelper>();
+			_helper = UnityHelper.AddPersistant<AsyncLoadHelper>();
 		}
 
 		public void LoadScene(ISceneInfo sceneInfo) {
