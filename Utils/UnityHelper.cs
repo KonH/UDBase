@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// TODO: Rename
 namespace UDBase.Utils {
-	public static class ResourcesLoader {
+	public static class UnityHelper {
 
 		static Transform _persistantRoot = null;
 		static Transform PersistantRoot {
@@ -64,6 +63,22 @@ namespace UDBase.Utils {
 		static T Add<T>(bool persistant) where T:Component {
 			var parent = persistant ? PersistantRoot : SceneRoot;
 			return parent.gameObject.AddComponent<T>();
+		}
+
+		public static T GetComponent<T>() where T:Component {
+			var sceneComp = GetSceneComponent<T>();
+			if( !sceneComp ) {
+				return GetPersistantComponent<T>();
+			}
+			return GetSceneComponent<T>();
+		}
+
+		public static T GetPersistantComponent<T>() where T:Component {
+			return PersistantRoot.GetComponent<T>();
+		}
+
+		public static T GetSceneComponent<T>() where T:Component {
+			return SceneRoot.GetComponent<T>();
 		}
 	}
 }
