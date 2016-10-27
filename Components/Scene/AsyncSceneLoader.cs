@@ -8,13 +8,18 @@ namespace UDBase.Components.Scene {
 	public class AsyncSceneLoader : IScene {
 		AsyncLoadHelper _helper       = null;
 		string          _loadingScene = "";
+		ISceneInfo      _firstScene   = null;
 
-		public AsyncSceneLoader(string loadingScene = "") {
-			_loadingScene = loadingScene;
+		public AsyncSceneLoader(string loading_scene = "", ISceneInfo first_scene = null) {
+			_loadingScene = loading_scene;
+			_firstScene   = first_scene;
 		}
 
 		public void Init() {
 			_helper = UnityHelper.AddPersistant<AsyncLoadHelper>();
+			if( _firstScene != null ) {
+				LoadScene(_firstScene);
+			}
 		}
 
 		public void LoadScene(ISceneInfo sceneInfo) {

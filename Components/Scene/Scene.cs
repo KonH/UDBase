@@ -56,15 +56,15 @@ namespace UDBase.Components.Scene {
 			return null;
 		}
 
-		static ISceneInfo GetInfo<T>(T type) {
+		public static ISceneInfo GetInfo<T>(T type) {
 			return new SceneParam<T>(type, "");
 		}
 
-		static ISceneInfo GetInfo<T>(T type, string param) {
+		public static ISceneInfo GetInfo<T>(T type, string param) {
 			return new SceneParam<T>(type, param);
 		}
 
-		static ISceneInfo GetInfo<T>(T type, params string[] param) {
+		public static ISceneInfo GetInfo<T>(T type, params string[] param) {
 			return new MultiSceneParam<T>(type, param);
 		}
 	}
