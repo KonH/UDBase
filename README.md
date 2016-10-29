@@ -29,15 +29,15 @@ Just update submodule: `git submodule update`
 Also, you can re-install project as described above.
 
 ## Features
-### Components
-All logics in UDBase separated by components that provide abstract interface to specific features. Components can be replaced in one place without any changes to other code. You can make your own components, that implements your logics (based on existing or completely new interface). 
+### Controllers
+All logics in UDBase separated by controllers that provide abstract interface to specific features. controllers can be replaced in one place without any changes to other code. You can make your own controllers, that implements your logics (based on existing or completely new interface). 
 
 **How to use:**
 
-Declare your component interface (based on IComponent):
+Declare your controller interface (based on IController):
 
 ```
-public interface ITest : IComponent {
+public interface ITest : IController {
 	// Your logics here
 	int MyMethod();
 }
@@ -60,22 +60,22 @@ public class TestTwo: ITest {
 }
 ```
 
-### Component helpers
-You can call any component logics using helpers that provide static methods which hide concrete component instance.
+### Controller helpers
+You can call any controller logics using helpers that provide static methods which hide concrete controller instance.
 
 **How to use:**
  
-Create helper class used ComponentHelper with your component interface:
+Create helper class used ControllerHelper with your controller interface:
 
 ```
-public class Test : ComponentHelper<ITest> {
+public class Test : ControllerHelper<ITest> {
 }
 ```
 
-And declare methods to cover your component logics:
+And declare methods to cover your controller logics:
 
 ```
-public class Test : ComponentHelper<ITest> {
+public class Test : ControllerHelper<ITest> {
 		public static int MyMethod() {
 			if(Instance != null) {
 				return Instance.MyMethod();
@@ -87,7 +87,7 @@ public class Test : ComponentHelper<ITest> {
 
 
 ### Schemes
-Using schemes you can easily switch components or disable it. It based on scripting define symbols and doesn't cause runtime overhead.
+Using schemes you can easily switch controllers or disable it. It based on scripting define symbols and doesn't cause runtime overhead.
 
 **How to use:**
 
@@ -100,7 +100,7 @@ Open generated file **UDBase_Project/Schemes/DesktopScheme.cs** and define its b
 ```
 public class DesktopScheme : Scheme {
 	public DesktopScheme() {
-		AddComponent(new Test(), new TestOne());
+		AddController(new Test(), new TestOne());
 	}
 }
 ```
@@ -109,17 +109,17 @@ In the example above, on this scheme any calls to **Test.MyMethod()** will be re
 
 Now you can switch to your scheme using **Switch** in Schemes window or just appropriate menu item in **UDBase/Schemes/**.
 
-## Built-in Components
+## Built-in Controllers
 
 ### Config
 
-You can simple load settings for your components or other classes via **Config** methods. It allows you to get any class instance (inherited from **IJsonNode** interface) from some storage. By default Unity's JsonUtility is used (you can read about it [here](https://docs.unity3d.com/ScriptReference/JsonUtility.html)), so your class needs to be correctly deserialized with it.
+You can simple load settings for your controllers or other classes via **Config** methods. It allows you to get any class instance (inherited from **IJsonNode** interface) from some storage. By default Unity's JsonUtility is used (you can read about it [here](https://docs.unity3d.com/ScriptReference/JsonUtility.html)), so your class needs to be correctly deserialized with it.
 
 By default **Resources/config.json** file is used, but you can specify custom filename for it with this code in your Scheme constructor:
 
 ```
 /* path - filename without extension */
-AddComponent(new Config(), new JsonResourcesConfig(path));
+AddController(new Config(), new JsonResourcesConfig(path));
 ```
 
 Simple class for config with one string value:
@@ -151,21 +151,21 @@ public class ConcreteStateExample : IStateExample {
 
 ### Save
 
-Using **Save** methods you can load and save runtime specific data (any class inherited from **IJsonNode**). Currently it is used JsonUtility and store file(s) in *Application.persistantDataPath*. Way to use is a simillar with Config component. 
+Using **Save** methods you can load and save runtime specific data (any class inherited from **IJsonNode**). Currently it is used JsonUtility and store file(s) in *Application.persistantDataPath*. Way to use is a simillar with Config controller. 
 
 By default, **save.json** file is used, but you can specify custom filename for it with this code in your Scheme constructor:
 
 ```
 /* path - filename with extension */
-AddComponent(new Save(), new JsonDataSave(path));
+AddController(new Save(), new JsonDataSave(path));
 ```
 
 And also you can change **prettyJson** value, what defines how your json string is saved (small or human-readable):
 
 ```
-AddComponent(new Save(), new JsonDataSave(prettyJson));
+AddController(new Save(), new JsonDataSave(prettyJson));
 /* or */
-AddComponent(new Save(), new JsonDataSave(prettyJson, path));
+AddController(new Save(), new JsonDataSave(prettyJson, path));
 ```
 
 Simple class for save with one int value:
@@ -202,11 +202,11 @@ public class ConcreteStateExample : IStateExample {
 }
 ```
 
-Best practice in implementation your inner component state is a declaration private nested class for it and control all changes via this component methods.
+Best practice in implementation your inner controller state is a declaration private nested class for it and control all changes via this controller methods.
 
 ### Log
 
-Component for logging anything to console using custom tags (some integer) and default Unity **LogType**.
+controller for logging anything to console using custom tags (some integer) and default Unity **LogType**.
  
 Supported log handlers: 
 
