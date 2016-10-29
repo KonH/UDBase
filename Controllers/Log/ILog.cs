@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace UDBase.Components.Log {
-	public interface ILog : IComponent {
+namespace UDBase.Controllers.Log {
+	public interface ILog : IController {
 		
 		void Message(string msg, LogType type, int tag);
 	}

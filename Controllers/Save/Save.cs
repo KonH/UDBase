@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UDBase.Components;
+using UDBase.Controllers;
 using UDBase.Utils;
 using UDBase.Utils.Json;
 using UDBase.Common;
 
-namespace UDBase.Components.Save {
-	public class Save:ComponentHelper<ISave> {
+namespace UDBase.Controllers.Save {
+	public class Save:ControllerHelper<ISave> {
 
 		public static T GetNode<T>() where T:class, IJsonNode, new() {
 			if( Instance != null ) {

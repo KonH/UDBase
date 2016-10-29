@@ -4,11 +4,11 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UDBase.Common;
-using UDBase.Components;
+using UDBase.Controllers;
 using UDBase.Utils;
 using UDBase.Utils.Json;
 
-namespace UDBase.Components.Save {
+namespace UDBase.Controllers.Save {
 	public class JsonDataSave:ISave {
 
 		bool                 _prettyJson    = false;

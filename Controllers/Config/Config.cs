@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UDBase.Components;
+using UDBase.Controllers;
 using UDBase.Utils.Json;
 
-namespace UDBase.Components.Config {
-	public class Config : ComponentHelper<IConfig> {
+namespace UDBase.Controllers.Config {
+	public class Config : ControllerHelper<IConfig> {
 
 		public static T GetNode<T>() where T:class, IJsonNode, new() {
 			if( Instance != null ) {
