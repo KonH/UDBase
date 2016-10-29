@@ -2,13 +2,13 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UDBase.Components.Log;
+using UDBase.Controllers.Log;
 
 namespace UDBase.Common {
 	public class ProjectScheme : Scheme {
 
 		public ProjectScheme() {
-			AddComponent(new Log(), new UnityLog());
+			AddController(new Log(), new UnityLog());
 		}
 	}
 }

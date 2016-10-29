@@ -10,7 +10,7 @@ namespace UDBase.Common {
 	public abstract class Scheme : IScheme {
 		Dictionary<IController, ControllerHelperBase> _components = new Dictionary<IController, ControllerHelperBase>();
 
-		public void AddComponent(ControllerHelperBase helper, params IController[] components) {
+		public void AddController(ControllerHelperBase helper, params IController[] components) {
 			for(int i = 0; i < components.Length; i++) {
 				_components.Add(components[i], helper);
 			}
