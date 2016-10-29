@@ -4,9 +4,8 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-using UDBase.Controllers.Log;
 
-namespace UDBase.UI.VisualLog {
+namespace UDBase.Controllers.Log.UI {
 	public class VisualLogHandler : MonoBehaviour {
 
 		[Serializable]
@@ -102,10 +101,6 @@ namespace UDBase.UI.VisualLog {
 		StringBuilder             _sb         = new StringBuilder(10000);
 		LoggerState               _state      = null;
 		string                    _formatStr  = "<color=\"{0}\">[{1}] {2}: {3}\n</color>";
-			
-
-		// TODO: Setup scroll in text area (later)
-		// TODO: Save state in PlayerPrefs or State (later)
 
 		public void Init(string[] tags, ButtonPosition openButtonPos) {
 			Clear(true);

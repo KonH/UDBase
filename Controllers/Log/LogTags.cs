@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace UDBase.Components.Log {
+namespace UDBase.Controllers.Log {
 	public class LogTags {
 		public const int Common = 1;
 		public const int UI     = 2;

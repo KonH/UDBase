@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace UDBase.Components.Log {
+namespace UDBase.Controllers.Log {
 	public class UnityLog : ILog {
 		LogTags _tagger = null;
 

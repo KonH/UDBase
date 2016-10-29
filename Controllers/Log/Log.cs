@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace UDBase.Components.Log {
-	public class Log : ComponentHelper<ILog> {
+namespace UDBase.Controllers.Log {
+	public class Log : ControllerHelper<ILog> {
 		
 		// Common 
 

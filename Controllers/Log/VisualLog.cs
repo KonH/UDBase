@@ -4,7 +4,7 @@ using UDBase.Common;
 using UDBase.Utils;
 using UDBase.UI.VisualLog;
 
-namespace UDBase.Components.Log {
+namespace UDBase.Controllers.Log {
 	public enum ButtonPosition {
 		LeftTop,
 		RightTop,

@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using UDBase.Components;
+using UDBase.Controllers;
 using UDBase.Utils.Json;
 
-namespace UDBase.Components.Config {
-	public interface IConfig : IComponent {
+namespace UDBase.Controllers.Config {
+	public interface IConfig : IController {
 
 		T GetNode<T>() where T:class, IJsonNode, new();
 	}

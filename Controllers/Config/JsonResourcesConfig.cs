@@ -3,10 +3,10 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UDBase.Common;
-using UDBase.Components;
+using UDBase.Controllers;
 using UDBase.Utils.Json;
 
-namespace UDBase.Components.Config {
+namespace UDBase.Controllers.Config {
 	public class JsonResourcesConfig : IConfig {
 		string               _fileName  = "";
 		JsonNodeContainer    _container = null;

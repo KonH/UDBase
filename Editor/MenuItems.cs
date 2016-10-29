@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
-using UDBase.Components.Save;
+using UDBase.Controllers.Save;
 
 namespace UDBase.Editor {
 	public static class MenuItems {

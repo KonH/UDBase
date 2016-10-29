@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using UDBase.Components.Scene;
-using UDBase.Components.Log;
+using UDBase.Controllers.Log;
 using UDBase.Utils;
 
 namespace UDBase.UI.Scene {
