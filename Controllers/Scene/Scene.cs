@@ -5,8 +5,8 @@ using System.Collections;
 using UnityEditor;
 #endif
 
-namespace UDBase.Components.Scene {
-	public class Scene : ComponentHelper<IScene> {
+namespace UDBase.Controllers.Scene {
+	public class Scene : ControllerHelper<IScene> {
 
 		public static void LoadScene(ISceneInfo sceneInfo) {
 			for( int i = 0; i < Instances.Count; i++ ) {

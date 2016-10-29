@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UDBase.Components.Log;
+using UDBase.Controllers.Log;
 
-namespace UDBase.Components.Scene {
+namespace UDBase.Controllers.Scene {
 	public class DirectSceneLoader : IScene {
 
 		public void Init() {}

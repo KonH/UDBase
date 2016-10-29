@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System;
 using System.Collections;
-using UDBase.Components.Scene;
+using UDBase.Controllers.Scene;
 using UDBase.Controllers.Log;
 using UDBase.Utils;
 

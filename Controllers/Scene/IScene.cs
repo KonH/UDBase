@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace UDBase.Components.Scene {
-	public interface IScene : IComponent {
+namespace UDBase.Controllers.Scene {
+	public interface IScene : IController {
 		void LoadScene(ISceneInfo sceneInfo);
 	}
 }

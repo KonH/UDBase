@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UDBase.Components.Log;
+using UDBase.Controllers.Log;
 using UDBase.Utils;
 
-namespace UDBase.Components.Scene {
+namespace UDBase.Controllers.Scene {
 	public class AsyncSceneLoader : IScene {
 		AsyncLoadHelper _helper       = null;
 		string          _loadingScene = "";
