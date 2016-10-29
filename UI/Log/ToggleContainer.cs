@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 
-namespace UDBase.Components.Log.UI {
+namespace UDBase.UI.VisualLog {
 	public class ToggleContainer : MonoBehaviour {
 		public Toggle Toggle = null;
 		public Text   Text   = null;

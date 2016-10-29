@@ -4,8 +4,9 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using UDBase.Components.Log;
 
-namespace UDBase.Components.Log.UI {
+namespace UDBase.UI.VisualLog {
 	public class VisualLogHandler : MonoBehaviour {
 
 		[Serializable]
