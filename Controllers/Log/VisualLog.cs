@@ -2,7 +2,7 @@
 using System.Collections;
 using UDBase.Common;
 using UDBase.Utils;
-using UDBase.UI.VisualLog;
+using UDBase.Controllers.Log.UI;
 
 namespace UDBase.Controllers.Log {
 	public enum ButtonPosition {

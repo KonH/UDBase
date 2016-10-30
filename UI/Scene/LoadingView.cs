@@ -6,7 +6,7 @@ using UDBase.Controllers.Scene;
 using UDBase.Controllers.Log;
 using UDBase.Utils;
 
-namespace UDBase.UI.Scene {
+namespace UDBase.Controllers.Scene.UI {
 	public class LoadingView : MonoBehaviour {
 		[Header("Dependencies")]
 		public Image ProgressBar = null;
@@ -27,7 +27,7 @@ namespace UDBase.UI.Scene {
 			_helper = UnityHelper.GetComponent<AsyncLoadHelper>();
 			if( !_helper ) {
 				enabled = false;
-				Log.Error("No AsyncLoadHelper is found!", LogTags.UI);
+				Log.Log.Error("No AsyncLoadHelper is found!", LogTags.UI);
 			}
 		}
 

@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UDBase.Controllers.Log;
 
-namespace UDBase.UI.VisualLog {
+namespace UDBase.Controllers.Log.UI {
 	public class VisualLogHandler : MonoBehaviour {
 
 		[Serializable]
