@@ -111,6 +111,20 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 
 ## Built-in Controllers
 
+### Scene
+
+Using Scene controller you can load scenes with several methods.
+
+TODO: About scene info, helpers
+
+Scenes can be loaded in two ways:
+
+- **DirectSceneLoader** - load scene synchronously.
+- **AsyncSceneLoader** - load scene asynchronously with (optional) loading scene.
+
+TODO: AsyncSceneLoader: about API
+TODO: Examples
+
 ### Config
 
 You can simple load settings for your controllers or other classes via **Config** methods. It allows you to get any class instance (inherited from **IJsonNode** interface) from some storage. By default Unity's JsonUtility is used (you can read about it [here](https://docs.unity3d.com/ScriptReference/JsonUtility.html)), so your class needs to be correctly deserialized with it.
