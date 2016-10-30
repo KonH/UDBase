@@ -8,7 +8,7 @@ using UnityEditor;
 namespace UDBase.Controllers.Scene {
 	public class Scene : ControllerHelper<IScene> {
 
-		public static void LoadScene(ISceneInfo sceneInfo) {
+		public static void LoadSceneInfo(ISceneInfo sceneInfo) {
 			for( int i = 0; i < Instances.Count; i++ ) {
 				Instances[i].LoadScene(sceneInfo);
 			}
@@ -19,15 +19,15 @@ namespace UDBase.Controllers.Scene {
 		 */
 
 		public static void LoadScene<T>(T type) {
-			LoadScene(GetInfo(type));
+			LoadSceneInfo(GetInfo(type));
 		}
 
 		public static void LoadScene<T>(T type, string param) {
-			LoadScene(GetInfo(type, param));
+			LoadSceneInfo(GetInfo(type, param));
 		}
 
 		public static void LoadScene<T>(T type, params string[] param) {
-			LoadScene(GetInfo(type, param));
+			LoadSceneInfo(GetInfo(type, param));
 		}
 
 		public static bool IsSceneNameValid(string scene_name) {
