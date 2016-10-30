@@ -26,14 +26,23 @@ namespace UDBase.Controllers {
 		}
 	 */
 	public class ControllerHelper<TController>: ControllerHelperBase where TController:IController {
-		public static List<TController> Instances { get; private set; }
-		public static TController       Instance  { get; private set; }
+
+		static List<TController> _instances = null;
+
+		public static List<TController> Instances { 
+			get {
+				if( _instances == null ) {
+					_instances = new List<TController>();
+				}
+				return _instances;	
+			}
+		}
+
+		public static TController Instance { get; private set; }
+
 
 		public override void Attach(IController handler) {
 			var newHanlder = (TController)handler;
-			if( Instances == null ) {
-				Instances = new List<TController>();
-			}
 			Instances.Add(newHanlder);
 			if( Instances.Count == 1 ) {
 				Instance = newHanlder;
