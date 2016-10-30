@@ -13,7 +13,7 @@ namespace UDBase.Controllers.Scene.UI {
 		}
 
 		void OnClick() {
-			Scene.LoadSceneInfo(new SceneName(Name));
+			Scene.LoadSceneByName(Name);
 		}
 	}
 }
