@@ -7,12 +7,12 @@ using UDBase.Utils;
 namespace UDBase.Controllers.Scene {
 	public class AsyncSceneLoader : IScene {
 		AsyncLoadHelper _helper       = null;
-		string          _loadingScene = "";
+		ISceneInfo      _loadingScene = null;
 		ISceneInfo      _firstScene   = null;
 
-		public AsyncSceneLoader(string loading_scene = "", ISceneInfo first_scene = null) {
-			_loadingScene = loading_scene;
-			_firstScene   = first_scene;
+		public AsyncSceneLoader(ISceneInfo loadingScene = null, ISceneInfo firstScene = null) {
+			_loadingScene = loadingScene;
+			_firstScene   = firstScene;
 		}
 
 		public void Init() {
@@ -40,7 +40,7 @@ namespace UDBase.Controllers.Scene {
 		}
 
 		protected virtual string GetLoadingSceneName(ISceneInfo sceneInfo) {
-			return _loadingScene;
+			return _loadingScene != null ? _loadingScene.Name : "";
 		}
 	}
 }

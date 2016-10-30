@@ -43,7 +43,6 @@ namespace UDBase.Controllers.Scene {
 			#endif
 		}
 
-		// TODO: Get asset name helper
 		static string ConvertPathToName(string path) {
 			var parts = path.Split('/');
 			if( parts.Length > 0 ) {

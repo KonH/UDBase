@@ -7,11 +7,10 @@ namespace UDBase.Controllers.Scene {
 	 * Basic scene info - requires only name
 	 */
 	public struct SceneName : ISceneInfo {
-		string _name;
-		public string Name { get { return _name; } }
+		public string Name { get; private set; }
 
 		public SceneName(string name) {
-			_name = name;
+			Name = name;
 		}
 	}
 
@@ -19,14 +18,13 @@ namespace UDBase.Controllers.Scene {
 	 * Specific info - custom type and (optional) parameter
 	 */
 	public struct SceneParam<T> : ISceneInfo {
-		string _name;
-		public string Name { get { return _name; } }
+		public string Name { get; private set; }
 
 		public SceneParam(T type, string param) {
 			if( string.IsNullOrEmpty(param) ) {
-				_name = type.ToString();
+				Name = type.ToString();
 			} else {
-				_name = string.Format("{0}_{1}", type, param);
+				Name = string.Format("{0}_{1}", type, param);
 			}
 		}
 	}
@@ -35,8 +33,7 @@ namespace UDBase.Controllers.Scene {
 	 * And much more specific info - custom type and > 1 parameter
 	 */
 	public struct MultiSceneParam<T> : ISceneInfo {
-		string _name;
-		public string Name { get { return _name; } }
+		public string Name { get; private set; }
 
 		public MultiSceneParam(T type, params string[] param) {
 			var sb = new StringBuilder();
@@ -45,7 +42,7 @@ namespace UDBase.Controllers.Scene {
 				sb.Append("_");
 				sb.Append(param[i]);
 			}
-			_name = sb.ToString();
+			Name = sb.ToString();
 		}
 	}
 }

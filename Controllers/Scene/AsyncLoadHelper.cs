@@ -15,10 +15,11 @@ namespace UDBase.Controllers.Scene {
 			yield return null;
 			var operation = SceneManager.LoadSceneAsync(name);
 			operation.allowSceneActivation = false;
-			while (!operation.isDone && operation.progress + Mathf.Epsilon < 0.9f ) {
+			while (!operation.isDone && operation.progress + Mathf.Epsilon < 0.90f ) {
 				Progress = operation.progress;
 				yield return null;
 			}
+			Progress = 1.0f;
 			operation.allowSceneActivation = true;
 		}
 	}
