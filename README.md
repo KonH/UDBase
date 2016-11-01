@@ -168,7 +168,7 @@ To use one of these types you can add this to your *Scheme* script:
 AddController(new Scene(), new AsyncSceneLoader());
 ```
 
-For most cases async load is more acceplable. It provides some useful options:
+For most cases async load is more acceptable. It provides some useful options:
 
 ```
 new AsyncSceneLoader() // Load new scene on current scene and go to it after loading
