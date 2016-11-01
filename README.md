@@ -113,7 +113,7 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 
 ### Scene
 
-Using Scene controller you can load scenes with several methods. You can load scene directly by its name using **Scene.LoadSceneByName(name)** or advanced methods. Probably, you have some scene structure like that (or much more complicated):
+Using Scene Controller you can load scenes with several methods. You can load scene directly by its name using **Scene.LoadSceneByName(name)** or use advanced methods. For example, you have some scene structure like that (or much more complicated):
 
 - MainMenu
 - Level_1
@@ -151,7 +151,7 @@ And specific scene in *Level_\** set:
 Scene.LoadScene(Scenes.Level, "0"); // Load 'Level_0' scene
 ```
 
-In Unity UI for that cases you can use **SceneLoadButton**/**SceneParamLoadButon\<T\>** components. For using second component you need to inherited from very simply:
+In Unity UI for these cases you can use **SceneLoadButton**/**SceneParamLoadButton\<T\>** components. For using second component you need to make your class that inherited from it to use in *Unity Inspector*:
 
 ```
 public class YourSceneButton : SceneParamLoadButton<YourScenesEnumType> {}
@@ -159,16 +159,16 @@ public class YourSceneButton : SceneParamLoadButton<YourScenesEnumType> {}
 
 Scenes can be loaded in two ways:
 
-- **DirectSceneLoader** - load scene synchronously.
-- **AsyncSceneLoader** - load scene asynchronously with (optional) loading scene.
+- **DirectSceneLoader** - loads scene synchronously.
+- **AsyncSceneLoader** - loads scene asynchronously with (optional) loading scene.
 
-To use one of it type you can add this to your *Scheme* script:
+To use one of these types you can add this to your *Scheme* script:
 
 ```
 AddController(new Scene(), new AsyncSceneLoader());
 ```
 
-For most cases async load is more acceplable. It provide some useful options:
+For most cases async load is more acceplable. It provides some useful options:
 
 ```
 new AsyncSceneLoader() // Load new scene on current scene and go to it after loading
