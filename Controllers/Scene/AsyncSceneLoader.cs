@@ -10,6 +10,11 @@ namespace UDBase.Controllers.Scene {
 		ISceneInfo      _loadingScene = null;
 		ISceneInfo      _firstScene   = null;
 
+		public AsyncSceneLoader(string loadingSceneName = null, string firstSceneName = null) {
+			_loadingScene = new SceneName(loadingSceneName);
+			_firstScene   = new SceneName(firstSceneName);
+		}
+
 		public AsyncSceneLoader(ISceneInfo loadingScene = null, ISceneInfo firstScene = null) {
 			_loadingScene = loadingScene;
 			_firstScene   = firstScene;
