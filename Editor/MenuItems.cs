@@ -6,11 +6,6 @@ using UDBase.Controllers.Save;
 namespace UDBase.Editor {
 	public static class MenuItems {
 		
-		[MenuItem("UDBase/Setup", false, -98)]
-		static void DoSetup() {
-			ProjectSetup.PrepareFolders();
-		}
-
 		[MenuItem("UDBase/Schemes/Edit", false, -99)]
 		static void OpenSchemes() {
 			SchemesEditor.GetWindow<SchemesEditor>("Schemes", true);
@@ -19,6 +14,31 @@ namespace UDBase.Editor {
 		[MenuItem("UDBase/Schemes/Update", false, -99)]
 		static void Scheme() {
 			SchemesTool.UpdateSchemes();
+		}
+
+		[MenuItem("UDBase/Setup", false, -98)]
+		static void DoSetup() {
+			ProjectSetup.PrepareFolders();
+		}
+
+		[MenuItem("UDBase/About", false, -97)]
+		static void About() {
+			InfoEditor.ShowAbout();
+		}
+
+		[MenuItem("UDBase/Release Notes", false, -96)]
+		static void ReleaseNotes() {
+			InfoEditor.ShowReleaseNotes();
+		}
+
+		[MenuItem("UDBase/Help", false, -95)]
+		static void Help() {
+			InfoEditor.OpenHelp();
+		}
+
+		[MenuItem("UDBase/Examples", false, -94)]
+		static void Examples() {
+			InfoEditor.OpenExamples();
 		}
 
 		[MenuItem("UDBase/Schemes/Default")]
