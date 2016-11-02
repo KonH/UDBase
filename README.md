@@ -1,11 +1,24 @@
-# UDBase
+# UDBase 
+
+**Current version:** 0.1.0
+
+**Unity version:** 5.4.0f3 (last tested)
 
 Repository link: [https://github.com/KonH/UDBase](https://github.com/KonH/UDBase)
 
-DevBlog: [http://konhit.blogspot.ru/] (http://konhit.blogspot.ru/)
+DevBlog: [http://konhit.blogspot.ru/](http://konhit.blogspot.ru/)
 
 ## Overview
-*TODO*
+
+**UDBase** is module-based game template for [Unity](https://unity3d.com/). Modules in UDBase are called **Controllers**, their implementation can be replaced without changing your project source code. Configuration is stored and modified based on custom classes called **Schemes**, that used scripting define symbols and can be switched in one click. It is Open-Source project with MIT license, so you overview source code, send pull requests, create your own issues and fork the project, if you want.
+
+## Versioning and releases
+
+UDBase is used semantic versioning convention ([http://semver.org/](http://semver.org/)). 
+
+You can overview releases here - [https://github.com/KonH/UDBase/releases](https://github.com/KonH/UDBase/releases).
+
+Release notes in plain text you can find here - [Docs/_ReleaseNotes.txt](Docs/_ReleaseNotes.txt).
 
 ## Install
 
