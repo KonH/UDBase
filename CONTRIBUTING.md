@@ -2,19 +2,19 @@
 
 ### Summary
 
-- You can create issues about new features
-- Do not use milestones, its been set in approval process 
+- You can create issues for new features or bugs found
+- Do not use milestones, it's been set in approval process 
 - You can send your pull requests with new controller implementation, fixes and non-broke changes (or make issue for significant changes before)
-- Readability and simple is first, performance and compact is last  
+- Readability and simplicity are first, performance and dencity are last  
 
 ### Code Style
 
 - Common:
 	- One instruction per line 
 	- *Use* tabs for indents and spaces for alignment
-	- After the point *must be* a space 
-	- After a semicolon, unless it is the last in a string (e.g. in the for statement) *must be* a space
-	- Before opening bracket *must be* a space
+	- After the point there is *must be* a space 
+	- After a semicolon, unless it is the last in a string (e.g. in the for statement) there is *must be* a space
+	- Before opening bracket there is *must be* a space
 	- *Do not* use like break before opening bracket
 - Variable naming convention:
 	- *pascalCase* - local var/method argument
@@ -51,6 +51,6 @@
 
 ### Approval Process
 
-- Your issue can be take in work or rejected by non-implementability, project architecture or common sense
-- Fast issue resolve is not guaranteed
-- Your pull requests has beed accepted, closed or back for revision according to **Code Style**, project architecture and common sense
+- Your issue can be taken in work or rejected by non-implementability, project architecture or common sense
+- Fast issue resolving is not guaranteed
+- Your pull requests would have been accepted, closed or back for revision according to **Code Style**, project architecture and common sense
