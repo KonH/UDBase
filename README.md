@@ -161,7 +161,10 @@ Example project - [https://github.com/KonH/UDBaseExample](https://github.com/Kon
 
 ### Summary
 
-TODO
+- You can create issues about new features
+- Do not use milestones, its been set in approval process 
+- You can send your pull requests with new controller implementation, fixes and non-broke changes (or make issue for significant changes before)
+- Readability and simple is first, performance and compact is last  
 
 ### Code Style
 
@@ -202,11 +205,14 @@ TODO
 	- File and class name must be the same
 	- One class/enum per file
 	- Multiple structs may be combined in one file
-
+- Specific cases:
+	- Avoid using *foreach* loop for memory usage problems
 
 ### Approval Process
 
-TODO
+- Your issue can be take in work or rejected by non-implementability, project architecture or common sense
+- Fast issue resolve is not guaranteed
+- Your pull requests has beed accepted, closed or back for revision according to **Code Style**, project architecture and common sense
 
 ## License
 See **LICENSE.txt** beside.
