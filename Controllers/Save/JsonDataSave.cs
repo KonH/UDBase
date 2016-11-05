@@ -8,7 +8,7 @@ using UDBase.Controllers;
 using UDBase.Utils;
 using UDBase.Utils.Json;
 
-namespace UDBase.Controllers.Save {
+namespace UDBase.Controllers.SaveSystem {
 	public class JsonDataSave:ISave {
 
 		bool                 _prettyJson    = false;

@@ -2,9 +2,9 @@
 using System.Collections;
 using UDBase.Common;
 using UDBase.Utils;
-using UDBase.Controllers.Log.UI;
+using UDBase.Controllers.LogSystem.UI;
 
-namespace UDBase.Controllers.Log {
+namespace UDBase.Controllers.LogSystem {
 	public enum ButtonPosition {
 		LeftTop,
 		RightTop,

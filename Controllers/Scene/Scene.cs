@@ -5,7 +5,7 @@ using System.Collections;
 using UnityEditor;
 #endif
 
-namespace UDBase.Controllers.Scene {
+namespace UDBase.Controllers.SceneSystem {
 	public class Scene : ControllerHelper<IScene> {
 
 		public static void LoadSceneByName(string sceneName) {

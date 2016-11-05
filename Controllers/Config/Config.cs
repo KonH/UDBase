@@ -3,7 +3,7 @@ using System.Collections;
 using UDBase.Controllers;
 using UDBase.Utils.Json;
 
-namespace UDBase.Controllers.Config {
+namespace UDBase.Controllers.ConfigSystem {
 	public class Config : ControllerHelper<IConfig> {
 
 		public static T GetNode<T>() where T:class, IJsonNode, new() {

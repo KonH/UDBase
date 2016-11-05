@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UDBase.Controllers.Log;
+using UDBase.Controllers.LogSystem;
 using UDBase.Utils;
 
-namespace UDBase.Controllers.Scene {
+namespace UDBase.Controllers.SceneSystem {
 	public class AsyncSceneLoader : IScene {
 		AsyncLoadHelper _helper       = null;
 		ISceneInfo      _loadingScene = null;
@@ -33,7 +33,7 @@ namespace UDBase.Controllers.Scene {
 				TryLoadLoadingScene(sceneInfo); 
 				_helper.LoadScene(sceneName);
 			} else {
-				Log.Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
+				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
 			}
 		}
 

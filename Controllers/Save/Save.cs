@@ -5,7 +5,7 @@ using UDBase.Utils;
 using UDBase.Utils.Json;
 using UDBase.Common;
 
-namespace UDBase.Controllers.Save {
+namespace UDBase.Controllers.SaveSystem {
 	public class Save:ControllerHelper<ISave> {
 
 		public static T GetNode<T>() where T:class, IJsonNode, new() {

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UDBase.Controllers.Scene;
+using UDBase.Controllers.SceneSystem;
 
-namespace UDBase.Controllers.Scene.UI {
+namespace UDBase.Controllers.SceneSystem.UI {
 	[RequireComponent(typeof(Button))]
 	public class SceneLoadButton : MonoBehaviour {
 		public string Name = "";

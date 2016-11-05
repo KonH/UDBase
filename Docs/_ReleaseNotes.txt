@@ -1,3 +1,6 @@
+v.0.2.0
+- Refactoring: namespace usage;
+
 v.0.1.0
 - First in-dev version;
 - Scheme architecture and tools;

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UDBase.Controllers.Log;
+using UDBase.Controllers.LogSystem;
 
-namespace UDBase.Controllers.Scene {
+namespace UDBase.Controllers.SceneSystem {
 	public class DirectSceneLoader : IScene {
 
 		public void Init() {}
@@ -13,7 +13,7 @@ namespace UDBase.Controllers.Scene {
 			if( Scene.IsSceneNameValid(sceneName) ) {
 				SceneManager.LoadScene(sceneName);
 			} else {
-				Log.Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
+				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
 			}
 		}
 	}

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Text;
 
-namespace UDBase.Controllers.Scene {
+namespace UDBase.Controllers.SceneSystem {
 	/*
 	 * Basic scene info - requires only name
 	 */

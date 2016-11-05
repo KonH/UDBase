@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-namespace UDBase.Controllers.Scene {
+namespace UDBase.Controllers.SceneSystem {
 	public class AsyncLoadHelper : MonoBehaviour {
 		public float Progress { get; private set; }
 

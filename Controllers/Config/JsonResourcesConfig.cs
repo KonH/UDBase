@@ -6,7 +6,7 @@ using UDBase.Common;
 using UDBase.Controllers;
 using UDBase.Utils.Json;
 
-namespace UDBase.Controllers.Config {
+namespace UDBase.Controllers.ConfigSystem {
 	public class JsonResourcesConfig : IConfig {
 		string               _fileName  = "";
 		JsonNodeContainer    _container = null;
