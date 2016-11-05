@@ -7,7 +7,7 @@ using UDBase.Controllers;
 using UDBase.Utils.Json;
 
 namespace UDBase.Controllers.ConfigSystem {
-	public class JsonResourcesConfig : IConfig {
+	public sealed class JsonResourcesConfig : IConfig {
 		string               _fileName  = "";
 		JsonNodeContainer    _container = null;
 
@@ -36,8 +36,7 @@ namespace UDBase.Controllers.ConfigSystem {
 			return content.Split('\n');
 		}
 
-		public T GetNode<T>() where T:class, IJsonNode, new()
-		{
+		public T GetNode<T>() where T:class, IJsonNode, new() {
 			if( _container != null ) {
 				return _container.LoadNode<T>();
 			}

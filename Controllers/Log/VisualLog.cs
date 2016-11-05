@@ -12,7 +12,7 @@ namespace UDBase.Controllers.LogSystem {
 		RightBottom
 	}
 
-	public class VisualLog : ILog {
+	public sealed class VisualLog : ILog {
 		LogTags             _tagger  = null;
 		VisualLogHandler    _handler = null;
 

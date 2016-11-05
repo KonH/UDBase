@@ -29,7 +29,7 @@ namespace UDBase.Controllers {
 
 		static List<TController> _instances = null;
 
-		public static List<TController> Instances { 
+		protected static List<TController> Instances { 
 			get {
 				if( _instances == null ) {
 					_instances = new List<TController>();
@@ -38,7 +38,7 @@ namespace UDBase.Controllers {
 			}
 		}
 
-		public static TController Instance { get; private set; }
+		protected static TController Instance { get; private set; }
 
 
 		public override void Attach(IController handler) {

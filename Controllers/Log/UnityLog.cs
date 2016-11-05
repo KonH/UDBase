@@ -2,7 +2,7 @@
 using System.Collections;
 
 namespace UDBase.Controllers.LogSystem {
-	public class UnityLog : ILog {
+	public sealed class UnityLog : ILog {
 		LogTags _tagger = null;
 
 		public UnityLog(LogTags tagger) {

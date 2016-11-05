@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace UDBase.Utils.Json {
-	public class JsonNodeContainer {
+	public sealed class JsonNodeContainer {
 		List<JsonNodeHolder> _holders = new List<JsonNodeHolder>();
 		List<string>         _content = new List<string>(100);
 

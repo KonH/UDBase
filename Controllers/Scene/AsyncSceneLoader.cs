@@ -5,7 +5,7 @@ using UDBase.Controllers.LogSystem;
 using UDBase.Utils;
 
 namespace UDBase.Controllers.SceneSystem {
-	public class AsyncSceneLoader : IScene {
+	public sealed class AsyncSceneLoader : IScene {
 		AsyncLoadHelper _helper       = null;
 		ISceneInfo      _loadingScene = null;
 		ISceneInfo      _firstScene   = null;
@@ -44,7 +44,7 @@ namespace UDBase.Controllers.SceneSystem {
 			}
 		}
 
-		protected virtual string GetLoadingSceneName(ISceneInfo sceneInfo) {
+		string GetLoadingSceneName(ISceneInfo sceneInfo) {
 			return _loadingScene != null ? _loadingScene.Name : "";
 		}
 	}

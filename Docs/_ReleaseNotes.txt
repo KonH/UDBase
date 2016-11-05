@@ -1,5 +1,5 @@
 v.0.2.0
-- Refactoring: namespace usage;
+- Refactoring: namespace usage, access changes, format issues;
 
 v.0.1.0
 - First in-dev version;

@@ -1,6 +1,6 @@
 # UDBase 
 
-**Current version:** 0.1.0
+**Current version:** 0.2.0
 
 **Unity version:** 5.4.0f3 (last tested)
 

@@ -9,7 +9,7 @@ using UDBase.Utils;
 using UDBase.Utils.Json;
 
 namespace UDBase.Controllers.SaveSystem {
-	public class JsonDataSave:ISave {
+	public sealed class JsonDataSave:ISave {
 
 		bool                 _prettyJson    = false;
 		string               _fileName      = "";

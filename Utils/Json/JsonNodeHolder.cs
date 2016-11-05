@@ -3,7 +3,7 @@ using System.Collections;
 using System.Text;
 
 namespace UDBase.Utils.Json {
-	public class JsonNodeHolder {
+	public sealed class JsonNodeHolder {
 		public string Name    {get; private set;}
 		public string Content {get; private set;}
 

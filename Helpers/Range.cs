@@ -8,8 +8,7 @@ namespace UDBase.Helpers {
 		public T Start;
 		public T End;
 
-		public Range() {
-		}
+		public Range() {}
 
 		public Range(T start, T end) {
 			Start = start;
@@ -20,8 +19,7 @@ namespace UDBase.Helpers {
 		public abstract bool Contains(T value);
 		public abstract T    Random();
 
-		public override string ToString()
-		{
+		public override string ToString() {
 			return string.Format("Range: [{0}, {1}]", Start, End);
 		}
 	}
@@ -29,24 +27,19 @@ namespace UDBase.Helpers {
 	[Serializable]
 	public class IntRange:Range<int> {
 
-		public IntRange():base() {
-		}
+		public IntRange():base() {}
 
-		public IntRange(int start, int end):base(start, end) {
-		}
+		public IntRange(int start, int end):base(start, end) {}
 
-		public override bool IsValid()
-		{
+		public override bool IsValid() {
 			return End > Start;
 		}
 
-		public override bool Contains(int value)
-		{
+		public override bool Contains(int value) {
 			return (value >= Start) && (value <= End);
 		}
 
-		public override int Random()
-		{
+		public override int Random() {
 			return UnityEngine.Random.Range(Start, End);
 		}
 
@@ -58,24 +51,19 @@ namespace UDBase.Helpers {
 	[Serializable]
 	public class FloatRange:Range<float> {
 
-		public FloatRange():base() {
-		}
+		public FloatRange():base() {}
 
-		public FloatRange(float start, float end):base(start, end) {
-		}
+		public FloatRange(float start, float end):base(start, end) {}
 
-		public override bool IsValid()
-		{
+		public override bool IsValid() {
 			return End > Start;
 		}
 
-		public override bool Contains(float value)
-		{
+		public override bool Contains(float value) {
 			return (value >= Start) && (value <= End);
 		}
 
-		public override float Random()
-		{
+		public override float Random() {
 			return UnityEngine.Random.Range(Start, End);
 		}
 	}

@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.SceneSystem {
-	public class DirectSceneLoader : IScene {
+	public sealed class DirectSceneLoader : IScene {
 
 		public void Init() {}
 
