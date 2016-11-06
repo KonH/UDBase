@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UDBase.Controllers.SceneSystem;
+using UDBase.UI.Common;
 
 namespace UDBase.Controllers.SceneSystem.UI {
-	[RequireComponent(typeof(Button))]
-	public class SceneLoadButton : MonoBehaviour {
+	public class SceneLoadButton : ActionButton {
 		public string Name = "";
 
-		void Start () {
-			GetComponent<Button>().onClick.AddListener(OnClick);
+		public override bool IsVisible() { 
+			return true; 
 		}
 
-		void OnClick() {
+		public override bool IsInteractable() {
+			return true;
+		}
+
+		public override void OnClick() {
 			Scene.LoadSceneByName(Name);
 		}
 	}
