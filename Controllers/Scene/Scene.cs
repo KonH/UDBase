@@ -8,6 +8,18 @@ using UnityEditor;
 namespace UDBase.Controllers.SceneSystem {
 	public class Scene : ControllerHelper<IScene> {
 
+		public static ISceneInfo CurrentScene {
+			get {
+				for( int i = 0; i < Instances.Count; i++ ) {
+					var curScene = Instances[i].CurrentScene;
+					if( curScene != null ) {
+						return curScene;
+					}
+				}
+				return null;
+			}
+		}
+
 		public static void LoadSceneByName(string sceneName) {
 			LoadSceneByInfo(new SceneName(sceneName));
 		}

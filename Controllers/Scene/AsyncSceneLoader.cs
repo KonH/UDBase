@@ -6,6 +6,9 @@ using UDBase.Utils;
 
 namespace UDBase.Controllers.SceneSystem {
 	public sealed class AsyncSceneLoader : IScene {
+
+		public ISceneInfo CurrentScene { get; private set; }
+
 		AsyncLoadHelper _helper       = null;
 		ISceneInfo      _loadingScene = null;
 		ISceneInfo      _firstScene   = null;
@@ -32,6 +35,7 @@ namespace UDBase.Controllers.SceneSystem {
 			if( Scene.IsSceneNameValid(sceneName) ) {
 				TryLoadLoadingScene(sceneInfo); 
 				_helper.LoadScene(sceneName);
+				CurrentScene = sceneInfo;
 			} else {
 				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
 			}

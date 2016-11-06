@@ -1,4 +1,5 @@
 v.0.2.0
+- SceneSystem: Scene.CurrentScene, extended SceneParam properties;
 - Refactoring: namespace usage, access changes, format issues;
 
 v.0.1.0
