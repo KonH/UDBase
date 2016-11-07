@@ -20,6 +20,7 @@
 	- *pascalCase* - local var/method argument
 	- *CamelCase* - public field, constants
 	- *_pascalCase* - non-public field
+	- Exception: if you need serializable private field with readable name, you can use *pascalCase* for it
 	- *Do not* use abbreviations
 - Classes:
 	- Use noun and *CamelCase* for names
