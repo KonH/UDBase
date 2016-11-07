@@ -36,8 +36,7 @@ namespace UDBase.Utils.Json {
 			}
 		}
 
-		public JsonNodeHolder GetHolder(string name)
-		{
+		public JsonNodeHolder GetHolder(string name) {
 			for( int i = 0; i < _holders.Count; i++ ) {
 				if( _holders[i].Name == name ) {
 					return _holders[i];
@@ -46,8 +45,7 @@ namespace UDBase.Utils.Json {
 			return null;
 		}
 
-		public T LoadNode<T>() where T:class, IJsonNode, new()
-		{
+		public T LoadNode<T>() where T:class, IJsonNode, new() {
 			T node = new T();
 			var holder = GetHolder(node.Name);
 			if (holder != null ) {
@@ -58,8 +56,7 @@ namespace UDBase.Utils.Json {
 			return null;
 		}
 
-		public void SaveNode<T>(T node, bool prettyJson) where T : class, IJsonNode, new()
-		{
+		public void SaveNode<T>(T node, bool prettyJson) where T : class, IJsonNode, new() {
 			var content = JsonUtility.ToJson(node, prettyJson);
 			var holder = GetHolder(node.Name);
 			if( holder == null ) {
