@@ -38,6 +38,8 @@ namespace UDBase.Controllers.SaveSystem {
 			}
 		}
 
+		public void PostInit() {}
+
 		bool TryLoadContainer() {
 			if( _container == null ) {
 				var saveContent = IOTool.ReadAllLines(_filePath, true);

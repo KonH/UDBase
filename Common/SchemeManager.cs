@@ -8,6 +8,7 @@ namespace UDBase.Common {
 		public void ApplyScheme(IScheme scheme) {
 			CurrentScheme = scheme;
 			scheme.Init();
+			scheme.PostInit();
 		}
 	}
 }

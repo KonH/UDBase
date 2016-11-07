@@ -30,6 +30,8 @@ namespace UDBase.Controllers.SceneSystem {
 			}
 		}
 
+		public void PostInit() {}
+
 		public void LoadScene(ISceneInfo sceneInfo) {
 			var sceneName = sceneInfo.Name;
 			if( Scene.IsSceneNameValid(sceneName) ) {

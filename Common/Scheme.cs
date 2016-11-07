@@ -15,7 +15,7 @@ namespace UDBase.Common {
 				_components.Add(components[i], helper);
 			}
 		}
-
+			
 		public void Init() {
 			var iter = _components.GetEnumerator();
 			while(iter.MoveNext()) {
@@ -23,6 +23,14 @@ namespace UDBase.Common {
 				component.Init();
 				var helper = iter.Current.Value;
 				helper.Attach(component);
+			}
+		}
+
+		public void PostInit() {
+			var iter = _components.GetEnumerator();
+			while(iter.MoveNext()) {
+				var component = iter.Current.Key;
+				component.PostInit();
 			}
 		}
 	}

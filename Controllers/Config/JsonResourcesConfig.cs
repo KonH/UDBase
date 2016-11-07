@@ -32,6 +32,8 @@ namespace UDBase.Controllers.ConfigSystem {
 			}
 		}
 
+		public void PostInit() {}
+
 		string[] SplitContent(string content) {
 			return content.Split('\n');
 		}
