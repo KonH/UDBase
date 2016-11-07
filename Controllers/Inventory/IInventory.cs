@@ -5,6 +5,7 @@ namespace UDBase.Controllers.InventorySystem {
 	public interface IInventoryBase : IController {
 		int  GetPackCount(string holderName, string packName);
 		void AddToPack(string holderName, string packName, int count);
+		void AddItem(string holderName, string itemName);
 	}
 
 	public interface IInventory<TItem, TPack, THolder> : IInventoryBase

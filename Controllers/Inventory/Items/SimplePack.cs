@@ -5,11 +5,6 @@ namespace UDBase.Controllers.InventorySystem {
 	[System.Serializable]
 	public class SimplePack : IInventoryPack {
 
-		[SerializeField]
-		public string name;
-		[SerializeField]
-		public int    count;
-
 		public string Name { 
 			get {
 				return name;
@@ -27,5 +22,10 @@ namespace UDBase.Controllers.InventorySystem {
 				count = value;
 			}
 		}
+
+		[SerializeField]
+		string name;
+		[SerializeField]
+		int    count;
 	}
 }

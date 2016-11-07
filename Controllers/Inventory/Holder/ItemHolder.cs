@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class ItemHolder<TItem, TPack>:IItemHolder<TItem, TPack>
-		where TItem:IInventoryItem where TPack:IInventoryPack,new() {
+		where TItem:IInventoryItem,new() where TPack:IInventoryPack,new() {
 
 		public string Name {
 			get {
@@ -15,6 +15,15 @@ namespace UDBase.Controllers.InventorySystem {
 				name = value;
 			}
 		}
+
+		[SerializeField]
+		string name;
+
+		[SerializeField]
+		List<TItem> items;
+
+		[SerializeField]
+		List<TPack> packs;
 
 		public ItemHolder() {}
 
@@ -35,7 +44,7 @@ namespace UDBase.Controllers.InventorySystem {
 		}
 
 		public void AddToPack(string name, int count) {
-			if( ( packs == null ) ) {
+			if( packs == null ) {
 				packs = new List<TPack>();
 			}
 			TPack pack = GetPack(name);
@@ -47,13 +56,13 @@ namespace UDBase.Controllers.InventorySystem {
 			pack.Count += count;
 		}
 
-		[SerializeField]
-		string name;
-
-		[SerializeField]
-		List<TItem> items;
-
-		[SerializeField]
-		List<TPack> packs;
+		public void AddItem(string name) {
+			if( items == null ) {
+				items = new List<TItem>();
+			}
+			TItem item = new TItem();
+			item.Name = name;
+			items.Add(item);
+		}
 	}
 }

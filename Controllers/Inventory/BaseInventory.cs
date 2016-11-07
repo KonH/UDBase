@@ -50,5 +50,11 @@ namespace UDBase.Controllers.InventorySystem {
 			holder.AddToPack(packName, count);
 			_save.SaveChanges();
 		}
+
+		public void AddItem(string holderName, string itemName) {
+			var holder = GetOrCreateHolder(holderName);
+			holder.AddItem(itemName);
+			_save.SaveChanges();
+		}
 	}
 }

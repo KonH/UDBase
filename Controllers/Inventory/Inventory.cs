@@ -17,5 +17,11 @@ namespace UDBase.Controllers.InventorySystem {
 				Instances[i].AddToPack(holderName, packName, count);
 			}
 		}
+
+		public static void AddItem(string holderName, string itemName) {
+			for( int i = 0; i < Instances.Count; i++ ) {
+				Instances[i].AddItem(holderName, itemName);
+			}
+		}
 	}
 }

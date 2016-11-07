@@ -9,5 +9,6 @@ namespace UDBase.Controllers.InventorySystem {
 
 		TPack GetPack(string name);
 		void  AddToPack(string name, int count);
+		void  AddItem(string name);
 	}
 }
