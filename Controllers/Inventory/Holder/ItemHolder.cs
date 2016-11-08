@@ -43,6 +43,10 @@ namespace UDBase.Controllers.InventorySystem {
 			return default(TPack);
 		}
 
+		public List<TPack> GetPacks() {
+			return packs;
+		}
+
 		public void AddToPack(string name, int count) {
 			if( packs == null ) {
 				packs = new List<TPack>();
@@ -56,6 +60,42 @@ namespace UDBase.Controllers.InventorySystem {
 			pack.Count += count;
 		}
 
+		public void RemoveFromPack(TPack pack, int count) {
+			if( packs != null ) {
+				for( int i = 0; i < packs.Count; i++ ) {
+					if( packs[i].Equals(pack) ) {
+						pack.Count -= count;
+						if( pack.Count <= 0 ) {
+							packs.Remove(pack);
+						}
+						return;
+					}
+				}
+			}
+		}
+
+		public void ClearPack(TPack pack) {
+			if( pack != null ) {
+				RemoveFromPack(pack, pack.Count);
+			}
+		}
+
+		public TItem GetItem(string name) {
+			if( items != null ) {
+				for( int i = 0; i < items.Count; i++ ) {
+					var curItem = items[i];
+					if( curItem.Name == name ) {
+						return curItem;
+					}
+				}
+			}
+			return default(TItem);
+		}
+
+		public List<TItem> GetItems() {
+			return items;
+		}
+
 		public void AddItem(string name) {
 			if( items == null ) {
 				items = new List<TItem>();
@@ -63,6 +103,18 @@ namespace UDBase.Controllers.InventorySystem {
 			TItem item = new TItem();
 			item.Name = name;
 			items.Add(item);
+		}
+
+		public void RemoveItem(TItem item) {
+			if( items != null ) {
+				for( int i = 0; i < items.Count; i++ ) {
+					var curItem = items[i];
+					if( curItem.Equals(item) ) {
+						items.Remove(curItem);
+						return;
+					}
+				}
+			}
 		}
 	}
 }

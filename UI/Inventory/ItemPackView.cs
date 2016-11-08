@@ -13,6 +13,9 @@ namespace UDBase.Controllers.InventorySystem.UI {
 
 		void Start() {
 			Init();
+
+			var item = Inventory.GetItem<SimpleItem>(HolderName, "item_1");
+			Inventory.RemoveItem(HolderName, item);
 		}
 
 		void Init() {
