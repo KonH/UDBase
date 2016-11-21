@@ -5,14 +5,14 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.InventorySystem {
 	public abstract class BaseInventory<TItem, TPack, THolder> : IInventory<TItem, TPack, THolder>
-		where TItem:IInventoryItem
-		where TPack:IInventoryPack
+		where TItem:IInventoryItem, IClonableItem<TItem>
+		where TPack:IInventoryPack, IClonableItem<TPack>
 		where THolder:IItemHolder<TItem, TPack>,new() {
 	
-		protected IItemSource                           _source = null;
+		protected IItemSource<TItem, TPack>             _source = null;
 		protected IInventorySave<TItem, TPack, THolder> _save   = null;
 
-		public BaseInventory(IItemSource source, IInventorySave<TItem, TPack, THolder> save) {
+		public BaseInventory(IItemSource<TItem, TPack> source, IInventorySave<TItem, TPack, THolder> save) {
 			_source = source;
 			_save   = save;
 		}
@@ -55,7 +55,16 @@ namespace UDBase.Controllers.InventorySystem {
 				return;
 			}
 			var holder = GetOrCreateHolder(holderName);
-			holder.AddToPack(packName, count);
+			var pack = holder.GetPack(packName);
+			if( pack == null ) {
+				var sourcePack = _source.GetPack(packName);
+				if( sourcePack == null ) {
+					Log.ErrorFormat("Could not find pack: {0}", LogTags.Inventory, packName);
+					return;
+				}
+				pack = sourcePack.Clone();
+			}
+			holder.AddToPack(pack, count);
 			_save.SaveChanges();
 		}
 
@@ -93,7 +102,13 @@ namespace UDBase.Controllers.InventorySystem {
 
 		public void AddItem(string holderName, string itemName) {
 			var holder = GetOrCreateHolder(holderName);
-			holder.AddItem(itemName);
+			var sourceItem = _source.GetItem(itemName);
+			if( sourceItem == null ) {
+				Log.ErrorFormat("Could not find item {0}", LogTags.Inventory, itemName); 
+				return;
+			}
+			var item = sourceItem.Clone();
+			holder.AddItem(item);
 			_save.SaveChanges();
 		}
 

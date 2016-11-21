@@ -3,15 +3,19 @@ using System.Collections;
 
 namespace UDBase.Controllers.InventorySystem {
 	[System.Serializable]
-	public class SimplePack : IInventoryPack {
+	public class SimplePack : IInventoryPack, IClonableItem<SimplePack> {
+
+		public SimplePack() {}
+
+		public SimplePack(string name, int count = 0) {
+			this.name  = name;
+			this.count = count;
+		}
 
 		public string Name { 
 			get {
 				return name;
-			} 
-			set {
-				name = value;
-			}
+			}		
 		}
 
 		public int Count {
@@ -19,7 +23,7 @@ namespace UDBase.Controllers.InventorySystem {
 				return count;
 			}
 			set {
-				count = value;
+				count = Mathf.Max(value, 0);
 			}
 		}
 
@@ -27,5 +31,10 @@ namespace UDBase.Controllers.InventorySystem {
 		string name;
 		[SerializeField]
 		int    count;
+
+		public SimplePack Clone() {
+			var clone = new SimplePack(name, count);
+			return clone;
+		}
 	}
 }

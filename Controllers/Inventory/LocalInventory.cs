@@ -3,8 +3,8 @@ using System.Collections;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class LocalInventory<TItem, TPack, THolder> : BaseInventory<TItem, TPack, THolder>
-		where TItem: IInventoryItem
-		where TPack: IInventoryPack
+		where TItem: IInventoryItem, IClonableItem<TItem>
+		where TPack: IInventoryPack, IClonableItem<TPack>
 		where THolder: IItemHolder<TItem, TPack>, new() {
 
 		public LocalInventory():

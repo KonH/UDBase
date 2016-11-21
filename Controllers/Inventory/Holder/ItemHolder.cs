@@ -47,14 +47,14 @@ namespace UDBase.Controllers.InventorySystem {
 			return packs;
 		}
 
-		public void AddToPack(string name, int count) {
+		public void AddToPack(TPack pack, int count) {
+			if( pack == null ) {
+				return;
+			}
 			if( packs == null ) {
 				packs = new List<TPack>();
 			}
-			TPack pack = GetPack(name);
-			if( pack == null ) {
-				pack = new TPack();
-				pack.Name = name;
+			if( !packs.Contains(pack) ) {
 				packs.Add(pack);
 			}
 			pack.Count += count;
@@ -96,12 +96,10 @@ namespace UDBase.Controllers.InventorySystem {
 			return items;
 		}
 
-		public void AddItem(string name) {
+		public void AddItem(TItem item) {
 			if( items == null ) {
 				items = new List<TItem>();
 			}
-			TItem item = new TItem();
-			item.Name = name;
 			items.Add(item);
 		}
 

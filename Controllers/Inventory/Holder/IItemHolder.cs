@@ -10,12 +10,12 @@ namespace UDBase.Controllers.InventorySystem {
 
 		TPack       GetPack       (string name);
 		List<TPack> GetPacks      ();
-		void        AddToPack     (string name, int count);
+		void        AddToPack     (TPack pack, int count);
 		void        RemoveFromPack(TPack pack, int count);
 		void        ClearPack     (TPack pack);
 		TItem       GetItem       (string name);
 		List<TItem> GetItems      ();
-		void        AddItem       (string name);
+		void        AddItem       (TItem item);
 		void        RemoveItem    (TItem item);
 	}
 }
