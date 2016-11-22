@@ -8,7 +8,7 @@ namespace UDBase.Controllers.InventorySystem {
 		where TPack:IInventoryPack
 		where THolder:IItemHolder<TItem, TPack> {
 
-		void    Setup();
+		void    Setup(List<THolder> defaultHolders);
 		THolder GetHolder(string name);
 		void    AddHolder(THolder holder);
 		void    SaveChanges();

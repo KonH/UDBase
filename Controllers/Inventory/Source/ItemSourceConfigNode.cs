@@ -9,7 +9,8 @@ namespace UDBase.Controllers.InventorySystem {
 
 		public string Name { get { return "inventory_source"; } }
 
-		public List<TItem> Items = new List<TItem>();
-		public List<TPack> Packs = new List<TPack>();
+		public List<TItem>             Items   = new List<TItem>();
+		public List<TPack>             Packs   = new List<TPack>();
+		public List<HolderDescription> Holders = new List<HolderDescription>();
 	}
 }

@@ -9,10 +9,12 @@ namespace UDBase.Controllers.InventorySystem {
 		where TPack:IInventoryPack, IClonableItem<TPack>
 		where THolder:IItemHolder<TItem, TPack>,new() {
 	
-		protected IItemSource<TItem, TPack>             _source = null;
+		protected IItemSource<TItem, TPack, THolder>    _source = null;
 		protected IInventorySave<TItem, TPack, THolder> _save   = null;
 
-		public BaseInventory(IItemSource<TItem, TPack> source, IInventorySave<TItem, TPack, THolder> save) {
+		public BaseInventory(
+			IItemSource<TItem, TPack, THolder> source, 
+			IInventorySave<TItem, TPack, THolder> save) {
 			_source = source;
 			_save   = save;
 		}
@@ -21,7 +23,7 @@ namespace UDBase.Controllers.InventorySystem {
 
 		public void PostInit() {
 			_source.Load();
-			_save.Setup();
+			_save.Setup(_source.GetHolders());
 		}
 
 		protected THolder GetHolder(string holderName) {

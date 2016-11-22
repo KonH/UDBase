@@ -8,14 +8,14 @@ namespace UDBase.Controllers.InventorySystem {
 	public class InventorySaveState<TItem, TPack, THolder> : IInventorySave<TItem, TPack, THolder> 
 		where TItem: IInventoryItem
 		where TPack: IInventoryPack
-		where THolder: IItemHolder<TItem, TPack> {
+		where THolder: IItemHolder<TItem, TPack>,new() {
 
 		InventorySaveNode<TItem, TPack, THolder> _node = null;
 
-		public void Setup() {
+		public void Setup(List<THolder> defaultHolders) {
 			TryLoad();
 			if( !IsExist() ) {
-				Create();
+				Create(defaultHolders);
 			}
 			SaveChanges();
 			Log.MessageFormat("Load saved inventory: {0} holders.", LogTags.Inventory, 
@@ -30,9 +30,11 @@ namespace UDBase.Controllers.InventorySystem {
 			return _node != null;
 		}
 
-		void Create() {
+		void Create(List<THolder> defaultHolders) {
 			_node = new InventorySaveNode<TItem, TPack, THolder>();
-			_node.Holders = new List<THolder>();
+			_node.Holders = defaultHolders;
+			Log.MessageFormat("Create default inventory: {0} holders.", LogTags.Inventory,
+				_node.Holders.Count);
 		}
 
 		public void SaveChanges() {
