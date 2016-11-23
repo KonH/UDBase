@@ -9,8 +9,8 @@ namespace UDBase.Controllers.InventorySystem {
 		where THolder:IItemHolder<TItem, TPack> {
 
 		void          Load();
-		TItem         GetItem(string name);
-		TPack         GetPack(string name);
+		TItem         LoadItem(string name);
+		TPack         LoadPack(string name);
 		List<THolder> GetHolders();
 	}
 }

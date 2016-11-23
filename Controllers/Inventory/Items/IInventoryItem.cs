@@ -3,6 +3,10 @@ using System.Collections;
 
 namespace UDBase.Controllers.InventorySystem {
 	public interface IInventoryItem {
+
 		string Name { get; }
+
+		void Init();
+		void Load();
 	}
 }

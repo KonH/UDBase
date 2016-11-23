@@ -6,5 +6,8 @@ namespace UDBase.Controllers.InventorySystem {
 
 		string Name  { get; }
 		int    Count { get; set; }
+
+		void Init();
+		void Load();
 	}
 }

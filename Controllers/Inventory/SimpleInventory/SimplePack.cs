@@ -32,6 +32,9 @@ namespace UDBase.Controllers.InventorySystem {
 		[SerializeField]
 		int    count;
 
+		public void Init() {}
+		public void Load() {}
+
 		public SimplePack Clone() {
 			var clone = new SimplePack(name, count);
 			return clone;

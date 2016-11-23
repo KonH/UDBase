@@ -20,7 +20,7 @@ namespace UDBase.Controllers.InventorySystem {
 				_node.Holders != null ? _node.Holders.Count : -1);
 		}
 
-		public TItem GetItem(string itemName) {
+		TItem GetItem(string itemName) {
 			var items = _node.Items;
 			for( int i = 0; i < items.Count; i++ ) {
 				if( items[i].Name == itemName ) {
@@ -30,12 +30,32 @@ namespace UDBase.Controllers.InventorySystem {
 			return default(TItem);
 		}
 
-		public TPack GetPack(string packName) {
+		TPack GetPack(string packName) {
 			var packs = _node.Packs;
 			for( int i = 0; i < packs.Count; i++ ) {
 				if( packs[i].Name == packName ) {
 					return packs[i];
 				}
+			}
+			return default(TPack);
+		}
+
+		public TItem LoadItem(string itemName) {
+			var item = GetItem(itemName);
+			if( item != null ) {
+				var itemClone = item.Clone();
+				itemClone.Load();
+				return itemClone;
+			}
+			return default(TItem);
+		}
+
+		public TPack LoadPack(string packName) {
+			var pack = GetPack(packName);
+			if( pack != null ) {
+				var packClone = pack.Clone();
+				packClone.Load();
+				return packClone;
 			}
 			return default(TPack);
 		}
@@ -57,7 +77,9 @@ namespace UDBase.Controllers.InventorySystem {
 			for( int i = 0; i < items.Count; i++ ) {
 				var item = GetItem(items[i]);
 				if( item != null ) {
-					holder.AddItem(item.Clone());
+					var itemClone = item.Clone();
+					itemClone.Init();
+					holder.AddItem(itemClone);
 				}
 			}
 		}
@@ -66,7 +88,9 @@ namespace UDBase.Controllers.InventorySystem {
 			for( int i = 0; i < packs.Count; i++ ) {
 				var pack = GetPack(packs[i].name);
 				if( pack != null ) {
-					holder.AddToPack(pack.Clone(), packs[i].count);
+					var packClone = pack.Clone();
+					packClone.Init();
+					holder.AddToPack(packClone, packs[i].count);
 				}
 			}
 		}

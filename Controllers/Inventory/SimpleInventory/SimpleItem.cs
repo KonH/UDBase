@@ -20,6 +20,9 @@ namespace UDBase.Controllers.InventorySystem {
 		[SerializeField]
 		string name;
 
+		public void Init() {}
+		public void Load() {}
+
 		public SimpleItem Clone() {
 			var clone = new SimpleItem(Name);
 			return clone;

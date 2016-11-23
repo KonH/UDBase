@@ -59,12 +59,11 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetOrCreateHolder(holderName);
 			var pack = holder.GetPack(packName);
 			if( pack == null ) {
-				var sourcePack = _source.GetPack(packName);
-				if( sourcePack == null ) {
+				pack = _source.LoadPack(packName);
+				if( pack == null ) {
 					Log.ErrorFormat("Could not find pack: {0}", LogTags.Inventory, packName);
 					return;
 				}
-				pack = sourcePack.Clone();
 			}
 			holder.AddToPack(pack, count);
 			_save.SaveChanges();
@@ -104,12 +103,11 @@ namespace UDBase.Controllers.InventorySystem {
 
 		public void AddItem(string holderName, string itemName) {
 			var holder = GetOrCreateHolder(holderName);
-			var sourceItem = _source.GetItem(itemName);
-			if( sourceItem == null ) {
+			var item = _source.LoadItem(itemName);
+			if( item == null ) {
 				Log.ErrorFormat("Could not find item {0}", LogTags.Inventory, itemName); 
 				return;
 			}
-			var item = sourceItem.Clone();
 			holder.AddItem(item);
 			_save.SaveChanges();
 		}
