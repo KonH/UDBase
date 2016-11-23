@@ -31,8 +31,7 @@ namespace UDBase.Controllers.InventorySystem {
 		}
 
 		void Create(List<THolder> defaultHolders) {
-			_node = new InventorySaveNode<TItem, TPack, THolder>();
-			_node.Holders = defaultHolders;
+			_node = new InventorySaveNode<TItem, TPack, THolder>(defaultHolders);
 			Log.MessageFormat("Create default inventory: {0} holders.", LogTags.Inventory,
 				_node.Holders.Count);
 		}

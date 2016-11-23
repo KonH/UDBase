@@ -34,7 +34,7 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder == null ) {
 				holder = new THolder();
-				holder.Name = holderName;
+				holder.Init(holderName);
 				_save.AddHolder(holder);
 			}
 			return holder;

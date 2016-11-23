@@ -7,10 +7,16 @@ namespace UDBase.Controllers.InventorySystem {
 	public class ItemSourceConfigNode<TItem, TPack> : IJsonNode 
 		where TItem:IInventoryItem where TPack:IInventoryPack {
 
-		public string Name { get { return "inventory_source"; } }
+		public string                  Name    { get { return "inventory_source"; } }
+		public List<TItem>             Items   { get { return items;              } }
+		public List<TPack>             Packs   { get { return packs;              } }
+		public List<HolderDescription> Holders { get { return holders;            } }
 
-		public List<TItem>             Items   = new List<TItem>();
-		public List<TPack>             Packs   = new List<TPack>();
-		public List<HolderDescription> Holders = new List<HolderDescription>();
+		[SerializeField]
+		List<TItem>             items   = new List<TItem>();
+		[SerializeField]
+		List<TPack>             packs   = new List<TPack>();
+		[SerializeField]
+		List<HolderDescription> holders = new List<HolderDescription>();
 	}
 }

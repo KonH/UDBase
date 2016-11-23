@@ -64,10 +64,11 @@ namespace UDBase.Controllers.InventorySystem {
 			var descriptions = _node.Holders;
 			var holders = new List<THolder>();
 			for( int i = 0; i < descriptions.Count; i++ ) {
+				var description = descriptions[i];
 				var newHolder = new THolder();
-				newHolder.Name = descriptions[i].name;
-				AddHolderItems(newHolder, descriptions[i].items);
-				AddHolderPacks(newHolder, descriptions[i].packs);
+				newHolder.Init(description.Name);
+				AddHolderItems(newHolder, description.Items);
+				AddHolderPacks(newHolder, description.Packs);
 				holders.Add(newHolder);
 			}
 			return holders;
@@ -86,11 +87,11 @@ namespace UDBase.Controllers.InventorySystem {
 
 		void AddHolderPacks(THolder holder, List<PackDescription> packs) {
 			for( int i = 0; i < packs.Count; i++ ) {
-				var pack = GetPack(packs[i].name);
+				var pack = GetPack(packs[i].Name);
 				if( pack != null ) {
 					var packClone = pack.Clone();
 					packClone.Init();
-					holder.AddToPack(packClone, packs[i].count);
+					holder.AddToPack(packClone, packs[i].Count);
 				}
 			}
 		}

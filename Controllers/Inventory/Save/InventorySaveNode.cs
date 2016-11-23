@@ -12,6 +12,15 @@ namespace UDBase.Controllers.InventorySystem {
 
 		public string Name { get { return "inventory"; } }
 
-		public List<THolder> Holders = new List<THolder>();
+		public List<THolder> Holders { get { return holders;} }
+
+		public InventorySaveNode() {}
+
+		public InventorySaveNode(List<THolder> holders) {
+			this.holders = holders;
+		}
+
+		[SerializeField]
+		List<THolder> holders = new List<THolder>();
 	}
 }

@@ -4,7 +4,13 @@ using System.Collections;
 namespace UDBase.Controllers.InventorySystem {
 	[System.Serializable]
 	public class PackDescription {
-		public string name  = "";
-		public int    count = 0;
+
+		public string Name  { get { return name;  } }
+		public int    Count { get { return count; } }
+
+		[SerializeField]
+		string name  = "";
+		[SerializeField]
+		int    count = 0;
 	}
 }

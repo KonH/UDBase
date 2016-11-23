@@ -6,8 +6,9 @@ namespace UDBase.Controllers.InventorySystem {
 	public interface IItemHolder<TItem, TPack>
 		where TItem:IInventoryItem where TPack:IInventoryPack {
 
-		string Name { get; set; }
+		string Name { get; }
 
+		void        Init          (string name);
 		TPack       GetPack       (string name);
 		List<TPack> GetPacks      ();
 		void        AddToPack     (TPack pack, int count);

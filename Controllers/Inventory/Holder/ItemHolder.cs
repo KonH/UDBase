@@ -7,14 +7,7 @@ namespace UDBase.Controllers.InventorySystem {
 	public class ItemHolder<TItem, TPack>:IItemHolder<TItem, TPack>
 		where TItem:IInventoryItem,new() where TPack:IInventoryPack,new() {
 
-		public string Name {
-			get {
-				return name;
-			}
-			set {
-				name = value;
-			}
-		}
+		public string Name { get { return name; } }
 
 		[SerializeField]
 		string name;
@@ -27,7 +20,7 @@ namespace UDBase.Controllers.InventorySystem {
 
 		public ItemHolder() {}
 
-		public ItemHolder(string name) {
+		public void Init(string name) {
 			this.name = name;
 		}
 
