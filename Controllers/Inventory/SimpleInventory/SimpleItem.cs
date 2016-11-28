@@ -9,10 +9,10 @@ namespace UDBase.Controllers.InventorySystem {
 		public string Type { get { return type; } } 
 
 		[SerializeField]
-		string name;
+		protected string name;
 
 		[SerializeField]
-		string type;
+		protected string type;
 
 		public SimpleItem() {}
 
@@ -21,8 +21,8 @@ namespace UDBase.Controllers.InventorySystem {
 			this.type = type;
 		}
 
-		public void Init() {}
-		public void Load() {}
+		public virtual void Init() {}
+		public virtual void Load() {}
 
 		public SimpleItem Clone() {
 			var clone = new SimpleItem(Name, Type);

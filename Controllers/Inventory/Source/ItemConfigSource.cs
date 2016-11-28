@@ -18,6 +18,12 @@ namespace UDBase.Controllers.InventorySystem {
 				_node.Items   != null ? _node.Items.Count   : -1,
 				_node.Packs   != null ? _node.Packs.Count   : -1,
 				_node.Holders != null ? _node.Holders.Count : -1);
+			if( _node.Items != null ) {
+				for( int i = 0; i < _node.Items.Count; i++ ) {
+					var item = _node.Items[i];
+					item.Init();
+				}
+			}
 		}
 
 		TItem GetItem(string itemName) {
