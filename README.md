@@ -118,6 +118,16 @@ public class DesktopScheme : Scheme {
 }
 ```
 
+Also, you can use shorten syntax for it:
+
+```
+public class DesktopScheme : Scheme {
+	public DesktopScheme() {
+		AddController<Test>(new TestOne());
+	}
+}
+```
+
 In the example above, on this scheme any calls to **Test.MyMethod()** will be redirected to **TestOne** instance.
 
 Now you can switch to your scheme using **Switch** in Schemes window or just appropriate menu item in **UDBase/Schemes/**.
