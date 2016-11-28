@@ -15,6 +15,14 @@ namespace UDBase.Common {
 				_components.Add(components[i], helper);
 			}
 		}
+
+		public void AddController<THelper>(params IController[] components) 
+			where THelper:ControllerHelperBase, new() {
+			var helper = new THelper();
+			for(int i = 0; i < components.Length; i++) {
+				_components.Add(components[i], helper);
+			}
+		}
 			
 		public void Init() {
 			var iter = _components.GetEnumerator();
