@@ -5,18 +5,9 @@ namespace UDBase.Controllers.InventorySystem {
 	[System.Serializable]
 	public class SimplePack : IInventoryPack, IClonableItem<SimplePack> {
 
-		public SimplePack() {}
+		public string Name { get { return name; } }
 
-		public SimplePack(string name, int count = 0) {
-			this.name  = name;
-			this.count = count;
-		}
-
-		public string Name { 
-			get {
-				return name;
-			}		
-		}
+		public string Type { get { return type; } } 
 
 		public int Count {
 			get {
@@ -30,13 +21,23 @@ namespace UDBase.Controllers.InventorySystem {
 		[SerializeField]
 		string name;
 		[SerializeField]
+		string type;
+		[SerializeField]
 		int    count;
 
+		public SimplePack() {}
+
+		public SimplePack(string name, string type, int count = 0) {
+			this.name  = name;
+			this.type  = type;
+			this.count = count;
+		}
+	
 		public void Init() {}
 		public void Load() {}
 
 		public SimplePack Clone() {
-			var clone = new SimplePack(name, count);
+			var clone = new SimplePack(Name, Type, Count);
 			return clone;
 		}
 	}
