@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,8 +9,9 @@ using UDBase.Utils.Json;
 
 namespace UDBase.Controllers.ConfigSystem {
 	public sealed class JsonResourcesConfig : IConfig {
-		string               _fileName  = "";
-		JsonNodeContainer    _container = null;
+		string                   _fileName  = "";
+		JsonNodeContainer        _container = null;
+		Dictionary<Type, string> _names     = new Dictionary<Type, string>();
 
 		public JsonResourcesConfig() {
 			_fileName = UDBaseConfig.JsonConfigName;
@@ -23,8 +25,7 @@ namespace UDBase.Controllers.ConfigSystem {
 			var config = Resources.Load(_fileName) as TextAsset;
 			if( config ) {
 				var configContent = config.text;
-				var configContentSplit = SplitContent(configContent);
-				_container = new JsonNodeContainer(configContentSplit);
+				_container = new JsonNodeContainer(configContent, _names);
 			} else {
 				Debug.LogErrorFormat(
 					"JsonResourcesConfig: Can't read config file from Resources/{0}", 
@@ -34,15 +35,20 @@ namespace UDBase.Controllers.ConfigSystem {
 
 		public void PostInit() {}
 
-		string[] SplitContent(string content) {
-			return content.Split('\n');
+		public JsonResourcesConfig Add<T>(string name) {
+			if( _container == null ) {
+				_names.Add(typeof(T), name);
+			} else {
+				_container.Add<T>(name);
+			}
+			return this;
 		}
 
-		public T GetNode<T>() where T:class, IJsonNode, new() {
+		public T GetNode<T>() {
 			if( _container != null ) {
 				return _container.LoadNode<T>();
 			}
-			return null;
+			return default(T);
 		}
 	}
 }

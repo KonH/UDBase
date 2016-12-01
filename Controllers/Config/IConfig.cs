@@ -6,7 +6,7 @@ using UDBase.Utils.Json;
 
 namespace UDBase.Controllers.ConfigSystem {
 	public interface IConfig : IController {
-
-		T GetNode<T>() where T:class, IJsonNode, new();
+		
+		T GetNode<T>();
 	}
 }
