@@ -11,7 +11,8 @@ public class JsonTests : MonoBehaviour {
 	}
 
 	class ConfigNodeInt:ConfigNode {
-		public int data;
+		[JsonProperty("data")]
+		public int Data { get; private set;}
 	}
 
 	class NodeItem {
@@ -20,6 +21,10 @@ public class JsonTests : MonoBehaviour {
 
 	class ConfigNodeList:ConfigNode {
 		public List<NodeItem> items;
+	}
+
+	class SaveNodeInt {
+		public int item;
 	}
 
 	class BaseItem {
@@ -35,6 +40,8 @@ public class JsonTests : MonoBehaviour {
 	Dictionary<string, JObject> _config;
 	Dictionary<Type, string> _configNames;
 	Dictionary<Type, object> _configCache;
+
+	Dictionary<string, JObject> _save;
 
 	List<JObject> _itemList;
 	List<BaseItem> _itemBases;
@@ -61,21 +68,41 @@ public class JsonTests : MonoBehaviour {
 		// Test
 		Debug.Log("CONFIG:");
 		Debug.Log(_config.Count);
-		Debug.Log(_config["configNode1"].ToObject<ConfigNodeInt>().data);
+		Debug.Log(_config["configNode1"].ToObject<ConfigNodeInt>().Data);
 		Debug.Log(_config["configNode2"].ToObject<ConfigNodeList>().items[0].name);
 
 		// API Example
 		Config_Init();
 		Config_Add<ConfigNodeInt>("configNode1");
 		var myConfigNode = Config_GetNode<ConfigNodeInt>();
-		Debug.Log(myConfigNode.data);
+		Debug.Log(myConfigNode.Data);
 		var myConfigNodeNew = Config_GetNode<ConfigNodeInt>();
-		Debug.Log(myConfigNodeNew.data);
+		Debug.Log(myConfigNodeNew.Data);
 		Debug.Log(myConfigNode == myConfigNodeNew);
+
+	
+		var jsonSave = "{\"saveNode\": { \"item\": 1 } }";
+
+		_save = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(jsonSave);
+
+		// Test
+		Debug.Log("SAVE:");
+		Debug.Log(_save.Count);
+		var saveNode = _save["saveNode"].ToObject<SaveNodeInt>();
+		Debug.Log(saveNode.item);
+		saveNode.item++;
+		Debug.Log(JsonConvert.SerializeObject(_save));
+
+		// API Example
+		Save_Init();
+		var intNode = Save_GetNode<SaveNodeInt>("saveNode");
+		intNode.item = 404;
+		Save_SaveNode(intNode, "saveNode");
 
 		var jsonList = 
 			"[{\"type\":\"weapon\", \"name\": \"firstItem\", \"cost\": \"100\", \"damage\": \"200\"}]";
 		_itemList = JsonConvert.DeserializeObject<List<JObject>>(jsonList);
+
 
 		// Test
 		Debug.Log("ITEMS:");
@@ -109,7 +136,8 @@ public class JsonTests : MonoBehaviour {
 	void Config_Add<T>(string path) {
 		_configNames.Add(typeof(T), path);
 	}
-
+		
+	// Need method with path for multiple instances
 	T Config_GetNode<T>() {
 		var type = typeof(T);
 		if( _configCache.ContainsKey(type) ) {
@@ -120,6 +148,23 @@ public class JsonTests : MonoBehaviour {
 			return obj;
 		}
 	}
+
+	// Like config
+	void Save_Init() {
+	}
+
+	T Save_GetNode<T>(string name) {
+		return _save[name].ToObject<T>();
+	}
+
+	void Save_SaveNode<T>(T node, string name) {
+		var jObj = JObject.FromObject(node);
+		_save[name] = jObj;
+		var fullContent = JsonConvert.SerializeObject(_save);
+		Debug.Log("Updated save: " + fullContent);
+	}
+
+
 
 	void Inv_Init() {
 		_itemBases = new List<BaseItem>();
