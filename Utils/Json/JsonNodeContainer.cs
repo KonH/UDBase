@@ -26,6 +26,15 @@ namespace UDBase.Utils.Json {
 			_names.Add(typeof(T), name);
 		}
 
+		public JObject LoadNode(string name) {
+			JObject value;
+			_nodes.TryGetValue(name, out value);
+			if( value != null ) {
+				return value;
+			}
+			return null;
+		}
+
 		public T LoadNode<T>() {
 			var type = typeof(T);
 			object value;
@@ -40,10 +49,9 @@ namespace UDBase.Utils.Json {
 		}
 
 		public T LoadNode<T>(string name) {
-			JObject value;
-			_nodes.TryGetValue(name, out value);
-			if( value != null ) {
-				return value.ToObject<T>();
+			var node = LoadNode(name);
+			if( node != null ) {
+				return node.ToObject<T>();
 			}
 			return default(T);
 		}
