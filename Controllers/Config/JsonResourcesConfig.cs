@@ -9,9 +9,11 @@ using UDBase.Utils.Json;
 
 namespace UDBase.Controllers.ConfigSystem {
 	public sealed class JsonResourcesConfig : IConfig {
-		string                   _fileName  = "";
-		JsonNodeContainer        _container = null;
-		Dictionary<Type, string> _names     = new Dictionary<Type, string>();
+		string                   _fileName      = "";
+		JsonNodeContainer        _nodeContainer = null;
+		JsonListContainer        _listContainer = null;
+		Dictionary<Type, string> _nodeNames     = new Dictionary<Type, string>();
+		Dictionary<Type, string> _listNames     = new Dictionary<Type, string>();
 
 		public JsonResourcesConfig() {
 			_fileName = UDBaseConfig.JsonConfigName;
@@ -25,7 +27,8 @@ namespace UDBase.Controllers.ConfigSystem {
 			var config = Resources.Load(_fileName) as TextAsset;
 			if( config ) {
 				var configContent = config.text;
-				_container = new JsonNodeContainer(configContent, _names);
+				_nodeContainer = new JsonNodeContainer(configContent, _nodeNames);
+				_listContainer = new JsonListContainer(_nodeContainer, _listNames);
 			} else {
 				Debug.LogErrorFormat(
 					"JsonResourcesConfig: Can't read config file from Resources/{0}", 
@@ -36,17 +39,33 @@ namespace UDBase.Controllers.ConfigSystem {
 		public void PostInit() {}
 
 		public JsonResourcesConfig Add<T>(string name) {
-			if( _container == null ) {
-				_names.Add(typeof(T), name);
+			if( _nodeContainer == null ) {
+				_nodeNames.Add(typeof(T), name);
 			} else {
-				_container.Add<T>(name);
+				_nodeContainer.Add<T>(name);
+			}
+			return this;
+		}
+
+		public JsonResourcesConfig AddList<T>(string name) {
+			if( _listContainer == null ) {
+				_listNames.Add(typeof(T), name);
+			} else {
+				_listContainer.Add<T>(name);
 			}
 			return this;
 		}
 
 		public T GetNode<T>() {
-			if( _container != null ) {
-				return _container.LoadNode<T>();
+			if( _nodeContainer != null ) {
+				return _nodeContainer.LoadNode<T>();
+			}
+			return default(T);
+		}
+
+		public T GetItem<T>(string name) {
+			if( _listContainer != null ) {
+				return _listContainer.LoadItem<T>(name);
 			}
 			return default(T);
 		}
