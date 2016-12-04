@@ -98,7 +98,9 @@ namespace UDBase.Controllers.InventorySystem {
 				JItems = new List<JObject>();
 			}
 			Items.Add(item);
-			JItems.Add(JObject.FromObject(item));
+			var content = JObject.FromObject(item);
+			item.AssignContent(content);
+			JItems.Add(content);
 		}
 
 		public void RemoveItem(InventoryItem item) {
