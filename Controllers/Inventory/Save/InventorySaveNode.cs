@@ -3,24 +3,30 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UDBase.Utils.Json;
+using Newtonsoft.Json;
 
 namespace UDBase.Controllers.InventorySystem {
-	public class InventorySaveNode<TItem, TPack, THolder>:IJsonNode
-		where TItem:IInventoryItem 
-		where TPack:IInventoryPack
-		where THolder:IItemHolder<TItem, TPack> {
+	public class InventorySaveNode {
 
-		public string Name { get { return "inventory"; } }
-
-		public List<THolder> Holders { get { return holders;} }
+		[JsonProperty("holders")]
+		public List<InventoryHolder> Holders { get; private set; }
 
 		public InventorySaveNode() {}
 
-		public InventorySaveNode(List<THolder> holders) {
-			this.holders = holders;
+		public InventorySaveNode(List<InventoryHolder> holders) {
+			Holders = holders;
 		}
 
-		[SerializeField]
-		List<THolder> holders = new List<THolder>();
+		public void Init(Dictionary<string, string> nameToTypes) {
+			for( int i = 0; i < Holders.Count; i++) {
+				Holders[i].Init(nameToTypes);
+			}
+		}
+
+		public void SaveChanges() {
+			for( int i = 0; i < Holders.Count; i++) {
+				Holders[i].SaveChanges();
+			}
+		}
 	}
 }

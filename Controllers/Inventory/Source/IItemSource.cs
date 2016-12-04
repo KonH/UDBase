@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace UDBase.Controllers.InventorySystem {
-	public interface IItemSource<TItem, TPack, THolder> 
-		where TItem:IInventoryItem
-		where TPack:IInventoryPack
-		where THolder:IItemHolder<TItem, TPack> {
+	public interface IItemSource {
 
-		void          Load();
-		TItem         LoadItem(string name);
-		TPack         LoadPack(string name);
-		List<THolder> GetHolders();
+		void                       Load();
+		InventoryItem              GetItem(string name);
+		InventoryPack              GetPack(string name);
+		List<InventoryHolder>      GetHolders();
+		Dictionary<string, string> GetNames();
 	}
 }

@@ -3,14 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace UDBase.Controllers.InventorySystem {
-	public interface IInventorySave<TItem, TPack, THolder>
-		where TItem:IInventoryItem
-		where TPack:IInventoryPack
-		where THolder:IItemHolder<TItem, TPack> {
+	public interface IInventorySave {
 
-		void    Setup(List<THolder> defaultHolders);
-		THolder GetHolder(string name);
-		void    AddHolder(THolder holder);
-		void    SaveChanges();
+		void            Setup(List<InventoryHolder> defaultHolders, Dictionary<string, string> nameToTypes);
+		InventoryHolder GetHolder(string name);
+		void            AddHolder(InventoryHolder holder);
+		void            SaveChanges();
 	}
 }

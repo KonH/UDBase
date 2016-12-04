@@ -5,42 +5,41 @@ using UDBase.Controllers.SaveSystem;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.InventorySystem {
-	public class InventorySaveState<TItem, TPack, THolder> : IInventorySave<TItem, TPack, THolder> 
-		where TItem: IInventoryItem
-		where TPack: IInventoryPack
-		where THolder: IItemHolder<TItem, TPack>,new() {
+	public class InventorySaveState: IInventorySave {
 
-		InventorySaveNode<TItem, TPack, THolder> _node = null;
+		InventorySaveNode _node = null;
 
-		public void Setup(List<THolder> defaultHolders) {
+		public void Setup(List<InventoryHolder> defaultHolders, Dictionary<string, string> nameToTypes) {
 			TryLoad();
 			if( !IsExist() ) {
 				Create(defaultHolders);
 			}
+			_node.Init(nameToTypes);
 			SaveChanges();
 			Log.MessageFormat("Load saved inventory: {0} holders.", LogTags.Inventory, 
 				_node.Holders != null ? _node.Holders.Count : -1);
 		}
 
 		void TryLoad() {
-			_node = Save.GetNode<InventorySaveNode<TItem, TPack, THolder>>();
+			_node = Save.GetNode<InventorySaveNode>();
 		}
 
 		bool IsExist() {
 			return _node != null;
 		}
 
-		void Create(List<THolder> defaultHolders) {
-			_node = new InventorySaveNode<TItem, TPack, THolder>(defaultHolders);
+		void Create(List<InventoryHolder> defaultHolders) {
+			_node = new InventorySaveNode(defaultHolders);
 			Log.MessageFormat("Create default inventory: {0} holders.", LogTags.Inventory,
 				_node.Holders.Count);
 		}
 
 		public void SaveChanges() {
+			_node.SaveChanges();
 			Save.SaveNode(_node);
 		}
 
-		public THolder GetHolder(string name) {
+		public InventoryHolder GetHolder(string name) {
 			var holders = _node.Holders;
 			for( int i = 0; i < holders.Count; i++ ) {
 				var curHolder = holders[i];
@@ -48,10 +47,10 @@ namespace UDBase.Controllers.InventorySystem {
 					return curHolder;
 				}
 			}
-			return default(THolder);
+			return null;
 		}
 
-		public void AddHolder(THolder holder) {
+		public void AddHolder(InventoryHolder holder) {
 			_node.Holders.Add(holder);
 		}
 	}
