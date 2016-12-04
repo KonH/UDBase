@@ -12,5 +12,12 @@ namespace UDBase.Controllers.ConfigSystem {
 			}
 			return default(T);
 		}
+
+		public static T GetItem<T>(string name) {
+			if( Instance != null ) {
+				return Instance.GetItem<T>(name);
+			}
+			return default(T);
+		}
 	}
 }
