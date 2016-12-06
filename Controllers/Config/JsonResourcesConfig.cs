@@ -38,7 +38,7 @@ namespace UDBase.Controllers.ConfigSystem {
 
 		public void PostInit() {}
 
-		public JsonResourcesConfig Add<T>(string name) {
+		public JsonResourcesConfig AddNode<T>(string name) {
 			if( _nodeContainer == null ) {
 				_nodeNames.Add(typeof(T), name);
 			} else {

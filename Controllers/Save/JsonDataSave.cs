@@ -54,7 +54,7 @@ namespace UDBase.Controllers.SaveSystem {
 			}
 		}
 
-		public JsonDataSave Add<T>(string name) {
+		public JsonDataSave AddNode<T>(string name) {
 			if( _container == null ) {
 				_names.Add(typeof(T), name);
 			} else {
