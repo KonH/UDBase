@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class InventoryItem {
 		[JsonIgnore()]
 		public JObject Content { get; private set; }
 		[JsonProperty("name")]
-		public string Name { get; private set; }
+		public string Name     { get; private set; }
 		[JsonIgnore()]
-		public string Type { get; private set; }
+		public string Type     { get; private set; }
 
 		public InventoryItem() {}
 
@@ -31,12 +33,22 @@ namespace UDBase.Controllers.InventorySystem {
 			Content = content;
 		}
 
-		public InventoryItem Clone() {
+		public virtual void Init() {}
+
+		public virtual InventoryItem Clone() {
 			return new InventoryItem(Name, Type);
 		}
 
 		public T As<T>() {
-			return Content.ToObject<T>();
+			try {
+				return Content.ToObject<T>();
+			} catch ( Exception e ) {
+				Log.ErrorFormat(
+					"Item [{0}, {1}] is not {2}, details: {3}", 
+					LogTags.Inventory, 
+					Name, Type, typeof(T).ToString(), e.Message);
+			}
+			return default(T);
 		}
 	}
 }

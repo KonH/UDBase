@@ -7,7 +7,12 @@ using UDBase.Controllers.LogSystem;
 namespace UDBase.Controllers.InventorySystem {
 	public class ItemConfigSource: IItemSource {
 
-		ItemSourceConfigNode _node = null;
+		ItemFactory          _factory = null;
+		ItemSourceConfigNode _node    = null;
+
+		public ItemConfigSource(ItemFactory factory) {
+			_factory = factory;
+		}
 
 		public void Load() {
 			_node = Config.GetNode<ItemSourceConfigNode>();
@@ -28,11 +33,10 @@ namespace UDBase.Controllers.InventorySystem {
 		}
 
 		InventoryItem CreateItem(ItemDescription desc) {
-			// TODO
-			if( desc.Type == "armor_item" ) {
-				return desc.Override(new ArmorState());
-			}
-			return desc.Create();
+			var item = _factory.CreateItem(desc.Type);
+			item = desc.SetupItem(item);
+			item.Init();
+			return item;
 		}
 
 		public InventoryPack GetPack(string packName) {
@@ -50,7 +54,7 @@ namespace UDBase.Controllers.InventorySystem {
 			var holders = new List<InventoryHolder>();
 			for( int i = 0; i < descriptions.Count; i++ ) {
 				var description = descriptions[i];
-				var newHolder = new InventoryHolder(description.Name);
+				var newHolder = new InventoryHolder(_factory, description.Name);
 				AddHolderItems(newHolder, description.Items);
 				AddHolderPacks(newHolder, description.Packs);
 				holders.Add(newHolder);

@@ -7,14 +7,19 @@ using UDBase.Controllers.LogSystem;
 namespace UDBase.Controllers.InventorySystem {
 	public class InventorySaveState: IInventorySave {
 
-		InventorySaveNode _node = null;
+		ItemFactory       _factory = null;
+		InventorySaveNode _node    = null;
+
+		public InventorySaveState(ItemFactory factory) {
+			_factory = factory;
+		}
 
 		public void Setup(List<InventoryHolder> defaultHolders, Dictionary<string, string> nameToTypes) {
 			TryLoad();
 			if( !IsExist() ) {
 				Create(defaultHolders);
 			}
-			_node.Init(nameToTypes);
+			_node.Init(_factory, nameToTypes);
 			SaveChanges();
 			Log.MessageFormat("Load saved inventory: {0} holders.", LogTags.Inventory, 
 				_node.Holders != null ? _node.Holders.Count : -1);

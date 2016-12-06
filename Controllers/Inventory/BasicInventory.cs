@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UDBase.Controllers.LogSystem;
@@ -6,17 +7,29 @@ using UDBase.Controllers.LogSystem;
 namespace UDBase.Controllers.InventorySystem {
 	public class BasicInventory : IInventory {
 	
-		protected IItemSource    _source = null;
-		protected IInventorySave _save   = null;
+		protected IItemSource    _source  = null;
+		protected IInventorySave _save    = null;
+		protected ItemFactory    _factory = null;
 
 		public BasicInventory(
 			IItemSource source, 
-			IInventorySave save) {
-			_source = source;
-			_save   = save;
+			IInventorySave save,
+			ItemFactory factory) {
+			_source  = source;
+			_save    = save;
+			_factory = factory;
 		}
 
-		public BasicInventory():this(new ItemConfigSource(), new InventorySaveState()) {}
+		public BasicInventory() {
+			_factory = new ItemFactory();
+			_source  = new ItemConfigSource(_factory);
+			_save    = new InventorySaveState(_factory);
+		}
+
+		public BasicInventory AddType<T>(string typeName) {
+			_factory.AddType<T>(typeName);
+			return this;
+		}
 
 		public void Init() {}
 
@@ -32,7 +45,7 @@ namespace UDBase.Controllers.InventorySystem {
 		protected InventoryHolder GetOrCreateHolder(string holderName) {
 			var holder = GetHolder(holderName);
 			if( holder == null ) {
-				holder = new InventoryHolder(holderName);
+				holder = new InventoryHolder(_factory, holderName);
 				_save.AddHolder(holder);
 			}
 			return holder;

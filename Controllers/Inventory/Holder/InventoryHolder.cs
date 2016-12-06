@@ -17,18 +17,30 @@ namespace UDBase.Controllers.InventorySystem {
 		[JsonProperty("packs")]
 		public List<InventoryPack> Packs  { get; private set; }
 
+		ItemFactory _factory = null;
+
 		public InventoryHolder() {}
 
-		public InventoryHolder(string name) {
+		public InventoryHolder(ItemFactory factory, string name) {
+			_factory = factory;
 			Name = name;
 		}
 
-		public void Init(Dictionary<string, string> nameToTypes) {
+		public void Init(ItemFactory factory, Dictionary<string, string> nameToTypes) {
+			_factory = factory;
 			Items = new List<InventoryItem>();
 			if( JItems != null ) {
 				for( int i = 0; i < JItems.Count; i++) {
-					var item = JItems[i].ToObject<InventoryItem>();
-					item.SetType(nameToTypes[item.Name]);
+					var baseItem = JItems[i].ToObject<InventoryItem>();
+					var itemTypeName = nameToTypes[baseItem.Name];
+					var itemType = _factory.GetItemType(itemTypeName);
+					InventoryItem item; 
+					if ( itemType != typeof(InventoryItem) ) {
+						item = JItems[i].ToObject(itemType) as InventoryItem;
+					} else {
+						item = baseItem;
+					}
+					item.SetType(itemTypeName);
 					item.AssignContent(JItems[i]);
 					Items.Add(item);
 				}
@@ -98,9 +110,21 @@ namespace UDBase.Controllers.InventorySystem {
 				JItems = new List<JObject>();
 			}
 			Items.Add(item);
-			var content = JObject.FromObject(item);
+			var content = CreateByItem(item);
 			item.AssignContent(content);
 			JItems.Add(content);
+		}
+
+		JObject CreateByItem(InventoryItem item) {
+			JObject content;
+			var itemType = _factory.GetItemType(item.Type);
+			if ( itemType != typeof(InventoryItem) ) {
+				var customItem = Convert.ChangeType(item, itemType);
+				content = JObject.FromObject(customItem);
+			} else {
+				content = JObject.FromObject(item);
+			}
+			return content;
 		}
 
 		public void RemoveItem(InventoryItem item) {
@@ -119,12 +143,7 @@ namespace UDBase.Controllers.InventorySystem {
 		public void SaveChanges() {
 			if( Items != null ) {
 				for( int i = 0; i < Items.Count; i++) {
-					// TODO
-					if( Items[i].Type == "armor_item" ) {
-						JItems[i] = JObject.FromObject(Items[i] as ArmorState);	
-					} else {
-						JItems[i] = JObject.FromObject(Items[i]);
-					}
+					JItems[i] = CreateByItem(Items[i]);
 				}
 			}
 		}

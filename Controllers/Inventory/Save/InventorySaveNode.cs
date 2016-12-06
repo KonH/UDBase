@@ -17,9 +17,9 @@ namespace UDBase.Controllers.InventorySystem {
 			Holders = holders;
 		}
 
-		public void Init(Dictionary<string, string> nameToTypes) {
+		public void Init(ItemFactory factory, Dictionary<string, string> nameToTypes) {
 			for( int i = 0; i < Holders.Count; i++) {
-				Holders[i].Init(nameToTypes);
+				Holders[i].Init(factory, nameToTypes);
 			}
 		}
 

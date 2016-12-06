@@ -10,11 +10,7 @@ namespace UDBase.Controllers.InventorySystem {
 		[JsonProperty("type")]
 		public string    Type { get; private set; }
 
-		public InventoryItem Create() {
-			return new InventoryItem(Name, Type);
-		}
-
-		public InventoryItem Override(InventoryItem item) {
+		public InventoryItem SetupItem(InventoryItem item) {
 			item.SetName(Name);
 			item.SetType(Type);
 			return item;
