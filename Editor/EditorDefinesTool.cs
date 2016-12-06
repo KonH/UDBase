@@ -19,7 +19,6 @@ namespace UDBase.Editor {
 			AddToMap(BuildTargetGroup.Android, BuildTarget.Android);
 			AddToMap(BuildTargetGroup.iOS, BuildTarget.iOS);
 			AddToMap(BuildTargetGroup.N3DS, BuildTarget.N3DS);
-			//AddToMap(BuildTargetGroup.PS3, BuildTarget.PS3);
 			AddToMap(BuildTargetGroup.PS4, BuildTarget.PS4);
 			AddToMap(BuildTargetGroup.PSM, BuildTarget.PSM);
 			AddToMap(BuildTargetGroup.PSP2, BuildTarget.PSP2);
@@ -38,7 +37,6 @@ namespace UDBase.Editor {
 			AddToMap(BuildTargetGroup.WebGL, BuildTarget.WebGL);
 			AddToMap(BuildTargetGroup.WiiU, BuildTarget.WiiU);
 			AddToMap(BuildTargetGroup.WSA, BuildTarget.WSAPlayer);
-			//AddToMap(BuildTargetGroup.XBOX360, BuildTarget.XBOX360);
 			AddToMap(BuildTargetGroup.XboxOne, BuildTarget.XboxOne);
 		}
 
