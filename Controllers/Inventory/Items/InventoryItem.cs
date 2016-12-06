@@ -19,6 +19,10 @@ namespace UDBase.Controllers.InventorySystem {
 			Type = type;
 		}
 
+		public void SetName(string name) {
+			Name = name;
+		}
+
 		public void SetType(string type) {
 			Type = type;
 		}

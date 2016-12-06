@@ -13,5 +13,11 @@ namespace UDBase.Controllers.InventorySystem {
 		public InventoryItem Create() {
 			return new InventoryItem(Name, Type);
 		}
+
+		public InventoryItem Override(InventoryItem item) {
+			item.SetName(Name);
+			item.SetType(Type);
+			return item;
+		}
 	}
 }

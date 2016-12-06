@@ -119,7 +119,12 @@ namespace UDBase.Controllers.InventorySystem {
 		public void SaveChanges() {
 			if( Items != null ) {
 				for( int i = 0; i < Items.Count; i++) {
-					JItems[i] = JObject.FromObject(Items[i]);
+					// TODO
+					if( Items[i].Type == "armor_item" ) {
+						JItems[i] = JObject.FromObject(Items[i] as ArmorState);	
+					} else {
+						JItems[i] = JObject.FromObject(Items[i]);
+					}
 				}
 			}
 		}

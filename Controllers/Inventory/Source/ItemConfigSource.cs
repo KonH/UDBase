@@ -21,10 +21,18 @@ namespace UDBase.Controllers.InventorySystem {
 			var items = _node.Items;
 			for( int i = 0; i < items.Count; i++ ) {
 				if( items[i].Name == itemName ) {
-					return items[i].Create();
+					return CreateItem(items[i]);
 				}
 			}
 			return null;
+		}
+
+		InventoryItem CreateItem(ItemDescription desc) {
+			// TODO
+			if( desc.Type == "armor_item" ) {
+				return desc.Override(new ArmorState());
+			}
+			return desc.Create();
 		}
 
 		public InventoryPack GetPack(string packName) {
