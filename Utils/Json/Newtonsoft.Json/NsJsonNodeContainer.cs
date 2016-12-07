@@ -5,20 +5,20 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace UDBase.Utils.Json {
-	public sealed class JsonNodeContainer {
+namespace UDBase.Utils.Json.NewtonsoftJson {
+	public sealed class NsJsonNodeContainer {
 		Dictionary<string, JObject> _nodes = null;
 		Dictionary<Type, string>    _names = new Dictionary<Type, string>();
 		Dictionary<Type, object>    _cache = new Dictionary<Type, object>();
 
-		public JsonNodeContainer(string content) {
+		public NsJsonNodeContainer(string content) {
 			_nodes = JsonConvert.DeserializeObject<Dictionary<string, JObject>>(content);
 			if( _nodes == null ) {
 				_nodes = new Dictionary<string, JObject>();
 			}
 		}
 
-		public JsonNodeContainer(string content, Dictionary<Type, string> names):this(content) {
+		public NsJsonNodeContainer(string content, Dictionary<Type, string> names):this(content) {
 			_names = names;
 		}
 

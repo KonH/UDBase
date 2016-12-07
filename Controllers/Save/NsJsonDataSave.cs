@@ -6,24 +6,24 @@ using System.Collections.Generic;
 using UDBase.Common;
 using UDBase.Controllers;
 using UDBase.Utils;
-using UDBase.Utils.Json;
+using UDBase.Utils.Json.NewtonsoftJson;
 
 namespace UDBase.Controllers.SaveSystem {
-	public sealed class JsonDataSave:ISave {
+	public sealed class NsJsonDataSave:ISave {
 
 		bool                     _prettyJson = false;
 		string                   _fileName   = "";
 		string                   _filePath   = "";
-		JsonNodeContainer        _container  = null;
+		NsJsonNodeContainer        _container  = null;
 		Dictionary<Type, string> _names      = new Dictionary<Type, string>();
 
-		public JsonDataSave():this(false, UDBaseConfig.JsonSaveName) {}
+		public NsJsonDataSave():this(false, UDBaseConfig.JsonSaveName) {}
 
-		public JsonDataSave(bool prettyJson):this(prettyJson, UDBaseConfig.JsonSaveName) {}
+		public NsJsonDataSave(bool prettyJson):this(prettyJson, UDBaseConfig.JsonSaveName) {}
 
-		public JsonDataSave(string fileName):this(false, UDBaseConfig.JsonSaveName) {}
+		public NsJsonDataSave(string fileName):this(false, UDBaseConfig.JsonSaveName) {}
 
-		public JsonDataSave(bool prettyJson, string fileName) {
+		public NsJsonDataSave(bool prettyJson, string fileName) {
 			_prettyJson = prettyJson;
 			_fileName   = fileName;
 		}
@@ -45,7 +45,7 @@ namespace UDBase.Controllers.SaveSystem {
 			if( _container == null ) {
 				var saveContent = IOTool.ReadAllText(_filePath, true);
 				if( saveContent != null ) {
-					_container = new JsonNodeContainer(saveContent, _names);
+					_container = new NsJsonNodeContainer(saveContent, _names);
 					return true;
 				}
 				return false;
@@ -54,7 +54,7 @@ namespace UDBase.Controllers.SaveSystem {
 			}
 		}
 
-		public JsonDataSave AddNode<T>(string name) {
+		public NsJsonDataSave AddNode<T>(string name) {
 			if( _container == null ) {
 				_names.Add(typeof(T), name);
 			} else {

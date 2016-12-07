@@ -5,20 +5,20 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace UDBase.Utils.Json {
-	public sealed class JsonListContainer {
+namespace UDBase.Utils.Json.NewtonsoftJson {
+	public sealed class NsJsonListContainer {
 
-		JsonNodeContainer        _nodeContainer = null;
+		NsJsonNodeContainer      _nodeContainer = null;
 		Dictionary<Type, string> _names         = new Dictionary<Type, string>();
 
 		Dictionary<string, Dictionary<string, object>> _nodeCache 
 			= new Dictionary<string, Dictionary<string, object>>();
 
-		public JsonListContainer(JsonNodeContainer nodeContainer) {
+		public NsJsonListContainer(NsJsonNodeContainer nodeContainer) {
 			_nodeContainer = nodeContainer;
 		}
 
-		public JsonListContainer(JsonNodeContainer nodeContainer, Dictionary<Type, string> names):
+		public NsJsonListContainer(NsJsonNodeContainer nodeContainer, Dictionary<Type, string> names):
 			this(nodeContainer) {
 			_names = names;
 		}

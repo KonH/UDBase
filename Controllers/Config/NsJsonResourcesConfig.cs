@@ -5,21 +5,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UDBase.Common;
 using UDBase.Controllers;
-using UDBase.Utils.Json;
+using UDBase.Utils.Json.NewtonsoftJson;
 
 namespace UDBase.Controllers.ConfigSystem {
-	public sealed class JsonResourcesConfig : IConfig {
+	public sealed class NsJsonResourcesConfig : IConfig {
 		string                   _fileName      = "";
-		JsonNodeContainer        _nodeContainer = null;
-		JsonListContainer        _listContainer = null;
+		NsJsonNodeContainer      _nodeContainer = null;
+		NsJsonListContainer      _listContainer = null;
 		Dictionary<Type, string> _nodeNames     = new Dictionary<Type, string>();
 		Dictionary<Type, string> _listNames     = new Dictionary<Type, string>();
 
-		public JsonResourcesConfig() {
+		public NsJsonResourcesConfig() {
 			_fileName = UDBaseConfig.JsonConfigName;
 		}
 
-		public JsonResourcesConfig(string fileName) {
+		public NsJsonResourcesConfig(string fileName) {
 			_fileName = fileName;
 		}
 
@@ -27,8 +27,8 @@ namespace UDBase.Controllers.ConfigSystem {
 			var config = Resources.Load(_fileName) as TextAsset;
 			if( config ) {
 				var configContent = config.text;
-				_nodeContainer = new JsonNodeContainer(configContent, _nodeNames);
-				_listContainer = new JsonListContainer(_nodeContainer, _listNames);
+				_nodeContainer = new NsJsonNodeContainer(configContent, _nodeNames);
+				_listContainer = new NsJsonListContainer(_nodeContainer, _listNames);
 			} else {
 				Debug.LogErrorFormat(
 					"JsonResourcesConfig: Can't read config file from Resources/{0}", 
@@ -38,7 +38,7 @@ namespace UDBase.Controllers.ConfigSystem {
 
 		public void PostInit() {}
 
-		public JsonResourcesConfig AddNode<T>(string name) {
+		public NsJsonResourcesConfig AddNode<T>(string name) {
 			if( _nodeContainer == null ) {
 				_nodeNames.Add(typeof(T), name);
 			} else {
@@ -47,7 +47,7 @@ namespace UDBase.Controllers.ConfigSystem {
 			return this;
 		}
 
-		public JsonResourcesConfig AddList<T>(string name) {
+		public NsJsonResourcesConfig AddList<T>(string name) {
 			if( _listContainer == null ) {
 				_listNames.Add(typeof(T), name);
 			} else {
