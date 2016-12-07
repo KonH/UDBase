@@ -27,6 +27,9 @@ namespace UDBase.Editor.Tests {
 		}
 
 		bool IsCorrentTarget(BuildTarget target) {
+			if( target == BuildTarget.NoTarget ) {
+				return false;
+			}
 			var type = typeof(BuildTarget);
 			var memInfo = type.GetMember(target.ToString());
 			var attributes = memInfo[0].GetCustomAttributes(typeof(ObsoleteAttribute),
