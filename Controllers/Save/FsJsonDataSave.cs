@@ -5,17 +5,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UDBase.Common;
 using UDBase.Controllers;
+using UDBase.Controllers.LogSystem;
 using UDBase.Utils;
 using UDBase.Utils.Json.Fullserializer;
 
 namespace UDBase.Controllers.SaveSystem {
 	public sealed class FsJsonDataSave:ISave {
 
-		bool                     _prettyJson = false;
-		string                   _fileName   = "";
-		string                   _filePath   = "";
-		FsJsonNodeContainer      _container  = null;
-		Dictionary<Type, string> _names      = new Dictionary<Type, string>();
+		bool                     _prettyJson  = false;
+		string                   _fileName    = "";
+		string                   _saveContent = "";
+		string                   _filePath    = "";
+		FsJsonNodeContainer      _container   = null;
+		Dictionary<Type, string> _names       = new Dictionary<Type, string>();
 
 		public FsJsonDataSave():this(false, UDBaseConfig.JsonSaveName) {}
 
@@ -39,13 +41,15 @@ namespace UDBase.Controllers.SaveSystem {
 			}
 		}
 
-		public void PostInit() {}
+		public void PostInit() {
+			Log.MessageFormat("Save content: \"{0}\"", LogTags.Save, _saveContent); 
+		}
 
 		bool TryLoadContainer() {
 			if( _container == null ) {
-				var saveContent = IOTool.ReadAllText(_filePath, true);
-				if( saveContent != null ) {
-					_container = new FsJsonNodeContainer(saveContent, _names);
+				_saveContent = IOTool.ReadAllText(_filePath, true);
+				if( _saveContent != null ) {
+					_container = new FsJsonNodeContainer(_saveContent, _names);
 					return true;
 				}
 				return false;
@@ -75,8 +79,9 @@ namespace UDBase.Controllers.SaveSystem {
 			TryLoadContainer();
 			if( _container != null ) {
 				_container.SaveNode(node);
-				var content = _container.GetNodesContent(_prettyJson);
-				IOTool.WriteAllText(_filePath, content);
+				_saveContent = _container.GetNodesContent(_prettyJson);
+				IOTool.WriteAllText(_filePath, _saveContent);
+				Log.MessageFormat("New save content: \"{0}\"", LogTags.Save, _saveContent);
 			}
 		}
 			

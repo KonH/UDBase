@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UDBase.Common;
 using UDBase.Controllers;
 using UDBase.Utils.Json.Fullserializer;
+using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ConfigSystem {
 	public sealed class FsJsonResourcesConfig : IConfig {
@@ -14,6 +15,7 @@ namespace UDBase.Controllers.ConfigSystem {
 		FsJsonListContainer      _listContainer = null;
 		Dictionary<Type, string> _nodeNames     = new Dictionary<Type, string>();
 		Dictionary<Type, string> _listNames     = new Dictionary<Type, string>();
+		string                   _configContent = null;
 
 		public FsJsonResourcesConfig() {
 			_fileName = UDBaseConfig.JsonConfigName;
@@ -26,8 +28,8 @@ namespace UDBase.Controllers.ConfigSystem {
 		public void Init() {
 			var config = Resources.Load(_fileName) as TextAsset;
 			if( config ) {
-				var configContent = config.text;
-				_nodeContainer = new FsJsonNodeContainer(configContent, _nodeNames);
+				_configContent = config.text;
+				_nodeContainer = new FsJsonNodeContainer(_configContent, _nodeNames);
 				_listContainer = new FsJsonListContainer(_nodeContainer, _listNames);
 			} else {
 				Debug.LogErrorFormat(
@@ -36,7 +38,9 @@ namespace UDBase.Controllers.ConfigSystem {
 			}
 		}
 
-		public void PostInit() {}
+		public void PostInit() {
+			Log.MessageFormat("Config content: \"{0}\"", LogTags.Config, _configContent);
+		}
 
 		public FsJsonResourcesConfig AddNode<T>(string name) {
 			if( _nodeContainer == null ) {
