@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Newtonsoft.Json;
+using FullSerializer;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class PackDescription {
-
-		[JsonProperty("name")]
+		
+		[fsProperty("name")]
 		public string Name  { get; private set; }
-		[JsonProperty("count")]
+		[fsProperty("count")]
 		public int    Count { get; private set; }
 
 		public InventoryPack Create() {

@@ -54,7 +54,7 @@ namespace UDBase.Controllers.InventorySystem {
 			var holders = new List<InventoryHolder>();
 			for( int i = 0; i < descriptions.Count; i++ ) {
 				var description = descriptions[i];
-				var newHolder = new InventoryHolder(_factory, description.Name);
+				var newHolder = new InventoryHolder(description.Name);
 				AddHolderItems(newHolder, description.Items);
 				AddHolderPacks(newHolder, description.Packs);
 				holders.Add(newHolder);

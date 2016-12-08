@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Newtonsoft.Json;
+using FullSerializer;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class ItemDescription {
-
-		[JsonProperty("name")]
+		
+		[fsProperty("name")]
 		public string Name    { get; private set; }
-		[JsonProperty("type")]
+		[fsProperty("type")]
 		public string    Type { get; private set; }
 
 		public InventoryItem SetupItem(InventoryItem item) {

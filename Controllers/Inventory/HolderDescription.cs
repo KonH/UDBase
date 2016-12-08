@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using FullSerializer;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class HolderDescription {
-
-		[JsonProperty("name")]
+		
+		[fsProperty("name")]
 		public string                Name  { get; private set; }
-		[JsonProperty("items")]
+		[fsProperty("items")]
 		public List<string>          Items { get; private set; }
-		[JsonProperty("packs")]
+		[fsProperty("packs")]
 		public List<PackDescription> Packs { get; private set; }
 	}
 }

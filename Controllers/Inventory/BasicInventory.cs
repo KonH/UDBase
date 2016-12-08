@@ -23,7 +23,7 @@ namespace UDBase.Controllers.InventorySystem {
 		public BasicInventory() {
 			_factory = new ItemFactory();
 			_source  = new ItemConfigSource(_factory);
-			_save    = new InventorySaveState(_factory);
+			_save    = new InventorySaveState();
 		}
 
 		public BasicInventory AddType<T>(string typeName) {
@@ -45,7 +45,7 @@ namespace UDBase.Controllers.InventorySystem {
 		protected InventoryHolder GetOrCreateHolder(string holderName) {
 			var holder = GetHolder(holderName);
 			if( holder == null ) {
-				holder = new InventoryHolder(_factory, holderName);
+				holder = new InventoryHolder(holderName);
 				_save.AddHolder(holder);
 			}
 			return holder;
@@ -111,6 +111,7 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder != null ) {
 				holder.RemoveFromPack(pack, count);
+				_save.SaveChanges();
 			}
 		}
 
@@ -118,6 +119,7 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder != null ) {
 				holder.ClearPack(pack);
+				_save.SaveChanges();
 			}
 		}
 
@@ -141,7 +143,12 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder != null ) {
 				holder.RemoveItem(item);
+				_save.SaveChanges();
 			}
+		}
+
+		public void SaveChanges() {
+			_save.SaveChanges();
 		}
 	}
 }
