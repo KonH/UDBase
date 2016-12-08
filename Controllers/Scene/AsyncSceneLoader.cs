@@ -43,6 +43,10 @@ namespace UDBase.Controllers.SceneSystem {
 			}
 		}
 
+		public void ReloadScene() {
+			LoadScene(CurrentScene);
+		}
+
 		void TryLoadLoadingScene(ISceneInfo sceneInfo) {
 			var sceneName = GetLoadingSceneName(sceneInfo);
 			if( !string.IsNullOrEmpty(sceneName) ) {

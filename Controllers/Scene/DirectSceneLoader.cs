@@ -21,5 +21,9 @@ namespace UDBase.Controllers.SceneSystem {
 				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
 			}
 		}
+
+		public void ReloadScene() {
+			LoadScene(CurrentScene);
+		}
 	}
 }
