@@ -15,5 +15,6 @@ namespace UDBase.Controllers.InventorySystem {
 		List<InventoryItem> GetHolderItems(string holderName);
 		void                RemoveItem    (string holderName, InventoryItem item);
 		void                SaveChanges   ();
+		void                Load          ();
 	}
 }

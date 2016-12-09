@@ -7,23 +7,27 @@ using UDBase.Controllers.LogSystem;
 namespace UDBase.Controllers.InventorySystem {
 	public class BasicInventory : IInventory {
 	
-		protected IItemSource    _source  = null;
-		protected IInventorySave _save    = null;
-		protected ItemFactory    _factory = null;
+		protected IItemSource    _source   = null;
+		protected IInventorySave _save     = null;
+		protected ItemFactory    _factory  = null;
+		protected bool           _autoSave = false;
 
 		public BasicInventory(
 			IItemSource source, 
 			IInventorySave save,
-			ItemFactory factory) {
-			_source  = source;
-			_save    = save;
-			_factory = factory;
+			ItemFactory factory,
+			bool autoSave) {
+			_source   = source;
+			_save     = save;
+			_factory  = factory;
+			_autoSave = autoSave;
 		}
 
-		public BasicInventory() {
-			_factory = new ItemFactory();
-			_source  = new ItemConfigSource(_factory);
-			_save    = new InventorySaveState();
+		public BasicInventory(bool autoSave = true) {
+			_factory  = new ItemFactory();
+			_source   = new ItemConfigSource(_factory);
+			_save     = new InventorySaveState();
+			_autoSave = autoSave;
 		}
 
 		public BasicInventory AddType<T>(string typeName) {
@@ -35,7 +39,7 @@ namespace UDBase.Controllers.InventorySystem {
 
 		public void PostInit() {
 			_source.Load();
-			_save.Setup(_source.GetHolders(), _source.GetNames());
+			Load();
 		}
 
 		protected InventoryHolder GetHolder(string holderName) {
@@ -77,7 +81,7 @@ namespace UDBase.Controllers.InventorySystem {
 				}
 			}
 			holder.AddToPack(pack, count);
-			_save.SaveChanges();
+			TryToAutoSave();
 		}
 
 		public void AddItem(string holderName, string itemName) {
@@ -88,7 +92,7 @@ namespace UDBase.Controllers.InventorySystem {
 				return;
 			}
 			holder.AddItem(item);
-			_save.SaveChanges();
+			TryToAutoSave();
 		}
 
 		public InventoryPack GetPack(string holderName, string packName) {
@@ -111,7 +115,7 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder != null ) {
 				holder.RemoveFromPack(pack, count);
-				_save.SaveChanges();
+				TryToAutoSave();
 			}
 		}
 
@@ -119,7 +123,7 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder != null ) {
 				holder.ClearPack(pack);
-				_save.SaveChanges();
+				TryToAutoSave();
 			}
 		}
 
@@ -143,12 +147,22 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder != null ) {
 				holder.RemoveItem(item);
+				TryToAutoSave();
+			}
+		}
+
+		protected void TryToAutoSave() {
+			if( _autoSave ) {
 				_save.SaveChanges();
 			}
 		}
 
 		public void SaveChanges() {
 			_save.SaveChanges();
+		}
+
+		public void Load() {
+			_save.Setup(_source.GetHolders(), _source.GetNames());
 		}
 	}
 }

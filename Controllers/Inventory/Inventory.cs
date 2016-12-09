@@ -69,5 +69,11 @@ namespace UDBase.Controllers.InventorySystem {
 				Instance.RemoveItem(holderName, item);
 			}
 		}
+
+		public static void SaveChanges() {
+			if( Instance != null ) {
+				Instance.SaveChanges();
+			}
+		}
 	}
 }
