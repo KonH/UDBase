@@ -45,8 +45,14 @@ namespace UDBase.Controllers.InventorySystem {
 		}
 
 		public static void AddItem(string holderName, string itemName) {
-			for( int i = 0; i < Instances.Count; i++ ) {
-				Instances[i].AddItem(holderName, itemName);
+			if( Instance != null ) {
+				Instance.AddItem(holderName, itemName);
+			}
+		}
+
+		public static void AddItem(string holderName, InventoryItem item) {
+			if( Instance != null ) {
+				Instance.AddItem(holderName, item);
 			}
 		}
 
@@ -73,6 +79,19 @@ namespace UDBase.Controllers.InventorySystem {
 		public static void SaveChanges() {
 			if( Instance != null ) {
 				Instance.SaveChanges();
+			}
+		}
+
+		public static bool CanSend(string fromHolder, string toHolder, InventoryItem item) {
+			if( Instance != null ) {
+				return Instance.CanSend(fromHolder, toHolder, item);
+			}
+			return false;
+		}
+
+		public static void Send(string fromHolder, string toHolder, InventoryItem item) {
+			if( Instance != null ) {
+				Instance.Send(fromHolder, toHolder, item);
 			}
 		}
 	}

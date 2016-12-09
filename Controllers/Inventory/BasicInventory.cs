@@ -7,28 +7,34 @@ using UDBase.Controllers.LogSystem;
 namespace UDBase.Controllers.InventorySystem {
 	public class BasicInventory : IInventory {
 	
-		protected IItemSource    _source   = null;
-		protected IInventorySave _save     = null;
-		protected ItemFactory    _factory  = null;
-		protected bool           _autoSave = false;
+		protected IItemSource       _source   = null;
+		protected IInventorySave    _save     = null;
+		protected ItemFactory       _factory  = null;
+		protected ITransitionHelper _helper   = null;
+		protected bool              _autoSave = false;
 
 		public BasicInventory(
 			IItemSource source, 
 			IInventorySave save,
 			ItemFactory factory,
+			ITransitionHelper helper,
 			bool autoSave) {
 			_source   = source;
 			_save     = save;
 			_factory  = factory;
+			_helper   = helper;
 			_autoSave = autoSave;
 		}
 
-		public BasicInventory(bool autoSave = true) {
+		public BasicInventory(ITransitionHelper helper, bool autoSave = true) {
 			_factory  = new ItemFactory();
 			_source   = new ItemConfigSource(_factory);
 			_save     = new InventorySaveState();
+			_helper   = helper; 
 			_autoSave = autoSave;
 		}
+
+		public BasicInventory(bool autoSave = true):this(new BasicTransitionHelper(), autoSave) {}
 
 		public BasicInventory AddType<T>(string typeName) {
 			_factory.AddType<T>(typeName);
@@ -91,6 +97,12 @@ namespace UDBase.Controllers.InventorySystem {
 				Log.ErrorFormat("Could not find item {0}", LogTags.Inventory, itemName); 
 				return;
 			}
+			holder.AddItem(item);
+			TryToAutoSave();
+		}
+
+		public void AddItem(string holderName, InventoryItem item) {
+			var holder = GetOrCreateHolder(holderName);
 			holder.AddItem(item);
 			TryToAutoSave();
 		}
@@ -163,6 +175,14 @@ namespace UDBase.Controllers.InventorySystem {
 
 		public void Load() {
 			_save.Setup(_source.GetHolders(), _source.GetNames());
+		}
+
+		public bool CanSend(string fromHolder, string toHolder, InventoryItem item) {
+			return _helper.CanSend(fromHolder, toHolder, item);
+		}
+
+		public void Send(string fromHolder, string toHolder, InventoryItem item) {
+			_helper.Send(fromHolder, toHolder, item);
 		}
 	}
 }

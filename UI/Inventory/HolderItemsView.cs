@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	public class HolderItemsView: MonoBehaviour {
-		
-		public ItemView ItemPrefab = null;
-		public string   HolderName = "";
+
+		public HolderItemsView Transition = null;
+		public ItemView        ItemPrefab = null;
+		public string          HolderName = "";
 
 		void Start() {
 			Init();	
@@ -19,7 +20,7 @@ namespace UDBase.Controllers.InventorySystem.UI {
 					var instance = Instantiate(ItemPrefab) as ItemView;
 					instance.transform.SetParent(transform);
 					if( instance ) {
-						instance.Init(items[i]);
+						instance.Init(this, items[i]);
 					}
 				}
 			}
