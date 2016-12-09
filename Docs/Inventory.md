@@ -1,12 +1,12 @@
 # Inventory
 
-**Inventory** is an extendable controller to define your manipulate item structures. You can add your custom items and customize item transitions.   
+**Inventory** is an extendable controller to define your item structures which allows you to change it at runtime. Also, you can add your custom items and customize item transitions.   
 
 ## Basics
 
 Inventory system is based on:
 
-- **InventoryItem** - item state (item name, type and any your custom data)
+- **InventoryItem** - item state (item name, type and any of your custom data)
 - **InventoryPack** - set of identical items (like resources, coins or something like that)
 -  **ItemHolder** - matter that contains items and packs (player, NPC, etc.)
 - Items and packs can be added/removed to/from holders. 
@@ -78,9 +78,9 @@ After application restart your player will have it already.
 
 ## Transitions
 
-**ITransitionHelper** - interface, that define how items can be moved between item holders (send, buy, sell, etc.).
+**ITransitionHelper** - interface that defines how items can be moved between item holders (send, buy, sell, etc.).
 
-Now two helpers is exists:
+Now there are two helpers:
 
 - **BasicTransitionHelper** - any item can be transferred to another item holder without settings;
 - **TradeTransitionHelper** - item can be transferred if another item holder contains enough "resources" to pay for it;
@@ -92,7 +92,7 @@ var transition = new TradeTransitionHelper("money", ItemHelper.GetPriceSelector)
 var inventory = new BasicInventory(transition, autoSave);
 ```
 
-In case of TradeTransitionHelper, "money" is a pack name to store your resources that would be paid for item and ItemHelper.GetPriceSelector - your custom function that return price of specific item. That function may looks like this:
+In case of TradeTransitionHelper, "money" is a pack name to store your resources that would be paid for item and ItemHelper.GetPriceSelector - your custom function that returns price of specific item. That function may look like this:
 
 ```
 public static class ItemHelper {
@@ -113,12 +113,12 @@ public static class ItemHelper {
 
 ## UI
 
-Several components is used now for show and control items:
+Several components are used now for show and control items:
 
 - **ItemPackView** - component that shows pack value for specific holder;
 - **HolderItemsView** - component to create ItemView collection for specific holder and initialize it;
-- **ItemView** - component that show item info;
-- **ItemControl** - component that execute some actions on items, based on ItemView (SendItemControl can be used to send items between holders);
+- **ItemView** - component that shows item info;
+- **ItemControl** - component that executes some actions on items, based on ItemView (SendItemControl can be used to send items between holders);
 
 This components can be simply extended for your purposes.
 
@@ -154,11 +154,11 @@ public class CustomItem:InventoryItem {
 And add it to inventory:
 
 ```
-inventory.AddType<CustomItem>("custom_item");
+inventory.AddType<CustomItem>("custom_type");
 ```
 
 After it, any item with type "custom_type" uses *CustomItem* instance to save its state.
 
-Note that the best way to store persistant item info is **Config** controller. Do not save things like cost, damage and other values that does not changes in item state, it is excessively and you can't change it after save is done fist time. You can store it in list in config and get by item name.
+Note that the best way to store persistant item info is **Config** controller. Do not save things like cost, damage and other values that does not change in item state, it is excessively and you can't change it after save is done fist time. You can store it in list in config and get by item name.
 
 For more examples look at [Example Project](https://github.com/KonH/UDBaseExample).

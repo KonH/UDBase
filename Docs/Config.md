@@ -19,7 +19,7 @@ Simple class for config with one string value:
 	}
 ```
 
-**fsProperty** attribute is not mandatory, its can be used to define property name in file.  
+**fsProperty** attribute is not mandatory, it can be used to define property name in file.  
 
 For use in **Config** controller, you need to add your class type to it and assign node name:
 
@@ -47,7 +47,7 @@ public class ConcreteStateExample : IStateExample {
 }
 ```
 
-For this cases your **config.json** need to look like this:
+For this cases your **config.json** needs to look like this:
 
 ```
 {

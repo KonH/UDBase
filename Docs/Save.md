@@ -27,7 +27,7 @@ Simple class for save with one int value:
 	}
 ```
 
-**fsProperty** attribute is not mandatory, its can be used to define property name in file.  
+**fsProperty** attribute is not mandatory, it can be used to define property name in file.  
 
 For use in **Save** controller, you need to add your class type to it and assign node name:
 
