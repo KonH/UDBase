@@ -1,28 +1,40 @@
 # Save
 
-Using **Save** methods you can load and save runtime specific data (any class inherited from **IJsonNode**). Currently it is used JsonUtility and store file(s) in *Application.persistantDataPath*. Way to use is a simillar with Config controller. 
+Using **Save** methods you can load and save runtime specific data (any custom class). Currently it is used FullSerializer and store file(s) in *Application.persistantDataPath*. Way to use is a simillar with Config controller.
 
 By default, **save.json** file is used, but you can specify custom filename for it with this code in your Scheme constructor:
 
 ```
 /* path - filename with extension */
-AddController(new Save(), new JsonDataSave(path));
+var save = new FsJsonDataSave(path);
+AddController(new Save(), save);
 ```
 
 And also you can change **prettyJson** value, what defines how your json string is saved (small or human-readable):
 
 ```
-AddController(new Save(), new JsonDataSave(prettyJson));
+var save = new FsJsonDataSave(prettyJson);
 /* or */
-AddController(new Save(), new JsonDataSave(prettyJson, path));
+var save = new FsJsonDataSave(prettyJson, path);
 ```
 
 Simple class for save with one int value:
 
-	class ConcreteStateExampleSave:IJsonNode {
-		public string Name { get { return "save_node"; } }
+```
+	class ConcreteStateExampleSave {
+		[fsProperty("int_value")]
 		public int IntValue = 0;
 	}
+```
+
+**fsProperty** attribute is not mandatory, its can be used to define property name in file.  
+
+For use in **Save** controller, you need to add your class type to it and assign node name:
+
+```
+var save = new FsJsonDataSave();
+save.AddNode<ConcreteStateExampleSave>("save_node");
+```
 
 And basic controller to get and modify this data:
 

@@ -138,25 +138,11 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 - **[Config](Docs/Config.md)** (load permanent configuration, json)
 - **[Save](Docs/Save.md)** (load and save user data, json)
 - **[Log](Docs/Log.md)** (custom logging with visual logger)
+- **[Inventory](Docs/Inventory.md)** (extendable inventory system)
 
-## Notes
+## Extensions
+- [Full Serializer](https://github.com/jacobdufault/fullserializer) - JSON serializer, used for default **Config**/**Save** implementation
 
-### Config/Save Json
-
-Configs and saves stored not in pure Json format (because of limitation of Unity's JsonUtility). Format is simple:
-
-```
-header0
-{regular json-body}
-
-header1
-{...}
-
-etc...
-```
-
-Any block must contain header (allows you to get and save block data via code) and body in json format.
-Empty line between blocks is required.
 
 ## Editor Tools
 
