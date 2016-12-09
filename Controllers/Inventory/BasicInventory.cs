@@ -65,7 +65,9 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder != null ) {
 				var pack = holder.GetPack(packName);
-				return pack.Count;
+				if( pack != null ) {
+					return pack.Count;
+				}
 			} 
 			return 0;
 		}
