@@ -49,6 +49,14 @@ namespace UDBase.Common {
 			return GetControllerHelper(controller) != null;
 		}
 
+		public void AddController<THelper>(params IController[] components) 
+			where THelper:ControllerHelperBase, new() {
+			var helper = new THelper();
+			for(int i = 0; i < components.Length; i++) {
+				_components.Add(components[i], helper);
+			}
+		}
+			
 		public void Init() {
 			var iter = _controllers.GetEnumerator();
 			while(iter.MoveNext()) {
@@ -56,6 +64,14 @@ namespace UDBase.Common {
 				controller.Init();
 				var helper = iter.Current.Value;
 				helper.Attach(controller);
+			}
+		}
+
+		public void PostInit() {
+			var iter = _components.GetEnumerator();
+			while(iter.MoveNext()) {
+				var component = iter.Current.Key;
+				component.PostInit();
 			}
 		}
 	}

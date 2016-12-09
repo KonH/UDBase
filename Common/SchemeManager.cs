@@ -16,6 +16,7 @@ namespace UDBase.Common {
 			}
 			CurrentScheme = scheme;
 			scheme.Init();
+			scheme.PostInit();
 		}
 	}
 }

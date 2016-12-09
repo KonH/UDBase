@@ -10,6 +10,8 @@ namespace UDBase.Controllers.SceneSystem {
 
 		public void Init() {}
 
+		public void PostInit() {}
+
 		public void LoadScene(ISceneInfo sceneInfo) {
 			var sceneName = sceneInfo.Name;
 			if( Scene.IsSceneNameValid(sceneName) ) {
@@ -18,6 +20,10 @@ namespace UDBase.Controllers.SceneSystem {
 			} else {
 				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
 			}
+		}
+
+		public void ReloadScene() {
+			LoadScene(CurrentScene);
 		}
 	}
 }

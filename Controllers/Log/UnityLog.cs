@@ -13,6 +13,8 @@ namespace UDBase.Controllers.LogSystem {
 
 		public void Init() {}
 
+		public void PostInit() {}
+
 		public void Message(string msg, LogType type, int tag) {
 			Debug.logger.Log(type, _tagger.GetName(tag), msg);
 		}

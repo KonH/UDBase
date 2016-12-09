@@ -7,8 +7,8 @@ using UDBase.Utils.Json;
 namespace UDBase.Controllers.SaveSystem {
 	public interface ISave : IController {
 		
-		T GetNode<T>() where T:class, IJsonNode, new();
-		void SaveNode<T>(T node) where T:class, IJsonNode, new();
+		T GetNode<T>();
+		void SaveNode<T>(T node);
 		void Clear();
 	}
 }

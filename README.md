@@ -2,7 +2,7 @@
 
 **Current version:** 0.2.0
 
-**Unity version:** 5.4.0f3 (last tested)
+**Unity version:** 5.5.0f3 (last tested)
 
 Repository link: [https://github.com/KonH/UDBase](https://github.com/KonH/UDBase)
 
@@ -114,6 +114,16 @@ Open generated file **UDBase_Project/Schemes/DesktopScheme.cs** and define its b
 public class DesktopScheme : Scheme {
 	public DesktopScheme() {
 		AddController(new Test(), new TestOne());
+	}
+}
+```
+
+Also, you can use shorten syntax for it:
+
+```
+public class DesktopScheme : Scheme {
+	public DesktopScheme() {
+		AddController<Test>(new TestOne());
 	}
 }
 ```

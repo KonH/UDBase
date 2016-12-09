@@ -5,12 +5,19 @@ using UDBase.Utils.Json;
 
 namespace UDBase.Controllers.ConfigSystem {
 	public sealed class Config : ControllerHelper<IConfig> {
-
-		public static T GetNode<T>() where T:class, IJsonNode, new() {
+		
+		public static T GetNode<T>() {
 			if( Instance != null ) {
 				return Instance.GetNode<T>();
 			}
-			return null;
+			return default(T);
+		}
+
+		public static T GetItem<T>(string name) {
+			if( Instance != null ) {
+				return Instance.GetItem<T>(name);
+			}
+			return default(T);
 		}
 	}
 }

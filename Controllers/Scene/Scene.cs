@@ -30,6 +30,12 @@ namespace UDBase.Controllers.SceneSystem {
 			}
 		}
 
+		public static void ReloadScene() {
+			for( int i = 0; i < Instances.Count; i++ ) {
+				Instances[i].ReloadScene();
+			}
+		}
+
 		/*
 		 * SceneType Extensions
 		 */
