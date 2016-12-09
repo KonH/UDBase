@@ -10,6 +10,7 @@ namespace UDBase.Editor.Tests {
 		class SchemeEmptyMock:Scheme {}
 		class EmptyController:IController {
 			public virtual void Init() {}
+			public virtual void PostInit() {}
 		}
 		class EmptyHelper:ControllerHelper<EmptyController> {}
 

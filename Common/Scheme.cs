@@ -53,7 +53,7 @@ namespace UDBase.Common {
 			where THelper:ControllerHelperBase, new() {
 			var helper = new THelper();
 			for(int i = 0; i < components.Length; i++) {
-				_components.Add(components[i], helper);
+				_controllers.Add(components[i], helper);
 			}
 		}
 			
@@ -68,7 +68,7 @@ namespace UDBase.Common {
 		}
 
 		public void PostInit() {
-			var iter = _components.GetEnumerator();
+			var iter = _controllers.GetEnumerator();
 			while(iter.MoveNext()) {
 				var component = iter.Current.Key;
 				component.PostInit();
