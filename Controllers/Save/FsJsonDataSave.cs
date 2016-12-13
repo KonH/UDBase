@@ -78,7 +78,10 @@ namespace UDBase.Controllers.SaveSystem {
 			if( TryLoadContainer() ) {
 				return _container.LoadNode<T>();
 			}
-			Log.ErrorFormat("GetNode: node is not added: {0}!", LogTags.Save, typeof(T));
+			var type = typeof(T);
+			if( !_names.ContainsKey(type) ) {
+				Log.ErrorFormat("GetNode: node is not added: {0}!", LogTags.Save, type);
+			}
 			return default(T);
 		}
 
