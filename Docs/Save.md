@@ -18,6 +18,17 @@ var save = new FsJsonDataSave(prettyJson);
 var save = new FsJsonDataSave(prettyJson, path);
 ```
 
+Optionally you can add meta information to you save file use any *FsJsonDataSave* class contructor:
+
+```
+var save = new FsJsonDataSave(prettyJson, versioning);
+```
+
+And now your save file will contain **"_info"** node which contains:
+
+- **Version** ("ver", long) - how many times this file has been saved 
+- **Time** ("time", long) - local datetime of last save in *FileTime* format 
+
 Simple class for save with one int value:
 
 ```

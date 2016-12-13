@@ -18,19 +18,30 @@ namespace UDBase.Controllers.SaveSystem {
 		string                   _filePath    = "";
 		FsJsonNodeContainer      _container   = null;
 		Dictionary<Type, string> _names       = new Dictionary<Type, string>();
+		bool                     _versioning  = false;
 
-		public FsJsonDataSave():this(false, UDBaseConfig.JsonSaveName) {}
+		public FsJsonDataSave():this(false, UDBaseConfig.JsonSaveName, false) {}
 
-		public FsJsonDataSave(bool prettyJson):this(prettyJson, UDBaseConfig.JsonSaveName) {}
+		public FsJsonDataSave(bool prettyJson):this(prettyJson, UDBaseConfig.JsonSaveName, false) {}
 
-		public FsJsonDataSave(string fileName):this(false, UDBaseConfig.JsonSaveName) {}
+		public FsJsonDataSave(string fileName):this(false, UDBaseConfig.JsonSaveName, false) {}
 
-		public FsJsonDataSave(bool prettyJson, string fileName) {
+		public FsJsonDataSave(bool prettyJson, bool versioning):
+			this(prettyJson, UDBaseConfig.JsonSaveName, versioning) {}
+
+		public FsJsonDataSave(string fileName, bool versioning):
+			this(false, UDBaseConfig.JsonSaveName, versioning) {}
+
+		public FsJsonDataSave(bool prettyJson, string fileName, bool versioning) {
 			_prettyJson = prettyJson;
 			_fileName   = fileName;
+			_versioning = versioning;
 		}
 
 		public void Init() {
+			if( _versioning ) {
+				AddNode<SaveInfoNode>("_info");
+			}
 			_filePath = IOTool.GetPath(Application.persistentDataPath, _fileName);
 			if( !TryLoadContainer() ) {
 				// LogSystem not ready yet
@@ -88,6 +99,14 @@ namespace UDBase.Controllers.SaveSystem {
 		public void SaveNode<T>(T node) {
 			if( TryLoadContainer() ) {
 				if( _container.SaveNode(node) ) {
+					if( _versioning ) {
+						var saveInfo = _container.LoadNode<SaveInfoNode>();
+						if( saveInfo == null ) {
+							saveInfo = new SaveInfoNode();
+						}
+						saveInfo.Update();
+						_container.SaveNode(saveInfo);
+					}
 					_saveContent = _container.GetNodesContent(_prettyJson);
 					IOTool.WriteAllText(_filePath, _saveContent);
 					Log.MessageFormat("New save content: \"{0}\"", LogTags.Save, _saveContent);
