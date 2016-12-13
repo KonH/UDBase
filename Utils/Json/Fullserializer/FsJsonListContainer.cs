@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using FullSerializer;
+using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils.Json.Fullserializer {
 	public sealed class FsJsonListContainer {
@@ -25,7 +26,12 @@ namespace UDBase.Utils.Json.Fullserializer {
 		}
 
 		public void Add<T>(string name) {
-			_names.Add(typeof(T), name);
+			var type = typeof(T);
+			if( !_names.ContainsKey(type) ) {
+				_names.Add(type, name);
+			} else {
+				Log.ErrorFormat("Type already exist: {0}!", LogTags.Json, type);  
+			}
 		}
 
 		public T LoadItem<T>(string nodeName, string itemName) {
@@ -48,6 +54,7 @@ namespace UDBase.Utils.Json.Fullserializer {
 					}
 				}
 			}
+			Log.ErrorFormat("ListContainer.LoadItem: Can't find node: {0}!", LogTags.Json, typeof(T));
 			return default(T);
 		}
 

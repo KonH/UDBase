@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using FullSerializer;
+using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils.Json.Fullserializer {
 	public sealed class FsJsonNodeContainer {
@@ -27,7 +28,12 @@ namespace UDBase.Utils.Json.Fullserializer {
 		}
 
 		public void Add<T>(string name) {
-			_names.Add(typeof(T), name);
+			var type = typeof(T);
+			if( !_names.ContainsKey(type) ) {
+				_names.Add(type, name);
+			} else {
+				Log.ErrorFormat("Type already exist: {0}!", LogTags.Json, type);  
+			}
 		}
 
 		public fsData LoadNode(string name) {
@@ -47,6 +53,8 @@ namespace UDBase.Utils.Json.Fullserializer {
 				if( _names.TryGetValue(type, out key) ) {
 					value = LoadNode<T>(key);
 					_cache.Add(type, value);
+				} else {
+					Log.ErrorFormat("NodeContainer.LoadNode: Can't find node: {0}!", LogTags.Json, type);
 				}
 			}
 			return (T)value;
@@ -62,9 +70,14 @@ namespace UDBase.Utils.Json.Fullserializer {
 			return default(T);
 		}
 
-		public void SaveNode<T>(T node) {
+		public bool SaveNode<T>(T node) {
 			var type = typeof(T);
-			SaveNode(node, _names[type]);
+			string name;
+			if( _names.TryGetValue(type, out name) ) { 
+				SaveNode(node, name);
+				return true;
+			}
+			return false;
 		}
 
 		public void SaveNode<T>(T node, string name) {

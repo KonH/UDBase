@@ -33,7 +33,8 @@ namespace UDBase.Controllers.SaveSystem {
 		public void Init() {
 			_filePath = IOTool.GetPath(Application.persistentDataPath, _fileName);
 			if( !TryLoadContainer() ) {
-				Debug.LogWarningFormat(
+				// LogSystem not ready yet
+				Debug.LogFormat(
 					"JsonDataSave: Can't read save file from {0}, re-create it.", 
 					_fileName);
 				IOTool.CreateFile(_filePath);
@@ -52,15 +53,21 @@ namespace UDBase.Controllers.SaveSystem {
 					_container = new FsJsonNodeContainer(_saveContent, _names);
 					return true;
 				}
+
 				return false;
-			} else {
-				return true;
 			}
+			return true;
 		}
 
 		public FsJsonDataSave AddNode<T>(string name) {
 			if( _container == null ) {
-				_names.Add(typeof(T), name);
+				var type = typeof(T);
+				if( !_names.ContainsKey(type) ) {
+					_names.Add(type, name);
+				} else {
+					// LogSystem not ready yet
+					Debug.LogErrorFormat("FsJsonDataSave: node already added: {0}!", type);
+				}
 			} else {
 				_container.Add<T>(name);
 			}
@@ -68,20 +75,24 @@ namespace UDBase.Controllers.SaveSystem {
 		}
 
 		public T GetNode<T>() {
-			TryLoadContainer();
-			if( _container != null ) {
+			if( TryLoadContainer() ) {
 				return _container.LoadNode<T>();
 			}
+			Log.ErrorFormat("GetNode: node is not added: {0}!", LogTags.Save, typeof(T));
 			return default(T);
 		}
 
 		public void SaveNode<T>(T node) {
-			TryLoadContainer();
-			if( _container != null ) {
-				_container.SaveNode(node);
-				_saveContent = _container.GetNodesContent(_prettyJson);
-				IOTool.WriteAllText(_filePath, _saveContent);
-				Log.MessageFormat("New save content: \"{0}\"", LogTags.Save, _saveContent);
+			if( TryLoadContainer() ) {
+				if( _container.SaveNode(node) ) {
+					_saveContent = _container.GetNodesContent(_prettyJson);
+					IOTool.WriteAllText(_filePath, _saveContent);
+					Log.MessageFormat("New save content: \"{0}\"", LogTags.Save, _saveContent);
+				} else {
+					Log.ErrorFormat("SaveNode: node is not added: {0}!", LogTags.Save, typeof(T));
+				}
+			} else {
+				Log.Error("SaveNode: could not load container!", LogTags.Save);
 			}
 		}
 			

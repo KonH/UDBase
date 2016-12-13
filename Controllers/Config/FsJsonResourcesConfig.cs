@@ -32,6 +32,7 @@ namespace UDBase.Controllers.ConfigSystem {
 				_nodeContainer = new FsJsonNodeContainer(_configContent, _nodeNames);
 				_listContainer = new FsJsonListContainer(_nodeContainer, _listNames);
 			} else {
+				// LogSystem not ready yet
 				Debug.LogErrorFormat(
 					"JsonResourcesConfig: Can't read config file from Resources/{0}", 
 					_fileName);
@@ -44,7 +45,13 @@ namespace UDBase.Controllers.ConfigSystem {
 
 		public FsJsonResourcesConfig AddNode<T>(string name) {
 			if( _nodeContainer == null ) {
-				_nodeNames.Add(typeof(T), name);
+				var type = typeof(T);
+				if( !_nodeNames.ContainsKey(type) ) {
+					_nodeNames.Add(type, name);
+				} else {
+					// LogSystem not ready yet
+					Debug.LogErrorFormat("Config: node already added: {0}!", type);
+				}
 			} else {
 				_nodeContainer.Add<T>(name);
 			}
@@ -53,7 +60,13 @@ namespace UDBase.Controllers.ConfigSystem {
 
 		public FsJsonResourcesConfig AddList<T>(string name) {
 			if( _listContainer == null ) {
-				_listNames.Add(typeof(T), name);
+				var type = typeof(T);
+				if( !_listNames.ContainsKey(type) ) {
+					_listNames.Add(type, name);
+				} else {
+					// LogSystem not ready yet
+					Debug.LogErrorFormat("Config: list node already added: {0}!", type);
+				}
 			} else {
 				_listContainer.Add<T>(name);
 			}
