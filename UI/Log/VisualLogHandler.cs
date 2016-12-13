@@ -102,10 +102,6 @@ namespace UDBase.Controllers.LogSystem.UI {
 		StringBuilder             _sb         = new StringBuilder(10000);
 		LoggerState               _state      = null;
 		string                    _formatStr  = "<color=\"{0}\">[{1}] {2}: {3}\n</color>";
-			
-
-		// TODO: Setup scroll in text area (later)
-		// TODO: Save state in PlayerPrefs or State (later)
 
 		public void Init(string[] tags, ButtonPosition openButtonPos) {
 			Clear(true);
@@ -194,7 +190,13 @@ namespace UDBase.Controllers.LogSystem.UI {
 		}
 
 		bool IsTagRequired(string tag) {
-			return _tagStates[tag];
+			bool state;
+			if( _tagStates.TryGetValue(tag, out state) ) {
+				return state;
+			} else {
+				Debug.LogErrorFormat("Unknown tag: {0}!", tag); 
+				return true;
+			}
 		}
 
 		bool IsTypeRequired(LogType type) {

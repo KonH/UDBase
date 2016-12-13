@@ -9,29 +9,27 @@ namespace UDBase.Controllers.LogSystem {
 		public const int Inventory = 4;
 		public const int Config    = 5;
 		public const int Save      = 6;
+		public const int Json      = 7;
 
-		string[] _names = new string[]{
+		protected string[] _defaultNames = new string[]{
+			"Untagged",
 			"Common", 
 			"UI", 
 			"Scene", 
 			"Inventory", 
 			"Config",
-		    "Save"};
+		    "Save",
+			"Json"};
 
 		public virtual string GetName(int index) {
-			switch( index ) {
-				case Common    : return "Common";
-				case UI        : return "UI";
-				case Scene     : return "Scene";
-				case Inventory : return "Inventory";
-				case Config    : return "Config";
-				case Save      : return "Save";
+			if( (index >= 0) && (index < _defaultNames.Length) ) {
+				return _defaultNames[index];
 			}
-			return "Unknown";
+			return "?";
 		}
 
 		public virtual string[] GetNames() {
-			return _names;
+			return _defaultNames;
 		}
 	}
 }
