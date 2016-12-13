@@ -40,6 +40,9 @@ namespace UDBase.Controllers {
 
 		protected static TController Instance { get; private set; }
 
+		public static bool IsActive() {
+			return Instance != null;
+		}
 
 		public override void Attach(IController handler) {
 			var newHanlder = (TController)handler;
