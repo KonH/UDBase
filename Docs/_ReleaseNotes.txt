@@ -1,3 +1,6 @@
+v.0.3.0
+- RandomUtils basics
+
 v.0.2.0
 - New controller: Inventory;
 - FullSerializer replaced UnityJsonUtility for Config/Save controllers;
