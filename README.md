@@ -1,6 +1,6 @@
 # UDBase 
 
-**Current version:** 0.2.0
+**Current version:** 0.3.0
 
 **Unity version:** 5.5.0f3 (last tested)
 
@@ -98,6 +98,9 @@ public class Test : ControllerHelper<ITest> {
 }
 ```
 
+Instance check is strongly recommended if you want to create architecture which supports simple component disabling/removing.
+
+The same you can use method **IsActive()** on your helper (like *Test.IsActive()*) to check if any controllers is attached to your helper.  
 
 ### Schemes
 Using schemes you can easily switch controllers or disable it. It based on scripting define symbols and doesn't cause runtime overhead.
