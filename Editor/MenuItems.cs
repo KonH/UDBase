@@ -85,5 +85,10 @@ namespace UDBase.Editor {
 		public static void MakeScreenshotX8() {
 			CaptureScreen.Make(8);
 		}
+
+		[MenuItem("UDBase/Events/Debug Window")]
+		public static void ShowEventWindow() {
+			EventWindow.GetWindow<EventWindow>("Events", true);
+		}
 	}
 }

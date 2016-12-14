@@ -23,5 +23,9 @@ namespace UDBase.Controllers.EventSystem {
 				Instance.Unsubscribe<T>(callback);
 			}
 		}
+
+		public static IEvent GetInstance() {
+			return Instance;
+		}
 	}
 }

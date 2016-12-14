@@ -7,7 +7,8 @@ using UDBase.Controllers.LogSystem;
 namespace UDBase.Controllers.EventSystem {
 	public class EventController : IEvent {
 
-		Dictionary<Type, EventHandlerBase> _handlers = new Dictionary<Type, EventHandlerBase>();
+		Dictionary<Type, EventHandlerBase> _handlers    = new Dictionary<Type, EventHandlerBase>();
+		Dictionary<Type, List<object>>     _tmpHandlers = new Dictionary<Type, List<object>>();
 
 		public void Init() {}
 
@@ -52,6 +53,16 @@ namespace UDBase.Controllers.EventSystem {
 				handler.Unsubscribe(action);
 			}
 			Log.MessageFormat("Unsubscribe: {0}", LogTags.Event, typeof(T));
+		}
+	
+		public Dictionary<Type, List<object>> GetHandlers() {
+			_tmpHandlers.Clear();
+			var handlerIter = _handlers.GetEnumerator();
+			while( handlerIter.MoveNext() ) {
+				var current = handlerIter.Current;
+				_tmpHandlers.Add(current.Key, current.Value.Handlers);
+			}
+			return _tmpHandlers;
 		}
 	}
 }
