@@ -230,7 +230,7 @@ namespace UDBase.Controllers.LogSystem.UI {
 		}
 
 		void ApplyMessage(string msg, LogType type, string tag, bool addNow) {
-			if( IsTagRequired(tag) && IsTypeRequired(type)) {
+			if( Text && IsTagRequired(tag) && IsTypeRequired(type)) {
 				var color = GetColor(type);
 				if( addNow ) {
 					Text.text += string.Format(_formatStr, color, tag, type, msg);

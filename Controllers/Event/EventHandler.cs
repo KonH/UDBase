@@ -27,10 +27,22 @@ namespace UDBase.Controllers.EventSystem {
 		}
 
 		public void Fire(T arg) {
+			CheckHandlers();
 			CollectCallbacks();
 			for( int i = 0; i < _tempCallbacks.Count; i++ ) {
 				var currentCallback = _tempCallbacks[i];
 				currentCallback.Invoke(arg);
+			}
+		}
+
+		void CheckHandlers() {
+			for( int i = 0; i < _handlers.Count; i++) {
+				var curHandler = _handlers[i];
+				var monoHandler = curHandler as MonoBehaviour;
+				if( !monoHandler ) {
+					Unsubscribe(i);
+					i--;
+				}
 			}
 		}
 
