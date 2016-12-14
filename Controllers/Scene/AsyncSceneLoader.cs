@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UDBase.Controllers.LogSystem;
+using UDBase.Controllers.EventSystem;
 using UDBase.Utils;
 
 namespace UDBase.Controllers.SceneSystem {
@@ -38,6 +39,7 @@ namespace UDBase.Controllers.SceneSystem {
 				TryLoadLoadingScene(sceneInfo); 
 				_helper.LoadScene(sceneName);
 				CurrentScene = sceneInfo;
+				Events.Fire<Scene_Loaded>(new Scene_Loaded(sceneInfo));
 			} else {
 				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
 			}
