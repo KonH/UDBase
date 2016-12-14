@@ -1,4 +1,5 @@
 v.0.3.0
+- Events: basic EventController, Events window;
 - ControllerHelper: IsActive() method;
 - Save: optional versioning;
 - Config, Save, VisualLog, Json containers: error handling

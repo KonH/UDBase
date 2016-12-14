@@ -141,6 +141,7 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 - **[Config](Docs/Config.md)** (load permanent configuration, json)
 - **[Save](Docs/Save.md)** (load and save user data, json)
 - **[Log](Docs/Log.md)** (custom logging with visual logger)
+- **[Event](Docs/Event.md)** (lightweight event manager)
 - **[Inventory](Docs/Inventory.md)** (extendable inventory system)
 
 ## Extensions
