@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UDBase.Controllers.EventSystem;
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	[RequireComponent(typeof(Text))]
@@ -11,12 +12,30 @@ namespace UDBase.Controllers.InventorySystem.UI {
 
 		Text _text = null;
 
+		void OnEnable() {
+			Events.Subscribe<Inv_PackChanged>(this, OnPackChanged);
+		}
+
+		void OnDisable() {
+			Events.Unsubscribe<Inv_PackChanged>(OnPackChanged);
+		}
+
+		void OnPackChanged(Inv_PackChanged e) {
+			if( (e.HolderName == HolderName) && (e.PackName == PackName) ) {
+				UpdateText();
+			}
+		}
+
 		void Start() {
 			Init();
+			UpdateText();
 		}
 
 		void Init() {
 			_text = GetComponent<Text>();
+		}
+
+		void UpdateText() {
 			_text.text = GetLine();
 		}
 

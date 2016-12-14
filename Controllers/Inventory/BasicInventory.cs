@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UDBase.Controllers.LogSystem;
+using UDBase.Controllers.EventSystem;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class BasicInventory : IInventory {
@@ -89,6 +90,10 @@ namespace UDBase.Controllers.InventorySystem {
 				}
 			}
 			holder.AddToPack(pack, count);
+
+			Events.Fire<Inv_PackChanged>(new Inv_PackChanged(holderName, packName));
+			Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+
 			TryToAutoSave();
 		}
 
@@ -100,12 +105,20 @@ namespace UDBase.Controllers.InventorySystem {
 				return;
 			}
 			holder.AddItem(item);
+
+			Events.Fire<Inv_ItemAdded>(new Inv_ItemAdded(holderName, item));
+			Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+
 			TryToAutoSave();
 		}
 
 		public void AddItem(string holderName, InventoryItem item) {
 			var holder = GetOrCreateHolder(holderName);
 			holder.AddItem(item);
+
+			Events.Fire<Inv_ItemAdded>(new Inv_ItemAdded(holderName, item));
+			Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+
 			TryToAutoSave();
 		}
 
@@ -129,6 +142,10 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder != null ) {
 				holder.RemoveFromPack(pack, count);
+
+				Events.Fire<Inv_PackChanged>(new Inv_PackChanged(holderName, pack.Name));
+				Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+
 				TryToAutoSave();
 			}
 		}
@@ -137,6 +154,10 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder != null ) {
 				holder.ClearPack(pack);
+
+				Events.Fire<Inv_PackChanged>(new Inv_PackChanged(holderName, pack.Name));
+				Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+
 				TryToAutoSave();
 			}
 		}
@@ -161,6 +182,9 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetHolder(holderName);
 			if( holder != null ) {
 				holder.RemoveItem(item);
+
+				Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+
 				TryToAutoSave();
 			}
 		}

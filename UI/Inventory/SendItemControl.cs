@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UDBase.Controllers.SceneSystem;
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	public class SendItemControl : ItemControl {
@@ -29,8 +28,6 @@ namespace UDBase.Controllers.InventorySystem.UI {
 
 		void SendItem() {
 			Inventory.Send(_fromHolder, _toHolder, _item);
-			// Temp
-			Scene.ReloadScene();
 		}
 	}
 }

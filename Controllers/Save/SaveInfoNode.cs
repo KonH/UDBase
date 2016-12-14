@@ -17,7 +17,6 @@ namespace UDBase.Controllers.SaveSystem {
 		public void Update() {
 			Version++;
 			LocalTime = DateTime.Now.ToFileTime();
-			Debug.Log(long.MaxValue);
 		}
 	}
 }

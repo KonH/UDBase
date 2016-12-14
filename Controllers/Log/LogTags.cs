@@ -10,6 +10,7 @@ namespace UDBase.Controllers.LogSystem {
 		public const int Config    = 5;
 		public const int Save      = 6;
 		public const int Json      = 7;
+		public const int Event     = 8;
 
 		protected string[] _defaultNames = new string[]{
 			"Untagged",
@@ -19,7 +20,8 @@ namespace UDBase.Controllers.LogSystem {
 			"Inventory", 
 			"Config",
 		    "Save",
-			"Json"};
+			"Json",
+			"Event"};
 
 		public virtual string GetName(int index) {
 			if( (index >= 0) && (index < _defaultNames.Length) ) {
