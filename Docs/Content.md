@@ -1,0 +1,1 @@
+For Asset Bundle support is used Unity's open source extension [AssetBundleManager](https://bitbucket.org/Unity-Technologies/assetbundledemo) with [custom modifications](https://bitbucket.org/KonH/assetbundledemo).
