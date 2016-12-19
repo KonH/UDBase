@@ -1,9 +1,12 @@
+v.0.4.0
+- ObjectPool script added;
+
 v.0.3.0
 - Events: basic EventController, Events window;
 - ControllerHelper: IsActive() method;
 - Save: optional versioning;
-- Config, Save, VisualLog, Json containers: error handling
-- RandomUtils basics
+- Config, Save, VisualLog, Json containers: error handling;
+- RandomUtils basics;
 
 v.0.2.0
 - New controller: Inventory;
