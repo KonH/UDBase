@@ -26,7 +26,7 @@ namespace UDBase.Controllers.InventorySystem.UI {
 			}
 		}
 
-		protected void Start() {
+		protected virtual void Start() {
 			Setup();
 		}
 
