@@ -43,5 +43,12 @@ namespace UDBase.Editor {
 			EditorUtility.FocusProjectWindow();
 			Selection.activeObject = asset;
 		}
+
+		public static void RemoveSubAsset<T>(T subasset) where T:ScriptableObject {
+			string path = AssetDatabase.GetAssetPath(subasset);
+			AssetDatabase.DeleteAsset(path);
+			ScriptableObject.DestroyImmediate(subasset);
+			SaveAssets();
+		}
 	}
 }
