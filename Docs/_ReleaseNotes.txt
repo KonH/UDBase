@@ -1,4 +1,5 @@
 v.0.4.0
+- Editor: AssetUtility;
 - ObjectPool script added;
 
 v.0.3.0

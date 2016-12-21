@@ -156,6 +156,10 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 
 Using menu items at **UDBase/Screenshots** you can make screenshots (with upscaling resolution) and manage directory to save these screenshots (you can clean or open it).
 
+### AssetUtility
+
+Helper methods to create **ScriptableObject** assets in project, create and remove sub-assets.
+
 ## Examples
 Example project - [https://github.com/KonH/UDBaseExample](https://github.com/KonH/UDBaseExample)
 
