@@ -22,10 +22,14 @@ namespace UDBase.Editor {
 			return asset;
 		}
 
-		public static T AddSubAsset<T>(ScriptableObject parent) where T:ScriptableObject {
+		public static T AddSubAsset<T>(ScriptableObject parent, bool select) where T:ScriptableObject {
 			T asset = ScriptableObject.CreateInstance<T>();
 			AssetDatabase.AddObjectToAsset(asset, parent);
-			SaveAndFocusAsset(asset);
+			if( select ) {
+				SaveAndFocusAsset(asset);
+			} else {
+				SaveAssets();
+			}
 			return asset;
 		}
 
@@ -45,9 +49,7 @@ namespace UDBase.Editor {
 		}
 
 		public static void RemoveSubAsset<T>(T subasset) where T:ScriptableObject {
-			string path = AssetDatabase.GetAssetPath(subasset);
-			AssetDatabase.DeleteAsset(path);
-			ScriptableObject.DestroyImmediate(subasset);
+			ScriptableObject.DestroyImmediate(subasset, true);
 			SaveAssets();
 		}
 	}
