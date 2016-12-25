@@ -6,12 +6,17 @@ using UnityEngine;
 namespace UDBase.Controllers.InventorySystem {
 	public class TradeTransitionHelper : ITransitionHelper {
 
-		protected string                   _packName      = null;
-		protected Func<InventoryItem, int> _priceSelector = null;
+		protected string                   _packName          = null;
+		protected Func<InventoryItem, int> _itemPriceSelector = null;
+		protected Func<InventoryPack, int> _packPriceSelector = null;
 
-		public TradeTransitionHelper(string packName, Func<InventoryItem, int> priceSelector) {
-			_packName      = packName;
-			_priceSelector = priceSelector;
+		public TradeTransitionHelper(
+			string packName, 
+			Func<InventoryItem, int> itemPriceSelector,
+			Func<InventoryPack, int> packPriceSelector = null) {
+			_packName          = packName;
+			_itemPriceSelector = itemPriceSelector;
+			_packPriceSelector = packPriceSelector;
 		}
 
 		protected bool IsEnought(int price, string holderName) {
@@ -19,8 +24,8 @@ namespace UDBase.Controllers.InventorySystem {
 			return total >= price;
 		}
 
-		public bool CanSend(string fromHolder, string toHolder, InventoryItem item) {
-			var price = _priceSelector.Invoke(item);
+		public virtual bool CanSend(string fromHolder, string toHolder, InventoryItem item) {
+			var price = _itemPriceSelector.Invoke(item);
 			return IsEnought(price, toHolder);
 		}
 
@@ -33,12 +38,28 @@ namespace UDBase.Controllers.InventorySystem {
 			}
 		}
 
-		public void Send(string fromHolder, string toHolder, InventoryItem item) {
-			var price = _priceSelector.Invoke(item);
+		public virtual void Send(string fromHolder, string toHolder, InventoryItem item) {
+			var price = _itemPriceSelector.Invoke(item);
 			ChangePackValue(fromHolder, price, true);
 			ChangePackValue(toHolder, price, false);
 			Inventory.RemoveItem(fromHolder, item);
 			Inventory.AddItem(toHolder, item);
+		}
+
+		public virtual bool CanSend(string fromHolder, string toHolder, InventoryPack pack, int count) {
+			var price = _packPriceSelector.Invoke(pack);
+			var totalPrice = price * count;
+			return IsEnought(totalPrice, toHolder);
+		}
+
+		public virtual void Send(string fromHolder, string toHolder, InventoryPack pack, int count) {
+			var price = _packPriceSelector.Invoke(pack);
+			var totalPrice = price * count;
+			ChangePackValue(fromHolder, totalPrice, true);
+			ChangePackValue(toHolder, totalPrice, false);
+			var packName = pack.Name;
+			Inventory.RemoveFromPack(fromHolder, pack, count);
+			Inventory.AddToPack(toHolder, packName, count);
 		}
 	}
 }

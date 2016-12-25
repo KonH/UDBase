@@ -94,5 +94,18 @@ namespace UDBase.Controllers.InventorySystem {
 				Instance.Send(fromHolder, toHolder, item);
 			}
 		}
+
+		public static bool CanSend(string fromHolder, string toHolder, InventoryPack pack, int count) {
+			if( Instance != null ) {
+				return Instance.CanSend(fromHolder, toHolder, pack, count);
+			}
+			return false;
+		}
+
+		public static void Send(string fromHolder, string toHolder, InventoryPack pack, int count) {
+			if( Instance != null ) {
+				Instance.Send(fromHolder, toHolder, pack, count);
+			}
+		}
 	}
 }

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace UDBase.Controllers.InventorySystem.UI {
-	public abstract class ItemView: MonoBehaviour {
+	public class ItemView: MonoBehaviour {
 		public Text              NameText = null;
 		public List<ItemControl> Controls = new List<ItemControl>();
 

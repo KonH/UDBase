@@ -210,5 +210,13 @@ namespace UDBase.Controllers.InventorySystem {
 		public void Send(string fromHolder, string toHolder, InventoryItem item) {
 			_helper.Send(fromHolder, toHolder, item);
 		}
+
+		public bool CanSend(string fromHolder, string toHolder, InventoryPack pack, int count) {
+			return _helper.CanSend(fromHolder, toHolder, pack, count);
+		}
+
+		public void Send(string fromHolder, string toHolder, InventoryPack pack, int count) {
+			_helper.Send(fromHolder, toHolder, pack, count);
+		}
 	}
 }
