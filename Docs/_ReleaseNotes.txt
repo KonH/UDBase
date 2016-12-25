@@ -1,4 +1,7 @@
 v.0.4.0
+- Inventory: you can use ItemView directly, if you need item name only;
+- Inventory: now pack transitions using TransitionHelper is available;
+- Inventory: UI components to show packs as item list and control pack transitions;
 - Editor: AssetUtility;
 - ObjectPool script added;
 

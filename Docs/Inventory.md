@@ -78,17 +78,17 @@ After application restart your player will have it already.
 
 ## Transitions
 
-**ITransitionHelper** - interface that defines how items can be moved between item holders (send, buy, sell, etc.).
+**ITransitionHelper** - interface that defines how items or pakcs  can be moved between item holders (send, buy, sell, etc.).
 
 Now there are two helpers:
 
-- **BasicTransitionHelper** - any item can be transferred to another item holder without settings;
-- **TradeTransitionHelper** - item can be transferred if another item holder contains enough "resources" to pay for it;
+- **BasicTransitionHelper** - any item/pack can be transferred to another item holder without settings;
+- **TradeTransitionHelper** - item/pack can be transferred if another item holder contains enough "resources" to pay for it;
 
 You can use this versions or create your own implementation and assign it to **BasicInventory** controller:
 
 ```
-var transition = new TradeTransitionHelper("money", ItemHelper.GetPriceSelector);
+var transition = new TradeTransitionHelper("money", ItemHelper.GetItemPriceSelector, ItemHelper.GetPackPriceSelector);
 var inventory = new BasicInventory(transition, autoSave);
 ```
 
@@ -96,7 +96,7 @@ In case of TradeTransitionHelper, "money" is a pack name to store your resources
 
 ```
 public static class ItemHelper {
-	public static int GetPriceSelector(InventoryItem item) {
+	public static int GetItemPriceSelector(InventoryItem item) {
 		return GetItemPrice(item.Type, item.Name);
 	}
 
@@ -105,6 +105,17 @@ public static class ItemHelper {
 			case "trash": return 5;
 			case "gold": return 1000;
 			case "silver": return 500;
+		}
+		return 0;
+	}
+
+	public static int GetPackPriceSelector(InventoryPack pack) {
+		return GetPackPrice(pack.Name);
+	}
+
+	statcic int GetPackPrice(string name) {
+		switch( name ) {
+			case "mypack": return 100; // Returns one item price
 		}
 		return 0;
 	}
@@ -119,6 +130,9 @@ Several components are used now for show and control items:
 - **HolderItemsView** - component to create ItemView collection for specific holder and initialize it;
 - **ItemView** - component that shows item info;
 - **ItemControl** - component that executes some actions on items, based on ItemView (SendItemControl can be used to send items between holders);
+- **HolderPacksView** - component to create PackView collection for specific holder and initialize it, also you can ignore some packs to prevent show it (for example, if this pack already shown using ItemPackView);
+- **PackView** - compontent that shows pack info;
+- **PackControl** - component that executes some actions on packs, based on PackView (SendPackCOntrol can be used to send packs between holders one by one);
 
 This components can be simply extended for your purposes.
 
@@ -158,6 +172,8 @@ inventory.AddType<CustomItem>("custom_type");
 ```
 
 After it, any item with type "custom_type" uses *CustomItem* instance to save its state.
+
+You can add custom state for items only, not for packs.
 
 Note that the best way to store persistant item info is **Config** controller. Do not save things like cost, damage and other values that does not change in item state, it is excessively and you can't change it after save is done fist time. You can store it in list in config and get by item name.
 
