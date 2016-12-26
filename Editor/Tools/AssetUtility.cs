@@ -7,7 +7,7 @@ using System.IO;
 namespace UDBase.Editor {
 	public static class AssetUtility {
 
-		public static T CreateAsset<T>() where T : ScriptableObject {
+		public static T CreateAsset<T>(bool focus = true) where T : ScriptableObject {
 			T asset = ScriptableObject.CreateInstance<T>();
 			string path = AssetDatabase.GetAssetPath (Selection.activeObject);
 			if ( path == "" ) {
@@ -18,24 +18,22 @@ namespace UDBase.Editor {
 			string assetPathAndName = path + "/" + typeof(T).ToString() + ".asset";
 			assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(assetPathAndName);
 			AssetDatabase.CreateAsset(asset, assetPathAndName);
-			SaveAndFocusAsset(asset);
+			SaveAndFocusAsset(asset, focus);
 			return asset;
 		}
 
-		public static T AddSubAsset<T>(ScriptableObject parent, bool select) where T:ScriptableObject {
+		public static T AddSubAsset<T>(ScriptableObject parent, bool focus = true) where T:ScriptableObject {
 			T asset = ScriptableObject.CreateInstance<T>();
 			AssetDatabase.AddObjectToAsset(asset, parent);
-			if( select ) {
-				SaveAndFocusAsset(asset);
-			} else {
-				SaveAssets();
-			}
+			SaveAndFocusAsset(asset, focus);
 			return asset;
 		}
 
-		public static void SaveAndFocusAsset<T>(T asset) where T:ScriptableObject {
+		public static void SaveAndFocusAsset<T>(T asset, bool focus = true) where T:ScriptableObject {
 			SaveAssets();
-			FocusAsset(asset);
+			if( focus) {
+				FocusAsset(asset);
+			}
 		}
 
 		public static void SaveAssets() {
