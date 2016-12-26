@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UDBase.Common;
 using UDBase.Controllers;
 
-namespace UDBase.Editor.Tests {
+namespace UDBase.Tests {
 	public class SchemeTest {
 
 		class SchemeEmptyMock:Scheme {}

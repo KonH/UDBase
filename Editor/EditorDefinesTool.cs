@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UDBase.Common;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	
 	// Tool to change current "Scheme_" defines with keeping third-party defines 
 	public class EditorDefinesTool {

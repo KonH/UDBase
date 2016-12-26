@@ -3,9 +3,9 @@ using UnityEditor;
 using System;
 using System.Reflection;
 using NUnit.Framework;
-using UDBase.Editor;
+using UDBase.EditorTools;
 
-namespace UDBase.Editor.Tests {
+namespace UDBase.Tests {
 	public class EditorDefinesToolTest {
 
 		[Test]

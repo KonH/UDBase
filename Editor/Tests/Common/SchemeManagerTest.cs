@@ -3,7 +3,7 @@ using UnityEditor;
 using NUnit.Framework;
 using UDBase.Common;
 
-namespace UDBase.Editor.Tests {
+namespace UDBase.Tests {
 	public class SchemeManagerTest {
 
 		class SchemeMock:Scheme {}

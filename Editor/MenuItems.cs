@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using UDBase;
 using UDBase.Controllers.SaveSystem;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	public static class MenuItems {
 		
 		[MenuItem("UDBase/Schemes/Edit", false, -99)]
@@ -89,6 +90,11 @@ namespace UDBase.Editor {
 		[MenuItem("UDBase/Events/Debug Window")]
 		public static void ShowEventWindow() {
 			EventWindow.GetWindow<EventWindow>("Events", true);
+		}
+
+		[MenuItem("UDBase/Content/Add New Config")] 
+		public static void AddNewContentConfig() {
+			ContentEditor.CreateContentConfig();
 		}
 	}
 }

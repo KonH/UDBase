@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	public static class AssetUtility {
 
 		public static T CreateAsset<T>(bool focus = true) where T : ScriptableObject {

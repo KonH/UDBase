@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using UDBase.Controllers.EventSystem;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	public class EventWindow : EditorWindow {
 
 		bool                           _ready     = false;

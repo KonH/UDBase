@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Collections;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	public static class ScriptableObjectMaker {
 		
 		public static void CreateAsset<T> (string path, string name) where T : ScriptableObject

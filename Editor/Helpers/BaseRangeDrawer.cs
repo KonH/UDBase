@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.Collections;
 
-namespace Editors {
+namespace UDBase.Helpers {
 	public class BaseRangeDrawer {
 		float valuesOffset = 2.5f;
 

@@ -2,7 +2,7 @@
 using System.Collections;
 using UDBase.Utils;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	public static class InfoEditor {
 
 		static string RepositoryLink   = "https://github.com/KonH/UDBase";

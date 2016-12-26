@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System.IO;
 using UDBase.Common;
 
-namespace UDBase.Editor.Tests {
+namespace UDBase.Tests {
 	public class ConfigCheckTest {
 
 		[Test]
