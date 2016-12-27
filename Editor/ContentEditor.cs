@@ -39,6 +39,8 @@ namespace UDBase.EditorTools {
 					ProcessAsset(cache, currentItem, cacheItem);
 					ProcessLoadType(config, currentItem, cacheItem);
 					UpdateAsset(config, currentItem, cacheItem);
+					ShowAssetProperties(currentItem, cacheItem);
+					UpdateAssetProperties(config, currentItem, cacheItem);
 
 					if( GUILayout.Button("Remove") ) {
 						RemoveContentId(config, cache, currentItem);
@@ -113,15 +115,61 @@ namespace UDBase.EditorTools {
 			if( item.LoadType == ContentLoadType.Direct ) {
 				wantedObject = desc.Asset;
 			}
-			if( item.ContentObject != wantedObject ) {
-				item.ContentObject = wantedObject;
+			if( item.Asset != wantedObject ) {
+				item.Asset = wantedObject;
 				Save(config);
+			}
+		}
+
+		void ShowAssetProperties(ContentId item, ContentDescription desc) {
+			if( item.LoadType != ContentLoadType.AssetBundle ) {
+				return;
+			}
+			var info = "";
+			var hasAssetBundle = false;
+			var hasAsset = false;
+			if( desc.Asset ) {
+				hasAsset = true;
+				var itemBundle = item.BundleName;
+				var itemName = item.AssetName;
+				if( !string.IsNullOrEmpty(itemBundle) ) {
+					hasAssetBundle = false;
+					info = string.Format("{0}/{1}", itemBundle, itemName);
+				} else {
+					info = "AssetBundle is not set!";
+				}
+			} else {
+				info = "No Asset!";
+			}
+			GUILayout.Label(info);
+			if( hasAsset && !hasAssetBundle ) {
+				if( GUILayout.Button("Fix") ) {
+					Selection.activeObject = desc.Asset;
+				}
+			}
+		}
+
+		void UpdateAssetProperties(ContentConfig config, ContentId item, ContentDescription desc) {
+			if( item.LoadType != ContentLoadType.AssetBundle ) {
+				return;
+			}
+			if( desc.Asset ) {
+				var path = AssetDatabase.GetAssetPath(desc.Asset);
+				var assetImporter = AssetImporter.GetAtPath(path);
+				var assetName = desc.Asset.name;
+				var bundleName = assetImporter.assetBundleName;
+				if( (item.AssetName != assetName) || (item.BundleName != bundleName) ) {
+					item.AssetName = assetName;
+					item.BundleName = bundleName;
+					Save(config);
+				}
 			}
 		}
 
 		void AddNewContentId(ContentConfig config, ContentConfigCache cache) {
 			var item = CreateContentId(config);
 			item.name = "Item" + config.Items.Count;
+			item.LoadType = ContentLoadType.Direct;
 			config.Add(item);
 			cache.Add(item);
 			Save(config, cache);
