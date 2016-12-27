@@ -159,7 +159,7 @@ namespace AssetBundles
         private static string GetStreamingAssetsPath()
         {
             if (Application.isEditor)
-                return "file://" +  System.Environment.CurrentDirectory.Replace("\\", "/"); // Use the build output folder directly.
+				return "file://" +  System.Environment.CurrentDirectory.Replace("\\", "/") + "/Assets/StreamingAssets";
             else if (Application.isWebPlayer)
                 return System.IO.Path.GetDirectoryName(Application.absoluteURL).Replace("\\", "/") + "/StreamingAssets";
             else if (Application.isMobilePlatform || Application.isConsolePlatform)
@@ -198,24 +198,14 @@ namespace AssetBundles
         /// <summary>
         /// Sets base downloading URL to a local development server URL.
         /// </summary>
-        public static void SetDevelopmentAssetBundleServer()
+		public static void SetDevelopmentAssetBundleServer(string url)
         {
 #if UNITY_EDITOR
             // If we're in Editor simulation mode, we don't have to setup a download URL
             if (SimulateAssetBundleInEditor)
                 return;
 #endif
-
-            TextAsset urlFile = Resources.Load("AssetBundleServerURL") as TextAsset;
-            string url = (urlFile != null) ? urlFile.text.Trim() : null;
-            if (url == null || url.Length == 0)
-            {
-                Log(LogType.Error, "Development Server URL could not be found.");
-            }
-            else
-            {
-                AssetBundleManager.SetSourceAssetBundleURL(url);
-            }
+			AssetBundleManager.SetSourceAssetBundleURL(url);
         }
 
         /// <summary>
@@ -266,7 +256,7 @@ namespace AssetBundles
         /// Initializes asset bundle namager and starts download of manifest asset bundle.
         /// Returns the manifest asset bundle downolad operation object.
         /// </summary>
-        static public AssetBundleLoadManifestOperation Initialize()
+		static public AssetBundleLoadManifestOperation Initialize()
         {
             return Initialize(Utility.GetPlatformName());
         }
@@ -275,15 +265,11 @@ namespace AssetBundles
         /// Initializes asset bundle namager and starts download of manifest asset bundle.
         /// Returns the manifest asset bundle downolad operation object.
         /// </summary>
-        static public AssetBundleLoadManifestOperation Initialize(string manifestAssetBundleName)
+		static public AssetBundleLoadManifestOperation Initialize(string manifestAssetBundleName)
         {
 #if UNITY_EDITOR
             Log(LogType.Info, "Simulation Mode: " + (SimulateAssetBundleInEditor ? "Enabled" : "Disabled"));
 #endif
-
-            var go = new GameObject("AssetBundleManager", typeof(AssetBundleManager));
-            DontDestroyOnLoad(go);
-
 #if UNITY_EDITOR
             // If we're in Editor simulation mode, we don't need the manifest assetBundle.
             if (SimulateAssetBundleInEditor)
