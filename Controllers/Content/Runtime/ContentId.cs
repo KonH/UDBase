@@ -6,6 +6,8 @@ namespace UDBase.Controllers.ContentSystem {
 	public class ContentId : ScriptableObject {
 
 		public ContentLoadType LoadType;
-		public Object ContentObject;
+		public Object          Asset;
+		public string          BundleName;
+		public string          AssetName;
 	}
 }

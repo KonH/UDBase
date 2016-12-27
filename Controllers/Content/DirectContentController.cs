@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UDBase.Common;
@@ -10,8 +11,14 @@ namespace UDBase.Controllers.ContentSystem {
 		public void Init() {}
 		public void PostInit() {}
 
-		public T Load<T>(ContentId id) where T:Object {
-			return id.ContentObject as T;
+		public bool LoadAsync<T>(ContentId id, Action<T> callback) where T:UnityEngine.Object {
+			if( !id || id.LoadType != ContentLoadType.Direct ) {
+				return false;
+			}
+			if( callback != null ) {
+				callback(id.Asset as T);
+			}
+			return true;
 		}
 	}
 }

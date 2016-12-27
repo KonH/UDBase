@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,12 +15,18 @@ namespace UDBase.Controllers.ContentSystem {
 			}
 		}
 
-		public T Load<T>() where T:Object {
-			return Content.Load<T>(Id);
+		public bool LoadAsync<T>(Action<T> callback) where T:UnityEngine.Object {
+			return Content.LoadAsync<T>(Id, callback);
 		}
 
-		public T Instantiate<T>() where T:Object {
-			return Instantiate(Load<T>());
+		public bool Instantiate<T>() where T:UnityEngine.Object {
+			return LoadAsync<T>(InstantiateCallback);
+		}
+
+		void InstantiateCallback<T>(T obj) where T:UnityEngine.Object {
+			if( obj ) {
+				Instantiate(obj, transform, false);
+			}
 		}
 	}
 }
