@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections;
 using UDBase;
 using UDBase.Controllers.SaveSystem;
+using UDBase.Controllers.ContentSystem;
 
 namespace UDBase.EditorTools {
 	public static class MenuItems {
@@ -95,6 +96,16 @@ namespace UDBase.EditorTools {
 		[MenuItem("UDBase/Content/Add New Config")] 
 		public static void AddNewContentConfig() {
 			ContentEditor.CreateContentConfig();
+		}
+
+		[MenuItem("UDBase/Content/Set type for all/Direct")]
+		public static void SetContentTypeForAllConfigs_Direct() {
+			ContentEditor.SetContentTypeForAll(ContentLoadType.Direct);
+		}
+
+		[MenuItem("UDBase/Content/Set type for all/AssetBundle")]
+		public static void SetContentTypeForAllConfigs_AssetBundle() {
+			ContentEditor.SetContentTypeForAll(ContentLoadType.AssetBundle);
 		}
 	}
 }

@@ -86,13 +86,13 @@ namespace UDBase.EditorTools {
 			}
 		}
 
-		ContentConfigCache GetCacheFor(ContentConfig config) {
+		static ContentConfigCache GetCacheFor(ContentConfig config) {
 			var configPath = AssetDatabase.GetAssetPath(config);
 			return GetCacheFor(configPath);
 
 		}
 
-		ContentConfigCache GetCacheFor(string configPath) {
+		static ContentConfigCache GetCacheFor(string configPath) {
 			var cachePath = configPath.Replace(AssetExtension, CacheSuffix + AssetExtension);
 			var cache = AssetDatabase.LoadAssetAtPath<ContentConfigCache>(cachePath);
 			return cache;
@@ -136,7 +136,7 @@ namespace UDBase.EditorTools {
 			}
 		}
 
-		void UpdateAsset(ContentConfig config, ContentId item, ContentDescription desc) {
+		static void UpdateAsset(ContentConfig config, ContentId item, ContentDescription desc) {
 			Object wantedObject = null;
 			if( item.LoadType == ContentLoadType.Direct ) {
 				wantedObject = desc.Asset;
@@ -257,15 +257,15 @@ namespace UDBase.EditorTools {
 			return AssetUtility.AddSubAsset<ContentId>(config, false);
 		}
 
-		void Save(ContentConfig config) {
+		static void Save(ContentConfig config) {
 			Save(config, null);
 		}
 
-		void Save(ContentConfigCache cache) {
+		static void Save(ContentConfigCache cache) {
 			Save(null, cache);
 		}
 
-		void Save(ContentConfig config, ContentConfigCache cache) {
+		static void Save(ContentConfig config, ContentConfigCache cache) {
 			if( config ) { 
 				EditorUtility.SetDirty(config);
 			}
@@ -293,6 +293,30 @@ namespace UDBase.EditorTools {
 			var newCacheName = configNameShort + CacheSuffix;
 			AssetDatabase.RenameAsset(oldCacheName, newCacheName);
 			Save();
+		}
+
+		public static void SetContentTypeForAll(ContentLoadType type) {
+			var guids = AssetDatabase.FindAssets("t:ContentConfig");
+			for( int i = 0; i < guids.Length; i++ ) {
+				var path = AssetDatabase.GUIDToAssetPath(guids[i]);
+				var asset = AssetDatabase.LoadAssetAtPath<ContentConfig>(path);
+				SetLoadTypeForAll(asset, type);
+				Debug.LogFormat("Load type for '{0}' changed to '{1}'", path, type);
+			}
+		}
+
+		static void SetLoadTypeForAll(ContentConfig config, ContentLoadType type) {
+			var cache = GetCacheFor(config);
+			if( cache ) {
+				for( int i = 0; i < config.Items.Count; i++ ) {
+					var item = config.Items[i];
+					var cacheItem = cache.Items[i];
+					item.LoadType = type;
+					UpdateAsset(config, item, cacheItem);
+				}
+			} else {
+				Debug.LogError("Can't find cache file!");
+			}
 		}
 	}
 }
