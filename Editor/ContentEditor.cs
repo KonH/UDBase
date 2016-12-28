@@ -30,6 +30,7 @@ namespace UDBase.EditorTools {
 				AddNewContentId(config, cache);
 				return;
 			}
+			ProcessAllToggle(config);
 			for( int i = 0; i < config.Items.Count; i++ ) {
 				GUILayout.BeginHorizontal();
 				var currentItem = config.Items[i];
@@ -55,6 +56,19 @@ namespace UDBase.EditorTools {
 			ProcessSelection(config, cache);
 			GUILayout.EndHorizontal();
 			GUILayout.EndVertical();
+		}
+
+		void ProcessAllToggle(ContentConfig config) {
+			while(_selection.Count < config.Items.Count) {
+				_selection.Add(false);
+			}
+			var curValue = IsAllSelection();
+			var newValue = GUILayout.Toggle(curValue, "");
+			if( newValue != curValue ) {
+				for( int i = 0; i < _selection.Count; i++ ) {
+					_selection[i] = newValue;
+				}
+			}
 		}
 
 		void CheckRename(ContentConfig config) {
@@ -176,6 +190,15 @@ namespace UDBase.EditorTools {
 					Save(config);
 				}
 			}
+		}
+
+		bool IsAllSelection() {
+			for( int i = 0; i < _selection.Count; i++) {
+				if( !_selection[i] ) {
+					return false;
+				}
+			}
+			return true;
 		}
 
 		bool HasAnySelection() {
