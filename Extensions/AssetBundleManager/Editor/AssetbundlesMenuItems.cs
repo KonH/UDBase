@@ -32,5 +32,11 @@ namespace AssetBundles
         {
             BuildScript.BuildPlayer();
         }
+
+		[MenuItem ("Assets/AssetBundles/Clear Cache")]
+		static public void ClearCache ()
+		{
+			Caching.CleanCache();
+		}
     }
 }
