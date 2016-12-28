@@ -13,7 +13,8 @@ namespace UDBase.EditorTools {
 		const string AssetExtension = ".asset";
 
 
-		string _prevConfigPath = null;
+		string     _prevConfigPath = null;
+		List<bool> _selection      = new List<bool>();
 
 		public override void OnInspectorGUI() {
 			DrawDefaultInspector();
@@ -35,6 +36,7 @@ namespace UDBase.EditorTools {
 				if ( currentItem ) {
 					var cacheItem = cache.GetOrCreate(currentItem);
 
+					UpdateSelection(i);
 					ProcessName(config, currentItem);
 					ProcessAsset(cache, currentItem, cacheItem);
 					ProcessLoadType(config, currentItem, cacheItem);
@@ -49,6 +51,9 @@ namespace UDBase.EditorTools {
 				}
 				GUILayout.EndHorizontal();
 			}
+			GUILayout.BeginHorizontal();
+			ProcessSelection(config, cache);
+			GUILayout.EndHorizontal();
 			GUILayout.EndVertical();
 		}
 
@@ -77,6 +82,13 @@ namespace UDBase.EditorTools {
 			var cachePath = configPath.Replace(AssetExtension, CacheSuffix + AssetExtension);
 			var cache = AssetDatabase.LoadAssetAtPath<ContentConfigCache>(cachePath);
 			return cache;
+		}
+
+		void UpdateSelection(int index) {
+			while( index >= _selection.Count ) {
+				_selection.Add(false);
+			}
+			_selection[index] = GUILayout.Toggle(_selection[index],"");
 		}
 
 		void ProcessName(ContentConfig config, ContentId item) {
@@ -133,7 +145,7 @@ namespace UDBase.EditorTools {
 				var itemBundle = item.BundleName;
 				var itemName = item.AssetName;
 				if( !string.IsNullOrEmpty(itemBundle) ) {
-					hasAssetBundle = false;
+					hasAssetBundle = true;
 					info = string.Format("{0}/{1}", itemBundle, itemName);
 				} else {
 					info = "AssetBundle is not set!";
@@ -164,6 +176,43 @@ namespace UDBase.EditorTools {
 					Save(config);
 				}
 			}
+		}
+
+		bool HasAnySelection() {
+			for( int i = 0; i < _selection.Count; i++) {
+				if( _selection[i] ) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		void ProcessSelection(ContentConfig config, ContentConfigCache cache) {
+			if( HasAnySelection() ) {
+				GUILayout.Label("For selection:");
+				if( GUILayout.Button("None") ) {
+					SetLoadTypeForSelection(config, cache, ContentLoadType.None);
+				}
+				if( GUILayout.Button("Direct") ) {
+					SetLoadTypeForSelection(config, cache, ContentLoadType.Direct);
+				}
+				if( GUILayout.Button("AssetBundle") ) {
+					SetLoadTypeForSelection(config, cache, ContentLoadType.AssetBundle);
+				}
+			}
+		}
+
+		void SetLoadTypeForSelection(ContentConfig config, ContentConfigCache cache, ContentLoadType type) {
+			for( int i = 0; i < config.Items.Count; i++ ) {
+				var selected = _selection[i];
+				if( selected ) {
+					var item = config.Items[i];
+					var cacheItem = cache.Items[i];
+					item.LoadType = type;
+					UpdateAsset(config, item, cacheItem);
+				}
+			}
+			Save(config, cache);
 		}
 
 		void AddNewContentId(ContentConfig config, ContentConfigCache cache) {
