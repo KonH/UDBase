@@ -1,4 +1,5 @@
 v.0.4.0
+- Content: ContentSystem for local and AssetBundles asset loading added;
 - Inventory: you can use ItemView directly, if you need item name only;
 - Inventory: now pack transitions using TransitionHelper is available;
 - Inventory: UI components to show packs as item list and control pack transitions;
