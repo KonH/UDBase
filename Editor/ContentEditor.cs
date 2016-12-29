@@ -39,7 +39,7 @@ namespace UDBase.EditorTools {
 
 					UpdateSelection(i);
 					ProcessName(config, currentItem);
-					ProcessAsset(cache, currentItem, cacheItem);
+					ProcessAsset(config, cache, currentItem, cacheItem);
 					ProcessLoadType(config, currentItem, cacheItem);
 					UpdateAsset(config, currentItem, cacheItem);
 					ShowAssetProperties(currentItem, cacheItem);
@@ -109,13 +109,13 @@ namespace UDBase.EditorTools {
 			var prevName = item.name;
 			var newName = GUILayout.TextField(prevName);
 			if( newName != prevName) {
-				item.name = newName;
-				Save(config);
+				RenameContentId(config, item, newName);
 			}
 		}
 
 
-		void ProcessAsset(ContentConfigCache cache, ContentId contentId, ContentDescription desc) {
+		void ProcessAsset(
+			ContentConfig config, ContentConfigCache cache, ContentId contentId, ContentDescription desc) {
 			if( contentId.LoadType == ContentLoadType.None ) {
 				return;
 			}
@@ -123,8 +123,16 @@ namespace UDBase.EditorTools {
 			var newObj = EditorGUILayout.ObjectField(prevObj, prevObj ? prevObj.GetType() : typeof(Object), false);
 			if( newObj != prevObj) {
 				desc.Asset = newObj;
+				if( !prevObj && newObj) {
+					RenameContentId(config, contentId, desc.Asset.name);
+				}
 				Save(cache);
 			}
+		}
+
+		void RenameContentId(ContentConfig config, ContentId contentId, string name) {
+			contentId.name = name;
+			Save(config);
 		}
 
 		void ProcessLoadType(ContentConfig config, ContentId item, ContentDescription desc) {
