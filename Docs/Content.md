@@ -28,7 +28,7 @@ AddController<Content>(new AssetBundleContentController(AssetBundleMode.WebServe
 
 ```
 
-Next, you need to create ContentConfig using **UDBase/Content/Add New Config** menu item, assign your assets and set their loading type. If you want to use AssetBundles, you need to assign asset bundle name for your assets in Inspector. You can use any UnityEndine.Object using ContentSystem - GameObjects, AudioClips and so on.
+Next, you need to create ContentConfig using **UDBase/Content/Add New Config** menu item, assign your assets and set their loading type. If you want to use AssetBundles, you need to assign asset bundle name for your assets in Inspector. You can use any UnityEngine.Object using ContentSystem - GameObjects, AudioClips and so on.
 
 Config contains a set of **ContentId** sub-assets, which can be assigned in Inspector.
 
@@ -52,7 +52,7 @@ void Callback<T>(T obj) where T:UnityEngine.Object {
 }
 ```
 
-For use AssetBundles you need to build it for current platform using **Assets/AssetBundles/Build AssetBundles** menu item. Build result you can find in *projectFolder/AssetBundles*. After it, you need to place it on local or web server and provide corrent url to root folder in AssetBundleContentController constructor. Root folder is a folder which contains platform-folders with AssetBundles, like "*http://127.0.0.1/AssetBundles*" which contains "*WebGL*" folder.
+For use AssetBundles you need to build it for current platform using **Assets/AssetBundles/Build AssetBundles** menu item. Build result you can find in *projectFolder/AssetBundles*. After it, you need to place it on local or web server and provide correct url to root folder in AssetBundleContentController constructor. Root folder is a folder which contains platform-folders with AssetBundles, like "*http://127.0.0.1/AssetBundles*" which contains "*WebGL*" folder.
 
 In editor, you can simulate asset bundles without really deploy it using **Assets/AssetBundles/Simulation Mode** menu item.
 
@@ -60,7 +60,7 @@ Also, AssetBundles is cached after first load, so if you want to clear this cach
 
 ## Additional info
 
-ContentSystem use pair of ContentConfig and ContentConfigCache. ContentConfig contains runtime data, required to load your assets, ContentConfigCache contains persistant links to assets. Config and cache are not linked, so if you change load type to AssetBundle, Config removes link to asset and it won't be included in build.
+ContentSystem use pair of ContentConfig and ContentConfigCache. ContentConfig contains runtime data, required to load your assets, ContentConfigCache contains persistent links to assets. Config and cache are not linked, so if you change load type to AssetBundle, Config removes link to asset and it won't be included in build.
 
 You can use additional load method - *AssetBundleMode.StreamingAssets*, in it you need to place your bundles in StreamingAssets folder **without** platform folder.
 
