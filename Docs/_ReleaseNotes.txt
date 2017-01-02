@@ -1,3 +1,6 @@
+v.0.4.1
+- Schemes: namespace problem in menu items generation fixed;
+
 v.0.4.0
 - Content: ContentSystem for local and AssetBundles asset loading added;
 - Inventory: you can use ItemView directly, if you need item name only;
