@@ -11,5 +11,13 @@ namespace UDBase.Utils {
 			}
 			return default(T);
 		}
+
+		public static T GetItem<T>(IEnumerable<T> items) {
+			if( items != null ) {
+				var list = new List<T>(items);
+				return GetItem(list);
+			}
+			return default(T);
+		}
 	}
 }

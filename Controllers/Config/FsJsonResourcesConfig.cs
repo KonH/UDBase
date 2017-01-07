@@ -86,5 +86,12 @@ namespace UDBase.Controllers.ConfigSystem {
 			}
 			return default(T);
 		}
+
+		public Dictionary<string, T> GetItems<T>() {
+			if( _listContainer != null ) {
+				return _listContainer.LoadDict<T>();
+			}
+			return null;
+		}
 	}
 }

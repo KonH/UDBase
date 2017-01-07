@@ -77,5 +77,27 @@ namespace UDBase.Utils.Json.Fullserializer {
 			}
 			return default(T);
 		}
+
+		public Dictionary<string, T> LoadDict<T>() {
+			string nodeName;
+			if( _names.TryGetValue(typeof(T), out nodeName) ) {
+				var node = _nodeContainer.LoadNode(nodeName);
+				if( node != null ) {
+					var nodeContent = node.AsDictionary;
+					if( nodeContent != null ) {
+						var dict = new Dictionary<string, T>();
+						foreach( var itemName in nodeContent.Keys ) {
+							fsData fsValue;
+							nodeContent.TryGetValue(itemName, out fsValue);
+							T value = default(T);
+							_serializer.TryDeserialize(fsValue, ref value);
+							dict.Add(itemName, value);
+						}
+						return dict;
+					}
+				}
+			}
+			return null;
+		}
 	}
 }
