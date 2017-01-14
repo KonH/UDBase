@@ -149,7 +149,7 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 - [Full Serializer](https://github.com/jacobdufault/fullserializer) - JSON serializer, used for default **Config**/**Save** implementation
 - [AssetBundleManager](https://bitbucket.org/Unity-Technologies/assetbundledemo) - asset bundle manager for **Content** controller
 - [ObjectPool](https://github.com/UnityPatterns/ObjectPool) - pooling script to prevent garbage generation and performance hiccups while create and recycle objects
-
+- [DOTween](http://dotween.demigiant.com/) - tweening library;
 
 ## Editor Tools
 

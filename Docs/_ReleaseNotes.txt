@@ -1,5 +1,6 @@
 v.0.5.0
-- RandomUtils: GetItem() from IEnumerable collection;
+- RandomUtils: GetItem() from IEnumerable collection, GetEnumValue();
+- Extensions: DOTween;
 
 v.0.4.1
 - Schemes: namespace problem in menu items generation fixed;
