@@ -1,4 +1,5 @@
 v.0.5.0
+- Scene: Scene.ReloadScene() can work without scene loaded using Scene controller;
 - RandomUtils: GetItem() from IEnumerable collection, GetEnumValue();
 - Extensions: DOTween;
 
