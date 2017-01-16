@@ -85,25 +85,22 @@ namespace UDBase.Controllers.SaveSystem {
 			return this;
 		}
 
-		public T GetNode<T>() {
+		public T GetNode<T>(bool autoFill) {
 			if( TryLoadContainer() ) {
-				return _container.LoadNode<T>();
+				return _container.LoadNode<T>(autoFill);
 			}
 			var type = typeof(T);
 			if( !_names.ContainsKey(type) ) {
 				Log.ErrorFormat("GetNode: node is not added: {0}!", LogTags.Save, type);
 			}
-			return default(T);
+			return Activator.CreateInstance<T>();
 		}
 
 		public void SaveNode<T>(T node) {
 			if( TryLoadContainer() ) {
 				if( _container.SaveNode(node) ) {
 					if( _versioning ) {
-						var saveInfo = _container.LoadNode<SaveInfoNode>();
-						if( saveInfo == null ) {
-							saveInfo = new SaveInfoNode();
-						}
+						var saveInfo = _container.LoadNode<SaveInfoNode>(true);
 						saveInfo.Update();
 						_container.SaveNode(saveInfo);
 					}

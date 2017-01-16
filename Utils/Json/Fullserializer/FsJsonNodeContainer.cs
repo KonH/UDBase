@@ -45,13 +45,13 @@ namespace UDBase.Utils.Json.Fullserializer {
 			return null;
 		}
 
-		public T LoadNode<T>() {
+		public T LoadNode<T>(bool autoFill) {
 			var type = typeof(T);
 			object value;
 			if( !_cache.TryGetValue(type, out value) ) {
 				string key;
 				if( _names.TryGetValue(type, out key) ) {
-					value = LoadNode<T>(key);
+					value = LoadNode<T>(key, autoFill);
 					_cache.Add(type, value);
 				} else {
 					Log.ErrorFormat("NodeContainer.LoadNode: Can't find node: {0}!", LogTags.Json, type);
@@ -60,14 +60,14 @@ namespace UDBase.Utils.Json.Fullserializer {
 			return (T)value;
 		}
 
-		public T LoadNode<T>(string name) {
+		public T LoadNode<T>(string name, bool autoFill) {
 			var node = LoadNode(name);
 			if( node != null ) {
 				T instance = default(T); 
 				_serializer.TryDeserialize(node, ref instance);
 				return instance;
 			}
-			return default(T);
+			return autoFill ? Activator.CreateInstance<T>() : default(T);
 		}
 
 		public bool SaveNode<T>(T node) {

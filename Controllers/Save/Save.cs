@@ -8,9 +8,9 @@ using UDBase.Common;
 namespace UDBase.Controllers.SaveSystem {
 	public class Save:ControllerHelper<ISave> {
 
-		public static T GetNode<T>() {
+		public static T GetNode<T>(bool autoFill = true) {
 			if( Instance != null ) {
-				return Instance.GetNode<T>();
+				return Instance.GetNode<T>(autoFill);
 			}
 			return default(T);
 		}

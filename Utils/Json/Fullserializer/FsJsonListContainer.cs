@@ -34,7 +34,7 @@ namespace UDBase.Utils.Json.Fullserializer {
 			}
 		}
 
-		public T LoadItem<T>(string nodeName, string itemName) {
+		public T LoadItem<T>(string nodeName, string itemName, bool autoFill) {
 			Dictionary<string, object> cachedNode;
 			if( _nodeCache.TryGetValue(nodeName, out cachedNode) ) {
 				object value;
@@ -55,7 +55,7 @@ namespace UDBase.Utils.Json.Fullserializer {
 				}
 			}
 			Log.ErrorFormat("ListContainer.LoadItem: Can't find node: {0}!", LogTags.Json, typeof(T));
-			return default(T);
+			return autoFill ? Activator.CreateInstance<T>() : default(T);
 		}
 
 		void CacheContent<T>(string nodeName, Dictionary<string, fsData> nodeContent) {
@@ -70,12 +70,12 @@ namespace UDBase.Utils.Json.Fullserializer {
 			_nodeCache.Add(nodeName, nodeContentCache);
 		}
 
-		public T LoadItem<T>(string itemName) {
+		public T LoadItem<T>(string itemName, bool autoFill) {
 			string nodeName;
 			if( _names.TryGetValue(typeof(T), out nodeName) ) {
-				return LoadItem<T>(nodeName, itemName);
+				return LoadItem<T>(nodeName, itemName, autoFill);
 			}
-			return default(T);
+			return autoFill ? Activator.CreateInstance<T>() : default(T);
 		}
 
 		public Dictionary<string, T> LoadDict<T>() {

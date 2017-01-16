@@ -75,14 +75,14 @@ namespace UDBase.Controllers.ConfigSystem {
 
 		public T GetNode<T>() {
 			if( _nodeContainer != null ) {
-				return _nodeContainer.LoadNode<T>();
+				return _nodeContainer.LoadNode<T>(false);
 			}
 			return default(T);
 		}
 
 		public T GetItem<T>(string name) {
 			if( _listContainer != null ) {
-				return _listContainer.LoadItem<T>(name);
+				return _listContainer.LoadItem<T>(name, false);
 			}
 			return default(T);
 		}
