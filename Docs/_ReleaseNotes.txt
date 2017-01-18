@@ -1,0 +1,37 @@
+v.0.5.0
+- Save: Save.GetItem() autoFill argument to create new instance if save file not exist yet;
+- Scene: Scene.ReloadScene() can work without scene loaded using Scene controller;
+- RandomUtils: GetItem() from IEnumerable collection, GetEnumValue();
+- Extensions: DOTween;
+
+v.0.4.1
+- Schemes: namespace problem in menu items generation fixed;
+
+v.0.4.0
+- Content: ContentSystem for local and AssetBundles asset loading added;
+- Inventory: you can use ItemView directly, if you need item name only;
+- Inventory: now pack transitions using TransitionHelper is available;
+- Inventory: UI components to show packs as item list and control pack transitions;
+- Editor: AssetUtility;
+- ObjectPool script added;
+
+v.0.3.0
+- Events: basic EventController, Events window;
+- ControllerHelper: IsActive() method;
+- Save: optional versioning;
+- Config, Save, VisualLog, Json containers: error handling;
+- RandomUtils basics;
+
+v.0.2.0
+- New controller: Inventory;
+- FullSerializer replaced UnityJsonUtility for Config/Save controllers;
+- Json format limitations removed;
+- ConfigSystem: AddList(), GetItem() methods;
+- SceneSystem: Scene.CurrentScene, Scene.ReloadScene(), extended SceneParam properties;
+- Refactoring: namespace usage, access changes, format issues;
+- Tests: project structure checks, SchemeManager, Scheme;
+
+v.0.1.0
+- First in-dev version;
+- Scheme architecture and tools;
+- Controllers: Config, Log, Save, Scene;

@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UDBase.Common;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	public class SchemesEditor : EditorWindow {
 		enum State {
 			Start,

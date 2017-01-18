@@ -6,9 +6,9 @@ namespace UDBase.Common {
 	public static class UDBaseConfig {
 
 		// Scheme
-		public static string SchemeSymbolPrefix = "Scheme_";
-		public static string SchemeDefaultName  = "Default";
-		public static string SchemeDeclaredName = "Declared";
+		public const string SchemeSymbolPrefix = "Scheme_";
+		public const string SchemeDefaultName  = "Default";
+		public const string SchemeDeclaredName = "Declared";
 
 		public static string DefaultSchemeSymbols {
 			get {
@@ -23,16 +23,16 @@ namespace UDBase.Common {
 		}
 
 		// File structure
-		public static string AssetsFolder         = "Assets";
-		public static string BaseFolder           = "UDBase";
-		public static string TemplatesFolder      = "Templates";
-		public static string SchemeTemplateFile   = "TemplateScheme.txt";
-		public static string MenuTemplateFile     = "SchemesMenu_Template.txt";
-		public static string MenuItemTemplateFile = "SchemesMenuItem_Template.txt";
-		public static string ProjectFolder        = "UDBase_Project";
-		public static string ProjectEditorFolder  = "Editor";
-		public static string ProjectSchemesFolder = "Schemes";
-		public static string MenuItemsFile        = "SchemesMenuItems.cs";
+		public const string AssetsFolder         = "Assets";
+		public const string BaseFolder           = "UDBase";
+		public const string TemplatesFolder      = "Templates";
+		public const string SchemeTemplateFile   = "TemplateScheme.txt";
+		public const string MenuTemplateFile     = "SchemesMenu_Template.txt";
+		public const string MenuItemTemplateFile = "SchemesMenuItem_Template.txt";
+		public const string ProjectFolder        = "UDBase_Project";
+		public const string ProjectEditorFolder  = "Editor";
+		public const string ProjectSchemesFolder = "Schemes";
+		public const string MenuItemsFile        = "SchemesMenuItems.cs";
 
 		public static string SchemeTemplatePath { 
 			get {
@@ -81,15 +81,15 @@ namespace UDBase.Common {
 		}
 
 		// Config
-		public static string JsonConfigName = "config";
+		public const string JsonConfigName = "config";
 
 		// Save
-		public static string JsonSaveName = "save.json";
+		public const string JsonSaveName = "save.json";
 		
 		// Log
-		public static string LogVisualPrefabPath = "VisualLogger";
+		public const string LogVisualPrefabPath = "VisualLogger";
 
 		// CaptureScreen
-		public static string ScreenshotsDirectory = "Screenshots";
+		public const string ScreenshotsDirectory = "Screenshots";
 	}
 }

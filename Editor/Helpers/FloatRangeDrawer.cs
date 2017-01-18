@@ -3,7 +3,7 @@ using UnityEditor;
 using System.Collections;
 using UDBase.Helpers;
 
-namespace Editors {
+namespace UDBase.EditorTools {
 	[CustomPropertyDrawer(typeof(FloatRange))]
 	public class FloatRangeDrawer:PropertyDrawer {
 		BaseRangeDrawer _editor = new BaseRangeDrawer();
