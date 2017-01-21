@@ -16,7 +16,7 @@ namespace UDBase.Controllers.UTime {
 		public void PostInit() {}
 
 		IEnumerator GetTimeRequest() {
-			var request = new WWW("http://localhost:8080/time");
+			var request = new WWW("http://104.236.100.182:8080/time");
 			yield return request;
 			Debug.Log("Net request result: " + request.text);
 			var time = DateTime.Parse(request.text);
