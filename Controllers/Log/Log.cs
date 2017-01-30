@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace UDBase.Controllers.Log {
+namespace UDBase.Controllers.LogSystem {
 	public class Log : ControllerHelper<ILog> {
 		
 		// Common 

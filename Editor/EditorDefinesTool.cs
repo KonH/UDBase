@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UDBase.Common;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	
 	// Tool to change current "Scheme_" defines with keeping third-party defines 
 	public class EditorDefinesTool {
@@ -18,8 +18,7 @@ namespace UDBase.Editor {
 			buildTargetMap = new Dictionary<BuildTarget, BuildTargetGroup>();
 			AddToMap(BuildTargetGroup.Android, BuildTarget.Android);
 			AddToMap(BuildTargetGroup.iOS, BuildTarget.iOS);
-			AddToMap(BuildTargetGroup.Nintendo3DS, BuildTarget.Nintendo3DS);
-			AddToMap(BuildTargetGroup.PS3, BuildTarget.PS3);
+			AddToMap(BuildTargetGroup.N3DS, BuildTarget.N3DS);
 			AddToMap(BuildTargetGroup.PS4, BuildTarget.PS4);
 			AddToMap(BuildTargetGroup.PSM, BuildTarget.PSM);
 			AddToMap(BuildTargetGroup.PSP2, BuildTarget.PSP2);
@@ -38,8 +37,8 @@ namespace UDBase.Editor {
 			AddToMap(BuildTargetGroup.WebGL, BuildTarget.WebGL);
 			AddToMap(BuildTargetGroup.WiiU, BuildTarget.WiiU);
 			AddToMap(BuildTargetGroup.WSA, BuildTarget.WSAPlayer);
-			AddToMap(BuildTargetGroup.XBOX360, BuildTarget.XBOX360);
 			AddToMap(BuildTargetGroup.XboxOne, BuildTarget.XboxOne);
+			AddToMap(BuildTargetGroup.Unknown, BuildTarget.NoTarget);
 		}
 
 		static void AddToMap(BuildTargetGroup group, params BuildTarget[] targets) {

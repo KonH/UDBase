@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using UDBase.Common;
 using UDBase.Utils;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	public class SchemesTool {
 
 		public static List<string> GetSchemes() {

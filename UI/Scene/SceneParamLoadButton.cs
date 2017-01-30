@@ -1,17 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UDBase.UI.Common;
 
-namespace UDBase.Controllers.Scene.UI {
-	public class SceneParamLoadButton<T> : MonoBehaviour {
+namespace UDBase.Controllers.SceneSystem.UI {
+	public class SceneParamLoadButton<T> : ActionButton {
 		public T      Type  = default(T);
 		public string Param = "";
 
-		void Start () {
-			GetComponent<Button>().onClick.AddListener(OnClick);
+		public override bool IsVisible() { 
+			return true; 
 		}
 
-		void OnClick() {
+		public override bool IsInteractable() {
+			return true;
+		}
+
+		public override void OnClick() {
 			Scene.LoadScene(Type, Param);
 		}
 	}

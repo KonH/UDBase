@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.Collections;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	public static class SchemesMenuItems {
 [CONTENT]
 	}

@@ -114,8 +114,13 @@ namespace UDBase.Utils {
 
 		public static bool CreateFile(string path, bool silent = false) {
 			try {
-				File.Create(path);
-				return true;
+				var fs = File.Create(path);
+				if( fs != null ) {
+					fs.Close();
+					return true;
+				} else {
+					return false;
+				}
 			} catch (Exception e) {
 				if( !silent ) {
 					Debug.LogErrorFormat("Exception while create file '{0}': {1}", path, e.ToString());

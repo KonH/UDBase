@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace UDBase.Controllers.Log {
-	public class UnityLog : ILog {
+namespace UDBase.Controllers.LogSystem {
+	public sealed class UnityLog : ILog {
 		LogTags _tagger = null;
 
 		public UnityLog(LogTags tagger) {
@@ -12,6 +12,8 @@ namespace UDBase.Controllers.Log {
 		public UnityLog():this(new LogTags()) {}
 
 		public void Init() {}
+
+		public void PostInit() {}
 
 		public void Message(string msg, LogType type, int tag) {
 			Debug.logger.Log(type, _tagger.GetName(tag), msg);

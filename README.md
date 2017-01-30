@@ -1,11 +1,24 @@
-# UDBase
+# UDBase 
+
+**Current version:** 0.4.1
+
+**Unity version:** 5.5.0f3 (last tested)
 
 Repository link: [https://github.com/KonH/UDBase](https://github.com/KonH/UDBase)
 
-DevBlog: [http://konhit.blogspot.ru/] (http://konhit.blogspot.ru/)
+DevBlog: [http://konhit.blogspot.ru/](http://konhit.blogspot.ru/)
 
 ## Overview
-*TODO*
+
+**UDBase** is module-based game template for [Unity](https://unity3d.com/). Modules in UDBase are called **Controllers**, their implementation can be replaced without changing your project source code. Configuration is stored and modified based on custom classes called **Schemes**, that used scripting define symbols and can be switched in one click. It is Open-Source project with MIT license, so you overview source code, send pull requests, create your own issues and fork the project, if you want.
+
+## Versioning and releases
+
+UDBase is used semantic versioning convention ([http://semver.org/](http://semver.org/)). 
+
+You can overview releases here - [https://github.com/KonH/UDBase/releases](https://github.com/KonH/UDBase/releases).
+
+Release notes in plain text you can find here - [Docs/_ReleaseNotes.txt](Docs/_ReleaseNotes.txt).
 
 ## Install
 
@@ -85,6 +98,9 @@ public class Test : ControllerHelper<ITest> {
 }
 ```
 
+Instance check is strongly recommended if you want to create architecture which supports simple component disabling/removing.
+
+The same you can use method **IsActive()** on your helper (like *Test.IsActive()*) to check if any controllers is attached to your helper.  
 
 ### Schemes
 Using schemes you can easily switch controllers or disable it. It based on scripting define symbols and doesn't cause runtime overhead.
@@ -105,240 +121,35 @@ public class DesktopScheme : Scheme {
 }
 ```
 
+Also, you can use shorten syntax for it:
+
+```
+public class DesktopScheme : Scheme {
+	public DesktopScheme() {
+		AddController<Test>(new TestOne());
+	}
+}
+```
+
 In the example above, on this scheme any calls to **Test.MyMethod()** will be redirected to **TestOne** instance.
 
 Now you can switch to your scheme using **Switch** in Schemes window or just appropriate menu item in **UDBase/Schemes/**.
 
 ## Built-in Controllers
 
-### Scene
+- **[Scene](Docs/Scene.md)** (load scenes)
+- **[Config](Docs/Config.md)** (load permanent configuration, json)
+- **[Save](Docs/Save.md)** (load and save user data, json)
+- **[Log](Docs/Log.md)** (custom logging with visual logger)
+- **[Event](Docs/Event.md)** (lightweight event manager)
+- **[Inventory](Docs/Inventory.md)** (extendable inventory system)
+- **[Content](Docs/Content.md)** (content loading system using direct load and AssetBundles)
 
-Using Scene Controller you can load scenes with several methods. You can load scene directly by its name using **Scene.LoadSceneByName(name)** or use advanced methods. For example, you have some scene structure like that (or much more complicated):
+## Extensions
+- [Full Serializer](https://github.com/jacobdufault/fullserializer) - JSON serializer, used for default **Config**/**Save** implementation
+- [AssetBundleManager](https://bitbucket.org/Unity-Technologies/assetbundledemo) - asset bundle manager for **Content** controller
+- [ObjectPool](https://github.com/UnityPatterns/ObjectPool) - pooling script to prevent garbage generation and performance hiccups while create and recycle objects
 
-- MainMenu
-- Level_1
-- Level_2
-- ...
-- Level_N
-
-You can load all scenes by name in this case, but you can use **Scene.LoadSceneByInfo(info)** with your custom class/struct inherited from **ISceneInfo** and implemented *Name* property:
-
-```
-public struct CustomInfo : ISceneInfo {
-    // 'get' can contains any custom logics to convert your data to scene name
-	public string Name { get; private set; }
-}
-```
-Another simple option you can use - **LoadScene(type,...)** helper methods. With it you can declare your custom enum to describe your scene scheme:
-
-```
-public enum Scenes {
-	MainScene, // Only one scheme
-	Level      // Multiple scenes in "Level_*" format
-	// ... - and more types
-}
-```
-
-After it you can load single scene:
-
-```
-Scene.LoadScene(Scenes.MainScene);
-```
-
-And specific scene in *Level_\** set:
-
-```
-Scene.LoadScene(Scenes.Level, "0"); // Load 'Level_0' scene
-```
-
-In Unity UI for these cases you can use **SceneLoadButton**/**SceneParamLoadButton\<T\>** components. For using second component you need to make your class that inherited from it to use in *Unity Inspector*:
-
-```
-public class YourSceneButton : SceneParamLoadButton<YourScenesEnumType> {}
-```
-
-Scenes can be loaded in two ways:
-
-- **DirectSceneLoader** - loads scene synchronously.
-- **AsyncSceneLoader** - loads scene asynchronously with (optional) loading scene.
-
-To use one of these types you can add this to your *Scheme* script:
-
-```
-AddController(new Scene(), new AsyncSceneLoader());
-```
-
-For most cases async load is more acceptable. It provides some useful options:
-
-```
-new AsyncSceneLoader() // Load new scene on current scene and go to it after loading
-new AsyncSceneLoader("Loading") // Using specific scene for loading process
-new AsyncSceneLoader("Loading", "StartScene") // Async load "MainScene" at first time (for scene scheme like this "Loading">"StartScene">"Loading">"Level" and so on
-```
-UI Component that you can use for Loading scene is **LoadingView** (loading progress counter and progress bar are supported). 
-In example project you can look at this features usage.
-
-### Config
-
-You can simple load settings for your controllers or other classes via **Config** methods. It allows you to get any class instance (inherited from **IJsonNode** interface) from some storage. By default Unity's JsonUtility is used (you can read about it [here](https://docs.unity3d.com/ScriptReference/JsonUtility.html)), so your class needs to be correctly deserialized with it.
-
-By default **Resources/config.json** file is used, but you can specify custom filename for it with this code in your Scheme constructor:
-
-```
-/* path - filename without extension */
-AddController(new Config(), new JsonResourcesConfig(path));
-```
-
-Simple class for config with one string value:
-
-	class ConcreteStateExampleConfig:IJsonNode {
-		public string Name { get { return "example_node"; } }
-		public string Value = "";
-	}
-
-And basic controller to get and use this data:
-
-```
-public class ConcreteStateExample : IStateExample {
-	/* ... */
-	
-	ConcreteStateExampleConfig _config = null;
-
-	public string GetConfigData()
-	{
-		_config = Config.GetNode<ConcreteStateExampleConfig>();
-		if( _config != null ) {
-			return _config.Value;
-		}
-		return "";
-	}
-}
-```
-
-
-### Save
-
-Using **Save** methods you can load and save runtime specific data (any class inherited from **IJsonNode**). Currently it is used JsonUtility and store file(s) in *Application.persistantDataPath*. Way to use is a simillar with Config controller. 
-
-By default, **save.json** file is used, but you can specify custom filename for it with this code in your Scheme constructor:
-
-```
-/* path - filename with extension */
-AddController(new Save(), new JsonDataSave(path));
-```
-
-And also you can change **prettyJson** value, what defines how your json string is saved (small or human-readable):
-
-```
-AddController(new Save(), new JsonDataSave(prettyJson));
-/* or */
-AddController(new Save(), new JsonDataSave(prettyJson, path));
-```
-
-Simple class for save with one int value:
-
-	class ConcreteStateExampleSave:IJsonNode {
-		public string Name { get { return "save_node"; } }
-		public int IntValue = 0;
-	}
-
-And basic controller to get and modify this data:
-
-```
-public class ConcreteStateExample : IStateExample {
-	/*...*/
-	
-	ConcreteStateExampleSave   _save   = null;
-
-	public int GetSavedData()
-	{
-		_save = Save.GetNode<ConcreteStateExampleSave>();
-		if( _save != null ) {
-			return _save.IntValue;
-		}
-		return -1;
-	}
-
-	public void SetSavedData(int value) {
-		if( _save == null ) {
-			_save = new ConcreteStateExampleSave();
-		}
-		_save.IntValue = value;
-		Save.SaveNode(_save);
-	}
-}
-```
-
-Best practice in implementation your inner controller state is a declaration private nested class for it and control all changes via this controller methods.
-
-### Log
-
-controller for logging anything to console using custom tags (some integer) and default Unity **LogType**.
- 
-Supported log handlers: 
-
-- **UnityLog** - Debug.Log wrapper for editor;
-- **VisualLog** - in-game visual logger with filter by LogType and tags, colorized logs by LogType, can be cleared at run-time; 
- 
-If you want to add your own tags, you need to inherit from **LogTags** class, declare tags using constants and override two methods:
-
-```
-public class CustomLogTags : LogTags {
-
-	public const int CustomTag = 101;
-
-	public override string GetName(int index)
-	{
-		switch( index ) {
-			case CustomTag: 
-				return "CustomTag";
-		}
-		return base.GetName(index);
-	}
-
-	public override string[] GetNames()
-	{
-		var originalNames = base.GetNames();
-		var fullNames = new string[originalNames.Length + 1];
-		for( int i = 0; i < originalNames.Length; i++ ) {
-			fullNames[i] = originalNames[i];
-		}
-		fullNames[fullNames.Length - 1] = "CustomTag";
-		return fullNames;
-	}
-}
-```
-
-Also, you need to use this class in VisualLog constructor:
-
-```
-new VisualLog(new CustomLogTags())
-``` 
-
-After that you can log your messages with custom tag:
-
-```
-Log.Error("Some Error: ...", CustomLogTags.CustomTag);
-```
-
-## Notes
-
-### Config/Save Json
-
-Configs and saves stored not in pure Json format (because of limitation of Unity's JsonUtility). Format is simple:
-
-```
-header0
-{regular json-body}
-
-header1
-{...}
-
-etc...
-```
-
-Any block must contain header (allows you to get and save block data via code) and body in json format.
-Empty line between blocks is required.
 
 ## Editor Tools
 
@@ -346,8 +157,16 @@ Empty line between blocks is required.
 
 Using menu items at **UDBase/Screenshots** you can make screenshots (with upscaling resolution) and manage directory to save these screenshots (you can clean or open it).
 
+### AssetUtility
+
+Helper methods to create **ScriptableObject** assets in project, create and remove sub-assets.
+
 ## Examples
 Example project - [https://github.com/KonH/UDBaseExample](https://github.com/KonH/UDBaseExample)
+
+## Contribution
+
+You can read contribution rules here - [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 See **LICENSE.txt** beside.

@@ -5,17 +5,17 @@ using UDBase.Utils;
 using UDBase.Utils.Json;
 using UDBase.Common;
 
-namespace UDBase.Controllers.Save {
+namespace UDBase.Controllers.SaveSystem {
 	public class Save:ControllerHelper<ISave> {
 
-		public static T GetNode<T>() where T:class, IJsonNode, new() {
+		public static T GetNode<T>() {
 			if( Instance != null ) {
 				return Instance.GetNode<T>();
 			}
-			return null;
+			return default(T);
 		}
 
-		public static void SaveNode<T>(T node) where T:class, IJsonNode, new() {
+		public static void SaveNode<T>(T node) {
 			if( Instance != null ) {
 				Instance.SaveNode(node);
 			}

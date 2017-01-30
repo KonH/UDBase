@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UDBase.Controllers.Log;
+using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Common {
 	public class ProjectScheme : Scheme {

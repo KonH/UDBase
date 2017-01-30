@@ -4,9 +4,9 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-using UDBase.Controllers.Log;
+using UDBase.Controllers.LogSystem;
 
-namespace UDBase.Controllers.Log.UI {
+namespace UDBase.Controllers.LogSystem.UI {
 	public class VisualLogHandler : MonoBehaviour {
 
 		[Serializable]
@@ -102,10 +102,6 @@ namespace UDBase.Controllers.Log.UI {
 		StringBuilder             _sb         = new StringBuilder(10000);
 		LoggerState               _state      = null;
 		string                    _formatStr  = "<color=\"{0}\">[{1}] {2}: {3}\n</color>";
-			
-
-		// TODO: Setup scroll in text area (later)
-		// TODO: Save state in PlayerPrefs or State (later)
 
 		public void Init(string[] tags, ButtonPosition openButtonPos) {
 			Clear(true);
@@ -194,7 +190,13 @@ namespace UDBase.Controllers.Log.UI {
 		}
 
 		bool IsTagRequired(string tag) {
-			return _tagStates[tag];
+			bool state;
+			if( _tagStates.TryGetValue(tag, out state) ) {
+				return state;
+			} else {
+				Debug.LogErrorFormat("Unknown tag: {0}!", tag); 
+				return true;
+			}
 		}
 
 		bool IsTypeRequired(LogType type) {
@@ -228,7 +230,7 @@ namespace UDBase.Controllers.Log.UI {
 		}
 
 		void ApplyMessage(string msg, LogType type, string tag, bool addNow) {
-			if( IsTagRequired(tag) && IsTypeRequired(type)) {
+			if( Text && IsTagRequired(tag) && IsTypeRequired(type)) {
 				var color = GetColor(type);
 				if( addNow ) {
 					Text.text += string.Format(_formatStr, color, tag, type, msg);

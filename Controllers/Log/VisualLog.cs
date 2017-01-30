@@ -2,9 +2,9 @@
 using System.Collections;
 using UDBase.Common;
 using UDBase.Utils;
-using UDBase.Controllers.Log.UI;
+using UDBase.Controllers.LogSystem.UI;
 
-namespace UDBase.Controllers.Log {
+namespace UDBase.Controllers.LogSystem {
 	public enum ButtonPosition {
 		LeftTop,
 		RightTop,
@@ -12,7 +12,7 @@ namespace UDBase.Controllers.Log {
 		RightBottom
 	}
 
-	public class VisualLog : ILog {
+	public sealed class VisualLog : ILog {
 		LogTags             _tagger  = null;
 		VisualLogHandler    _handler = null;
 
@@ -37,6 +37,8 @@ namespace UDBase.Controllers.Log {
 			this(UDBaseConfig.LogVisualPrefabPath, new LogTags(), ButtonPosition.RightTop) {}
 
 		public void Init() {}
+
+		public void PostInit() {}
 
 		public void Message(string msg, LogType type, int tag) {
 			_handler.AddMessage(msg, type, _tagger.GetName(tag));

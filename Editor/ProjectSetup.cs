@@ -4,7 +4,7 @@ using System.Collections;
 using UDBase.Common;
 using UDBase.Utils;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	public class ProjectSetup {
 
 		public static void PrepareFolders() {

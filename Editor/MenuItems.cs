@@ -1,16 +1,13 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Collections;
-using UDBase.Controllers.Save;
+using UDBase;
+using UDBase.Controllers.SaveSystem;
+using UDBase.Controllers.ContentSystem;
 
-namespace UDBase.Editor {
+namespace UDBase.EditorTools {
 	public static class MenuItems {
 		
-		[MenuItem("UDBase/Setup", false, -98)]
-		static void DoSetup() {
-			ProjectSetup.PrepareFolders();
-		}
-
 		[MenuItem("UDBase/Schemes/Edit", false, -99)]
 		static void OpenSchemes() {
 			SchemesEditor.GetWindow<SchemesEditor>("Schemes", true);
@@ -19,6 +16,31 @@ namespace UDBase.Editor {
 		[MenuItem("UDBase/Schemes/Update", false, -99)]
 		static void Scheme() {
 			SchemesTool.UpdateSchemes();
+		}
+
+		[MenuItem("UDBase/Setup", false, -98)]
+		static void DoSetup() {
+			ProjectSetup.PrepareFolders();
+		}
+
+		[MenuItem("UDBase/About", false, -97)]
+		static void About() {
+			InfoEditor.ShowAbout();
+		}
+
+		[MenuItem("UDBase/Release Notes", false, -96)]
+		static void ReleaseNotes() {
+			InfoEditor.ShowReleaseNotes();
+		}
+
+		[MenuItem("UDBase/Help", false, -95)]
+		static void Help() {
+			InfoEditor.OpenHelp();
+		}
+
+		[MenuItem("UDBase/Examples", false, -94)]
+		static void Examples() {
+			InfoEditor.OpenExamples();
 		}
 
 		[MenuItem("UDBase/Schemes/Default")]
@@ -64,6 +86,26 @@ namespace UDBase.Editor {
 		[MenuItem("UDBase/Screenshots/Make/X8 Resolution %#&8")]
 		public static void MakeScreenshotX8() {
 			CaptureScreen.Make(8);
+		}
+
+		[MenuItem("UDBase/Events/Debug Window")]
+		public static void ShowEventWindow() {
+			EventWindow.GetWindow<EventWindow>("Events", true);
+		}
+
+		[MenuItem("UDBase/Content/Add New Config")] 
+		public static void AddNewContentConfig() {
+			ContentEditor.CreateContentConfig();
+		}
+
+		[MenuItem("UDBase/Content/Set type for all/Direct")]
+		public static void SetContentTypeForAllConfigs_Direct() {
+			ContentEditor.SetContentTypeForAll(ContentLoadType.Direct);
+		}
+
+		[MenuItem("UDBase/Content/Set type for all/AssetBundle")]
+		public static void SetContentTypeForAllConfigs_AssetBundle() {
+			ContentEditor.SetContentTypeForAll(ContentLoadType.AssetBundle);
 		}
 	}
 }

@@ -5,8 +5,20 @@ using System.Collections;
 using UnityEditor;
 #endif
 
-namespace UDBase.Controllers.Scene {
+namespace UDBase.Controllers.SceneSystem {
 	public class Scene : ControllerHelper<IScene> {
+
+		public static ISceneInfo CurrentScene {
+			get {
+				for( int i = 0; i < Instances.Count; i++ ) {
+					var curScene = Instances[i].CurrentScene;
+					if( curScene != null ) {
+						return curScene;
+					}
+				}
+				return null;
+			}
+		}
 
 		public static void LoadSceneByName(string sceneName) {
 			LoadSceneByInfo(new SceneName(sceneName));
@@ -15,6 +27,12 @@ namespace UDBase.Controllers.Scene {
 		public static void LoadSceneByInfo(ISceneInfo sceneInfo) {
 			for( int i = 0; i < Instances.Count; i++ ) {
 				Instances[i].LoadScene(sceneInfo);
+			}
+		}
+
+		public static void ReloadScene() {
+			for( int i = 0; i < Instances.Count; i++ ) {
+				Instances[i].ReloadScene();
 			}
 		}
 
