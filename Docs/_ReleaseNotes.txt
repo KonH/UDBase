@@ -1,4 +1,5 @@
 v.0.5.0
+- New controller: UTime;
 - Save: Save.GetItem() autoFill argument to create new instance if save file not exist yet;
 - Scene: Scene.ReloadScene() can work without scene loaded using Scene controller;
 - RandomUtils: GetItem() from IEnumerable collection, GetEnumValue();
