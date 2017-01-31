@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UDBase.Controllers;
 using UDBase.Utils.Json;
 
@@ -18,6 +19,13 @@ namespace UDBase.Controllers.ConfigSystem {
 				return Instance.GetItem<T>(name);
 			}
 			return default(T);
+		}
+
+		public static Dictionary<string, T> GetItems<T>() {
+			if ( Instance != null ) {
+				return Instance.GetItems<T>();
+			}
+			return null;
 		}
 	}
 }

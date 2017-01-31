@@ -1,8 +1,8 @@
 # UDBase 
 
-**Current version:** 0.4.1
+**Current version:** 0.5.0
 
-**Unity version:** 5.5.0f3 (last tested)
+**Unity version:** 5.5.1f1 (last tested)
 
 Repository link: [https://github.com/KonH/UDBase](https://github.com/KonH/UDBase)
 
@@ -144,12 +144,13 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 - **[Event](Docs/Event.md)** (lightweight event manager)
 - **[Inventory](Docs/Inventory.md)** (extendable inventory system)
 - **[Content](Docs/Content.md)** (content loading system using direct load and AssetBundles)
+- **[UTime](Docs/UTime.md)** (local/network time controller)
 
 ## Extensions
 - [Full Serializer](https://github.com/jacobdufault/fullserializer) - JSON serializer, used for default **Config**/**Save** implementation
 - [AssetBundleManager](https://bitbucket.org/Unity-Technologies/assetbundledemo) - asset bundle manager for **Content** controller
 - [ObjectPool](https://github.com/UnityPatterns/ObjectPool) - pooling script to prevent garbage generation and performance hiccups while create and recycle objects
-
+- [DOTween](http://dotween.demigiant.com/) - tweening library;
 
 ## Editor Tools
 

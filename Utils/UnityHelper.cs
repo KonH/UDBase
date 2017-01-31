@@ -51,7 +51,6 @@ namespace UDBase.Utils {
 			Debug.LogErrorFormat("Error while loading {0} from Resources!", prefabPath);
 			return default(T);
 		}
-
 		public static T AddPersistant<T>() where T:Component {
 			return Add<T>(true);
 		}

@@ -25,6 +25,9 @@ namespace UDBase.Controllers.SceneSystem {
 		}
 
 		public void ReloadScene() {
+			if( CurrentScene == null ) {
+				CurrentScene = new SceneName(SceneManager.GetActiveScene().name);
+			}
 			LoadScene(CurrentScene);
 		}
 	}
