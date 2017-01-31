@@ -42,5 +42,9 @@ namespace UDBase.Controllers.UTime {
 			}
 			return default(DateTime);
 		}
+
+		public static DateTime GetAvailableTime() {
+			return IsTrusted() ? GetTrustedTime() : GetUntrustedTime();
+		}
 	}
 }
