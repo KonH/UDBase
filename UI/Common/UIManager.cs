@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
@@ -7,13 +8,15 @@ using UDBase.Controllers.ContentSystem;
 namespace UDBase.UI.Common {
 	public class UIManager : MonoBehaviour {
 
-		class UIOverlay {
-			public UIElement       Element;
+		class UIOverlayGroup {
+			public UIOverlay       Element;
 			public List<UIElement> Blocked;
+			public Action          OnClose;
 
-			public UIOverlay(UIElement element, List<UIElement> blocked) {
+			public UIOverlayGroup(UIOverlay element, List<UIElement> blocked, Action onClose) {
 				Element = element;
 				Blocked = blocked;
+				OnClose = onClose;
 			}
 		}
 
@@ -39,7 +42,7 @@ namespace UDBase.UI.Common {
 		bool _showHide  = false;
 		bool _isLoading = false;
 
-		Stack<UIOverlay> _overlays = new Stack<UIOverlay>();
+		Stack<UIOverlayGroup> _overlays = new Stack<UIOverlayGroup>();
 
 		void Awake() {
 			if( _current ) {
@@ -107,28 +110,32 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		public void ShowOverlay(ContentId content) {
+		public void ShowOverlay(ContentId content, Action callback) {
 			if( !_isLoading ) {
 				_isLoading = true;
-				Content.LoadAsync<UIElement>(content, ShowOverlayCallback);
+				Content.LoadAsync<GameObject>(content, (go) => ShowOverlay(go, callback));
 			}
 		}
 
-		void ShowOverlayCallback(UIElement element) {
+		public void ShowOverlay(GameObject prefab, Action callback) {
 			_isLoading = false;
-			var go = Instantiate(element.gameObject) as GameObject;
-			ShowOverlay(go.GetComponent<UIElement>());
+			var go = Instantiate(prefab) as GameObject;
+			if( go ) {
+				var overlay = go.GetComponent<UIOverlay>();
+				if( overlay ) {
+					ProcessOverlay(overlay, callback);
+				}
+			}
 		}
 
-		public void ShowOverlay(UIElement overlayElement) {
+		void ProcessOverlay(UIOverlay overlay, Action callback) {
 			if( Canvas ) {
-				overlayElement.transform.SetParent(Canvas.transform, false);
+				overlay.transform.SetParent(Canvas.transform, false);
 			}
 			var blockedElements = GetBlockedElements();
-			var overlay = new UIOverlay(overlayElement, blockedElements);
-			_overlays.Push(overlay);
-			overlayElement.IsOverlay = true;
-			overlayElement.Show();
+			var overlayGroup = new UIOverlayGroup(overlay, blockedElements, callback);
+			_overlays.Push(overlayGroup);
+			overlay.Show();
 		}
 
 		List<UIElement> GetBlockedElements() {
@@ -149,6 +156,10 @@ namespace UDBase.UI.Common {
 				var curOverlay = _overlays.Pop();
 				for( int i = 0; i < curOverlay.Blocked.Count; i++ ) {
 					curOverlay.Blocked[i].Activate();
+				}
+				var callback = curOverlay.OnClose;
+				if( callback != null ) {
+					callback();
 				}
 			}
 		}

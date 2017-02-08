@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UDBase.Controllers.EventSystem;
 using UnityEngine;
 
 namespace UDBase.UI.Common {
@@ -48,8 +49,6 @@ namespace UDBase.UI.Common {
 				}
 			}
 		}
-
-		public bool IsOverlay { get; set; }
 
 		UIAnimation _animation       = null;
 		bool        _isInteractable  = false;
@@ -116,6 +115,7 @@ namespace UDBase.UI.Common {
 
 		public void OnShowComplete() {
 			State = UIElementState.Shown;
+			Events.Fire(new UI_ElementShown(this));
 		}
 
 		bool CanHide() {
@@ -143,10 +143,7 @@ namespace UDBase.UI.Common {
 		public void OnHideComplete() {
 			gameObject.SetActive(false);
 			State = UIElementState.Hidden;
-			if( IsOverlay ) {
-				UIManager.Current.FreeOverlay();
-				Destroy(gameObject);
-			}
+			Events.Fire(new UI_ElementHidden(this));
 		}
 
 		[ContextMenu("Activate")]
