@@ -8,12 +8,12 @@ using UDBase.Controllers.ContentSystem;
 namespace UDBase.UI.Common {
 	public class UIManager : MonoBehaviour {
 
-		class UIOverlayGroup {
+		class UIDialogGroup {
 			public UIOverlay       Element;
 			public List<UIElement> Blocked;
-			public Action          OnClose;
+			public Action<bool>    OnClose;
 
-			public UIOverlayGroup(UIOverlay element, List<UIElement> blocked, Action onClose) {
+			public UIDialogGroup(UIOverlay element, List<UIElement> blocked, Action<bool> onClose) {
 				Element = element;
 				Blocked = blocked;
 				OnClose = onClose;
@@ -32,7 +32,7 @@ namespace UDBase.UI.Common {
 
 		public int OverlayDepth {
 			get {
-				return _overlays.Count;
+				return _dialogs.Count;
 			}
 		}
 
@@ -42,7 +42,7 @@ namespace UDBase.UI.Common {
 		bool _showHide  = false;
 		bool _isLoading = false;
 
-		Stack<UIOverlayGroup> _overlays = new Stack<UIOverlayGroup>();
+		Stack<UIDialogGroup> _dialogs = new Stack<UIDialogGroup>();
 
 		void Awake() {
 			if( _current ) {
@@ -110,14 +110,47 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		public void ShowOverlay(ContentId content, Action callback) {
-			if( !_isLoading ) {
-				_isLoading = true;
-				Content.LoadAsync<GameObject>(content, (go) => ShowOverlay(go, callback));
+		void SafeCallback(Action action) {
+			if( action != null ) {
+				action.Invoke();
+			}
+		}
+		void SelectionCallback(bool result, Action onTrue, Action onFalse) {
+			if( result ) {
+				if( onTrue != null ) {
+					onTrue.Invoke();
+				}
+			} else {
+				if( onFalse != null ) {
+					onFalse.Invoke();
+				}
 			}
 		}
 
+		public void ShowOverlay(ContentId content, Action callback) {
+			ShowDialog(content, _ => SafeCallback(callback));
+		}
+
 		public void ShowOverlay(GameObject prefab, Action callback) {
+			ShowDialog(prefab, _ => SafeCallback(callback));
+		}
+
+		public void ShowDialog(ContentId content, Action onOk, Action onCancel) {
+			ShowDialog(content, (result) => SelectionCallback(result, onOk, onCancel));
+		}
+
+		public void ShowDialog(ContentId content, Action<bool> callback) {
+			if( !_isLoading ) {
+				_isLoading = true;
+				Content.LoadAsync<GameObject>(content, (go) => ShowDialog(go, callback));
+			}
+		}
+
+		public void ShowDialog(GameObject prefab, Action onOk, Action onCancel) {
+			ShowDialog(prefab, (result) => SelectionCallback(result, onOk, onCancel));
+		}
+
+		public void ShowDialog(GameObject prefab, Action<bool> callback) {
 			_isLoading = false;
 			var go = Instantiate(prefab) as GameObject;
 			if( go ) {
@@ -128,14 +161,14 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		void ProcessOverlay(UIOverlay overlay, Action callback) {
+		void ProcessOverlay(UIOverlay dialog, Action<bool> callback) {
 			if( Canvas ) {
-				overlay.transform.SetParent(Canvas.transform, false);
+				dialog.transform.SetParent(Canvas.transform, false);
 			}
 			var blockedElements = GetBlockedElements();
-			var overlayGroup = new UIOverlayGroup(overlay, blockedElements, callback);
-			_overlays.Push(overlayGroup);
-			overlay.Show();
+			var dialogGroup = new UIDialogGroup(dialog, blockedElements, callback);
+			_dialogs.Push(dialogGroup);
+			dialog.Show();
 		}
 
 		List<UIElement> GetBlockedElements() {
@@ -151,15 +184,25 @@ namespace UDBase.UI.Common {
 			return blockedElements;
 		}
 
-		public void FreeOverlay() {
-			if( _overlays.Count > 0 ) {
-				var curOverlay = _overlays.Pop();
+		public void FreeOverlay(bool result) {
+			if( _dialogs.Count > 0 ) {
+				var curOverlay = _dialogs.Pop();
 				for( int i = 0; i < curOverlay.Blocked.Count; i++ ) {
 					curOverlay.Blocked[i].Activate();
 				}
 				var callback = curOverlay.OnClose;
 				if( callback != null ) {
-					callback();
+					callback(result);
+				}
+			}
+		}
+
+		public void CallOverlayCallback(bool result) {
+			if( _dialogs.Count > 0 ) {
+				var curOverlay = _dialogs.Peek();
+				var callback = curOverlay.OnClose;
+				if( callback != null ) {
+					callback(result);
 				}
 			}
 		}
