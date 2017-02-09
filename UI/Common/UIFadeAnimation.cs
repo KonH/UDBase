@@ -4,9 +4,9 @@ using UDBase.Utils;
 
 namespace UDBase.UI.Common {
 	[RequireComponent(typeof(CanvasGroup))]
-    public class UIFadeAnimation : UIAnimation
+    public class UIFadeAnimation : UIShowHideAnimation
     {
-		public float Duration     = 1.0f;
+		public float Duration = 1.0f;
 		Sequence _seq = null;
 
 		CanvasGroup _group = null;
@@ -20,6 +20,10 @@ namespace UDBase.UI.Common {
 		}
 
         public override void Show(UIElement element, bool initial) {
+			if( !HasShowAnimation ) {
+				element.OnShowComplete();
+				return;
+			}
 			if( initial ) {
 				Group.alpha = 0;
 			}
@@ -29,6 +33,10 @@ namespace UDBase.UI.Common {
         }
 
 		public override void Hide(UIElement element) {
+			if( !HasHideAnimation ) {
+				element.OnHideComplete();
+				return;
+			}
 			_seq = TweenHelper.Replace(_seq);
 			_seq.Append(Group.DOFade(0, Duration));
 			_seq.AppendCallback(() => element.OnHideComplete());

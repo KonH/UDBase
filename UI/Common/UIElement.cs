@@ -50,11 +50,12 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		UIAnimation _animation       = null;
-		bool        _isInteractable  = false;
-		bool        _groupChecked    = false;
-		CanvasGroup _group           = null;
-		UIElement   _parent          = null;
+		IShowAnimation _showAnimation  = null;
+		IHideAnimation _hideAnimation  = null;
+		bool            _isInteractable = false;
+		bool            _groupChecked   = false;
+		CanvasGroup     _group          = null;
+		UIElement       _parent         = null;
 
 		void Awake() {
 			Instances.Add(this);
@@ -83,7 +84,8 @@ namespace UDBase.UI.Common {
 
 		void AssingAnimation(bool firstTime = false) {
 			if( firstTime || !CacheAnimation ) {
-				_animation = GetComponent<UIAnimation>();
+				_showAnimation = GetComponent<IShowAnimation>();
+				_hideAnimation = GetComponent<IHideAnimation>();
 			}
 		}
 
@@ -101,8 +103,8 @@ namespace UDBase.UI.Common {
 			State = UIElementState.Showing;
 			gameObject.SetActive(true);
 			AssingAnimation();
-			if( _animation ) {
-				_animation.Show(this, initial);
+			if( _showAnimation != null ) {
+				_showAnimation.Show(this, initial);
 			} else {
 				OnShowComplete();
 			}
@@ -128,8 +130,8 @@ namespace UDBase.UI.Common {
 		public void Hide() {
 			State = UIElementState.Hiding;
 			AssingAnimation();
-			if( _animation ) {
-				_animation.Hide(this);
+			if( _hideAnimation != null ) {
+				_hideAnimation.Hide(this);
 			} else {
 				OnHideComplete();
 			}
