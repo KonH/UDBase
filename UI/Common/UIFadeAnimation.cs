@@ -19,13 +19,14 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-        public override void Show(UIElement element, bool initial) {
+		void Awake() {
+			Group.alpha = 0;
+		}
+
+        public override void Show(UIElement element) {
 			if( !HasShowAnimation ) {
 				element.OnShowComplete();
 				return;
-			}
-			if( initial ) {
-				Group.alpha = 0;
 			}
 			_seq = TweenHelper.Replace(_seq);
 			_seq.Append(Group.DOFade(1, Duration));

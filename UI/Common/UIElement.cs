@@ -16,7 +16,9 @@ namespace UDBase.UI.Common {
 
 		public bool   AutoShow       = true;
 		public bool   InitialActive  = true;
+		public bool   DisableOnHide  = true;
 		public bool   CacheAnimation = true;
+		public bool   Ordered       = false;
 		public string Group          = null;
 		
 		public List<UIElement> Childs = new List<UIElement>();
@@ -67,6 +69,26 @@ namespace UDBase.UI.Common {
 					Childs[i].SetParent(this);
 				}
 			}
+			Events.Subscribe<UI_ElementHidden>(this, OnElementHidden);
+		}
+
+		bool IsChild(UIElement element) {
+			return Childs.Contains(element);
+		}
+
+		bool IsAllChildsHidden() {
+			for( int i = 0; i < Childs.Count; i++ ) {
+				if( Childs[i].State != UIElementState.Hidden ) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+		void OnElementHidden(UI_ElementHidden e) {
+			if( Ordered && IsChild(e.Element) && IsAllChildsHidden() ) {
+				PerformHide();
+			}
 		}
 
 		void SetParent(UIElement parent) {
@@ -77,7 +99,7 @@ namespace UDBase.UI.Common {
 			if( !HasParent ) {
 				IsInteractable = InitialActive;
 				if( AutoShow ) {
-					Show(true);
+					Show();
 				}
 			}
 		}
@@ -97,20 +119,19 @@ namespace UDBase.UI.Common {
 
 		[ContextMenu("Show")]
 		public void Show() {
-			Show(false);
-		}
-		public void Show(bool initial) {
 			State = UIElementState.Showing;
 			gameObject.SetActive(true);
 			AssingAnimation();
 			if( _showAnimation != null ) {
-				_showAnimation.Show(this, initial);
+				_showAnimation.Show(this);
 			} else {
 				OnShowComplete();
 			}
 			if( HasChilds ) {
-				for( int i = 0; i < Childs.Count; i++ ) {
-					Childs[i].Show(initial);
+				if( !Ordered ) {
+					for( int i = 0; i < Childs.Count; i++ ) {
+						Childs[i].Show();
+					}
 				}
 			}
 		}
@@ -118,6 +139,11 @@ namespace UDBase.UI.Common {
 		public void OnShowComplete() {
 			State = UIElementState.Shown;
 			Events.Fire(new UI_ElementShown(this));
+			if( Ordered ) {
+				for( int i = 0; i < Childs.Count; i++ ) {
+					Childs[i].Show();
+				}
+			}
 		}
 
 		bool CanHide() {
@@ -129,21 +155,31 @@ namespace UDBase.UI.Common {
 		[ContextMenu("Hide")]
 		public void Hide() {
 			State = UIElementState.Hiding;
+			if( !Ordered ) {
+				PerformHide();
+			}
+			if( HasChilds ) {
+				for( int i = 0; i < Childs.Count; i++ ) {
+					Childs[i].Hide();
+				}
+			} else {
+				PerformHide();
+			}
+		}
+
+		void PerformHide() {
 			AssingAnimation();
 			if( _hideAnimation != null ) {
 				_hideAnimation.Hide(this);
 			} else {
 				OnHideComplete();
 			}
-			if( HasChilds ) {
-				for( int i = 0; i < Childs.Count; i++ ) {
-					Childs[i].Hide();
-				}
-			}
 		}
 
 		public void OnHideComplete() {
-			gameObject.SetActive(false);
+			if( DisableOnHide ) {
+				gameObject.SetActive(false);
+			}
 			State = UIElementState.Hidden;
 			Events.Fire(new UI_ElementHidden(this));
 		}

@@ -27,7 +27,7 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-        public abstract void Show(UIElement element, bool initial);
+        public abstract void Show(UIElement element);
 
         public abstract  void Hide(UIElement element);
     }
