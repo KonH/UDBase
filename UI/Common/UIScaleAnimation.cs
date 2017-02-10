@@ -3,36 +3,28 @@ using DG.Tweening;
 using UDBase.Utils;
 
 namespace UDBase.UI.Common {
-	[RequireComponent(typeof(CanvasGroup))]
-    public class UIFadeAnimation : UIShowHideAnimation
+    public class UIScaleAnimation : UIShowHideAnimation
     {
 		public float Duration = 1.0f;
-		Sequence _seq = null;
-
-		CanvasGroup _group = null;
-		CanvasGroup Group {
-			get {
-				if( !_group ) {
-					_group = GetComponent<CanvasGroup>();
-				}
-				return _group;
-			}
-		}
+		
+		Vector3 _originalScale = Vector3.zero;
+		Sequence _seq          = null;
 
 		void Awake() {
+			_originalScale = transform.localScale;
 			if( HasShowAnimation ) {
-				Group.alpha = 0;
+				transform.localScale = Vector3.zero;
 			}
 		}
 
         public override void Show(UIElement element) {
 			if( !HasShowAnimation ) {
-				Group.alpha = 1;
+				transform.localScale = _originalScale;
 				element.OnShowComplete();
 				return;
 			}
 			_seq = TweenHelper.Replace(_seq);
-			_seq.Append(Group.DOFade(1, Duration));
+			_seq.Append(transform.DOScale(_originalScale, Duration));
 			_seq.AppendCallback(() => element.OnShowComplete());
         }
 
@@ -42,7 +34,7 @@ namespace UDBase.UI.Common {
 				return;
 			}
 			_seq = TweenHelper.Replace(_seq);
-			_seq.Append(Group.DOFade(0, Duration));
+			_seq.Append(transform.DOScale(Vector3.zero, Duration));
 			_seq.AppendCallback(() => element.OnHideComplete());
         }
     }
