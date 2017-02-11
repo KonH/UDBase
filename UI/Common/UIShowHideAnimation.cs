@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace UDBase.UI.Common {
-	public abstract class UIShowHideAnimation : MonoBehaviour, IShowAnimation, IHideAnimation {
+	public abstract class UIShowHideAnimation : MonoBehaviour, IShowAnimation, IHideAnimation, IClearAnimation {
 		public enum AnimationDirection {
 			ShowHide,
 			Show,
@@ -27,8 +27,10 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-        public abstract void Show(UIElement element);
-
-        public abstract  void Hide(UIElement element);
+		public abstract void SetShown();
+		public abstract void Show(UIElement element);
+		public abstract void SetHidden();
+		public abstract void Hide(UIElement element);
+		public abstract void Clear();
     }
 }

@@ -52,8 +52,9 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		IShowAnimation _showAnimation  = null;
-		IHideAnimation _hideAnimation  = null;
+		IShowAnimation  _showAnimation  = null;
+		IHideAnimation  _hideAnimation  = null;
+		IClearAnimation _clearAnimation = null;
 		bool            _isInteractable = false;
 		bool            _groupChecked   = false;
 		CanvasGroup     _group          = null;
@@ -108,6 +109,7 @@ namespace UDBase.UI.Common {
 			if( firstTime || !CacheAnimation ) {
 				_showAnimation = GetComponent<IShowAnimation>();
 				_hideAnimation = GetComponent<IHideAnimation>();
+				_clearAnimation = GetComponent<IClearAnimation>();
 			}
 		}
 
@@ -117,11 +119,34 @@ namespace UDBase.UI.Common {
 				(State != UIElementState.Shown);
 		}
 
+		public void SetHidden() {
+			if( _clearAnimation != null ) {
+				_clearAnimation.Clear();
+			}
+			if( HasChilds ) {
+				for( int i = 0; i < Childs.Count; i++ ) {
+					Childs[i].SetHidden();
+				}
+			}
+		}
+
+		public void SetShown() {
+			if( _clearAnimation != null ) {
+				_clearAnimation.Clear();
+			}
+			if( HasChilds ) {
+				for( int i = 0; i < Childs.Count; i++ ) {
+					Childs[i].SetShown();
+				}
+			}
+		}
+
 		[ContextMenu("Show")]
 		public void Show() {
 			State = UIElementState.Showing;
 			gameObject.SetActive(true);
 			AssingAnimation();
+			SetHidden();
 			if( _showAnimation != null ) {
 				_showAnimation.Show(this);
 			} else {
@@ -155,6 +180,8 @@ namespace UDBase.UI.Common {
 		[ContextMenu("Hide")]
 		public void Hide() {
 			State = UIElementState.Hiding;
+			AssingAnimation();
+			SetShown();
 			if( !Ordered ) {
 				PerformHide();
 			}

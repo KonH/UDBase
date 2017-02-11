@@ -19,25 +19,42 @@ namespace UDBase.UI.Common {
 			}
 		}
 
+		public override void SetShown() {
+			transform.localPosition = _originalPosition;
+		}
+
         public override void Show(UIElement element) {
 			if( !HasShowAnimation ) {
-				transform.localPosition = _originalPosition;
+				SetShown();
 				element.OnShowComplete();
 				return;
 			}
+			SetHidden();
 			_seq = TweenHelper.Replace(_seq);
 			_seq.Append(transform.DOLocalMove(_originalPosition, Duration));
 			_seq.AppendCallback(() => element.OnShowComplete());
         }
 
+		public override void SetHidden() {
+			transform.localPosition = _originalPosition + Offset;
+		}
+
 		public override void Hide(UIElement element) {
 			if( !HasHideAnimation ) {
+				SetHidden();
 				element.OnHideComplete();
 				return;
 			}
+			SetShown();
 			_seq = TweenHelper.Replace(_seq);
 			_seq.Append(transform.DOLocalMove(_originalPosition + Offset, Duration));
 			_seq.AppendCallback(() => element.OnHideComplete());
         }
+
+		public override void Clear() {
+			if( _seq != null ) {
+				_seq = TweenHelper.Reset(_seq);
+			}
+		}
     }
 }
