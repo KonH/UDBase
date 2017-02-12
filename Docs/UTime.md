@@ -40,3 +40,4 @@ You can make your own implementation that returns datetime in this format "2016-
 ## Available server versions
 
 - [DotNetCoreTimeServer](https://github.com/KonH/DotNetCoreTimeServer) - C#, .NET Core, ASP.NET, Docker
+- [ErlTimeServer](https://github.com/KonH/ErlTimeServer) - Erlang, Docker
