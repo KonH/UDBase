@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 
@@ -10,7 +9,6 @@ namespace UDBase.Controllers.UTime {
 		string   _url          = null;
 		float    _timeout      = 0.0f;
 		DateTime _startDate    = default(DateTime);
-		float    _requestStart = 0;
 		float    _startTime    = 0;
 
 		public NetworkTime(string url, float timeout = 10.0f, bool isTrusted = true) {
@@ -20,7 +18,7 @@ namespace UDBase.Controllers.UTime {
 		}
 
 		public void Init () {
-			UnityHelper.StartCoroutine(GetTimeRequest());
+			NetUtils.SendRequest(_url, _timeout, OnTimeRequestComplete);
 		}
 
 		public void PostInit() {}
@@ -29,34 +27,26 @@ namespace UDBase.Controllers.UTime {
 			return Time.realtimeSinceStartup;
 		}
 
-		IEnumerator GetTimeRequest() {
-			Log.MessageFormat("Start load from '{0}'", LogTags.Time, _url);
-			var request = new WWW(_url);
-			_requestStart = GetAppTime();
-			while( !request.isDone ) {
-				if( GetAppTime() - _requestStart > _timeout ) {
-					break;
-				}
-				yield return null;
-			}
-			if ( request.isDone ) {
-				if( request.error == null ) {
-					var dt = default(DateTime);
-					if( DateTime.TryParse(request.text, out dt) ) {
-						_startDate = dt.ToUniversalTime();
-						_startTime = GetAppTime();
-						Log.MessageFormat("NetworkTime: {0}", LogTags.Time, _startDate);
-						IsAvailable = true;
-					} else {
-						Log.ErrorFormat("Parsing error: '{0}' to DateTime", LogTags.Time, dt);
-						IsFailed = true;
-					}
+		void OnTimeRequestComplete(NetUtils.Response response) {
+			if ( !response.IsEmpty ) {
+				var dt = default(DateTime);
+				if( DateTime.TryParse(response.Text, out dt) ) {
+					_startDate = dt.ToUniversalTime();
+					_startTime = GetAppTime();
+					Log.MessageFormat("NetworkTime: {0}", LogTags.Time, _startDate);
+					IsAvailable = true;
 				} else {
-					Log.ErrorFormat("Request error: {0}", LogTags.Time, request.error);
+					Log.ErrorFormat("Parsing error: '{0}' to DateTime", LogTags.Time, dt);
 					IsFailed = true;
 				}
 			} else {
-				Log.Error("Request timeout", LogTags.Time);
+				if( response.HasError ) {
+					Log.ErrorFormat("Request error: {0}", LogTags.Time, response.Error);
+				} else if( response.Timeout ) {
+					Log.Error("Request timeout", LogTags.Time);
+				} else {
+					Log.Error("Request unknown error", LogTags.Time);
+				}
 				IsFailed = true;
 			}
 		}
