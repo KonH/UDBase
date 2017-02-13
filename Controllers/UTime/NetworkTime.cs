@@ -20,10 +20,7 @@ namespace UDBase.Controllers.UTime {
 		}
 
 		public void Init () {
-			var helper = UnityHelper.AddPersistant<NetworkTimeHelper>();
-			if( helper != null ) {
-				helper.Execute(GetTimeRequest());
-			}
+			UnityHelper.StartCoroutine(GetTimeRequest());
 		}
 
 		public void PostInit() {}

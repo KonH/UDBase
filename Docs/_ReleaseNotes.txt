@@ -1,3 +1,6 @@
+v.0.7.0
+- UnityHelper: methods to start coroutines, methods to get-or-create components;
+
 v.0.6.0
 - UISystem basics;
 

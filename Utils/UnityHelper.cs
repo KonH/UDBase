@@ -79,5 +79,30 @@ namespace UDBase.Utils {
 		public static T GetSceneComponent<T>() where T:Component {
 			return SceneRoot.GetComponent<T>();
 		}
+
+		static T GetOrCreateComponent<T>(bool persistant) where T:Component {
+			var root = persistant ? PersistantRoot : SceneRoot;
+			var comp = root.GetComponent<T>();
+			if( !comp ) {
+				comp = root.gameObject.AddComponent<T>();
+			}
+			return comp;
+		}
+
+		public static T GetOrCreatePersistantComponent<T>() where T:Component {
+			return GetOrCreateComponent<T>(true);
+		}
+
+		public static T GetOrCreateSceneComponent<T>() where T:Component {
+			return GetOrCreateComponent<T>(false);
+		}
+
+		public static void StartCoroutine(IEnumerator coroutine) {
+			GetOrCreatePersistantComponent<CoroutineHelper>().Execute(coroutine);
+		}
+
+		public static void StartSceneCoroutine(IEnumerator coroutine) {
+			GetOrCreateSceneComponent<CoroutineHelper>().Execute(coroutine);
+		}
 	}
 }
