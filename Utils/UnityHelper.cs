@@ -32,6 +32,10 @@ namespace UDBase.Utils {
 			return go.transform;
 		}
 
+		public static void Initialize() {
+			PersistantRoot.gameObject.AddComponent<ApplicationQuitTracker>();
+		}
+
 		public static T LoadPersistant<T>(string prefabPath) {
 			return Load<T>(true, prefabPath);
 		}
@@ -83,7 +87,7 @@ namespace UDBase.Utils {
 		static T GetOrCreateComponent<T>(bool persistant) where T:Component {
 			var root = persistant ? PersistantRoot : SceneRoot;
 			var comp = root.GetComponent<T>();
-			if( !comp ) {
+			if( !comp && !ApplicationQuitTracker.IsClosing ) {
 				comp = root.gameObject.AddComponent<T>();
 			}
 			return comp;

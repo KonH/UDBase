@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using UDBase.Controllers;
+using UDBase.Utils;
 
 namespace UDBase.Common {
 	/// <summary>
@@ -73,6 +73,7 @@ namespace UDBase.Common {
 				var component = iter.Current.Key;
 				component.PostInit();
 			}
+			UnityHelper.Initialize();
 		}
 	}
 }
