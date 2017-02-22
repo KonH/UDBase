@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace UDBase.Controllers.ContentSystem {
 	public class ContentId : ScriptableObject {

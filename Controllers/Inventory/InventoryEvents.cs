@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace UDBase.Controllers.InventorySystem {
+﻿namespace UDBase.Controllers.InventorySystem {
 
 	public struct Inv_ItemAdded {
 		public string        HolderName { get; private set; }

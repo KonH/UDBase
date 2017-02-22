@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
-using UDBase.Controllers;
+﻿using System;
 
 namespace UDBase.Controllers.ContentSystem {
 	public interface IContent : IController {

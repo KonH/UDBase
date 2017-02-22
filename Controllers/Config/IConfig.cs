@@ -1,9 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UDBase.Controllers;
-using UDBase.Utils.Json;
+﻿using System.Collections.Generic;
 
 namespace UDBase.Controllers.ConfigSystem {
 	public interface IConfig : IController {

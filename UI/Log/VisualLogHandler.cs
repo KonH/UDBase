@@ -1,10 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System;
+﻿using System;
 using System.Text;
-using System.Collections;
 using System.Collections.Generic;
-using UDBase.Controllers.LogSystem;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace UDBase.Controllers.LogSystem.UI {
 	public class VisualLogHandler : MonoBehaviour {

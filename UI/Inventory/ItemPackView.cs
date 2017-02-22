@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using UDBase.Controllers.EventSystem;
 
 namespace UDBase.Controllers.InventorySystem.UI {

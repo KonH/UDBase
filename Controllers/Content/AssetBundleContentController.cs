@@ -1,9 +1,5 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UDBase.Common;
-using UDBase.Controllers;
+﻿using System;
+using UnityEngine;
 using UDBase.Utils;
 
 namespace UDBase.Controllers.ContentSystem {

@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
-using UDBase.Controllers.LogSystem;
-using FullSerializer;
+﻿using FullSerializer;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class InventoryItem {

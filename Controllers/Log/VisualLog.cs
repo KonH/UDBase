@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UDBase.Common;
 using UDBase.Utils;
 using UDBase.Controllers.LogSystem.UI;

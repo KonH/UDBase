@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using UDBase.Utils;
+﻿using UDBase.Utils;
 
 namespace UDBase.Common {
 	public static class UDBaseConfig {

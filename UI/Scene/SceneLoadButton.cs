@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using UDBase.UI.Common;
+﻿using UDBase.UI.Common;
 
 namespace UDBase.Controllers.SceneSystem.UI {
 	public class SceneLoadButton : ActionButton {

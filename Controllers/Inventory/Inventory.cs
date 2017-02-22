@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class Inventory: ControllerHelper<IInventory> {

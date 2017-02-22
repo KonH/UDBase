@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
-using UDBase.Controllers;
-using UDBase.Common;
+﻿using System;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ContentSystem {

@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using System;
-using System.IO;
-using System.Collections;
 
 namespace UDBase.EditorTools {
 	public static class ScriptableObjectMaker {

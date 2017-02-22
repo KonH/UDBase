@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace UDBase.Controllers.LogSystem {
 	public class Log : ControllerHelper<ILog> {

@@ -1,9 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UDBase.Common;
-using UDBase.Controllers;
+﻿using System;
 
 namespace UDBase.Controllers.ContentSystem {
 	public sealed class DirectContentController:IContent {

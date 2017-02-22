@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace UDBase.Controllers.SceneSystem {
+﻿namespace UDBase.Controllers.SceneSystem {
 
 	public struct Scene_Loaded {
 		public ISceneInfo SceneInfo { get; private set; }

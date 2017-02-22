@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Collections;
-using UDBase;
+﻿using UnityEditor;
 using UDBase.Controllers.SaveSystem;
 using UDBase.Controllers.ContentSystem;
 

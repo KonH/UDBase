@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using UDBase.UI.Common;
+﻿using UDBase.UI.Common;
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	public class AddPackButton : ActionButton {

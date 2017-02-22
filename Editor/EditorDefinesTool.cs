@@ -1,7 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEditor;
-using System.Collections;
-using System.Collections.Generic;
 using UDBase.Common;
 
 namespace UDBase.EditorTools {

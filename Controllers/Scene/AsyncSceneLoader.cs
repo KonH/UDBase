@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine.SceneManagement;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
 using UDBase.Utils;

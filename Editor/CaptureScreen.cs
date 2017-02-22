@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.IO;
-using System.Collections;
+﻿using System.IO;
+using UnityEngine;
 using UDBase.Common;
 using UDBase.Utils;
 

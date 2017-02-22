@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UDBase.Utils;
 
 namespace UDBase.EditorTools {

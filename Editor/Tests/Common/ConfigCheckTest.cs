@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using System.IO;
 using NUnit.Framework;
-using System.IO;
 using UDBase.Common;
 
 namespace UDBase.Tests {

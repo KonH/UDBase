@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
-using System.Collections;
 
 namespace UDBase.Controllers.LogSystem.UI {
 	public class ToggleContainer : MonoBehaviour {
