@@ -40,6 +40,8 @@ namespace UDBase.Controllers.LogSystem {
 
 		public void PostInit() {}
 
+		public void Reset() {}
+
 		public void Message(string msg, LogType type, int tag) {
 			_handler.AddMessage(msg, type, _tagger.GetName(tag));
 		}	

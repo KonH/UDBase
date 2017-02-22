@@ -7,5 +7,6 @@ namespace UDBase.Controllers {
 	public interface IController {
 		void Init();
 		void PostInit();
+		void Reset();
 	}
 }

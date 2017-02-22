@@ -49,6 +49,8 @@ namespace UDBase.Controllers.InventorySystem {
 			Load();
 		}
 
+		public void Reset() {}
+
 		protected InventoryHolder GetHolder(string holderName) {
 			return _save.GetHolder(holderName);
 		}

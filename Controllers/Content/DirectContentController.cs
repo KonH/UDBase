@@ -9,7 +9,10 @@ namespace UDBase.Controllers.ContentSystem {
 	public sealed class DirectContentController:IContent {
 
 		public void Init() {}
+		
 		public void PostInit() {}
+
+		public void Reset() {}
 
 		public bool LoadAsync<T>(ContentId id, Action<T> callback) where T:UnityEngine.Object {
 			if( !id || id.LoadType != ContentLoadType.Direct ) {

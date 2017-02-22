@@ -14,6 +14,8 @@ namespace UDBase.Controllers.EventSystem {
 
 		public void PostInit() {}
 
+		public void Reset() {}
+
 		EventHandler<T> GetHandler<T>() {
 			var eventType = typeof(T);
 			EventHandlerBase baseHandler;

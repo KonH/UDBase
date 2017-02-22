@@ -11,6 +11,7 @@ namespace UDBase.Tests {
 		class EmptyController:IController {
 			public virtual void Init() {}
 			public virtual void PostInit() {}
+			public virtual void Reset() {}
 		}
 		class EmptyHelper:ControllerHelper<EmptyController> {}
 

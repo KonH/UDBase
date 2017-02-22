@@ -3,6 +3,7 @@ v.0.7.0
 - NetUtils: basic tool to send www requests;
 - UpdateHelper: now you can subscribe for Update callbacks with ICustomUpdate interface and UpdateHelper class (x5-x10 faster than direct Update method and work with non-mono-behaviour, but it is not safe);
 - ApplicationQuitTracker: using this class you can track when application is closing, initialized in Scheme.PostInit();
+- IController: Reset method for further usage;
 
 v.0.6.0
 - UISystem basics;

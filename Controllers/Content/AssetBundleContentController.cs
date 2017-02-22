@@ -33,6 +33,8 @@ namespace UDBase.Controllers.ContentSystem {
 
 		public void PostInit() {}
 
+		public void Reset() {}
+
 		public bool LoadAsync<T>(ContentId id, Action<T> callback) where T:UnityEngine.Object {
 			if( !id || id.LoadType != ContentLoadType.AssetBundle ) {
 				return false;

@@ -22,6 +22,8 @@ namespace UDBase.Controllers.UTime {
 		}
 
 		public void PostInit() {}
+		
+		public void Reset() {}
 
 		float GetAppTime() {
 			return Time.realtimeSinceStartup;

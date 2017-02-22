@@ -10,7 +10,10 @@ namespace UDBase.Controllers.UTime {
 			_useUniversalTime = useUniversalTime;
 		}
 		public void Init() {}
+		
 		public void PostInit() {}
+
+		public void Reset() {}
 
 		public bool     IsTrusted   { get; private set;   }
 		public bool     IsAvailable { get { return true;  } }

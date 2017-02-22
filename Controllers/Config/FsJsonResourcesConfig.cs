@@ -43,6 +43,8 @@ namespace UDBase.Controllers.ConfigSystem {
 			Log.MessageFormat("Config content: \"{0}\"", LogTags.Config, _configContent);
 		}
 
+		public void Reset() {}
+
 		public FsJsonResourcesConfig AddNode<T>(string name) {
 			if( _nodeContainer == null ) {
 				var type = typeof(T);

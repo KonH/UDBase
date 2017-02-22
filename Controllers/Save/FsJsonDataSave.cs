@@ -57,6 +57,8 @@ namespace UDBase.Controllers.SaveSystem {
 			Log.MessageFormat("Save content: \"{0}\"", LogTags.Save, _saveContent); 
 		}
 
+		public void Reset() {}
+
 		bool TryLoadContainer() {
 			if( _container == null ) {
 				_saveContent = IOTool.ReadAllText(_filePath, true);
