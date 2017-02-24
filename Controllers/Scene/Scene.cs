@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 #endif
+using UDBase.Utils;
 
 namespace UDBase.Controllers.SceneSystem {
 	public class Scene : ControllerHelper<IScene> {
@@ -52,7 +53,7 @@ namespace UDBase.Controllers.SceneSystem {
 		public static bool IsSceneNameValid(string scene_name) {
 			#if UNITY_EDITOR
 			foreach( var scene in EditorBuildSettings.scenes ) {
-				if( ConvertPathToName(scene.path) == scene_name ) {
+				if( AssetUtils.ConvertScenePathToName(scene.path) == scene_name ) {
 					return true;
 				}
 			}
@@ -60,18 +61,6 @@ namespace UDBase.Controllers.SceneSystem {
 			#else
 			return true;
 			#endif
-		}
-
-		static string ConvertPathToName(string path) {
-			var parts = path.Split('/');
-			if( parts.Length > 0 ) {
-				var result = parts[parts.Length-1];
-				if( result.Length > 6 ) {
-					result = result.Remove(result.Length - 6, 6);
-					return result;
-				}
-			}
-			return null;
 		}
 
 		public static ISceneInfo GetInfo<T>(T type) {
