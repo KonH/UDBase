@@ -153,7 +153,9 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 - [ObjectPool](https://github.com/UnityPatterns/ObjectPool) - pooling script to prevent garbage generation and performance hiccups while create and recycle objects
 - [DOTween](http://dotween.demigiant.com/) - tweening library;
 
-## Editor Tools
+## Helpers & Editor Tools
+
+- [Helpers](Docs/Helpers.md) - docs about helper tools and common features;
 
 ### CaptureScreen
 

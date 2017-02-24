@@ -5,6 +5,7 @@ v.0.7.0
 - ApplicationQuitTracker: using this class you can track when application is closing, initialized in Scheme.PostInit();
 - IController: Reset method for further usage;
 - AssetUtils: New utils class to work with unity assets;
+- Helpers: docs about usuful common tools added;
 
 v.0.6.0
 - UISystem basics;
