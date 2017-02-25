@@ -1,6 +1,8 @@
-﻿namespace UDBase.UI.Common {
+﻿using System;
+
+namespace UDBase.UI.Common {
 	public interface IShowAnimation {
 		void SetShown();
-		void Show(UIElement element);
+		void Show(UIElement element, Action action);
 	}
 }

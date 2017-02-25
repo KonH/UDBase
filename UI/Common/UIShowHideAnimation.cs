@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace UDBase.UI.Common {
 	public abstract class UIShowHideAnimation : MonoBehaviour, IShowAnimation, IHideAnimation, IClearAnimation {
@@ -28,9 +29,9 @@ namespace UDBase.UI.Common {
 		}
 
 		public abstract void SetShown();
-		public abstract void Show(UIElement element);
+		public abstract void Show(UIElement element, Action action);
 		public abstract void SetHidden();
-		public abstract void Hide(UIElement element);
+		public abstract void Hide(UIElement element, Action action);
 		public abstract void Clear();
     }
 }

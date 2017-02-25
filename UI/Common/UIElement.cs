@@ -148,7 +148,7 @@ namespace UDBase.UI.Common {
 			AssingAnimation();
 			SetHidden();
 			if( _showAnimation != null ) {
-				_showAnimation.Show(this);
+				_showAnimation.Show(this, () => OnShowComplete());
 			} else {
 				OnShowComplete();
 			}
@@ -197,7 +197,7 @@ namespace UDBase.UI.Common {
 		void PerformHide() {
 			AssingAnimation();
 			if( _hideAnimation != null ) {
-				_hideAnimation.Hide(this);
+				_hideAnimation.Hide(this, () => OnHideComplete());
 			} else {
 				OnHideComplete();
 			}

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using DG.Tweening;
 using UDBase.Utils;
 
@@ -21,32 +22,32 @@ namespace UDBase.UI.Common {
 			transform.localScale = _originalScale;
 		}
 
-        public override void Show(UIElement element) {
+        public override void Show(UIElement element, Action action) {
 			if( !HasShowAnimation ) {
 				SetShown();
-				element.OnShowComplete();
+				action();
 				return;
 			}
 			SetHidden();
 			_seq = TweenHelper.Replace(_seq);
 			_seq.Append(transform.DOScale(_originalScale, Duration));
-			_seq.AppendCallback(() => element.OnShowComplete());
+			_seq.AppendCallback(() => action());
         }
 
 		public override void SetHidden() {
 			transform.localScale = Vector3.zero;
 		}
 
-		public override void Hide(UIElement element) {
+		public override void Hide(UIElement element, Action action) {
 			if( !HasHideAnimation ) {
 				SetHidden();
-				element.OnHideComplete();
+				action();
 				return;
 			}
 			SetShown();
 			_seq = TweenHelper.Replace(_seq);
 			_seq.Append(transform.DOScale(Vector3.zero, Duration));
-			_seq.AppendCallback(() => element.OnHideComplete());
+			_seq.AppendCallback(() => action());
         }
 
 		public override void Clear() {
