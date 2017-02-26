@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UDBase.Utils;
 
 namespace UDBase.Controllers.LogSystem.UI {
 	public class VisualLogHandler : MonoBehaviour {
@@ -146,38 +147,56 @@ namespace UDBase.Controllers.LogSystem.UI {
 
 		void SetupTypes() {
 			var values = Enum.GetValues(typeof(LogType));
+			var states = new bool[values.Length];
 
 			for( int i = 0; i < values.Length; i++) {
-				_typeStates.Add((LogType)values.GetValue(i), true);
+				var type = (LogType)values.GetValue(i);
+				var state = PlayerPrefsUtils.GetBool(FormatTypeKey(type), true);
+				states[i] = state;
+				_typeStates.Add(type, state);
 			}
 
-			SetupToggles(TypeSample, Enum.GetNames(typeof(LogType)), OnTypeChanged);
+			SetupToggles(TypeSample, Enum.GetNames(typeof(LogType)), states, OnTypeChanged);
 		}
 
 		void SetupTags(string[] tags) {
+			var states = new bool[tags.Length];
 			for( int i = 0; i < tags.Length; i++) {
-				_tagStates.Add(tags[i], true);
+				var tag = tags[i];
+				var state = PlayerPrefsUtils.GetBool(FormatTagKey(tag), true);
+				states[i] = state;
+				_tagStates.Add(tag, state);
 			}
-			SetupToggles(TagSample, tags, OnTagChanged);
+			SetupToggles(TagSample, tags, states, OnTagChanged);
 		}
 
-		void SetupToggles(ToggleContainer template, string[] names, Action<string, bool> callback) {
+		void SetupToggles(ToggleContainer template, string[] names, bool[] values, Action<string, bool> callback) {
 			for(int i = 0; i < names.Length; i++) {
 				var newItem = Instantiate(template, template.transform.parent) as ToggleContainer;
-				newItem.Init(true, names[i], callback);
+				newItem.Init(values[i], names[i], callback);
 			}
 			template.gameObject.SetActive(false);
 		}
 
 		void OnTypeChanged(string name, bool state) {
 			var value = (LogType)Enum.Parse(typeof(LogType), name);
-			_typeStates[value] = state;
+			ChangeType(value, state);
 			UpdateText();
 		}
 
+		void ChangeType(LogType value, bool state) {
+			_typeStates[value] = state;
+			PlayerPrefsUtils.SetBool(FormatTypeKey(value), state);
+		}
+
 		void OnTagChanged(string name, bool state) {
-			_tagStates[name] = state;
+			ChangeTag(name, state);
 			UpdateText();
+		}
+
+		void ChangeTag(string name, bool state) {
+			_tagStates[name] = state;
+			PlayerPrefsUtils.SetBool(FormatTagKey(name), state);
 		}
 
 		public void Clear(bool full) {
@@ -254,6 +273,14 @@ namespace UDBase.Controllers.LogSystem.UI {
 				ApplyMessage(entry.Message, entry.Type, entry.Tag, false);
 			}
 			ApplyAll();
+		}
+
+		string FormatTypeKey(LogType type) {
+			return "visual_log_type_" + type.ToString();
+		}
+
+		string FormatTagKey(string tag) {
+			return "visual_log_tag_" + tag;
 		}
 	}
 }

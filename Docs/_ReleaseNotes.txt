@@ -8,6 +8,7 @@ v.0.7.0
 - Helpers: docs about usuful common tools added;
 - UI: Now you can use multiple UIAnimations on one UIElement using UIAnimationController (step-by-step or parallel);
 - PlayerPrefsUtils: class with GetBool method;
+- Visual Logger: save/load current settings, UI improvements;
 
 v.0.6.0
 - UISystem basics;
