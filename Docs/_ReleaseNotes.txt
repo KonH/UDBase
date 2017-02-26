@@ -6,6 +6,7 @@ v.0.7.0
 - IController: Reset method for further usage;
 - AssetUtils: New utils class to work with unity assets;
 - Helpers: docs about usuful common tools added;
+- UI: Now you can use multiple UIAnimations on one UIElement using UIAnimationController (step-by-step or parallel);
 
 v.0.6.0
 - UISystem basics;
