@@ -17,27 +17,27 @@ namespace UDBase.EditorTools {
 
 		[MenuItem("UDBase/Setup", false, -98)]
 		static void DoSetup() {
-			ProjectSetup.PrepareFolders();
+			ProjectSetupTool.PrepareFolders();
 		}
 
 		[MenuItem("UDBase/About", false, -97)]
 		static void About() {
-			InfoEditor.ShowAbout();
+			UDBaseInfo.ShowAbout();
 		}
 
 		[MenuItem("UDBase/Release Notes", false, -96)]
 		static void ReleaseNotes() {
-			InfoEditor.ShowReleaseNotes();
+			UDBaseInfo.ShowReleaseNotes();
 		}
 
 		[MenuItem("UDBase/Help", false, -95)]
 		static void Help() {
-			InfoEditor.OpenHelp();
+			UDBaseInfo.OpenHelp();
 		}
 
 		[MenuItem("UDBase/Examples", false, -94)]
 		static void Examples() {
-			InfoEditor.OpenExamples();
+			UDBaseInfo.OpenExamples();
 		}
 
 		[MenuItem("UDBase/Schemes/Default")]

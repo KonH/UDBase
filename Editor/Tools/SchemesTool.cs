@@ -5,7 +5,7 @@ using UDBase.Common;
 using UDBase.Utils;
 
 namespace UDBase.EditorTools {
-	public class SchemesTool {
+	public static class SchemesTool {
 
 		public static List<string> GetSchemes() {
 			var files = IOTool.GetDirFiles(UDBaseConfig.ProjectSchemesPath, "*.cs");

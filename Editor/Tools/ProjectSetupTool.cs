@@ -3,7 +3,7 @@ using UDBase.Common;
 using UDBase.Utils;
 
 namespace UDBase.EditorTools {
-	public class ProjectSetup {
+	public static class ProjectSetupTool {
 
 		public static void PrepareFolders() {
 			IOTool.CreateDirectory(UDBaseConfig.ProjectPath);

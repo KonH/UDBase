@@ -6,7 +6,7 @@ using UDBase.Common;
 namespace UDBase.EditorTools {
 	
 	// Tool to change current "Scheme_" defines with keeping third-party defines 
-	public class EditorDefinesTool {
+	public static class EditorDefinesTool {
 		static Dictionary<BuildTarget, BuildTargetGroup> buildTargetMap;
 
 		static EditorDefinesTool() {
