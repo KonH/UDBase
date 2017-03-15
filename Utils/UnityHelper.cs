@@ -33,7 +33,9 @@ namespace UDBase.Utils {
 		}
 
 		public static void Initialize() {
-			PersistantRoot.gameObject.AddComponent<ApplicationQuitTracker>();
+			if( Application.isPlaying ) {
+				PersistantRoot.gameObject.AddComponent<ApplicationQuitTracker>();
+			}
 		}
 
 		public static T LoadPersistant<T>(string prefabPath) {
