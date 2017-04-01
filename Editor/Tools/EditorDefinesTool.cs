@@ -38,6 +38,7 @@ namespace UDBase.EditorTools {
 			AddToMap(BuildTargetGroup.WSA, BuildTarget.WSAPlayer);
 			AddToMap(BuildTargetGroup.XboxOne, BuildTarget.XboxOne);
 			AddToMap(BuildTargetGroup.Unknown, BuildTarget.NoTarget);
+			AddToMap(BuildTargetGroup.Switch, BuildTarget.Switch);
 		}
 
 		static void AddToMap(BuildTargetGroup group, params BuildTarget[] targets) {
