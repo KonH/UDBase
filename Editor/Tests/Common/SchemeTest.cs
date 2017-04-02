@@ -45,14 +45,16 @@ namespace UDBase.Tests {
 
 		[Test]
 		public void AddController_NullHelper() {
-			var controller = new EmptyController();
-			EmptyHelper helper = null;
-			var mock = new SchemeEmptyMock();
-			mock.AddController(helper, controller);
-			Assert.AreEqual(false, mock.HasController(controller));
-			Assert.AreEqual(false, mock.HasControllerHelper(controller));
-			Assert.IsNull(mock.GetControllerHelper(controller));
-			mock.Init();
+			using ( new LogHandler() ) {
+				var controller = new EmptyController();
+				EmptyHelper helper = null;
+				var mock = new SchemeEmptyMock();
+				mock.AddController(helper, controller);
+				Assert.AreEqual(false, mock.HasController(controller));
+				Assert.AreEqual(false, mock.HasControllerHelper(controller));
+				Assert.IsNull(mock.GetControllerHelper(controller));
+				mock.Init();
+			}
 		}
 
 		[Test]
@@ -69,14 +71,16 @@ namespace UDBase.Tests {
 
 		[Test]
 		public void AddController_BothNull() {
-			EmptyController controller = null;
-			EmptyHelper helper = null;
-			var mock = new SchemeEmptyMock();
-			mock.AddController(helper, controller);
-			Assert.AreEqual(false, mock.HasController(controller));
-			Assert.AreEqual(false, mock.HasControllerHelper(controller));
-			Assert.IsNull(mock.GetControllerHelper(controller));
-			mock.Init();
+			using ( new LogHandler() ) {
+				EmptyController controller = null;
+				EmptyHelper helper = null;
+				var mock = new SchemeEmptyMock();
+				mock.AddController(helper, controller);
+				Assert.AreEqual(false, mock.HasController(controller));
+				Assert.AreEqual(false, mock.HasControllerHelper(controller));
+				Assert.IsNull(mock.GetControllerHelper(controller));
+				mock.Init();
+			}
 		}
 	}
 }

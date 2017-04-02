@@ -16,10 +16,12 @@ namespace UDBase.Tests {
 
 		[Test]
 		public void ApplyScheme_Null() {
-			SchemeMock scheme = null;
-			var manager = new SchemeManager();
-			manager.ApplyScheme(scheme);
-			Assert.IsNull(manager.CurrentScheme);
+			using ( new LogHandler() ) {
+				SchemeMock scheme = null;
+				var manager = new SchemeManager();
+				manager.ApplyScheme(scheme);
+				Assert.IsNull(manager.CurrentScheme);
+			}
 		}
 	}
 }
