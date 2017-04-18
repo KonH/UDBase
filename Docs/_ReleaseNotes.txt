@@ -1,3 +1,6 @@
+v.0.8.0
+- Extensions: DOTween updated to 1.1.575;
+
 v.0.7.0
 - UnityHelper: methods to start coroutines, methods to get-or-create components;
 - NetUtils: basic tool to send www requests;
