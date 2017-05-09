@@ -10,6 +10,7 @@
 		public const int Event     = 8;
 		public const int Content   = 9;
 		public const int Time      = 10;
+		public const int Network   = 11;
 
 		protected string[] _defaultNames = new string[]{
 			"Untagged",
@@ -22,7 +23,8 @@
 			"Json",
 			"Event",
 			"Content",
-			"Time"};
+			"Time",
+		    "Network"};
 
 		public virtual string GetName(int index) {
 			if( (index >= 0) && (index < _defaultNames.Length) ) {

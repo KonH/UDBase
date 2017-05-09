@@ -18,7 +18,7 @@ namespace UDBase.Controllers.UTime {
 		}
 
 		public void Init () {
-			NetUtils.SendRequest(_url, _timeout, OnTimeRequestComplete);
+			NetUtils.SendRequest(_url, timeout: _timeout, onComplete: OnTimeRequestComplete);
 		}
 
 		public void PostInit() {}

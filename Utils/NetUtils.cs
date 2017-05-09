@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils {
 	public static class NetUtils {
-		
+
+		public const float DefaultTimeout = 10.0f;
+
 		public class Response {
+			public long   Code    { get; private set; }
 			public string Text    { get; private set; }
 			public string Error   { get; private set; }
 			public bool   Timeout { get; private set; }
@@ -21,15 +27,21 @@ namespace UDBase.Utils {
 				}
 			}
 			
-			public Response(string text, string error, bool timeout) {
+			public Response(long code, string text, string error, bool timeout) {
+				Code    = code;
 				Text    = text;
 				Error   = error;
 				Timeout = timeout;
 			} 
 		}
 
-		public static void SendRequest(string url, float timeout, Action<Response> onComplete) {
-			UnityHelper.StartCoroutine(RequestCoroutine(url, timeout, onComplete));
+		public static void SendRequest(
+			string url, 
+			string method = UnityWebRequest.kHttpVerbGET, 
+			float timeout = DefaultTimeout, 
+			Dictionary<string, string> headers = null, 
+			Action<Response> onComplete = null) {
+			UnityHelper.StartCoroutine(RequestCoroutine(url, method, timeout, headers, onComplete));
 		}
 
 		static float CurrentTime {
@@ -37,19 +49,57 @@ namespace UDBase.Utils {
 				return Time.realtimeSinceStartup;
 			}
 		}
-		static IEnumerator RequestCoroutine(string url, float timeout, Action<Response> onComplete) {
-			var request = new WWW(url);
-			var startTime = CurrentTime;
-			var isTimeout = false;
-			while( !request.isDone ) {
-				if( CurrentTime - startTime > timeout ) {
-					isTimeout = true;
-					break;
-				}
-				yield return null;
+
+		static UnityWebRequest CreateByMethodType(string url, string method) {
+			switch ( method ) {
+				case UnityWebRequest.kHttpVerbGET: return UnityWebRequest.Get(url);
+				default: return new UnityWebRequest();
 			}
-			var response = new Response(request.text, request.error, isTimeout);
-			if( onComplete != null ) {
+		}
+
+		static UnityWebRequest CreateRequest(string url, string method, Dictionary<string, string> headers) {
+			var request = CreateByMethodType(url, method);
+			if ( headers != null ) {
+				var iter = headers.GetEnumerator();
+				while ( iter.MoveNext() ) {
+					var header = iter.Current;
+					request.SetRequestHeader(header.Key, header.Value);
+				}
+			}
+			return request;
+		}
+
+		static IEnumerator RequestCoroutine(string url, string method, float timeout, Dictionary<string, string> headers, Action<Response> onComplete) {
+			var request = CreateRequest(url, method, headers);
+			using ( request ) {
+				var startTime = CurrentTime;
+				var isTimeout = false;
+				var operation = request.Send();
+				while ( !operation.isDone ) {
+					if ( CurrentTime - startTime > timeout ) {
+						isTimeout = true;
+						break;
+					}
+					yield return null;
+				}
+				ProcessRequestResult(url, isTimeout, request, onComplete);
+			}
+		}
+
+		static void ProcessRequestResult(string url, bool isTimeout, UnityWebRequest request, Action<Response> onComplete) {
+			var response = new Response(
+				request.responseCode,
+				request.downloadHandler != null ? request.downloadHandler.text : null,
+				request.error,
+				isTimeout);
+			if ( isTimeout ) {
+				Log.ErrorFormat("Request to '{0}': timeout", LogTags.Network, url);
+			} else if ( request.isError ) {
+				Log.ErrorFormat("Request to '{0}': error: '{1}'", LogTags.Network, url, request.error);
+			} else {
+				Log.MessageFormat("Request to '{0}': response code: {1}, text: '{2}'", LogTags.Network, url, request.responseCode, response.Text);
+			}
+			if ( onComplete != null ) {
 				onComplete(response);
 			}
 		}
