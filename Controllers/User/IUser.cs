@@ -1,5 +1,6 @@
 
-namespace UDBase.Controllers.User {
+namespace UDBase.Controllers.UserSystem {
 	public interface IUser : IController {
+		string Name { get; set; }
 	}
 }
