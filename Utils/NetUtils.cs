@@ -35,13 +35,35 @@ namespace UDBase.Utils {
 			} 
 		}
 
+		public static void SendGetRequest(
+			string url,
+			float timeout,
+			Dictionary<string, string> headers = null,
+			Action<Response> onComplete = null) 
+		{
+			var req = UnityWebRequest.Get(url);
+			SendRequest(req, timeout, headers, onComplete);
+		}
+
+		public static void SendPostRequest(
+			string url,
+			string data,
+			float timeout,
+			Dictionary<string, string> headers = null,
+			Action<Response> onComplete = null) 
+		{
+			var req = UnityWebRequest.Post(url, data);
+			SendRequest(req, timeout, headers, onComplete);
+		}
+
 		public static void SendRequest(
-			string url, 
-			string method = UnityWebRequest.kHttpVerbGET, 
+			UnityWebRequest request, 
 			float timeout = DefaultTimeout, 
 			Dictionary<string, string> headers = null, 
-			Action<Response> onComplete = null) {
-			UnityHelper.StartCoroutine(RequestCoroutine(url, method, timeout, headers, onComplete));
+			Action<Response> onComplete = null)
+		{
+			AddHeaders(request, headers);
+			UnityHelper.StartCoroutine(RequestCoroutine(request, timeout, headers, onComplete));
 		}
 
 		static float CurrentTime {
@@ -50,15 +72,7 @@ namespace UDBase.Utils {
 			}
 		}
 
-		static UnityWebRequest CreateByMethodType(string url, string method) {
-			switch ( method ) {
-				case UnityWebRequest.kHttpVerbGET: return UnityWebRequest.Get(url);
-				default: return new UnityWebRequest();
-			}
-		}
-
-		static UnityWebRequest CreateRequest(string url, string method, Dictionary<string, string> headers) {
-			var request = CreateByMethodType(url, method);
+		static void AddHeaders(UnityWebRequest request, Dictionary<string, string> headers) {
 			if ( headers != null ) {
 				var iter = headers.GetEnumerator();
 				while ( iter.MoveNext() ) {
@@ -66,11 +80,9 @@ namespace UDBase.Utils {
 					request.SetRequestHeader(header.Key, header.Value);
 				}
 			}
-			return request;
 		}
 
-		static IEnumerator RequestCoroutine(string url, string method, float timeout, Dictionary<string, string> headers, Action<Response> onComplete) {
-			var request = CreateRequest(url, method, headers);
+		static IEnumerator RequestCoroutine(UnityWebRequest request, float timeout, Dictionary<string, string> headers, Action<Response> onComplete) {
 			using ( request ) {
 				var startTime = CurrentTime;
 				var isTimeout = false;
@@ -82,11 +94,12 @@ namespace UDBase.Utils {
 					}
 					yield return null;
 				}
-				ProcessRequestResult(url, isTimeout, request, onComplete);
+				ProcessRequestResult(request, isTimeout, onComplete);
 			}
 		}
 
-		static void ProcessRequestResult(string url, bool isTimeout, UnityWebRequest request, Action<Response> onComplete) {
+		static void ProcessRequestResult(UnityWebRequest request, bool isTimeout, Action<Response> onComplete) {
+			var url = request.url;
 			var response = new Response(
 				request.responseCode,
 				request.downloadHandler != null ? request.downloadHandler.text : null,
