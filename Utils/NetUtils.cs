@@ -37,7 +37,7 @@ namespace UDBase.Utils {
 
 		public static void SendGetRequest(
 			string url,
-			float timeout,
+			float timeout = DefaultTimeout,
 			Dictionary<string, string> headers = null,
 			Action<Response> onComplete = null) 
 		{
@@ -48,7 +48,7 @@ namespace UDBase.Utils {
 		public static void SendPostRequest(
 			string url,
 			string data,
-			float timeout,
+			float timeout = DefaultTimeout,
 			Dictionary<string, string> headers = null,
 			Action<Response> onComplete = null) 
 		{
