@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,21 @@ namespace UDBase.Utils {
 				Error   = error;
 				Timeout = timeout;
 			} 
+		}
+
+		public static string CreateBasicAuthorization(string userName, string userPassword) {
+			var prefix = "Basic ";
+			var userPassBlock = Encoding.ASCII.GetBytes(userName + ":" + userPassword);
+			var base64String = Convert.ToBase64String(userPassBlock);
+			return prefix + base64String;
+		}
+
+		public static UnityWebRequest CreateGetRequest(string url) {
+			return UnityWebRequest.Get(url);
+		}
+
+		public static UnityWebRequest CreatePostRequest(string url, string data) {
+			return UnityWebRequest.Post(url, data);
 		}
 
 		public static void SendGetRequest(
@@ -72,12 +88,16 @@ namespace UDBase.Utils {
 			}
 		}
 
-		static void AddHeaders(UnityWebRequest request, Dictionary<string, string> headers) {
+		public static void AddHeader(UnityWebRequest request, string name, string value) {
+			request.SetRequestHeader(name, value);
+		}
+
+		public static void AddHeaders(UnityWebRequest request, Dictionary<string, string> headers) {
 			if ( headers != null ) {
 				var iter = headers.GetEnumerator();
 				while ( iter.MoveNext() ) {
 					var header = iter.Current;
-					request.SetRequestHeader(header.Key, header.Value);
+					AddHeader(request, header.Key, header.Value);
 				}
 			}
 		}
