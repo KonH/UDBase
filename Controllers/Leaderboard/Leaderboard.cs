@@ -23,5 +23,11 @@ namespace UDBase.Controllers.LeaderboardSystem {
 				Instance.GetScores(max, parameter, callback);
 			}
 		}
+
+		public static void PostScore(string param, string userName, int score, Action<bool> callback) {
+			if ( Instance != null ) {
+				Instance.PostScore(param, userName, score, callback);
+			}
+		}
 	}
 }

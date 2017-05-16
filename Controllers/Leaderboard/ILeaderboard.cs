@@ -7,5 +7,6 @@ namespace UDBase.Controllers.LeaderboardSystem {
 		string Version { get; set; }
 
 		void GetScores(int max, string parameter, Action<List<LeaderboardItem>> callback);
+		void PostScore(string param, string userName, int score, Action<bool> callback);
 	}
 }
