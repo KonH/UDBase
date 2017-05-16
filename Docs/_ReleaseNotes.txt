@@ -1,4 +1,5 @@
 v.0.8.0
+- New controller: Leaderboard;
 - Utils: WebClient for requests to web api with basic authorization;
 - NetUtils: now UnityWebRequest is used;
 - New controller: User;
