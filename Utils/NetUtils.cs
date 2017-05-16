@@ -51,13 +51,22 @@ namespace UDBase.Utils {
 			return UnityWebRequest.Post(url, data);
 		}
 
+		public static UnityWebRequest CreateJsonPostRequest(string url, string data) {
+			var req = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
+			byte[] bytes = Encoding.UTF8.GetBytes(data);
+			UploadHandlerRaw uploadHandler = new UploadHandlerRaw(bytes);
+			uploadHandler.contentType = "application/json";
+			req.uploadHandler = uploadHandler;
+			return req;
+		}
+
 		public static void SendGetRequest(
 			string url,
 			float timeout = DefaultTimeout,
 			Dictionary<string, string> headers = null,
 			Action<Response> onComplete = null) 
 		{
-			var req = UnityWebRequest.Get(url);
+			var req = CreateGetRequest(url);
 			SendRequest(req, timeout, headers, onComplete);
 		}
 
@@ -68,7 +77,17 @@ namespace UDBase.Utils {
 			Dictionary<string, string> headers = null,
 			Action<Response> onComplete = null) 
 		{
-			var req = UnityWebRequest.Post(url, data);
+			var req = CreatePostRequest(url, data);
+			SendRequest(req, timeout, headers, onComplete);
+		}
+
+		public static void SendJsonPostRequest(
+			string url,
+			string data,
+			float timeout = DefaultTimeout,
+			Dictionary<string, string> headers = null,
+			Action<Response> onComplete = null) {
+			var req = CreateJsonPostRequest(url, data);
 			SendRequest(req, timeout, headers, onComplete);
 		}
 

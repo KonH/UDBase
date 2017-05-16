@@ -18,8 +18,9 @@ namespace UDBase.Utils {
 			if ( originalHeaders == null ) {
 				return _authHeaderOnly;
 			} else {
-				originalHeaders.Add(AuthHeaderName, _authHeaderValue);
-				return originalHeaders;
+				var newHeaders = new Dictionary<string, string>(originalHeaders);
+				newHeaders.Add(AuthHeaderName, _authHeaderValue);
+				return newHeaders;
 			}
 		}
 
@@ -42,6 +43,16 @@ namespace UDBase.Utils {
 		{
 			headers = UpdateHeaders(headers);
 			NetUtils.SendPostRequest(url, data, timeout, headers, onComplete);
+		}
+
+		public void SendJsonPostRequest(
+			string url,
+			string data,
+			float timeout = NetUtils.DefaultTimeout,
+			Dictionary<string, string> headers = null,
+			Action<NetUtils.Response> onComplete = null) {
+			headers = UpdateHeaders(headers);
+			NetUtils.SendJsonPostRequest(url, data, timeout, headers, onComplete);
 		}
 	}
 }
