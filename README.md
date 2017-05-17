@@ -147,6 +147,7 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 - **[UTime](Docs/UTime.md)** (local/network time controller)
 - **[UI](Docs/UI.md)** (UI system)
 - **[User](Docs/User.md)** (User system)
+- **[Leaderboard](Docs/Leaderboard.md)** (Leaderboard system)
 
 ## Extensions
 - [Full Serializer](https://github.com/jacobdufault/fullserializer) - JSON serializer, used for default **Config**/**Save** implementation
