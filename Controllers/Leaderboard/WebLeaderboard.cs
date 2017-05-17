@@ -55,7 +55,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 				var data = fsJsonParser.Parse(response.Text);
 				_serializer.TryDeserialize(data, ref result);
 			} else {
-				Log.ErrorFormat("Wrong response: {0}, '{1}'", LogTags.Network, response.Code, response.Text);
+				Log.ErrorFormat("Wrong response: {0}, '{1}'", LogTags.Leaderboard, response.Code, response.Text);
 			}
 			if ( callback != null ) {
 				callback(result);
@@ -67,7 +67,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 			fsData data = null;
 			_serializer.TrySerialize(item, out data);
 			var dataString = data.ToString();
-			Log.MessageFormat("Serialized score item: '{0}'", LogTags.Network, dataString);
+			Log.MessageFormat("Serialized score item: '{0}'", LogTags.Leaderboard, dataString);
 			var url = "https://konhit.xyz/lbservice/api/Score";
 			_client.SendJsonPostRequest(url, dataString, headers: _postHeaders, onComplete: (response) => OnPostScoreComplete(response, callback));
 		}
@@ -77,7 +77,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 			if ( IsCorrectResponse(response) && response.Code == 201 ) {
 				result = true;
 			} else {
-				Log.ErrorFormat("Wrong response: {0}, '{1}'", LogTags.Network, response.Code, response.Text);
+				Log.ErrorFormat("Wrong response: {0}, '{1}'", LogTags.Leaderboard, response.Code, response.Text);
 			}
 			if ( callback != null ) {
 				callback(result);
