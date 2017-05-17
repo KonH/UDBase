@@ -30,7 +30,14 @@ namespace UDBase.Controllers.LeaderboardSystem {
 		public void Reset() { }
 
 		string FormatGetScoresUrl(int max, string parameter) {
-			return string.Format("{0}/api/Score/top/{1}", _url, _gameName);
+			var url = string.Format("{0}/api/Score/top/{1}?max={2}", _url, _gameName, max);
+			if ( !string.IsNullOrEmpty(parameter) ) {
+				url += string.Format("&param={0}", parameter);
+			}
+			if ( !string.IsNullOrEmpty(Version) ) {
+				url += string.Format("&version={0}", Version);
+			}
+			return url;
 		}
 
 		bool IsCorrectResponse(NetUtils.Response response) {
