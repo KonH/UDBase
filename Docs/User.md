@@ -16,4 +16,4 @@ AddController<User>(new SaveUser());
 
 ```
 
-After it, you can get/set user id with **User.Id**, name via **User.Name**, add/get external ids with **User.AddExternalId**/**User.FindExternalId** and all information has beed saved between sessions.
+After it, you can get/set user id with **User.Id**, name via **User.Name**, add/get external ids with **User.AddExternalId**/**User.FindExternalId** and all information has been saved between sessions.

@@ -1,6 +1,6 @@
 # Leaderboard
 
-Leaderboard is a score management system, now it is used self-hosted service.
+Leaderboard is a score management system, now it uses self-hosted service.
 
 ## Basics
 
@@ -54,7 +54,7 @@ Where EndSend is an **bool** callback:
 
 ```
 void EndSend(bool result) {
-	// If you get result == true, request is succeded
+	// If you get result == true, request is succeeded
 }
 ```
 
