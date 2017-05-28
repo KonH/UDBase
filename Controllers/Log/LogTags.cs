@@ -12,6 +12,7 @@
 		public const int Time        = 10;
 		public const int Network     = 11;
 		public const int Leaderboard = 12;
+		public const int Audio       = 13;
 
 		protected string[] _defaultNames = new string[]{
 			"Untagged",
@@ -26,7 +27,8 @@
 			"Content",
 			"Time",
 		    "Network",
-			"Leaderboard"};
+			"Leaderboard",
+			"Audio"};
 
 		public virtual string GetName(int index) {
 			if( (index >= 0) && (index < _defaultNames.Length) ) {
