@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace UDBase.Utils {
@@ -63,6 +64,14 @@ namespace UDBase.Utils {
 
 		public static T AddForScene<T>() where T:Component {
 			return Add<T>(false);
+		}
+
+		public static void AddPersistantStartCallback(Action action) {
+			GetOrCreatePersistantComponent<UnityCallbackTracker>().StartCallbacks.Add(action);
+		}
+
+		public static void AddSceneStartCallback(Action action) {
+			GetOrCreateSceneComponent<UnityCallbackTracker>().StartCallbacks.Add(action);
 		}
 
 		static T Add<T>(bool persistant) where T:Component {
