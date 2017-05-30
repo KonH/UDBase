@@ -18,9 +18,9 @@ namespace UDBase.Controllers.AudioSystem {
 		Dictionary<string, float> _volumes       = new Dictionary<string, float>();
 		Dictionary<string, bool>  _mutes         = new Dictionary<string, bool>();
 
-		public AudioController(string mixerPath, float initialVolume = 0.5f, string[] channels = null) {
-			_channels      = channels;
+		public AudioController(string mixerPath, string[] channels = null, float initialVolume = 0.5f) {
 			_mixerPath     = mixerPath;
+			_channels      = channels;
 			_initialVolume = initialVolume;
 		}
 
