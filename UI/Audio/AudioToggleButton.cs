@@ -6,11 +6,9 @@ namespace UDBase.Controllers.AudioSystem.UI {
 	[RequireComponent(typeof(Button))]
 	public class AudioToggleButton : MonoBehaviour {
 
-		public GameObject ActiveItem  = null;
-		public GameObject MutedItem   = null;
-		public string    ChannelName  = null;
-		public bool      DefaultSound = false;
-		public bool      DefaultMusic = false;
+		public ChannelSettings Settings   = new ChannelSettings();
+		public GameObject      ActiveItem = null;
+		public GameObject      MutedItem  = null;
 
 		Button _button = null;
 
@@ -25,21 +23,12 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		void Start() {
 			_button = GetComponent<Button>();
 			_button.onClick.AddListener(OnClick);
-			SetupChannelName();
+			Settings.SetupChannelName();
 			UpdateState();
 		}
 
-		void SetupChannelName() {
-			if ( DefaultSound ) {
-				ChannelName = Audio.Default_Sound_Channel_Volume;
-			}
-			if ( DefaultMusic ) {
-				ChannelName = Audio.Default_Music_Channel_Volume;
-			}
-		}
-
 		void UpdateState() {
-			var muted = Audio.IsChannelMuted(ChannelName);
+			var muted = Audio.IsChannelMuted(Settings.ChannelName);
 			if ( ActiveItem ) {
 				ActiveItem.SetActive(!muted);
 			}
@@ -49,13 +38,13 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		}
 
 		void OnVolumeChanged(VolumeChangeEvent e) {
-			if ( e.Channel == ChannelName ) {
+			if ( e.Channel == Settings.ChannelName ) {
 				UpdateState();
 			}
 		}
 
 		void OnClick() {
-			Audio.ToggleChannel(ChannelName);
+			Audio.ToggleChannel(Settings.ChannelName);
 		}
 	}
 }
