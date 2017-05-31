@@ -148,6 +148,7 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 - **[UI](Docs/UI.md)** (UI system)
 - **[User](Docs/User.md)** (User system)
 - **[Leaderboard](Docs/Leaderboard.md)** (Leaderboard system)
+- **[Audio](Docs/Audio.md)** (Audio system)
 
 ## Extensions
 - [Full Serializer](https://github.com/jacobdufault/fullserializer) - JSON serializer, used for default **Config**/**Save** implementation
