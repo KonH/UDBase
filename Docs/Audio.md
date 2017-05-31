@@ -68,6 +68,8 @@ And initialize controller as before:
 AddController<Audio>(new SaveAudioController("AudioMixer", saveDelta: 0.1f));
 ```
 
+**saveDelta** defines how volume needs to change for saving (it is useful for prevent saving each frame when you use sliders).
+
 ## UI
 
 ### AudioToggleButton
