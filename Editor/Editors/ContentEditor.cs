@@ -5,7 +5,7 @@ using UDBase.Controllers.ContentSystem;
 
 namespace UDBase.EditorTools {
 	[CustomEditor(typeof(ContentConfig))]
-	public class ContentEditor : Editor {
+	public class ContentEditor : UnityEditor.Editor {
 
 		const string CacheSuffix    = "_Cache";
 		const string AssetsLine     = "Assets/";
