@@ -36,7 +36,7 @@ namespace AssetBundles
 		[MenuItem ("Assets/AssetBundles/Clear Cache")]
 		static public void ClearCache ()
 		{
-			Caching.CleanCache();
+			Caching.ClearCache();
 		}
     }
 }

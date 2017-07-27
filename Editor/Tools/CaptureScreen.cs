@@ -17,7 +17,7 @@ public static class CaptureScreen {
 			}
 			var fileName = GetRandomName();
 			fileName = Path.Combine(dir, fileName);
-			Application.CaptureScreenshot(fileName, superSize);
+			ScreenCapture.CaptureScreenshot(fileName, superSize);
 			Debug.Log("Screenshot saved to " + fileName);
 		}
 

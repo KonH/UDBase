@@ -17,7 +17,7 @@ namespace UDBase.Controllers.LogSystem {
 		public void Reset() {}
 
 		public void Message(string msg, LogType type, int tag) {
-			Debug.logger.Log(type, _tagger.GetName(tag), msg);
+			Debug.unityLogger.Log(type, _tagger.GetName(tag), msg);
 		}
 	}
 }
