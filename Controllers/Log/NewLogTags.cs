@@ -11,6 +11,5 @@ public enum NewLogTags {
 	Time = 10,
 	Network = 11,
 	Leaderboard = 12,
-	Audio = 13,
-	CustomTag = 101
+	Audio = 13
 }
