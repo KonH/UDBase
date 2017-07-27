@@ -1,8 +1,8 @@
 ﻿using UDBase.Utils;
 
 namespace UDBase.Controllers.LogSystem {
-	[CompositeEnum(typeof(NewLogTags))]
-	public enum DefaultLogTags {
+	[CompositeEnum(typeof(LogTags))]
+	public enum DefaultTags {
 		Common      = 1,
 		UI          = 2,
 		Scene       = 3,
