@@ -4,12 +4,11 @@ using DG.Tweening;
 using UDBase.Utils;
 
 namespace UDBase.UI.Common {
-    public class UIScaleAnimation : UIShowHideAnimation
-    {
+    public class UIScaleAnimation : UIShowHideAnimation {
 		public float Duration = 1.0f;
 		
 		Vector3 _originalScale = Vector3.zero;
-		Sequence _seq          = null;
+		Sequence _seq;
 
 		void Awake() {
 			_originalScale = transform.localScale;

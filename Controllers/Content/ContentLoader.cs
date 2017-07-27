@@ -4,8 +4,8 @@ using UnityEngine;
 namespace UDBase.Controllers.ContentSystem {
 	public class ContentLoader : MonoBehaviour {
 
-		public ContentId Id                 = null;
-		public bool      InstantiateOnStart = false;
+		public ContentId Id;
+		public bool      InstantiateOnStart;
 
 		void Start() {
 			if( InstantiateOnStart ) {
@@ -14,7 +14,7 @@ namespace UDBase.Controllers.ContentSystem {
 		}
 
 		public bool LoadAsync<T>(Action<T> callback) where T:UnityEngine.Object {
-			return Content.LoadAsync<T>(Id, callback);
+			return Content.LoadAsync(Id, callback);
 		}
 
 		public bool Instantiate<T>() where T:UnityEngine.Object {

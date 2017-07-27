@@ -3,7 +3,6 @@ using FullSerializer;
 
 namespace UDBase.Controllers.AudioSystem {
 	public class AudioSaveNode {
-
 		[fsProperty("channels")]
 		public Dictionary<string, ChannelNode> Channels { get; set; }
 	}

@@ -5,11 +5,11 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.UTime {
 	public class NetworkTime : ITime {
-
-		string   _url          = null;
-		float    _timeout      = 0.0f;
-		DateTime _startDate    = default(DateTime);
-		float    _startTime    = 0;
+		readonly string _url;
+		readonly float  _timeout;
+		
+		DateTime _startDate = default(DateTime);
+		float    _startTime;
 
 		public NetworkTime(string url, float timeout = 10.0f, bool isTrusted = true) {
 			_url      = url;
@@ -31,7 +31,7 @@ namespace UDBase.Controllers.UTime {
 
 		void OnTimeRequestComplete(NetUtils.Response response) {
 			if ( !response.IsEmpty ) {
-				var dt = default(DateTime);
+				DateTime dt;
 				if( DateTime.TryParse(response.Text, out dt) ) {
 					_startDate = dt.ToUniversalTime();
 					_startTime = GetAppTime();
@@ -59,12 +59,10 @@ namespace UDBase.Controllers.UTime {
 
 		public DateTime CurrentTime
 		{
-			get
-			{
-				if( IsAvailable ) {
-					return _startDate.AddSeconds((double)(GetAppTime() - _startTime));
-				}
-				return default(DateTime);
+			get {
+				return IsAvailable ? 
+					_startDate.AddSeconds(GetAppTime() - _startTime) : 
+					default(DateTime);
 			}
 		}
 	}

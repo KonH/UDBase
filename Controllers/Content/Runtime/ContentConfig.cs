@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace UDBase.Controllers.ContentSystem {
 	public class ContentConfig : ScriptableObject {
-
 		public List<ContentId> Items = new List<ContentId>();
 
 		public void Add(ContentId contentId) {

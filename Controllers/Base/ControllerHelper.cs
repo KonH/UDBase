@@ -25,15 +25,10 @@ namespace UDBase.Controllers {
 	 */
 	public class ControllerHelper<TController>: ControllerHelperBase where TController:IController {
 
-		static List<TController> _instances = null;
+		static List<TController> _instances;
 
 		protected static List<TController> Instances { 
-			get {
-				if( _instances == null ) {
-					_instances = new List<TController>();
-				}
-				return _instances;	
-			}
+			get { return _instances ?? (_instances = new List<TController>()); }
 		}
 
 		protected static TController Instance { get; private set; }

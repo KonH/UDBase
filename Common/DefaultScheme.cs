@@ -6,7 +6,6 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Common {
 	public class ProjectScheme : Scheme {
-
 		public ProjectScheme() {
 			AddController(new Log(), new UnityLog());
 		}

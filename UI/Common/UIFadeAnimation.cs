@@ -7,9 +7,10 @@ namespace UDBase.UI.Common {
 	[RequireComponent(typeof(CanvasGroup))]
     public class UIFadeAnimation : UIShowHideAnimation {
 		public float Duration = 1.0f;
-		Sequence _seq = null;
+		
+		Sequence _seq;
 
-		CanvasGroup _group = null;
+		CanvasGroup _group;
 		CanvasGroup Group {
 			get {
 				if( !_group ) {

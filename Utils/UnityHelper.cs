@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace UDBase.Utils {
 	public static class UnityHelper {
-
-		static Transform _persistantRoot = null;
+		static Transform _persistantRoot;
 		static Transform PersistantRoot {
 			get {
 				if( !_persistantRoot ) {
@@ -15,7 +14,7 @@ namespace UDBase.Utils {
 			}
 		}
 
-		static Transform _sceneRoot = null;
+		static Transform _sceneRoot;
 		static Transform SceneRoot {
 			get {
 				if( !_sceneRoot ) {
@@ -26,7 +25,7 @@ namespace UDBase.Utils {
 		}
 
 		static Transform MakeRoot(string name, bool persistant) {
-			GameObject go = new GameObject(name);
+			var go = new GameObject(name);
 			if( persistant ) {
 				GameObject.DontDestroyOnLoad(go);
 			}

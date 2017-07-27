@@ -3,24 +3,19 @@ namespace UDBase.Controllers.UserSystem {
 
 		public static string Id {
 			get {
-				if ( Instance != null ) {
-					return Instance.Id;
-				}
-				return null;
+				return (Instance != null) ? Instance.Id : null;
 			}
 			set {
-				if ( Instance != null ) {
-					Instance.Id = value;
+				if (Instance == null) {
+					return;
 				}
+				Instance.Id = value;
 			}
 		}
 
 		public static string Name {
 			get {
-				if ( Instance != null ) {
-					return Instance.Name;
-				}
-				return null;
+				return (Instance != null) ? Instance.Name : null;
 			}
 			set {
 				if ( Instance != null ) {
@@ -30,10 +25,7 @@ namespace UDBase.Controllers.UserSystem {
 		}
 
 		public static string FindExternalId(string provider) {
-			if ( Instance != null ) {
-				return Instance.FindExternalId(provider);
-			}
-			return null;
+			return (Instance != null) ? Instance.FindExternalId(provider) : null;
 		}
 		public static void AddExternalId(string provider, string id) {
 			if ( Instance != null ) {

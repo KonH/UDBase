@@ -5,10 +5,9 @@ using UDBase.Controllers.EventSystem;
 namespace UDBase.Controllers.AudioSystem.UI {
 	[RequireComponent(typeof(Slider))]
 	public class AudioSlider : MonoBehaviour {
-
 		public ChannelSettings Settings = new ChannelSettings();
 
-		Slider _slider = null;
+		Slider _slider;
 
 		void OnEnable() {
 			Events.Subscribe<VolumeChangeEvent>(this, OnVolumeChanged);

@@ -22,9 +22,9 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		UIElement _element = null;
-		bool      _ended   = false;
-		bool      _result  = false;
+		UIElement _element;
+		bool      _ended;
+		bool      _result;
 
 		public void Show() {
 			Element.Show();

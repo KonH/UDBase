@@ -7,10 +7,10 @@ namespace UDBase.Controllers.AudioSystem.UI {
 	public class AudioToggleButton : MonoBehaviour {
 
 		public ChannelSettings Settings   = new ChannelSettings();
-		public GameObject      ActiveItem = null;
-		public GameObject      MutedItem  = null;
+		public GameObject      ActiveItem;
+		public GameObject      MutedItem;
 
-		Button _button = null;
+		Button _button;
 
 		void OnEnable() {
 			Events.Subscribe<VolumeChangeEvent>(this, OnVolumeChanged);

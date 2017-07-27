@@ -7,17 +7,17 @@ using UDBase.Utils;
 
 namespace UDBase.Controllers.AudioSystem {
 	public class AudioController : IAudio {
-
 		const float MinVolume = -80.0f;
 		const float MaxVolume = 0.0f;
 
-		string                    _mixerPath     = null;
-		float                     _initialVolume = 0.0f;
-		string[]                  _channels      = null;
-		AudioMixer                _mixer         = null;
-		Dictionary<string, float> _volumes       = new Dictionary<string, float>();
-		Dictionary<string, bool>  _mutes         = new Dictionary<string, bool>();
+		readonly string                    _mixerPath;
+		readonly float                     _initialVolume;
+		readonly string[]                  _channels;
+		readonly Dictionary<string, float> _volumes = new Dictionary<string, float>();
+		readonly Dictionary<string, bool>  _mutes   = new Dictionary<string, bool>();
 
+		AudioMixer _mixer;
+		
 		public AudioController(string mixerPath, string[] channels = null, float initialVolume = 0.5f) {
 			_mixerPath     = mixerPath;
 			_channels      = channels;
@@ -65,7 +65,7 @@ namespace UDBase.Controllers.AudioSystem {
 		}
 
 		public bool IsChannelMuted(string parameter) {
-			return FindMute(parameter) || FindVolume(parameter) == 0.0f;
+			return FindMute(parameter) || Mathf.Approximately(FindVolume(parameter), 0.0f);
 		}
 
 		public void ToggleChannel(string parameter) {

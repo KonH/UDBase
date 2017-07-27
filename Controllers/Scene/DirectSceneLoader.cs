@@ -4,7 +4,6 @@ using UDBase.Controllers.EventSystem;
 
 namespace UDBase.Controllers.SceneSystem {
 	public sealed class DirectSceneLoader : IScene {
-
 		public ISceneInfo CurrentScene { get; private set; }
 
 		public void Init() {}
@@ -18,7 +17,7 @@ namespace UDBase.Controllers.SceneSystem {
 			if( Scene.IsSceneNameValid(sceneName) ) {
 				SceneManager.LoadScene(sceneName);
 				CurrentScene = sceneInfo;
-				Events.Fire<Scene_Loaded>(new Scene_Loaded(sceneInfo));
+				Events.Fire(new Scene_Loaded(sceneInfo));
 			} else {
 				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
 			}

@@ -7,12 +7,13 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ConfigSystem {
 	public sealed class FsJsonResourcesConfig : IConfig {
-		string                   _fileName      = "";
-		FsJsonNodeContainer      _nodeContainer = null;
-		FsJsonListContainer      _listContainer = null;
-		Dictionary<Type, string> _nodeNames     = new Dictionary<Type, string>();
-		Dictionary<Type, string> _listNames     = new Dictionary<Type, string>();
-		string                   _configContent = null;
+		readonly string                   _fileName;
+		readonly Dictionary<Type, string> _nodeNames = new Dictionary<Type, string>();
+		readonly Dictionary<Type, string> _listNames = new Dictionary<Type, string>();
+		
+		FsJsonNodeContainer _nodeContainer;
+		FsJsonListContainer _listContainer;
+		string              _configContent;
 
 		public FsJsonResourcesConfig() {
 			_fileName = UDBaseConfig.JsonConfigName;
@@ -73,24 +74,15 @@ namespace UDBase.Controllers.ConfigSystem {
 		}
 
 		public T GetNode<T>() {
-			if( _nodeContainer != null ) {
-				return _nodeContainer.LoadNode<T>(false);
-			}
-			return default(T);
+			return (_nodeContainer != null) ? _nodeContainer.LoadNode<T>(false) : default(T);
 		}
 
 		public T GetItem<T>(string name) {
-			if( _listContainer != null ) {
-				return _listContainer.LoadItem<T>(name, false);
-			}
-			return default(T);
+			return (_listContainer != null) ? _listContainer.LoadItem<T>(name, false) : default(T);
 		}
 
 		public Dictionary<string, T> GetItems<T>() {
-			if( _listContainer != null ) {
-				return _listContainer.LoadDict<T>();
-			}
-			return null;
+			return (_listContainer != null) ? _listContainer.LoadDict<T>() : null;
 		}
 	}
 }

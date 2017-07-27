@@ -5,16 +5,17 @@ using UDBase.Utils;
 
 namespace UDBase.Controllers.AudioSystem {
 	public class SaveAudioController : IAudio {
-
-		IAudio        _controller = null;
-		AudioSaveNode _node       = null;
-		float         _saveDelta  = 0.0f;
+		readonly IAudio _controller;
+		readonly float  _saveDelta;
+		
+		AudioSaveNode _node;
 
 		public SaveAudioController(IAudio controller) {
 			_controller = controller;
 		}
 
-		public SaveAudioController(string mixerPath, float saveDelta = 0.1f, string[] channels = null, float initialVolume = 0.5f) : 
+		public SaveAudioController(
+			string mixerPath, float saveDelta = 0.1f, string[] channels = null, float initialVolume = 0.5f) : 
 			this(new AudioController(mixerPath, channels, initialVolume)) {
 			_saveDelta = saveDelta;
 		}

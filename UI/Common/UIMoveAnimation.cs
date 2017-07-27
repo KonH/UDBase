@@ -4,14 +4,13 @@ using DG.Tweening;
 using UDBase.Utils;
 
 namespace UDBase.UI.Common {
-    public class UIMoveAnimation : UIShowHideAnimation
-    {
+    public class UIMoveAnimation : UIShowHideAnimation {
 		public float Duration = 1.0f;
 		
 		public Vector3 Offset = Vector3.zero;
 
 		Vector3 _originalPosition = Vector3.zero;
-		Sequence _seq             = null;
+		Sequence _seq;
 
 		void Awake() {
 			_originalPosition = transform.localPosition;

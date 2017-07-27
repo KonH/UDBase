@@ -8,26 +8,26 @@ using UDBase.Utils.Json.Fullserializer;
 
 namespace UDBase.Controllers.SaveSystem {
 	public sealed class FsJsonDataSave:ISave {
-
-		bool                     _prettyJson  = false;
-		string                   _fileName    = "";
-		string                   _saveContent = "";
-		string                   _filePath    = "";
-		FsJsonNodeContainer      _container   = null;
-		Dictionary<Type, string> _names       = new Dictionary<Type, string>();
-		bool                     _versioning  = false;
+		readonly bool                     _prettyJson;
+		readonly string                   _fileName;
+		readonly bool                     _versioning;
+		readonly Dictionary<Type, string> _names = new Dictionary<Type, string>();
+		
+		string              _saveContent = "";
+		string              _filePath    = "";
+		FsJsonNodeContainer _container;
 
 		public FsJsonDataSave():this(false, UDBaseConfig.JsonSaveName, false) {}
 
 		public FsJsonDataSave(bool prettyJson):this(prettyJson, UDBaseConfig.JsonSaveName, false) {}
 
-		public FsJsonDataSave(string fileName):this(false, UDBaseConfig.JsonSaveName, false) {}
+		public FsJsonDataSave(string fileName):this(false, fileName, false) {}
 
 		public FsJsonDataSave(bool prettyJson, bool versioning):
 			this(prettyJson, UDBaseConfig.JsonSaveName, versioning) {}
 
 		public FsJsonDataSave(string fileName, bool versioning):
-			this(false, UDBaseConfig.JsonSaveName, versioning) {}
+			this(false, fileName, versioning) {}
 
 		public FsJsonDataSave(bool prettyJson, string fileName, bool versioning) {
 			_prettyJson = prettyJson;

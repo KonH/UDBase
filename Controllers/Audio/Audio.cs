@@ -1,8 +1,8 @@
 ﻿namespace UDBase.Controllers.AudioSystem {
 	public class Audio : ControllerHelper<IAudio> {
 
-		public const string Default_Sound_Channel_Volume = "SoundVolume";
-		public const string Default_Music_Channel_Volume = "MusicVolume";
+		public const string DefaultSoundChannelVolume = "SoundVolume";
+		public const string DefaultMusicChannelVolume = "MusicVolume";
 
 		public static void MuteChannel(string parameter) {
 			if ( Instance != null ) {
@@ -43,51 +43,51 @@
 		}
 
 		public static void MuteSound() {
-			MuteChannel(Default_Sound_Channel_Volume);
+			MuteChannel(DefaultSoundChannelVolume);
 		}
 
 		public static void UnMuteSound() {
-			UnMuteChannel(Default_Sound_Channel_Volume);
+			UnMuteChannel(DefaultSoundChannelVolume);
 		}
 
 		public static void ToggleSound() {
-			ToggleChannel(Default_Sound_Channel_Volume);
+			ToggleChannel(DefaultSoundChannelVolume);
 		}
 
 		public static float GetSoundVolume() {
-			return GetChannelVolume(Default_Sound_Channel_Volume);
+			return GetChannelVolume(DefaultSoundChannelVolume);
 		}
 
 		public static bool IsSoundMuted() {
-			return IsChannelMuted(Default_Sound_Channel_Volume);
+			return IsChannelMuted(DefaultSoundChannelVolume);
 		}
 
 		public static void SetSoundVolume(float normalizedVolume) {
-			SetChannelVolume(Default_Sound_Channel_Volume, normalizedVolume);
+			SetChannelVolume(DefaultSoundChannelVolume, normalizedVolume);
 		}
 
 		public static void MuteMusic() {
-			MuteChannel(Default_Music_Channel_Volume);
+			MuteChannel(DefaultMusicChannelVolume);
 		}
 
 		public static void UnMuteMusic() {
-			UnMuteChannel(Default_Music_Channel_Volume);
+			UnMuteChannel(DefaultMusicChannelVolume);
 		}
 
 		public static void ToggleMusic() {
-			ToggleChannel(Default_Music_Channel_Volume);
+			ToggleChannel(DefaultMusicChannelVolume);
 		}
 
 		public static float GetMusicVolume() {
-			return GetChannelVolume(Default_Music_Channel_Volume);
+			return GetChannelVolume(DefaultMusicChannelVolume);
 		}
 
 		public static bool IsMusicMuted() {
-			return IsChannelMuted(Default_Music_Channel_Volume);
+			return IsChannelMuted(DefaultMusicChannelVolume);
 		}
 
 		public static void SetMusicVolume(float normalizedVolume) {
-			SetChannelVolume(Default_Music_Channel_Volume, normalizedVolume);
+			SetChannelVolume(DefaultMusicChannelVolume, normalizedVolume);
 		}
 	}
 }
