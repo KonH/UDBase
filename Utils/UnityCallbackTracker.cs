@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace UDBase.Utils {
 	public class UnityCallbackTracker : MonoBehaviour {
-
 		public List<Action> StartCallbacks = new List<Action>();
 
 		void Start() {

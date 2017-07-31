@@ -5,7 +5,6 @@ using UDBase.Controllers.EventSystem;
 namespace UDBase.Controllers.AudioSystem.UI {
 	[RequireComponent(typeof(Button))]
 	public class AudioToggleButton : MonoBehaviour {
-
 		public ChannelSettings Settings   = new ChannelSettings();
 		public GameObject      ActiveItem;
 		public GameObject      MutedItem;

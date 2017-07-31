@@ -3,8 +3,7 @@ using UDBase.Controllers.EventSystem;
 
 namespace UDBase.UI.Common {
 	[RequireComponent(typeof(UIElement))]
-	public class UIOverlay : MonoBehaviour {
-		
+	public class UIOverlay : MonoBehaviour {		
 		public enum OverlayHideMode {
 			Both,
 			OnlyPosilive,

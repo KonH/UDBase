@@ -9,7 +9,7 @@ namespace UDBase.Controllers.InventorySystem.UI {
 		public string HolderName = "";
 		public string PackName   = "";
 
-		Text _text = null;
+		Text _text;
 
 		void OnEnable() {
 			Events.Subscribe<Inv_PackChanged>(this, OnPackChanged);

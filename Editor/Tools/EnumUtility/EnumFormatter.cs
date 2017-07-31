@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace UDBase.Editor.Tools.EnumUtility {
 	public class EnumFormatter {
-
 		const string HeaderFormat = "public enum {0} {{\n";
 		const string BodyFormat   = "\t{0} = {1},\n";
 		const string Footer       = "}";

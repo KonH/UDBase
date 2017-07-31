@@ -2,7 +2,6 @@
 
 namespace UDBase.Controllers.UTime {
 	public class UTime : ControllerHelper<ITime> {
-
 		public static bool IsStable() {
 			var isStable = true;
 			for ( var i = 0; i < Instances.Count; i++ ) {

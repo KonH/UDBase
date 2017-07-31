@@ -5,7 +5,7 @@ namespace UDBase.Controllers.EventSystem {
 		protected List<object> _handlers = new List<object>();
 		public List<object> Handlers { 
 			get { 
-				return _handlers; 
+				return _handlers;
 			}
 		}
 	}

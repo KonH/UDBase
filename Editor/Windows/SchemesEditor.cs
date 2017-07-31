@@ -11,7 +11,7 @@ namespace UDBase.EditorTools {
 		}
 			
 		State        _state         = State.Start;
-		List<string> _schemes       = null;
+		List<string> _schemes;
 		string       _newSchemeName = "";
 
 		void OnGUI() {
@@ -59,19 +59,19 @@ namespace UDBase.EditorTools {
 			_schemes = SchemesTool.GetSchemes();
 		}
 
-		void DrawScheme(string name) {
+		void DrawScheme(string schemeName) {
 			GUILayout.BeginHorizontal();
-			GUILayout.Label(name);
-			if( !SchemesTool.IsActiveScheme(name) ) {
+			GUILayout.Label(schemeName);
+			if( !SchemesTool.IsActiveScheme(schemeName) ) {
 				if( GUILayout.Button("Switch", GUILayout.Width(100)) ) {
-					SchemesTool.SwitchScheme(name);
+					SchemesTool.SwitchScheme(schemeName);
 				}
 			} else {
 				GUILayout.Space(104);
 			}
-			if( name != UDBaseConfig.SchemeDefaultName ) {
+			if( schemeName != UDBaseConfig.SchemeDefaultName ) {
 				if( GUILayout.Button("Remove", GUILayout.Width(100)) ) {
-					SchemesTool.RemoveScheme(name);
+					SchemesTool.RemoveScheme(schemeName);
 					UpdateSchemes();
 				}
 			} else {

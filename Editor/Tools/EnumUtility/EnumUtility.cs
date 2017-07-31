@@ -5,8 +5,7 @@ using UnityEditor.Callbacks;
 using UDBase.Utils;
 
 namespace UDBase.Editor.Tools.EnumUtility {
-	public class EnumUtility {
-		
+	public class EnumUtility {		
 		static readonly string[] DefaultAssemblies = {
 			"Assembly-CSharp",
 			"Assembly-CSharp-Editor"
@@ -18,7 +17,7 @@ namespace UDBase.Editor.Tools.EnumUtility {
 		protected EnumFormatter Formatter { get; private set; }
 		protected EnumWriter    Writer    { get; private set; }
 
-		string[] _assemblies = null;
+		readonly string[] _assemblies = null;
 		
 		public EnumUtility(EnumProcessor processor, EnumFormatter formatter, EnumWriter writer, string[] assemblies) {
 			Processor   = processor;

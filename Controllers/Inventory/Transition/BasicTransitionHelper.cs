@@ -1,6 +1,5 @@
 ﻿namespace UDBase.Controllers.InventorySystem {
 	public class BasicTransitionHelper : ITransitionHelper {
-
 		public bool CanSend(string fromHolder, string toHolder, InventoryItem item) {
 			return true;
 		}

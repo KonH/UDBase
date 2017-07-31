@@ -2,8 +2,7 @@
 using FullSerializer;
 
 namespace UDBase.Controllers.UserSystem {
-	public class UserSaveNode {
-		
+	public class UserSaveNode {		
 		[fsProperty("id")]
 		public string Id { get; set; }
 

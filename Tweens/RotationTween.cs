@@ -4,7 +4,6 @@ using UDBase.Utils;
 
 namespace UDBase.Tweens {
 	public class RotationTween : MonoBehaviour {
-
 		public Vector3    EndValue = Vector3.zero;
 		public float      Duration;
 		public RotateMode Mode     = RotateMode.Fast;

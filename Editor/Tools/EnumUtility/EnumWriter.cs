@@ -5,7 +5,6 @@ using UDBase.Utils;
 
 namespace UDBase.Editor.Tools.EnumUtility {
 	public class EnumWriter {
-
 		protected EnumFormatter Formatter { get; private set; }
 		
 		public EnumWriter(EnumFormatter formatter) {

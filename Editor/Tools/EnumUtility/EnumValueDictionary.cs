@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace UDBase.Editor.Tools.EnumUtility {
 	public class EnumValueDictionary {
-
 		public class EnumValueItem {
 			public string Key   { get; private set; }
 			public int    Value { get; private set; }

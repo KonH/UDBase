@@ -2,8 +2,7 @@
 using UnityEngine;
 
 public class LogHandler:IDisposable {
-	
-	bool _prevEnabled = false;
+	readonly bool _prevEnabled;
 
 	public LogHandler() {
 		_prevEnabled = Debug.unityLogger.logEnabled;

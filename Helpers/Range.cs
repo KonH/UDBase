@@ -1,7 +1,6 @@
 ﻿using System;
 
 namespace UDBase.Helpers {
-	
 	public abstract class Range<T> {
 		public T Start;
 		public T End;

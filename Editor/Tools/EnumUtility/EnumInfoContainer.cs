@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 
 namespace UDBase.Editor.Tools.EnumUtility {
-	public class EnumInfoContainer : Dictionary<Type, EnumInfo> {
-		
+	public class EnumInfoContainer : Dictionary<Type, EnumInfo> {		
 		public EnumInfo GetOrCreateInfo(Type baseType, EnumInfoContainer container) {
 			EnumInfo info = null;
 			if (!container.TryGetValue(baseType, out info)) {

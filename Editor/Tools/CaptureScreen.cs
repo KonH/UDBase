@@ -4,8 +4,7 @@ using UDBase.Common;
 using UDBase.Utils;
 
 namespace UDBase.EditorTools {
-public static class CaptureScreen {
-
+	public static class CaptureScreen {
 		static string GetRandomName() {
 			return System.DateTime.Now.ToString("hh.mm.ss") + "." + Mathf.Abs(new System.Object().GetHashCode()) + ".png";
 		}

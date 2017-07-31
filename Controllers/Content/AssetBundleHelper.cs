@@ -26,7 +26,7 @@ namespace UDBase.Controllers.ContentSystem {
 			yield return StartCoroutine(InitializeManager());
 		}
 
-		protected void InitializeSourceURL() {
+		protected void InitializeSourceUrl() {
 			#if ENABLE_IOS_ON_DEMAND_RESOURCES
 			if (UnityEngine.iOS.OnDemandResources.enabled) {
 				AssetBundleManager.SetSourceAssetBundleURL("odr://");
@@ -44,7 +44,7 @@ namespace UDBase.Controllers.ContentSystem {
 		}
 
 		protected IEnumerator InitializeManager() {
-			InitializeSourceURL();
+			InitializeSourceUrl();
 			UnityHelper.AddPersistant<AssetBundleManager>();
 			var request = AssetBundleManager.Initialize();			
 			if (request != null) {

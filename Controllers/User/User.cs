@@ -1,6 +1,5 @@
 namespace UDBase.Controllers.UserSystem {
 	public class User : ControllerHelper<IUser> {
-
 		public static string Id {
 			get {
 				return (Instance != null) ? Instance.Id : null;

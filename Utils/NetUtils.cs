@@ -8,7 +8,6 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils {
 	public static class NetUtils {
-
 		public const float DefaultTimeout = 10.0f;
 
 		public class Response {

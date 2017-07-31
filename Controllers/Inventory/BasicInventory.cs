@@ -3,8 +3,7 @@ using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
 
 namespace UDBase.Controllers.InventorySystem {
-	public class BasicInventory : IInventory {
-	
+	public class BasicInventory : IInventory {	
 		protected IItemSource       _source   = null;
 		protected IInventorySave    _save     = null;
 		protected ItemFactory       _factory  = null;

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	public class ItemView: MonoBehaviour {
-		public Text              NameText = null;
+		public Text              NameText;
 		public List<ItemControl> Controls = new List<ItemControl>();
 
 		public virtual void Init(HolderItemsView owner, InventoryItem item) {

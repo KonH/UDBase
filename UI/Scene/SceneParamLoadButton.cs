@@ -2,7 +2,7 @@
 
 namespace UDBase.Controllers.SceneSystem.UI {
 	public class SceneParamLoadButton<T> : ActionButton {
-		public T      Type  = default(T);
+		public T      Type;
 		public string Param = "";
 
 		public override bool IsVisible() { 

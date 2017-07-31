@@ -4,13 +4,12 @@ using UDBase.Controllers.EventSystem;
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	public class HolderPacksView: MonoBehaviour {
-
-		public HolderPacksView Transition = null;
-		public PackView        PackPrefab = null;
+		public HolderPacksView Transition;
+		public PackView        PackPrefab;
 		public string          HolderName = "";
 		public List<string>    Ignores    = new List<string>();
 
-		List<PackView> _views = new List<PackView>();
+		readonly List<PackView> _views = new List<PackView>();
 
 		protected virtual void OnEnable() {
 			Events.Subscribe<Inv_HolderChanged>(this, OnHolderChanged);

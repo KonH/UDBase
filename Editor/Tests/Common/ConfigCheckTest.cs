@@ -4,7 +4,6 @@ using UDBase.Common;
 
 namespace UDBase.Tests {
 	public class ConfigCheckTest {
-
 		[Test]
 		public void SchemeTemplatePath() { 
 			Assert.IsTrue(File.Exists(UDBaseConfig.SchemeTemplatePath));

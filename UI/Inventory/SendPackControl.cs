@@ -2,11 +2,11 @@
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	public class SendPackControl : PackControl {
-		public Button SendButton = null;
+		public Button SendButton;
 
-		string          _fromHolder = null;
-		string          _toHolder   = null;
-		InventoryPack   _pack       = null;
+		string          _fromHolder;
+		string          _toHolder;
+		InventoryPack   _pack;
 
 		void Awake() {
 			SendButton.onClick.AddListener(() => SendItem());

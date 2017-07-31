@@ -13,7 +13,7 @@ namespace UDBase.Controllers.LogSystem {
 	}
 
 	public sealed class VisualLog : ILog {
-		VisualLogHandler _handler = null;
+		readonly VisualLogHandler _handler;
 
 		public VisualLog(string prefabPath, ButtonPosition openButtonPos) {
 			_handler = UnityHelper.LoadPersistant<VisualLogHandler>(prefabPath);

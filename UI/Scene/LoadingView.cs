@@ -7,14 +7,14 @@ using UDBase.Utils;
 namespace UDBase.Controllers.SceneSystem.UI {
 	public class LoadingView : MonoBehaviour {
 		[Header("Dependencies")]
-		public Image ProgressBar = null;
-		public Text  PercentText = null;
+		public Image ProgressBar;
+		public Text  PercentText;
 
 		[Header("Settings")]
-		public int PercentDecimals = 0;
+		public int PercentDecimals;
 
-		AsyncLoadHelper _helper   = null;
-		float           _progress = 0.0f;
+		AsyncLoadHelper _helper;
+		float           _progress;
 
 		void Start () {
 			Init();

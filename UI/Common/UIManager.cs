@@ -7,7 +7,6 @@ using UDBase.Controllers.ContentSystem;
 
 namespace UDBase.UI.Common {
 	public class UIManager : MonoBehaviour {
-
 		class UIDialogGroup {
 			public readonly List<UIElement> Blocked;
 			public readonly Action<bool>    OnClose;

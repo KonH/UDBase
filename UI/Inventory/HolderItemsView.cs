@@ -4,9 +4,8 @@ using UDBase.Controllers.EventSystem;
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	public class HolderItemsView: MonoBehaviour {
-
-		public HolderItemsView Transition = null;
-		public ItemView        ItemPrefab = null;
+		public HolderItemsView Transition;
+		public ItemView        ItemPrefab;
 		public string          HolderName = "";
 
 		List<ItemView> _views = new List<ItemView>();

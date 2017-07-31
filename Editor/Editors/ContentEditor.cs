@@ -11,10 +11,10 @@ namespace UDBase.EditorTools {
 		const string AssetsLine     = "Assets/";
 		const string AssetExtension = ".asset";
 
-
-		string     _prevConfigPath = null;
-		List<bool> _selection      = new List<bool>();
-
+		readonly List<bool> _selection = new List<bool>();
+		
+		string     _prevConfigPath;
+		
 		public override void OnInspectorGUI() {
 			DrawDefaultInspector();
 			var config = target as ContentConfig;
@@ -39,7 +39,7 @@ namespace UDBase.EditorTools {
 					UpdateSelection(i);
 					ProcessName(config, currentItem);
 					ProcessAsset(config, cache, currentItem, cacheItem);
-					ProcessLoadType(config, currentItem, cacheItem);
+					ProcessLoadType(config, currentItem);
 					UpdateAsset(config, currentItem, cacheItem);
 					ShowAssetProperties(currentItem, cacheItem);
 					UpdateAssetProperties(config, currentItem, cacheItem);
@@ -129,12 +129,12 @@ namespace UDBase.EditorTools {
 			}
 		}
 
-		void RenameContentId(ContentConfig config, ContentId contentId, string name) {
-			contentId.name = name;
+		void RenameContentId(ContentConfig config, ContentId contentId, string contentName) {
+			contentId.name = contentName;
 			Save(config);
 		}
 
-		void ProcessLoadType(ContentConfig config, ContentId item, ContentDescription desc) {
+		void ProcessLoadType(ContentConfig config, ContentId item) {
 			var prevType = item.LoadType;
 			var newType = (ContentLoadType)EditorGUILayout.EnumPopup(prevType);
 			if( newType != prevType ) {
@@ -158,7 +158,7 @@ namespace UDBase.EditorTools {
 			if( item.LoadType != ContentLoadType.AssetBundle ) {
 				return;
 			}
-			var info = "";
+			string info;
 			var hasAssetBundle = false;
 			var hasAsset = false;
 			if( desc.Asset ) {

@@ -6,12 +6,11 @@ using FullSerializer;
 
 namespace UDBase.Controllers.LeaderboardSystem {
 	public class WebLeaderboard : ILeaderboard {
-
-		string                     _url         = null;
-		string                     _gameName    = null;
-		WebClient                  _client      = null;
-		fsSerializer               _serializer  = new fsSerializer();
-		Dictionary<string, string> _postHeaders = new Dictionary<string, string>();
+		readonly string                     _url;
+		readonly string                     _gameName;
+		readonly WebClient                  _client;
+		readonly fsSerializer               _serializer  = new fsSerializer();
+		readonly Dictionary<string, string> _postHeaders = new Dictionary<string, string>();
 
 		public string Version { get; set; }
 
@@ -73,7 +72,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 		}
 
 		void OnPostScoreComplete(NetUtils.Response response, Action<bool> callback) {
-			bool result = false;
+			var result = false;
 			if ( IsCorrectResponse(response) && response.Code == 201 ) {
 				result = true;
 			} else {

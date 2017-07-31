@@ -2,11 +2,11 @@
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	public class SendItemControl : ItemControl {
-		public Button SendButton = null;
+		public Button SendButton;
 
-		string          _fromHolder = null;
-		string          _toHolder   = null;
-		InventoryItem   _item       = null;
+		string          _fromHolder;
+		string          _toHolder;
+		InventoryItem   _item;
 
 		void Awake() {
 			SendButton.onClick.AddListener(() => SendItem());

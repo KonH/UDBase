@@ -3,13 +3,12 @@ using UDBase.Utils;
 
 namespace UDBase.EditorTools {
 	public static class UDBaseInfo {
-
-		static string RepositoryLink   = "https://github.com/KonH/UDBase";
-		static string ExamplesLink     = "https://github.com/KonH/UDBaseExample";
-		static string AssetsDir        = "Assets";
-		static string BaseDir          = "UDBase";
-		static string DocsDir          = "Docs";
-		static string ReleaseNotesFile = "_ReleaseNotes.txt";
+		const string RepositoryLink   = "https://github.com/KonH/UDBase";
+		const string ExamplesLink     = "https://github.com/KonH/UDBaseExample";
+		const string AssetsDir        = "Assets";
+		const string BaseDir          = "UDBase";
+		const string DocsDir          = "Docs";
+		const string ReleaseNotesFile = "_ReleaseNotes.txt";
 
 		public static void ShowAbout() {
 			Debug.LogFormat("UDBase {0} ({1})", GetVersion(), RepositoryLink);

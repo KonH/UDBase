@@ -5,7 +5,6 @@ using UDBase.EditorTools;
 
 namespace UDBase.Tests {
 	public class EditorDefinesToolTest {
-
 		[Test]
 		public void ConvertBuildTargetTest()
 		{

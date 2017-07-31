@@ -3,8 +3,7 @@ using UnityEngine;
 using UDBase.Utils;
 
 namespace UDBase.Editor.Tools.EnumUtility {
-	public class EnumProcessor {
-		
+	public class EnumProcessor {		
 		public virtual bool TryProcessAttributes(Type type, object[] attrs, EnumInfoContainer container) {
 			foreach (var attr in attrs) {
 				var enumInputAttr = (attr as CompositeEnumAttribute);

@@ -4,9 +4,8 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class ItemConfigSource: IItemSource {
-
-		ItemFactory          _factory = null;
-		ItemSourceConfigNode _node    = null;
+		readonly ItemFactory _factory;
+		ItemSourceConfigNode _node;
 
 		public ItemConfigSource(ItemFactory factory) {
 			_factory = factory;
