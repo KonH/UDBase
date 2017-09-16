@@ -16,6 +16,8 @@ namespace UDBase.Controllers.AudioSystem {
 		readonly Dictionary<string, float> _volumes = new Dictionary<string, float>();
 		readonly Dictionary<string, bool>  _mutes   = new Dictionary<string, bool>();
 
+		readonly Dictionary<string, AudioMixerGroup> _groups = new Dictionary<string, AudioMixerGroup>();
+
 		AudioMixer _mixer;
 		
 		public AudioController(string mixerPath, string[] channels = null, float initialVolume = 0.5f) {
@@ -139,15 +141,25 @@ namespace UDBase.Controllers.AudioSystem {
 			Events.Fire(new VolumeChangeEvent(channelParam, GetChannelVolume(channelParam)));
 		}
 
+		bool GetMixerGroupFast(string channelName, out AudioMixerGroup result) {
+			return _groups.TryGetValue(channelName, out result);
+		} 
+
 		public AudioMixerGroup GetMixerGroup(string channelName) {
-			if ( _mixer != null ) {
-				var results = _mixer.FindMatchingGroups(channelName);
-				if ( results.Length > 0 ) {
-					return results[0];
+			AudioMixerGroup group;
+			if ( !GetMixerGroupFast(channelName, out group) ) {
+				if ( _mixer != null ) {
+					var results = _mixer.FindMatchingGroups(channelName);
+					if ( results.Length > 0 ) {
+						group = results[0];
+					}
 				}
+				_groups.Add(channelName, group);
 			}
-			Log.ErrorFormat("Cannot find channel with name '{0}'", LogTags.Audio, channelName);
-			return null;
+			if ( !group ) {
+				Log.ErrorFormat("Cannot find channel with name '{0}'", LogTags.Audio, channelName);
+			}
+			return group;
 		}
 	}
 }
