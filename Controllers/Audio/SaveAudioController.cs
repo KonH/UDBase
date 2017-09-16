@@ -93,11 +93,15 @@ namespace UDBase.Controllers.AudioSystem {
 			}
 		}
 
+		bool CheckValues(float newValue, float currentValue, float checkValue) {
+			return Mathf.Approximately(newValue, checkValue) && !Mathf.Approximately(currentValue, checkValue);
+		}
+
 		bool IsNeedToSaveVolume(float currentValue, float newValue) {
 			if ( Mathf.Approximately(currentValue, newValue) ) {
 				return false;
 			}
-			if ( Mathf.Approximately(newValue, 0.0f) && !Mathf.Approximately(currentValue, 0.0f) ) {
+			if ( CheckValues(newValue, currentValue, 0.0f) || CheckValues(newValue, currentValue, 1.0f) ) {
 				return true;
 			}
 			return Mathf.Abs(newValue - currentValue) > _saveDelta;
