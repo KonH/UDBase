@@ -22,12 +22,12 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		void Start() {
 			_button = GetComponent<Button>();
 			_button.onClick.AddListener(OnClick);
-			Settings.SetupChannelName();
+			Settings.SetupChannelParams();
 			UpdateState();
 		}
 
 		void UpdateState() {
-			var muted = Audio.IsChannelMuted(Settings.ChannelName);
+			var muted = Audio.IsChannelMuted(Settings.ChannelParam);
 			if ( ActiveItem ) {
 				ActiveItem.SetActive(!muted);
 			}
@@ -37,13 +37,13 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		}
 
 		void OnVolumeChanged(VolumeChangeEvent e) {
-			if ( e.Channel == Settings.ChannelName ) {
+			if ( e.Channel == Settings.ChannelParam ) {
 				UpdateState();
 			}
 		}
 
 		void OnClick() {
-			Audio.ToggleChannel(Settings.ChannelName);
+			Audio.ToggleChannel(Settings.ChannelParam);
 		}
 	}
 }

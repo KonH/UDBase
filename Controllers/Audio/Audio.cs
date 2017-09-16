@@ -1,8 +1,12 @@
-﻿namespace UDBase.Controllers.AudioSystem {
+﻿using UnityEngine.Audio;
+
+namespace UDBase.Controllers.AudioSystem {
 	public class Audio : ControllerHelper<IAudio> {
 
 		public const string DefaultSoundChannelVolume = "SoundVolume";
 		public const string DefaultMusicChannelVolume = "MusicVolume";
+		public const string DefaultSoundChannelName   = "Sound";
+		public const string DefaultMusicChannelName   = "Music";
 
 		public static void MuteChannel(string parameter) {
 			if ( Instance != null ) {
@@ -88,6 +92,13 @@
 
 		public static void SetMusicVolume(float normalizedVolume) {
 			SetChannelVolume(DefaultMusicChannelVolume, normalizedVolume);
+		}
+
+		public static AudioMixerGroup GetMixerGroup(string channelName) {
+			if ( Instance != null ) {
+				return Instance.GetMixerGroup(channelName);
+			}
+			return null;
 		}
 	}
 }

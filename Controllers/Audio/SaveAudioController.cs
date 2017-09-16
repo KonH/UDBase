@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using UDBase.Controllers.SaveSystem;
 using UnityEngine;
+using UnityEngine.Audio;
 using UDBase.Utils;
+using UDBase.Controllers.SaveSystem;
 
 namespace UDBase.Controllers.AudioSystem {
 	public class SaveAudioController : IAudio {
@@ -50,43 +51,43 @@ namespace UDBase.Controllers.AudioSystem {
 
 		public void Reset() {}
 
-		public void MuteChannel(string parameter) {
-			_controller.MuteChannel(parameter);
-			SaveMute(parameter);
+		public void MuteChannel(string channelParam) {
+			_controller.MuteChannel(channelParam);
+			SaveMute(channelParam);
 		}
 
-		public void UnMuteChannel(string parameter) {
-			_controller.UnMuteChannel(parameter);
-			SaveMute(parameter);
+		public void UnMuteChannel(string channelParam) {
+			_controller.UnMuteChannel(channelParam);
+			SaveMute(channelParam);
 		}
 
-		public float GetChannelVolume(string parameter) {
-			return _controller.GetChannelVolume(parameter);
+		public float GetChannelVolume(string channelParam) {
+			return _controller.GetChannelVolume(channelParam);
 		}
 
-		public bool IsChannelMuted(string parameter) {
-			return _controller.IsChannelMuted(parameter);
+		public bool IsChannelMuted(string channelParam) {
+			return _controller.IsChannelMuted(channelParam);
 		}
 
-		public void ToggleChannel(string parameter) {
-			_controller.ToggleChannel(parameter);
-			SaveMute(parameter);
+		public void ToggleChannel(string channelParam) {
+			_controller.ToggleChannel(channelParam);
+			SaveMute(channelParam);
 		}
 
-		ChannelNode GetOrCreateChannelNode(string parameter) {
+		ChannelNode GetOrCreateChannelNode(string channelParam) {
 			var channels = _node.Channels;
-			if ( channels.ContainsKey(parameter) ) {
-				return channels[parameter];
+			if ( channels.ContainsKey(channelParam) ) {
+				return channels[channelParam];
 			} else {
 				var channel = new ChannelNode();
-				channels.Add(parameter, channel);
+				channels.Add(channelParam, channel);
 				return channel;
 			}
 		}
 
-		void SaveMute(string parameter) {
-			var channel = GetOrCreateChannelNode(parameter);
-			var mute = _controller.IsChannelMuted(parameter);
+		void SaveMute(string channelParam) {
+			var channel = GetOrCreateChannelNode(channelParam);
+			var mute = _controller.IsChannelMuted(channelParam);
 			if ( channel.IsMuted != mute ) {
 				channel.IsMuted = mute;
 				Save.SaveNode(_node);
@@ -107,13 +108,17 @@ namespace UDBase.Controllers.AudioSystem {
 			return Mathf.Abs(newValue - currentValue) > _saveDelta;
 		}
 
-		public void SetChannelVolume(string parameter, float normalizedVolume) {
-			_controller.SetChannelVolume(parameter, normalizedVolume);
-			var channel = GetOrCreateChannelNode(parameter);
+		public void SetChannelVolume(string channelParam, float normalizedVolume) {
+			_controller.SetChannelVolume(channelParam, normalizedVolume);
+			var channel = GetOrCreateChannelNode(channelParam);
 			if ( IsNeedToSaveVolume(channel.Volume, normalizedVolume) ) {
 				channel.Volume = normalizedVolume;
 				Save.SaveNode(_node);
 			}
+		}
+
+		public AudioMixerGroup GetMixerGroup(string channelName) {
+			return _controller.GetMixerGroup(channelName);
 		}
 	}
 }

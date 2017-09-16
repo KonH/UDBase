@@ -3,16 +3,19 @@
 namespace UDBase.Controllers.AudioSystem {
 	[Serializable]
 	public class ChannelSettings {
+		public string ChannelParam;
 		public string ChannelName;
-		public bool DefaultSound = false;
-		public bool DefaultMusic = false;
+		public bool   DefaultSound = false;
+		public bool   DefaultMusic = false;
 
-		public void SetupChannelName() {
+		public void SetupChannelParams() {
 			if ( DefaultSound ) {
-				ChannelName = Audio.DefaultSoundChannelVolume;
+				ChannelParam = Audio.DefaultSoundChannelVolume;
+				ChannelName  = Audio.DefaultSoundChannelName;
 			}
 			if ( DefaultMusic ) {
-				ChannelName = Audio.DefaultMusicChannelVolume;
+				ChannelParam = Audio.DefaultMusicChannelVolume;
+				ChannelName  = Audio.DefaultSoundChannelName;
 			}
 		}
 	}

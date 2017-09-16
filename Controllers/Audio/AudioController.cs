@@ -47,96 +47,107 @@ namespace UDBase.Controllers.AudioSystem {
 
 		public void Reset() {}
 
-		public void MuteChannel(string parameter) {
-			UpdateMute(parameter, true);
-			UpdateChannel(parameter);
+		public void MuteChannel(string channelParam) {
+			UpdateMute(channelParam, true);
+			UpdateChannel(channelParam);
 		}
 
-		public void UnMuteChannel(string parameter) {
-			UpdateMute(parameter, false);
-			if ( Mathf.Approximately(FindVolume(parameter), 0.0f) ) {
-				ResetVolume(parameter);
+		public void UnMuteChannel(string channelParam) {
+			UpdateMute(channelParam, false);
+			if ( Mathf.Approximately(FindVolume(channelParam), 0.0f) ) {
+				ResetVolume(channelParam);
 			}
-			UpdateChannel(parameter);
+			UpdateChannel(channelParam);
 		}
 
-		public float GetChannelVolume(string parameter) {
-			return FindMute(parameter) ? 0.0f : FindVolume(parameter);
+		public float GetChannelVolume(string channelParam) {
+			return FindMute(channelParam) ? 0.0f : FindVolume(channelParam);
 		}
 
-		public bool IsChannelMuted(string parameter) {
-			return FindMute(parameter) || Mathf.Approximately(FindVolume(parameter), 0.0f);
+		public bool IsChannelMuted(string channelParam) {
+			return FindMute(channelParam) || Mathf.Approximately(FindVolume(channelParam), 0.0f);
 		}
 
-		public void ToggleChannel(string parameter) {
-			if ( IsChannelMuted(parameter) ) {
-				UnMuteChannel(parameter);
+		public void ToggleChannel(string channelParam) {
+			if ( IsChannelMuted(channelParam) ) {
+				UnMuteChannel(channelParam);
 			} else {
-				MuteChannel(parameter);
+				MuteChannel(channelParam);
 			}
 		}
 
-		public void SetChannelVolume(string parameter, float normalizedVolume) {
-			UpdateVolume(parameter, normalizedVolume);
-			UpdateChannel(parameter);
+		public void SetChannelVolume(string channelParam, float normalizedVolume) {
+			UpdateVolume(channelParam, normalizedVolume);
+			UpdateChannel(channelParam);
 		}
 
-		void EnsureVolume(string parameter) {
-			if ( !_volumes.ContainsKey(parameter) ) {
+		void EnsureVolume(string channelParam) {
+			if ( !_volumes.ContainsKey(channelParam) ) {
 				var realVolume = 0.0f;
 				if ( _mixer ) {
-					_mixer.GetFloat(parameter, out realVolume);
+					_mixer.GetFloat(channelParam, out realVolume);
 				}
 				var realVolumeNormalized = Mathf.InverseLerp(MinVolume, MaxVolume, realVolume);
-				_volumes.Add(parameter, realVolumeNormalized);
+				_volumes.Add(channelParam, realVolumeNormalized);
 			}
 		}
 
-		void UpdateVolume(string parameter, float normalizedVolume) {
-			EnsureVolume(parameter);
-			_volumes[parameter] = normalizedVolume;
+		void UpdateVolume(string channelParam, float normalizedVolume) {
+			EnsureVolume(channelParam);
+			_volumes[channelParam] = normalizedVolume;
 		}
 
-		float FindVolume(string parameter) {
-			EnsureVolume(parameter);
-			return _volumes[parameter];
+		float FindVolume(string channelParam) {
+			EnsureVolume(channelParam);
+			return _volumes[channelParam];
 		}
 
-		void EnsureMute(string parameter) {
-			if ( !_mutes.ContainsKey(parameter) ) {
-				_mutes.Add(parameter, false);
+		void EnsureMute(string channelParam) {
+			if ( !_mutes.ContainsKey(channelParam) ) {
+				_mutes.Add(channelParam, false);
 			}
 		}
 
-		void UpdateMute(string parameter, bool mute) {
-			EnsureMute(parameter);
-			_mutes[parameter] = mute;
+		void UpdateMute(string channelParam, bool mute) {
+			EnsureMute(channelParam);
+			_mutes[channelParam] = mute;
 		}
 
-		bool FindMute(string parameter) {
-			EnsureMute(parameter);
-			return _mutes[parameter];
+		bool FindMute(string channelParam) {
+			EnsureMute(channelParam);
+			return _mutes[channelParam];
 		}
 
-		void ResetVolume(string parameter) {
-			_volumes[parameter] = _initialVolume;
+		void ResetVolume(string channelParam) {
+			_volumes[channelParam] = _initialVolume;
 		}
 
 		float VolumeDecorator(float normalizedVolume, bool muted) {
 			return muted ? MinVolume : Mathf.Lerp(MinVolume, MaxVolume, normalizedVolume);
 		}
 
-		void UpdateChannel(string parameter) {
-			var volume = FindVolume(parameter);
-			var mute = FindMute(parameter);
+		void UpdateChannel(string channelParam) {
+			var volume = FindVolume(channelParam);
+			var mute = FindMute(channelParam);
 			if ( _mixer ) {
-				_mixer.SetFloat(parameter, VolumeDecorator(volume, mute));
+				_mixer.SetFloat(channelParam, VolumeDecorator(volume, mute));
 			}
-			OnVolumeChanged(parameter);
+			OnVolumeChanged(channelParam);
 		}
 
-		void OnVolumeChanged(string parameter) {
-			Events.Fire(new VolumeChangeEvent(parameter, GetChannelVolume(parameter)));
+		void OnVolumeChanged(string channelParam) {
+			Events.Fire(new VolumeChangeEvent(channelParam, GetChannelVolume(channelParam)));
+		}
+
+		public AudioMixerGroup GetMixerGroup(string channelName) {
+			if ( _mixer != null ) {
+				var results = _mixer.FindMatchingGroups(channelName);
+				if ( results.Length > 0 ) {
+					return results[0];
+				}
+			}
+			Log.ErrorFormat("Cannot find channel with name '{0}'", LogTags.Audio, channelName);
+			return null;
 		}
 	}
 }

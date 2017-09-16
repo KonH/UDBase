@@ -19,21 +19,21 @@ namespace UDBase.Controllers.AudioSystem.UI {
 
 		void Start() {
 			_slider = GetComponent<Slider>();
-			Settings.SetupChannelName();
-			_slider.value = Audio.GetChannelVolume(Settings.ChannelName);
+			Settings.SetupChannelParams();
+			_slider.value = Audio.GetChannelVolume(Settings.ChannelParam);
 			_slider.onValueChanged.AddListener(OnValueChanged);
 		}
 
 		void OnVolumeChanged(VolumeChangeEvent e) {
-			if ( e.Channel == Settings.ChannelName ) {
+			if ( e.Channel == Settings.ChannelParam ) {
 				_slider.value = e.Volume;
 			}
 		}
 
 		void OnValueChanged(float value) {
-			var curValue = Audio.GetChannelVolume(Settings.ChannelName);
+			var curValue = Audio.GetChannelVolume(Settings.ChannelParam);
 			if ( !Mathf.Approximately(value, curValue) ) {
-				Audio.SetChannelVolume(Settings.ChannelName, value);
+				Audio.SetChannelVolume(Settings.ChannelParam, value);
 			}
 		}
 	}
