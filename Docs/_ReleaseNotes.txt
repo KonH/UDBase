@@ -1,8 +1,13 @@
 v.0.9.0
-- New controller: Audio;
+- New controllers: Audio, Sound;
 - UnityHelper: Add(Persistant/Scene)StartCallback for make actions on app/scene Start();
 - Combined enum feature;
 - LogTags uses combined enum;
+- Feature: Ability to create child objects using helper methods;
+- Improvement: ContentId.ToString() with caching;
+- Fix: Correct way to load first scene;
+- Fix: Correct way to load first scene;
+- Unity 2017.1.1f1 support;
 
 v.0.8.0
 - New controller: Leaderboard;
