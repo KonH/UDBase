@@ -25,7 +25,7 @@ namespace UDBase.Controllers.SceneSystem {
 
 		public void Init() {
 			_helper = UnityHelper.AddPersistant<AsyncLoadHelper>();
-			if( _firstScene != null ) {
+			if( (_firstScene != null) && !string.IsNullOrEmpty(_firstScene.Name) ) {
 				LoadScene(_firstScene);
 			}
 		}
