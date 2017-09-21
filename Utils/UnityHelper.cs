@@ -57,12 +57,12 @@ namespace UDBase.Utils {
 			Debug.LogErrorFormat("Error while loading {0} from Resources!", prefabPath);
 			return default(T);
 		}
-		public static T AddPersistant<T>() where T:Component {
-			return Add<T>(true);
+		public static T AddPersistant<T>(bool createObject = false) where T:Component {
+			return Add<T>(true, createObject);
 		}
 
-		public static T AddForScene<T>() where T:Component {
-			return Add<T>(false);
+		public static T AddForScene<T>(bool createObject = false) where T:Component {
+			return Add<T>(false, createObject);
 		}
 
 		public static void AddPersistantStartCallback(Action action) {
@@ -73,9 +73,16 @@ namespace UDBase.Utils {
 			GetOrCreateSceneComponent<UnityCallbackTracker>().StartCallbacks.Add(action);
 		}
 
-		static T Add<T>(bool persistant) where T:Component {
+		static T Add<T>(bool persistant, bool createObject) where T:Component {
 			var parent = persistant ? PersistantRoot : SceneRoot;
-			return parent.gameObject.AddComponent<T>();
+			GameObject root;
+			if ( createObject ) {
+				root = new GameObject(typeof(T).Name);
+				root.transform.SetParent(parent);
+			} else {
+				root = parent.gameObject;
+			}
+			return root.AddComponent<T>();
 		}
 
 		public static T GetComponent<T>() where T:Component {
