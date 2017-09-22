@@ -37,7 +37,10 @@ namespace UDBase.Controllers.EventSystem {
 			for ( var i = 0; i < _handlers.Count; i++) {
 				var curHandler = _handlers[i];
 				var monoHandler = curHandler as MonoBehaviour;
-				if (monoHandler) {
+				if ( monoHandler ) {
+					continue;
+				}
+				if ( monoHandler == null ) {
 					continue;
 				}
 				Unsubscribe(i);
