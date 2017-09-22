@@ -5,7 +5,7 @@ using UDBase.Controllers.ContentSystem;
 namespace UDBase.Controllers.SoundSystem {
 	[RequireComponent(typeof(AudioSource))]
 	public class SoundSource : MonoBehaviour {
-		public ContentId       ContentId;
+		public AudioClipHolder Holder;
 		public ChannelSettings Settings;
 		public bool            AutoPlay;
 		public bool            Loop;
@@ -45,7 +45,7 @@ namespace UDBase.Controllers.SoundSystem {
 			Settings.SetupChannelParams();
 			var mixerGroup = Audio.GetMixerGroup(Settings.ChannelName);
 			_source.outputAudioMixerGroup = mixerGroup;
-			Content.LoadAsync<AudioClip>(ContentId, OnClipLoad);
+			Content.LoadAsync<AudioClip>(Holder.Id, OnClipLoad);
 		}
 
 		void OnClipLoad(AudioClip clip) {
