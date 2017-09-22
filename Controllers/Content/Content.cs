@@ -3,7 +3,7 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ContentSystem {
 	public class Content:ControllerHelper<IContent> {
-		static string GetTypeString(Type type) {
+		public static string GetTypeString(Type type) {
 			return type.FullName;
 		}
 
