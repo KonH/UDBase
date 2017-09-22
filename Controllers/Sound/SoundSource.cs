@@ -16,18 +16,17 @@ namespace UDBase.Controllers.SoundSystem {
 		float       _playDelay;
 
 		void OnValidate() {
-			if ( string.IsNullOrEmpty(Settings.ChannelName) && string.IsNullOrEmpty(Settings.ChannelParam) ) {
+			if ( string.IsNullOrEmpty(Settings.ChannelName) && string.IsNullOrEmpty(Settings.ChannelParam) && !Settings.DefaultMusic ) {
 				Settings.DefaultSound = true;
 			}
-			var source = GetComponent<AudioSource>();
-			if ( source ) {
-				source.playOnAwake = false;
-				source.loop        = Loop;
+			_source = GetComponent<AudioSource>();
+			if ( _source ) {
+				_source.playOnAwake = false;
+				_source.loop        = Loop;
 			}
 		}
 
 		void Awake() {
-			_source = GetComponent<AudioSource>();
 			Setup();
 		}
 
