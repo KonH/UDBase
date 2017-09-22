@@ -149,6 +149,7 @@ namespace UDBase.EditorTools {
 				wantedObject = desc.Asset;
 			}
 			if( item.Asset != wantedObject ) {
+				item.Type = Content.GetAssetType(desc.Asset);
 				item.Asset = wantedObject;
 				Save(config);
 			}
@@ -191,7 +192,9 @@ namespace UDBase.EditorTools {
 				var assetImporter = AssetImporter.GetAtPath(path);
 				var assetName = desc.Asset.name;
 				var bundleName = assetImporter.assetBundleName;
-				if( (item.AssetName != assetName) || (item.BundleName != bundleName) ) {
+				var type = Content.GetAssetType(desc.Asset);
+				if( (item.Type != type) || (item.AssetName != assetName) || (item.BundleName != bundleName) ) {
+					item.Type = type;
 					item.AssetName = assetName;
 					item.BundleName = bundleName;
 					Save(config);
