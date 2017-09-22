@@ -15,7 +15,7 @@ namespace UDBase.Controllers.AudioSystem {
 			}
 			if ( DefaultMusic ) {
 				ChannelParam = Audio.DefaultMusicChannelVolume;
-				ChannelName  = Audio.DefaultSoundChannelName;
+				ChannelName  = Audio.DefaultMusicChannelName;
 			}
 		}
 	}
