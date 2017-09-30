@@ -12,7 +12,7 @@ First is used for positional or deep controlled sounds, second for simple 2D sou
 ### SoundSource
 
 **SoundSource** is a AudioSource wrapper, it load clip at runtime by ContentId and used selected channel for play sound.
-Also, AutoPlay, Loop, Delay are supported.
+Also, AutoPlay, Loop, Delay, DestroyOnLoad, FadeIn, FadeOut are supported.
 Provide methods: Play/Pause/UnPause/Stop.
 
 ### SoundController
