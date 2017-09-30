@@ -37,10 +37,11 @@ namespace UDBase.Controllers.SceneSystem {
 		public void LoadScene(ISceneInfo sceneInfo) {
 			var sceneName = sceneInfo.Name;
 			if( Scene.IsSceneNameValid(sceneName) ) {
-				TryLoadLoadingScene(); 
-				_helper.LoadScene(sceneName);
-				CurrentScene = sceneInfo;
-				Events.Fire(new Scene_Loaded(sceneInfo));
+				TryLoadLoadingScene();
+				_helper.LoadScene(sceneName, () => {
+					CurrentScene = sceneInfo;
+					Events.Fire(new Scene_Loaded(sceneInfo));
+				});
 			} else {
 				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
 			}

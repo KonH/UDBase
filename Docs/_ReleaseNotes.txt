@@ -15,7 +15,8 @@ Improvements:
 - ContentId.ToString() with caching;
 Fixes:
 - Correct way to load first scene;
-- Fix: Correct event unsubscribe for monoBehaviours;
+- Correct event unsubscribe for monoBehaviours;
+- Scene_Loaded called correctly in AsyncSceneLoader;
 
 v.0.8.0
 - New controller: Leaderboard;
