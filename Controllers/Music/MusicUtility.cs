@@ -8,9 +8,9 @@ namespace UDBase.Controllers.MusicSystem {
 
 		public void StopTrack() {
 			if ( _currentSource ) {
+				_currentSource.DestroyOnStop = true;
 				_currentSource.Stop();
 				_currentSource = null;
-				Destroy(_currentSource);
 			}
 		}
 
@@ -24,6 +24,7 @@ namespace UDBase.Controllers.MusicSystem {
 		public void SetupTrack() {
 			var holder = GameObject.FindObjectOfType<MusicHolder>();
 			if ( holder ) {
+				Destroy(holder);
 				_currentSource = SelectSource(holder);
 				DontDestroyOnLoad(_currentSource.gameObject);
 			}
