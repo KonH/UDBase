@@ -1,42 +1,16 @@
-﻿namespace UDBase.Controllers.LogSystem {
-	public class LogTags {
-		public const int Common      = 1;
-		public const int UI          = 2;
-		public const int Scene       = 3;
-		public const int Inventory   = 4;
-		public const int Config      = 5;
-		public const int Save        = 6;
-		public const int Json        = 7;
-		public const int Event       = 8;
-		public const int Content     = 9;
-		public const int Time        = 10;
-		public const int Network     = 11;
-		public const int Leaderboard = 12;
-
-		protected string[] _defaultNames = new string[]{
-			"Untagged",
-			"Common", 
-			"UI", 
-			"Scene", 
-			"Inventory", 
-			"Config",
-		    "Save",
-			"Json",
-			"Event",
-			"Content",
-			"Time",
-		    "Network",
-			"Leaderboard"};
-
-		public virtual string GetName(int index) {
-			if( (index >= 0) && (index < _defaultNames.Length) ) {
-				return _defaultNames[index];
-			}
-			return "?";
-		}
-
-		public virtual string[] GetNames() {
-			return _defaultNames;
-		}
-	}
+public enum LogTags {
+	Common = 1,
+	UI = 2,
+	Scene = 3,
+	Inventory = 4,
+	Config = 5,
+	Save = 6,
+	Json = 7,
+	Event = 8,
+	Content = 9,
+	Time = 10,
+	Network = 11,
+	Leaderboard = 12,
+	Audio = 13,
+	Sound = 14
 }

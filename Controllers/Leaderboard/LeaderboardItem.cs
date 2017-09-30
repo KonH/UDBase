@@ -2,7 +2,6 @@
 
 namespace UDBase.Controllers.LeaderboardSystem {
 	public class LeaderboardItem {
-
 		[fsProperty("game")]
 		public string Game     { get; private set; }
 		[fsProperty("version")]

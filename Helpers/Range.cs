@@ -1,14 +1,13 @@
 ﻿using System;
 
 namespace UDBase.Helpers {
-	
 	public abstract class Range<T> {
 		public T Start;
 		public T End;
 
-		public Range() {}
+		protected Range() {}
 
-		public Range(T start, T end) {
+		protected Range(T start, T end) {
 			Start = start;
 			End   = end;
 		}
@@ -25,7 +24,7 @@ namespace UDBase.Helpers {
 	[Serializable]
 	public class IntRange:Range<int> {
 
-		public IntRange():base() {}
+		public IntRange() {}
 
 		public IntRange(int start, int end):base(start, end) {}
 
@@ -49,7 +48,7 @@ namespace UDBase.Helpers {
 	[Serializable]
 	public class FloatRange:Range<float> {
 
-		public FloatRange():base() {}
+		public FloatRange() {}
 
 		public FloatRange(float start, float end):base(start, end) {}
 

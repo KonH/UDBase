@@ -7,20 +7,17 @@ using UDBase.Controllers.ContentSystem;
 
 namespace UDBase.UI.Common {
 	public class UIManager : MonoBehaviour {
-
 		class UIDialogGroup {
-			public UIOverlay       Element;
-			public List<UIElement> Blocked;
-			public Action<bool>    OnClose;
+			public readonly List<UIElement> Blocked;
+			public readonly Action<bool>    OnClose;
 
-			public UIDialogGroup(UIOverlay element, List<UIElement> blocked, Action<bool> onClose) {
-				Element = element;
+			public UIDialogGroup(List<UIElement> blocked, Action<bool> onClose) {
 				Blocked = blocked;
 				OnClose = onClose;
 			}
 		}
 
-		static UIManager _current = null;
+		static UIManager _current;
 		public static UIManager Current {
 			get {
 				if( !_current ) {
@@ -36,13 +33,13 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		public Canvas  Canvas         = null;
+		public Canvas  Canvas;
 		public KeyCode ShowHideToggle = KeyCode.None;
 
-		bool _showHide  = false;
-		bool _isLoading = false;
+		bool _showHide;
+		bool _isLoading;
 
-		Stack<UIDialogGroup> _dialogs = new Stack<UIDialogGroup>();
+		readonly Stack<UIDialogGroup> _dialogs = new Stack<UIDialogGroup>();
 
 		void Awake() {
 			if( _current ) {
@@ -152,12 +149,13 @@ namespace UDBase.UI.Common {
 
 		public void ShowDialog(GameObject prefab, Action<bool> callback) {
 			_isLoading = false;
-			var go = Instantiate(prefab) as GameObject;
-			if( go ) {
-				var overlay = go.GetComponent<UIOverlay>();
-				if( overlay ) {
-					ProcessOverlay(overlay, callback);
-				}
+			var go = Instantiate(prefab);
+			if (!go) {
+				return;
+			}
+			var overlay = go.GetComponent<UIOverlay>();
+			if( overlay ) {
+				ProcessOverlay(overlay, callback);
 			}
 		}
 
@@ -166,7 +164,7 @@ namespace UDBase.UI.Common {
 				dialog.transform.SetParent(Canvas.transform, false);
 			}
 			var blockedElements = GetBlockedElements();
-			var dialogGroup = new UIDialogGroup(dialog, blockedElements, callback);
+			var dialogGroup = new UIDialogGroup(blockedElements, callback);
 			_dialogs.Push(dialogGroup);
 			dialog.Show();
 		}

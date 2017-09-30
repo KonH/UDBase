@@ -3,8 +3,7 @@ using UDBase.Controllers.SaveSystem;
 using UDBase.Controllers.ContentSystem;
 
 namespace UDBase.EditorTools {
-	public static class MenuItems {
-		
+	public static class MenuItems {		
 		[MenuItem("UDBase/Schemes/Edit", false, -99)]
 		static void OpenSchemes() {
 			SchemesEditor.GetWindow<SchemesEditor>("Schemes", true);

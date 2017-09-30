@@ -4,10 +4,10 @@ using UDBase.Utils;
 
 namespace UDBase.Controllers.ContentSystem {
 	public sealed class AssetBundleContentController:IContent {
-	 
-		string            _streamingAssetsPath = null; 
-		string            _baseUrl             = null;
-		AssetBundleHelper _helper              = null;
+		readonly string _streamingAssetsPath;
+		readonly string _baseUrl;
+		
+		AssetBundleHelper _helper;
 
 		public AssetBundleContentController(AssetBundleMode mode, string path = "") {
 			if( mode == AssetBundleMode.StreamingAssets ) {
@@ -35,7 +35,7 @@ namespace UDBase.Controllers.ContentSystem {
 			if( !id || id.LoadType != ContentLoadType.AssetBundle ) {
 				return false;
 			}
-			_helper.StartLoadAsync<T>(id.BundleName, id.AssetName, callback);
+			_helper.StartLoadAsync(id.BundleName, id.AssetName, callback);
 			return true;
 		}
 	}

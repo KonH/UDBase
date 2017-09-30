@@ -2,8 +2,7 @@
 using FullSerializer;
 
 namespace UDBase.Controllers.InventorySystem {
-	public class HolderDescription {
-		
+	public class HolderDescription {		
 		[fsProperty("name")]
 		public string                Name  { get; private set; }
 		[fsProperty("items")]

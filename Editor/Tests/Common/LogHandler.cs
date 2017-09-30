@@ -2,15 +2,14 @@
 using UnityEngine;
 
 public class LogHandler:IDisposable {
-	
-	bool _prevEnabled = false;
+	readonly bool _prevEnabled;
 
 	public LogHandler() {
-		_prevEnabled = Debug.logger.logEnabled;
-		Debug.logger.logEnabled = false;
+		_prevEnabled = Debug.unityLogger.logEnabled;
+		Debug.unityLogger.logEnabled = false;
 	}
 
     public void Dispose() {
-		Debug.logger.logEnabled = _prevEnabled;
+		Debug.unityLogger.logEnabled = _prevEnabled;
     }
 }

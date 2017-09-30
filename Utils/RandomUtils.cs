@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace UDBase.Utils {
 	public static class RandomUtils {
-
 		public static int Range(int min, int max) {
 			return UnityEngine.Random.Range(min, max);
 		}

@@ -10,7 +10,8 @@ namespace UDBase.Common {
 	/// Note: This class used native Debug messages (Log controller is unreachable yet)
 	/// </summary>
 	public abstract class Scheme : IScheme {
-		Dictionary<IController, ControllerHelperBase> _controllers = new Dictionary<IController, ControllerHelperBase>();
+		readonly Dictionary<IController, ControllerHelperBase> _controllers = 
+			new Dictionary<IController, ControllerHelperBase>();
 
 		public void AddController(ControllerHelperBase helper, params IController[] controllers) {
 			if( helper == null ) {
@@ -31,10 +32,7 @@ namespace UDBase.Common {
 		}
 
 		public bool HasController(IController controller) {
-			if( controller != null ) {
-				return _controllers.ContainsKey(controller);
-			}
-			return false;
+			return (controller != null) && _controllers.ContainsKey(controller);
 		}
 
 		public ControllerHelperBase GetControllerHelper(IController controller) {

@@ -2,10 +2,9 @@
 
 namespace UDBase.Controllers.InventorySystem {
 	public class TradeTransitionHelper : ITransitionHelper {
-
-		protected string                   _packName          = null;
-		protected Func<InventoryItem, int> _itemPriceSelector = null;
-		protected Func<InventoryPack, int> _packPriceSelector = null;
+		protected string                   _packName;
+		protected Func<InventoryItem, int> _itemPriceSelector;
+		protected Func<InventoryPack, int> _packPriceSelector;
 
 		public TradeTransitionHelper(
 			string packName, 

@@ -2,26 +2,16 @@
 
 namespace UDBase.Controllers.ConfigSystem {
 	public sealed class Config : ControllerHelper<IConfig> {
-		
 		public static T GetNode<T>() {
-			if( Instance != null ) {
-				return Instance.GetNode<T>();
-			}
-			return default(T);
+			return (Instance != null) ? Instance.GetNode<T>() : default(T);
 		}
 
 		public static T GetItem<T>(string name) {
-			if( Instance != null ) {
-				return Instance.GetItem<T>(name);
-			}
-			return default(T);
+			return (Instance != null) ? Instance.GetItem<T>(name) : default(T);
 		}
 
 		public static Dictionary<string, T> GetItems<T>() {
-			if ( Instance != null ) {
-				return Instance.GetItems<T>();
-			}
-			return null;
+			return (Instance != null) ? Instance.GetItems<T>() : null;
 		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿namespace UDBase.Utils {
-	public static class AssetUtils {
-		
+	public static class AssetUtils {		
 		const string SceneExtension = ".unity";
 
 		public static string ConvertScenePathToName(string path) {

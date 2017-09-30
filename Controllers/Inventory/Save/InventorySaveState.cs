@@ -4,8 +4,7 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class InventorySaveState: IInventorySave {
-
-		InventorySaveNode _node    = null;
+		InventorySaveNode _node;
 
 		public InventorySaveState() {}
 

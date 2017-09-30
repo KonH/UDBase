@@ -3,8 +3,7 @@ using UDBase.Controllers.SaveSystem;
 
 namespace UDBase.Controllers.UserSystem {
 	public class SaveUser : IUser {
-
-		UserSaveNode _userNode = null;
+		UserSaveNode _userNode;
 
 		public void Init() {}
 
@@ -13,10 +12,11 @@ namespace UDBase.Controllers.UserSystem {
 				return _userNode.Id;
 			}
 			set {
-				if ( value != _userNode.Id ) {
-					_userNode.Id = value;
-					UpdateNode();
+				if (value == _userNode.Id) {
+					return;
 				}
+				_userNode.Id = value;
+				UpdateNode();
 			}
 		}
 
@@ -25,10 +25,11 @@ namespace UDBase.Controllers.UserSystem {
 				return _userNode.Name;
 			}
 			set {
-				if ( value != _userNode.Name ) {
-					_userNode.Name = value;
-					UpdateNode();
+				if (value == _userNode.Name) {
+					return;
 				}
+				_userNode.Name = value;
+				UpdateNode();
 			}
 		}
 

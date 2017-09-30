@@ -5,11 +5,10 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils.Json.Fullserializer {
 	public sealed class FsJsonNodeContainer {
-		Dictionary<string, fsData>  _nodes = null;
-		Dictionary<Type, string>    _names = new Dictionary<Type, string>();
-		Dictionary<Type, object>    _cache = new Dictionary<Type, object>();
-
-		fsSerializer _serializer = new fsSerializer();
+		readonly Dictionary<string, fsData>  _nodes;
+		readonly Dictionary<Type, string>    _names      = new Dictionary<Type, string>();
+		readonly Dictionary<Type, object>    _cache      = new Dictionary<Type, object>();
+		readonly fsSerializer                _serializer = new fsSerializer();
 
 		public FsJsonNodeContainer(string content) {
 			if( !string.IsNullOrEmpty(content) ) {

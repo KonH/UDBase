@@ -4,8 +4,7 @@ using UDBase.Common;
 using UDBase.Utils;
 
 namespace UDBase.EditorTools {
-public static class CaptureScreen {
-
+	public static class CaptureScreen {
 		static string GetRandomName() {
 			return System.DateTime.Now.ToString("hh.mm.ss") + "." + Mathf.Abs(new System.Object().GetHashCode()) + ".png";
 		}
@@ -17,7 +16,7 @@ public static class CaptureScreen {
 			}
 			var fileName = GetRandomName();
 			fileName = Path.Combine(dir, fileName);
-			Application.CaptureScreenshot(fileName, superSize);
+			ScreenCapture.CaptureScreenshot(fileName, superSize);
 			Debug.Log("Screenshot saved to " + fileName);
 		}
 

@@ -4,7 +4,7 @@ namespace UDBase.Controllers.InventorySystem.UI {
 	public class AddPackButton : ActionButton {
 		public string HolderName = "";
 		public string PackName   = "";
-		public int    Count      = 0;
+		public int    Count;
 
 		public override bool IsVisible() {
 			return true;

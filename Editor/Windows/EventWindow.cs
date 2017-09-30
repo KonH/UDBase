@@ -6,11 +6,11 @@ using UDBase.Controllers.EventSystem;
 
 namespace UDBase.EditorTools {
 	public class EventWindow : EditorWindow {
-
-		bool                           _ready     = false;
-		Dictionary<Type, List<object>> _handlers  = null;
+		readonly Dictionary<Type, bool> _folds = new Dictionary<Type, bool>();
+		
+		bool                           _ready;
+		Dictionary<Type, List<object>> _handlers;
 		Vector2                        _scrollPos = Vector2.zero;
-		Dictionary<Type, bool>         _folds     = new Dictionary<Type, bool>();
 
 		void OnGUI() {
 			_ready = UpdateState();
@@ -50,7 +50,7 @@ namespace UDBase.EditorTools {
 		}
 
 		bool DrawHeader(Type type) {
-			bool fold = false;
+			bool fold;
 			if( !_folds.TryGetValue(type, out fold) ) {
 				_folds.Add(type, false);
 			}

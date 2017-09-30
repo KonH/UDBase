@@ -7,7 +7,6 @@ using UDBase.Utils;
 
 namespace UDBase.Controllers.LogSystem.UI {
 	public class VisualLogHandler : MonoBehaviour {
-
 		[Serializable]
 		public class ButtonPosHander {
 			public ButtonPosition Position  = ButtonPosition.LeftTop;
@@ -15,8 +14,7 @@ namespace UDBase.Controllers.LogSystem.UI {
 		}
 
 		class LoggerState {
-			
-			public LoggerState(
+			protected LoggerState(
 				VisualLogHandler owner,
 				bool openCn, bool mainCn, bool topConCn, bool emptyCn, bool settingsCn, 
 				bool miniBtn, bool maxiBtn) {
@@ -63,44 +61,47 @@ namespace UDBase.Controllers.LogSystem.UI {
 		}
 
 		class LogContainer {
-			public List<LogEntry> Entries = new List<LogEntry>(1000);
+			public readonly List<LogEntry> Entries = new List<LogEntry>(1000);
 
 			public void Store(string msg, LogType type, string tag) {
 				Entries.Add(new LogEntry(msg, type, tag));
 			}
 		}
 
+		
+		const string FormatStr = "<color=\"{0}\">[{1}] {2}: {3}\n</color>";
+		
 		[Header("Base")]
 		public List<ButtonPosHander> OpenPositions      = new List<ButtonPosHander>();
-		public Text                  Text               = null;
-		public ToggleContainer       TagSample          = null;
-		public ToggleContainer       TypeSample         = null;
+		public Text                  Text;
+		public ToggleContainer       TagSample;
+		public ToggleContainer       TypeSample;
 
 		[Header("Content")]
-		public GameObject            OpenContent        = null;
-		public GameObject            MainContent        = null;
-		public GameObject            TopControlsContent = null;
-		public GameObject            EmptyContent       = null;
-		public GameObject            SettingsContent    = null;
+		public GameObject            OpenContent;
+		public GameObject            MainContent;
+		public GameObject            TopControlsContent;
+		public GameObject            EmptyContent;
+		public GameObject            SettingsContent;
 
 		[Header("Controls")]
-		public Button                OpenButton          = null;
-		public Button                ClearButton         = null;
-		public Button                CloseSettingsButton = null;
-		public Button                CloseButton         = null;
-		public Button                MinimizeButton      = null;
-		public Button                MaximizeButton      = null;
-		public Button                OpenSettingsButton  = null;
+		public Button                OpenButton;
+		public Button                ClearButton;
+		public Button                CloseSettingsButton;
+		public Button                CloseButton;
+		public Button                MinimizeButton;
+		public Button                MaximizeButton;
+		public Button                OpenSettingsButton;
 
 		[Header("Runtime")]
 		public string                CurrentState        = "";
 
-		Dictionary<LogType, bool> _typeStates = new Dictionary<LogType, bool>();
-		Dictionary<string, bool>  _tagStates  = new Dictionary<string, bool>();
-		LogContainer              _container  = new LogContainer();
-		StringBuilder             _sb         = new StringBuilder(10000);
-		LoggerState               _state      = null;
-		string                    _formatStr  = "<color=\"{0}\">[{1}] {2}: {3}\n</color>";
+		readonly Dictionary<LogType, bool> _typeStates = new Dictionary<LogType, bool>();
+		readonly Dictionary<string, bool>  _tagStates  = new Dictionary<string, bool>();
+		readonly LogContainer              _container  = new LogContainer();
+		
+		StringBuilder _sb = new StringBuilder(10000);
+		LoggerState   _state;
 
 		public void Init(string[] tags, ButtonPosition openButtonPos) {
 			Clear(true);
@@ -178,8 +179,8 @@ namespace UDBase.Controllers.LogSystem.UI {
 			template.gameObject.SetActive(false);
 		}
 
-		void OnTypeChanged(string name, bool state) {
-			var value = (LogType)Enum.Parse(typeof(LogType), name);
+		void OnTypeChanged(string typeName, bool state) {
+			var value = (LogType)Enum.Parse(typeof(LogType), typeName);
 			ChangeType(value, state);
 			UpdateText();
 		}
@@ -189,14 +190,14 @@ namespace UDBase.Controllers.LogSystem.UI {
 			PlayerPrefsUtils.SetBool(FormatTypeKey(value), state);
 		}
 
-		void OnTagChanged(string name, bool state) {
-			ChangeTag(name, state);
+		void OnTagChanged(string tagName, bool state) {
+			ChangeTag(tagName, state);
 			UpdateText();
 		}
 
-		void ChangeTag(string name, bool state) {
-			_tagStates[name] = state;
-			PlayerPrefsUtils.SetBool(FormatTagKey(name), state);
+		void ChangeTag(string tagName, bool state) {
+			_tagStates[tagName] = state;
+			PlayerPrefsUtils.SetBool(FormatTagKey(tagName), state);
 		}
 
 		public void Clear(bool full) {
@@ -206,12 +207,12 @@ namespace UDBase.Controllers.LogSystem.UI {
 			Text.text = "";
 		}
 
-		bool IsTagRequired(string tag) {
+		bool IsTagRequired(string tagName) {
 			bool state;
-			if( _tagStates.TryGetValue(tag, out state) ) {
+			if( _tagStates.TryGetValue(tagName, out state) ) {
 				return state;
 			} else {
-				Debug.LogErrorFormat("Unknown tag: {0}!", tag); 
+				Debug.LogErrorFormat("Unknown tag: {0}!", tagName); 
 				return true;
 			}
 		}
@@ -220,9 +221,9 @@ namespace UDBase.Controllers.LogSystem.UI {
 			return _typeStates[type];
 		}
 
-		public void AddMessage(string msg, LogType type, string tag) {
-			_container.Store(msg, type, tag);
-			ApplyMessage(msg, type, tag, true);
+		public void AddMessage(string msg, LogType type, string tagName) {
+			_container.Store(msg, type, tagName);
+			ApplyMessage(msg, type, tagName, true);
 		}
 
 		string GetColor(LogType type) {
@@ -246,13 +247,13 @@ namespace UDBase.Controllers.LogSystem.UI {
 			return "";
 		}
 
-		void ApplyMessage(string msg, LogType type, string tag, bool addNow) {
-			if( Text && IsTagRequired(tag) && IsTypeRequired(type)) {
+		void ApplyMessage(string msg, LogType type, string tagName, bool addNow) {
+			if( Text && IsTagRequired(tagName) && IsTypeRequired(type)) {
 				var color = GetColor(type);
 				if( addNow ) {
-					Text.text += string.Format(_formatStr, color, tag, type, msg);
+					Text.text += string.Format(FormatStr, color, tagName, type, msg);
 				} else {
-					_sb = _sb.AppendFormat(_formatStr, color, tag, type, msg);
+					_sb = _sb.AppendFormat(FormatStr, color, tagName, type, msg);
 				}
 			}
 		}
@@ -279,8 +280,8 @@ namespace UDBase.Controllers.LogSystem.UI {
 			return "visual_log_type_" + type.ToString();
 		}
 
-		string FormatTagKey(string tag) {
-			return "visual_log_tag_" + tag;
+		string FormatTagKey(string tagName) {
+			return "visual_log_tag_" + tagName;
 		}
 	}
 }

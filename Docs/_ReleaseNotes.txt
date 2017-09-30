@@ -1,3 +1,23 @@
+v.0.9.0
+New controllers: 
+- Audio;
+- Sound;
+- Music;
+Features:
+- UnityHelper: Add(Persistant/Scene)StartCallback for make actions on app/scene Start();
+- Combined enum feature;
+- LogTags uses combined enum;
+- Ability to create child objects using helper methods;
+- Unity 2017.1.1f1 support;
+- Type safe content loading at runtime;
+- ContentHolder to prevent wrong ContentId setup in Inspector;
+Improvements:
+- ContentId.ToString() with caching;
+Fixes:
+- Correct way to load first scene;
+- Correct event unsubscribe for monoBehaviours;
+- Scene_Loaded called correctly in AsyncSceneLoader;
+
 v.0.8.0
 - New controller: Leaderboard;
 - Utils: WebClient for requests to web api with basic authorization;

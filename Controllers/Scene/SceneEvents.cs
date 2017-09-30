@@ -1,5 +1,4 @@
 ﻿namespace UDBase.Controllers.SceneSystem {
-
 	public struct Scene_Loaded {
 		public ISceneInfo SceneInfo { get; private set; }
 

@@ -3,13 +3,10 @@ using FullSerializer;
 
 namespace UDBase.Controllers.SaveSystem {
 	public class SaveInfoNode {
-
 		[fsProperty("ver")]
 		public long   Version   { get; private set; }
 		[fsProperty("time")]
 		public long   LocalTime { get; private set; }
-
-		public SaveInfoNode() {}
 
 		public void Update() {
 			Version++;

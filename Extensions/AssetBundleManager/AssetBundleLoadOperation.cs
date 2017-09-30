@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.iOS;
 #endif
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 namespace AssetBundles
 {
@@ -246,9 +247,9 @@ namespace AssetBundles
                 m_Request = SceneManager.LoadSceneAsync(m_LevelName, m_IsAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
 #else
                 if (m_IsAdditive)
-                    m_Request = Application.LoadLevelAdditiveAsync(m_LevelName);
+                    m_Request = SceneManager.LoadSceneAsync(m_LevelName, LoadSceneMode.Additive);
                 else
-                    m_Request = Application.LoadLevelAsync(m_LevelName);
+                    m_Request = SceneManager.LoadSceneAsync(m_LevelName);
 #endif
                 return false;
             }

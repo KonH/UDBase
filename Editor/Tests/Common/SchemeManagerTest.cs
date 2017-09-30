@@ -3,7 +3,6 @@ using UDBase.Common;
 
 namespace UDBase.Tests {
 	public class SchemeManagerTest {
-
 		class SchemeMock:Scheme {}
 
 		[Test]

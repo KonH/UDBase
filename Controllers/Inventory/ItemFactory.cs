@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class ItemFactory {
-
-		Dictionary<string, Type> _typeNameToTypes = new Dictionary<string, Type>();
+		readonly Dictionary<string, Type> _typeNameToTypes = new Dictionary<string, Type>();
 
 		public void AddType<T>(string typeName) {
 			_typeNameToTypes.Add(typeName, typeof(T));

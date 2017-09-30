@@ -2,8 +2,7 @@
 
 namespace UDBase.Controllers.UTime {
 	public class LocalTime : ITime {
-
-		bool _useUniversalTime = false;
+		readonly bool _useUniversalTime;
 
 		public LocalTime(bool isTrusted = false, bool useUniversalTime = false) {
 			IsTrusted         = isTrusted;

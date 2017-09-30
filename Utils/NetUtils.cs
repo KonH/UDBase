@@ -8,7 +8,6 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils {
 	public static class NetUtils {
-
 		public const float DefaultTimeout = 10.0f;
 
 		public class Response {
@@ -146,7 +145,7 @@ namespace UDBase.Utils {
 				isTimeout);
 			if ( isTimeout ) {
 				Log.ErrorFormat("Request to '{0}': timeout", LogTags.Network, url);
-			} else if ( request.isError ) {
+			} else if ( request.isNetworkError ) {
 				Log.ErrorFormat("Request to '{0}': error: '{1}'", LogTags.Network, url, request.error);
 			} else {
 				Log.MessageFormat("Request to '{0}': response code: {1}, text: '{2}'", LogTags.Network, url, request.responseCode, response.Text);

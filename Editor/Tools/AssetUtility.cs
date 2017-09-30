@@ -4,7 +4,6 @@ using System.IO;
 
 namespace UDBase.EditorTools {
 	public static class AssetUtility {
-
 		public static T CreateAsset<T>(bool focus = true) where T : ScriptableObject {
 			T asset = ScriptableObject.CreateInstance<T>();
 			string path = AssetDatabase.GetAssetPath (Selection.activeObject);

@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace UDBase.Utils {
 	public static class UnityHelper {
-
-		static Transform _persistantRoot = null;
+		static Transform _persistantRoot;
 		static Transform PersistantRoot {
 			get {
 				if( !_persistantRoot ) {
@@ -14,7 +14,7 @@ namespace UDBase.Utils {
 			}
 		}
 
-		static Transform _sceneRoot = null;
+		static Transform _sceneRoot;
 		static Transform SceneRoot {
 			get {
 				if( !_sceneRoot ) {
@@ -25,7 +25,7 @@ namespace UDBase.Utils {
 		}
 
 		static Transform MakeRoot(string name, bool persistant) {
-			GameObject go = new GameObject(name);
+			var go = new GameObject(name);
 			if( persistant ) {
 				GameObject.DontDestroyOnLoad(go);
 			}
@@ -57,17 +57,32 @@ namespace UDBase.Utils {
 			Debug.LogErrorFormat("Error while loading {0} from Resources!", prefabPath);
 			return default(T);
 		}
-		public static T AddPersistant<T>() where T:Component {
-			return Add<T>(true);
+		public static T AddPersistant<T>(bool createObject = false) where T:Component {
+			return Add<T>(true, createObject);
 		}
 
-		public static T AddForScene<T>() where T:Component {
-			return Add<T>(false);
+		public static T AddForScene<T>(bool createObject = false) where T:Component {
+			return Add<T>(false, createObject);
 		}
 
-		static T Add<T>(bool persistant) where T:Component {
+		public static void AddPersistantStartCallback(Action action) {
+			GetOrCreatePersistantComponent<UnityCallbackTracker>().StartCallbacks.Add(action);
+		}
+
+		public static void AddSceneStartCallback(Action action) {
+			GetOrCreateSceneComponent<UnityCallbackTracker>().StartCallbacks.Add(action);
+		}
+
+		static T Add<T>(bool persistant, bool createObject) where T:Component {
 			var parent = persistant ? PersistantRoot : SceneRoot;
-			return parent.gameObject.AddComponent<T>();
+			GameObject root;
+			if ( createObject ) {
+				root = new GameObject(typeof(T).Name);
+				root.transform.SetParent(parent);
+			} else {
+				root = parent.gameObject;
+			}
+			return root.AddComponent<T>();
 		}
 
 		public static T GetComponent<T>() where T:Component {

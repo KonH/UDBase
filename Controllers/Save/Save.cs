@@ -4,12 +4,8 @@ using UDBase.Common;
 
 namespace UDBase.Controllers.SaveSystem {
 	public class Save:ControllerHelper<ISave> {
-
 		public static T GetNode<T>(bool autoFill = true) {
-			if( Instance != null ) {
-				return Instance.GetNode<T>(autoFill);
-			}
-			return default(T);
+			return (Instance != null) ? Instance.GetNode<T>(autoFill) : default(T);
 		}
 
 		public static void SaveNode<T>(T node) {

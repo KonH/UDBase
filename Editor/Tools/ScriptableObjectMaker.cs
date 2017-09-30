@@ -6,7 +6,7 @@ namespace UDBase.EditorTools {
 		
 		public static void CreateAsset<T> (string path, string name) where T : ScriptableObject
 		{
-			T asset = ScriptableObject.CreateInstance<T> ();
+			var asset = ScriptableObject.CreateInstance<T> ();
 
 			string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/" + name + ".asset");
 			AssetDatabase.CreateAsset (asset, assetPathAndName);

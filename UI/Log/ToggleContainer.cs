@@ -4,13 +4,13 @@ using System;
 
 namespace UDBase.Controllers.LogSystem.UI {
 	public class ToggleContainer : MonoBehaviour {
-		public Toggle Toggle = null;
-		public Text   Text   = null;
+		public Toggle Toggle;
+		public Text   Text;
 
-		public void Init(bool state, string name, Action<string, bool> onValueChangedCallback) {
+		public void Init(bool state, string itemName, Action<string, bool> onValueChangedCallback) {
 			Toggle.isOn = state;
-			Text.text   = name;
-			Toggle.onValueChanged.AddListener((bool status) => onValueChangedCallback(name, status));
+			Text.text   = itemName;
+			Toggle.onValueChanged.AddListener((bool status) => onValueChangedCallback(itemName, status));
 		}
 
 

@@ -3,18 +3,17 @@ using UnityEngine;
 using UnityEditor;
 using UDBase.Common;
 
-namespace UDBase.EditorTools {
-	
+namespace UDBase.EditorTools {	
 	// Tool to change current "Scheme_" defines with keeping third-party defines 
 	public static class EditorDefinesTool {
-		static Dictionary<BuildTarget, BuildTargetGroup> buildTargetMap;
+		static Dictionary<BuildTarget, BuildTargetGroup> _buildTargetMap;
 
 		static EditorDefinesTool() {
 			FillMap();
 		}
 
 		static void FillMap() {
-			buildTargetMap = new Dictionary<BuildTarget, BuildTargetGroup>();
+			_buildTargetMap = new Dictionary<BuildTarget, BuildTargetGroup>();
 			AddToMap(BuildTargetGroup.Android, BuildTarget.Android);
 			AddToMap(BuildTargetGroup.iOS, BuildTarget.iOS);
 			AddToMap(BuildTargetGroup.N3DS, BuildTarget.N3DS);
@@ -43,7 +42,7 @@ namespace UDBase.EditorTools {
 
 		static void AddToMap(BuildTargetGroup group, params BuildTarget[] targets) {
 			for(int i = 0; i < targets.Length; i++) {
-				buildTargetMap.Add(targets[i], group);
+				_buildTargetMap.Add(targets[i], group);
 			}
 		}
 
@@ -81,8 +80,8 @@ namespace UDBase.EditorTools {
 
 		// Obsolete BuildTargets is not supported
 		public static BuildTargetGroup ConvertBuildTarget(BuildTarget target) {
-			var group = BuildTargetGroup.Unknown;
-			if( !buildTargetMap.TryGetValue(target, out group) ) {
+			BuildTargetGroup group;
+			if( !_buildTargetMap.TryGetValue(target, out group) ) {
 				throw new UnityException("Unknown BuildTarget!");
 			}
 			return group;

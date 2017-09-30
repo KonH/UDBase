@@ -5,7 +5,7 @@ using UDBase.Helpers;
 namespace UDBase.EditorTools {
 	[CustomPropertyDrawer(typeof(IntRange))]
 	public class IntRangeDrawer:PropertyDrawer {
-		BaseRangeDrawer _editor = new BaseRangeDrawer();
+		readonly BaseRangeDrawer _editor = new BaseRangeDrawer();
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{

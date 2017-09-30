@@ -2,19 +2,18 @@
 
 namespace UDBase.Controllers.UTime {
 	public class UTime : ControllerHelper<ITime> {
-
 		public static bool IsStable() {
-			bool isStable = true;
-			for( int i = 0; i < Instances.Count; i++ ) {
+			var isStable = true;
+			for ( var i = 0; i < Instances.Count; i++ ) {
 				var instance = Instances[i];
-				bool stable = instance.IsAvailable || instance.IsFailed;
+				var stable = instance.IsAvailable || instance.IsFailed;
 				isStable = isStable && stable;
 			}
 			return isStable;
 		}
 
 		public static bool IsTrusted() {
-			for( int i = 0; i < Instances.Count; i++ ) {
+			for ( var i = 0; i < Instances.Count; i++ ) {
 				var instance = Instances[i];
 				if( instance.IsTrusted && instance.IsAvailable ) {
 					return true;
@@ -24,7 +23,7 @@ namespace UDBase.Controllers.UTime {
 		}
 		
 		public static DateTime GetTrustedTime() {
-			for( int i = 0; i < Instances.Count; i++ ) {
+			for ( var i = 0; i < Instances.Count; i++ ) {
 				var instance = Instances[i];
 				if( instance.IsTrusted && instance.IsAvailable ) {
 					return instance.CurrentTime;
@@ -34,7 +33,7 @@ namespace UDBase.Controllers.UTime {
 		}
 
 		public static DateTime GetUntrustedTime() {
-			for( int i = 0; i < Instances.Count; i++ ) {
+			for ( var i = 0; i < Instances.Count; i++ ) {
 				var instance = Instances[i];
 				if( !instance.IsTrusted && instance.IsAvailable ) {
 					return instance.CurrentTime;

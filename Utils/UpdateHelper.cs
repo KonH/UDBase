@@ -3,8 +3,7 @@ using UnityEngine;
 
 namespace UDBase.Utils {
 	public class UpdateHelper : MonoBehaviour {
-
-		static UpdateHelper _globalInstance = null;
+		static UpdateHelper _globalInstance;
 		static UpdateHelper GlobalInstance {
 			get {
 				if( !_globalInstance ) {
@@ -14,7 +13,7 @@ namespace UDBase.Utils {
 			}
 		}
 
-		static UpdateHelper _sceneInstance = null;
+		static UpdateHelper _sceneInstance;
 		static UpdateHelper SceneInstance {
 			get {
 				if( !_sceneInstance ) {
@@ -24,7 +23,7 @@ namespace UDBase.Utils {
 			}
 		}
 
-		List<ICustomUpdate> _instances = new List<ICustomUpdate>();
+		readonly List<ICustomUpdate> _instances = new List<ICustomUpdate>();
 		
 		void Subscribe(ICustomUpdate instance) {
 			_instances.Add(instance);

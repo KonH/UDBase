@@ -4,7 +4,6 @@ using UDBase.Utils;
 
 namespace UDBase.EditorTools {
 	public static class ProjectSetupTool {
-
 		public static void PrepareFolders() {
 			IOTool.CreateDirectory(UDBaseConfig.ProjectPath);
 			IOTool.CreateDirectory(UDBaseConfig.ProjectSchemesPath);

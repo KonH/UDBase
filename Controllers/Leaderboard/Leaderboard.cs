@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace UDBase.Controllers.LeaderboardSystem {
 	public class Leaderboard : ControllerHelper<ILeaderboard> {
-
 		public static string Version {
 			get {
 				if ( Instance != null ) {

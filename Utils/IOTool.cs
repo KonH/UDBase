@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace UDBase.Utils {
 	public static class IOTool {
-
 		public static string GetPath(params string[] path) {
 			var result = path[0];
 			for(int i = 1; i < path.Length; i++) {
@@ -24,7 +23,7 @@ namespace UDBase.Utils {
 				return true;
 			} catch (Exception e) {
 				if( !silent ) {
-					Debug.LogErrorFormat("Exception while create directory at '{0}': {1}", path, e.ToString());
+					Debug.LogErrorFormat("Exception while create directory at '{0}': {1}", path, e);
 				}
 				return false;
 			}
@@ -35,7 +34,7 @@ namespace UDBase.Utils {
 				Directory.Delete(path, recursive);
 				return true;
 			} catch (Exception e) {
-				Debug.LogErrorFormat("Exception while delete directory at '{0}': {1}", path, e.ToString());
+				Debug.LogErrorFormat("Exception while delete directory at '{0}': {1}", path, e);
 				return false;
 			}
 		}
@@ -46,7 +45,7 @@ namespace UDBase.Utils {
 				return dir.GetFiles(searchPattern);
 			} catch (Exception e) {
 				if( !silent ) {
-					Debug.LogErrorFormat("Exception while get files from directory at '{0}': {1}", path, e.ToString());
+					Debug.LogErrorFormat("Exception while get files from directory at '{0}': {1}", path, e);
 				}
 				return new FileInfo[0];
 			}
@@ -57,7 +56,7 @@ namespace UDBase.Utils {
 				File.WriteAllText(path, contents);
 			} catch (Exception e) {
 				if( !silent ) {
-					Debug.LogErrorFormat("Exception while write text to '{0}': {1}", path, e.ToString());
+					Debug.LogErrorFormat("Exception while write text to '{0}': {1}", path, e);
 				}
 			}
 		}
@@ -71,7 +70,7 @@ namespace UDBase.Utils {
 				File.WriteAllLines(path, contents);
 			} catch (Exception e) {
 				if( !silent ) {
-					Debug.LogErrorFormat("Exception while write lines to '{0}': {1}", path, e.ToString());
+					Debug.LogErrorFormat("Exception while write lines to '{0}': {1}", path, e);
 				}
 			}
 		}
@@ -81,7 +80,7 @@ namespace UDBase.Utils {
 				return File.ReadAllText(path);
 			} catch (Exception e) {
 				if( !silent ) {
-					Debug.LogErrorFormat("Exception while read file from '{0}': {1}", path, e.ToString());
+					Debug.LogErrorFormat("Exception while read file from '{0}': {1}", path, e);
 				}
 				return null;
 			}
@@ -92,7 +91,7 @@ namespace UDBase.Utils {
 				return File.ReadAllLines(path);
 			} catch (Exception e) {
 				if( !silent ) {
-					Debug.LogErrorFormat("Exception while read file from '{0}': {1}", path, e.ToString());
+					Debug.LogErrorFormat("Exception while read file from '{0}': {1}", path, e);
 				}
 				return null;
 			}
@@ -105,7 +104,7 @@ namespace UDBase.Utils {
 			} catch (Exception e) {
 				if( !silent ) {
 					Debug.LogErrorFormat("Exception while copy file from '{0}' to {1}: {2}", 
-						originPath, destinationPath, e.ToString());
+						originPath, destinationPath, e);
 				}
 				return false;
 			}
@@ -114,15 +113,11 @@ namespace UDBase.Utils {
 		public static bool CreateFile(string path, bool silent = false) {
 			try {
 				var fs = File.Create(path);
-				if( fs != null ) {
-					fs.Close();
-					return true;
-				} else {
-					return false;
-				}
+				fs.Close();
+				return true;
 			} catch (Exception e) {
 				if( !silent ) {
-					Debug.LogErrorFormat("Exception while create file '{0}': {1}", path, e.ToString());
+					Debug.LogErrorFormat("Exception while create file '{0}': {1}", path, e);
 				}
 				return false;
 			}
@@ -134,7 +129,7 @@ namespace UDBase.Utils {
 				return true;
 			} catch (Exception e) {
 				if( !silent ) {
-					Debug.LogErrorFormat("Exception while delete file from '{0}': {1}", path, e.ToString());
+					Debug.LogErrorFormat("Exception while delete file from '{0}': {1}", path, e);
 				}
 				return false;
 			}
@@ -142,12 +137,12 @@ namespace UDBase.Utils {
 
 		public static bool Open(string path, bool silent = false) {
 			try {
-				string trimmedPath = path.TrimEnd(new[]{'\\', '/'});
+				var trimmedPath = path.TrimEnd(new[]{'\\', '/'});
 				System.Diagnostics.Process.Start(trimmedPath);
 				return true;
 			} catch (Exception e) {
 				if( !silent ) {
-					Debug.LogErrorFormat("Exception while open file at '{0}': {1}", path, e.ToString());
+					Debug.LogErrorFormat("Exception while open file at '{0}': {1}", path, e);
 				}
 				return false;
 			}

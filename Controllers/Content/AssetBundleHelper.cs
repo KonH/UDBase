@@ -10,8 +10,8 @@ namespace UDBase.Controllers.ContentSystem {
 
 		public bool Ready { get; private set; }
 
-		string _streamingAssetsPath = null;
-		string _baseUrl             = null;
+		string _streamingAssetsPath;
+		string _baseUrl;
 
 		public void Init(string streamingAssetsPath, string baseUrl) {
 			_streamingAssetsPath = streamingAssetsPath;
@@ -26,7 +26,7 @@ namespace UDBase.Controllers.ContentSystem {
 			yield return StartCoroutine(InitializeManager());
 		}
 
-		protected void InitializeSourceURL() {
+		protected void InitializeSourceUrl() {
 			#if ENABLE_IOS_ON_DEMAND_RESOURCES
 			if (UnityEngine.iOS.OnDemandResources.enabled) {
 				AssetBundleManager.SetSourceAssetBundleURL("odr://");
@@ -40,12 +40,11 @@ namespace UDBase.Controllers.ContentSystem {
 			} else {
 				Log.Error("You need to set streaming asset path or base url!", LogTags.Content);
 			}
-			return;
 			#endif
 		}
 
 		protected IEnumerator InitializeManager() {
-			InitializeSourceURL();
+			InitializeSourceUrl();
 			UnityHelper.AddPersistant<AssetBundleManager>();
 			var request = AssetBundleManager.Initialize();			
 			if (request != null) {
@@ -56,7 +55,7 @@ namespace UDBase.Controllers.ContentSystem {
 
 		public void StartLoadAsync<T>(
 			string assetBundleName, string assetName, Action<T> callback) where T:UnityEngine.Object {
-			StartCoroutine(LoadAsync<T>(assetBundleName, assetName, callback));
+			StartCoroutine(LoadAsync(assetBundleName, assetName, callback));
 		}
 
 		public IEnumerator LoadAsync<T>(

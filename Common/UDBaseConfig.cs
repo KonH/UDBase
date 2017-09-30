@@ -2,7 +2,6 @@
 
 namespace UDBase.Common {
 	public static class UDBaseConfig {
-
 		// Scheme
 		public const string SchemeSymbolPrefix = "Scheme_";
 		public const string SchemeDefaultName  = "Default";

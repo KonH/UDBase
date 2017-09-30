@@ -1,18 +1,37 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UDBase.Utils;
 
 namespace UDBase.Controllers.SceneSystem {
 	public class AsyncLoadHelper : MonoBehaviour {
 		public float Progress { get; private set; }
 
-		public void LoadScene(string name) {
-			StartCoroutine(LoadSceneCo(name));
+		Action _loadCallback;
+
+		void Start() {
+			SceneManager.activeSceneChanged += OnSceneChanged;
 		}
 
-		IEnumerator LoadSceneCo(string name) {
+		void OnDestroy() {
+			SceneManager.activeSceneChanged -= OnSceneChanged;
+		}
+
+		void OnSceneChanged(UnityEngine.SceneManagement.Scene scene0, UnityEngine.SceneManagement.Scene scene1) {
+			if ( _loadCallback != null ) {
+				_loadCallback();
+			}
+		}
+
+		public void LoadScene(string sceneName, Action callback) {
+			_loadCallback = callback;
+			StartCoroutine(LoadSceneCo(sceneName));
+		}
+
+		IEnumerator LoadSceneCo(string sceneName) {
 			yield return null;
-			var operation = SceneManager.LoadSceneAsync(name);
+			var operation = SceneManager.LoadSceneAsync(sceneName);
 			operation.allowSceneActivation = false;
 			while (!operation.isDone && operation.progress + Mathf.Epsilon < 0.90f ) {
 				Progress = operation.progress;

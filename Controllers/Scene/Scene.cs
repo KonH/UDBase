@@ -5,10 +5,9 @@ using UDBase.Utils;
 
 namespace UDBase.Controllers.SceneSystem {
 	public class Scene : ControllerHelper<IScene> {
-
 		public static ISceneInfo CurrentScene {
 			get {
-				for( int i = 0; i < Instances.Count; i++ ) {
+				for ( var i = 0; i < Instances.Count; i++ ) {
 					var curScene = Instances[i].CurrentScene;
 					if( curScene != null ) {
 						return curScene;
@@ -23,13 +22,13 @@ namespace UDBase.Controllers.SceneSystem {
 		}
 
 		public static void LoadSceneByInfo(ISceneInfo sceneInfo) {
-			for( int i = 0; i < Instances.Count; i++ ) {
+			for ( var i = 0; i < Instances.Count; i++ ) {
 				Instances[i].LoadScene(sceneInfo);
 			}
 		}
 
 		public static void ReloadScene() {
-			for( int i = 0; i < Instances.Count; i++ ) {
+			for ( var i = 0; i < Instances.Count; i++ ) {
 				Instances[i].ReloadScene();
 			}
 		}
@@ -50,10 +49,10 @@ namespace UDBase.Controllers.SceneSystem {
 			LoadSceneByInfo(GetInfo(type, param));
 		}
 
-		public static bool IsSceneNameValid(string scene_name) {
+		public static bool IsSceneNameValid(string sceneName) {
 			#if UNITY_EDITOR
 			foreach( var scene in EditorBuildSettings.scenes ) {
-				if( AssetUtils.ConvertScenePathToName(scene.path) == scene_name ) {
+				if( AssetUtils.ConvertScenePathToName(scene.path) == sceneName ) {
 					return true;
 				}
 			}

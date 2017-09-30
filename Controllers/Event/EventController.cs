@@ -4,9 +4,8 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.EventSystem {
 	public class EventController : IEvent {
-
-		Dictionary<Type, EventHandlerBase> _handlers    = new Dictionary<Type, EventHandlerBase>();
-		Dictionary<Type, List<object>>     _tmpHandlers = new Dictionary<Type, List<object>>();
+		readonly Dictionary<Type, EventHandlerBase> _handlers    = new Dictionary<Type, EventHandlerBase>();
+		readonly Dictionary<Type, List<object>>     _tmpHandlers = new Dictionary<Type, List<object>>();
 
 		public void Init() {}
 
@@ -26,10 +25,11 @@ namespace UDBase.Controllers.EventSystem {
 
 		EventHandler<T> GetOrCreateHandler<T>() {
 			var handler = GetHandler<T>();
-			if( handler == null ) {
-				handler = new EventHandler<T>();
-				_handlers.Add(typeof(T), handler);
+			if (handler != null) {
+				return handler;
 			}
+			handler = new EventHandler<T>();
+			_handlers.Add(typeof(T), handler);
 			return handler;
 		}
 

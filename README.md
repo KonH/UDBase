@@ -1,8 +1,8 @@
 # UDBase 
 
-**Current version:** 0.7.0
+**Current version:** 0.9.0
 
-**Unity version:** 5.6.0f3 (last tested)
+**Unity version:** 2017.1.1f1 (last tested)
 
 Repository link: [https://github.com/KonH/UDBase](https://github.com/KonH/UDBase)
 
@@ -148,6 +148,9 @@ Now you can switch to your scheme using **Switch** in Schemes window or just app
 - **[UI](Docs/UI.md)** (UI system)
 - **[User](Docs/User.md)** (User system)
 - **[Leaderboard](Docs/Leaderboard.md)** (Leaderboard system)
+- **[Audio](Docs/Audio.md)** (Audio system)
+- **[Sound](Docs/Sound.md)** (Sound playing system)
+- **[Music](Docs/Music.md)** (Music playing system for scenes)
 
 ## Extensions
 - [Full Serializer](https://github.com/jacobdufault/fullserializer) - JSON serializer, used for default **Config**/**Save** implementation

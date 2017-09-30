@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UDBase.Common;
 using UDBase.Utils;
 using UDBase.Controllers.LogSystem.UI;
@@ -12,28 +13,27 @@ namespace UDBase.Controllers.LogSystem {
 	}
 
 	public sealed class VisualLog : ILog {
-		LogTags             _tagger  = null;
-		VisualLogHandler    _handler = null;
+		readonly VisualLogHandler _handler;
 
-		public VisualLog(string prefabPath, LogTags tagger, ButtonPosition openButtonPos) {
-			_tagger = tagger;
+		public VisualLog(string prefabPath, ButtonPosition openButtonPos) {
 			_handler = UnityHelper.LoadPersistant<VisualLogHandler>(prefabPath);
 			if( _handler ) {
-				_handler.Init(_tagger.GetNames(), openButtonPos);
+				_handler.Init(GetTagNames(), openButtonPos);
 			}
 		}
 
-		public VisualLog(LogTags tagger):
-			this(UDBaseConfig.LogVisualPrefabPath, tagger, ButtonPosition.RightTop) {}
-
-		public VisualLog(string prefabPath):
-			this(prefabPath, new LogTags(), ButtonPosition.RightTop) {}
-
-		public VisualLog(ButtonPosition openButtonPos):
-			this(UDBaseConfig.LogVisualPrefabPath, new LogTags(), openButtonPos) {}
+		string[] GetTagNames() {
+			return Enum.GetNames(typeof(LogTags));
+		}
 
 		public VisualLog():
-			this(UDBaseConfig.LogVisualPrefabPath, new LogTags(), ButtonPosition.RightTop) {}
+			this(UDBaseConfig.LogVisualPrefabPath, ButtonPosition.RightTop) {}
+
+		public VisualLog(string prefabPath):
+			this(prefabPath, ButtonPosition.RightTop) {}
+
+		public VisualLog(ButtonPosition openButtonPos):
+			this(UDBaseConfig.LogVisualPrefabPath, openButtonPos) {}
 
 		public void Init() {}
 
@@ -41,8 +41,8 @@ namespace UDBase.Controllers.LogSystem {
 
 		public void Reset() {}
 
-		public void Message(string msg, LogType type, int tag) {
-			_handler.AddMessage(msg, type, _tagger.GetName(tag));
+		public void Message(string msg, LogType type, LogTags tag) {
+			_handler.AddMessage(msg, type, tag.ToString());
 		}	
 	}
 }
