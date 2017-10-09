@@ -80,6 +80,9 @@ namespace UDBase.Controllers.SoundSystem {
 		void Setup() {
 			Settings.SetupChannelParams();
 			var mixerGroup = Audio.GetMixerGroup(Settings.ChannelName);
+			if ( !_source ) {
+				_source = GetComponent<AudioSource>();
+			}
 			_source.outputAudioMixerGroup = mixerGroup;
 			_maxVolume = _source.volume;
 			Content.LoadAsync<AudioClip>(Holder.Id, OnClipLoad);
