@@ -5,6 +5,7 @@ using UDBase.Controllers.SceneSystem;
 namespace UDBase.Controllers.MusicSystem {
 	public class MusicController : IMusic {
 		MusicUtility _utility;
+		bool         _paused;
 
 		public void Init() {
 			_utility = UnityHelper.AddPersistant<MusicUtility>(true);
@@ -26,14 +27,19 @@ namespace UDBase.Controllers.MusicSystem {
 		void UpdateCurrentTrack() {
 			_utility.StopTrack();
 			_utility.SetupTrack();
+			if ( _paused ) {
+				_utility.Pause();
+			}
 		}
 
 		public void Pause() {
 			_utility.Pause();
+			_paused = true;
 		}
 
 		public void UnPause() {
 			_utility.UnPause();
+			_paused = false;
 		}
 	}
 }

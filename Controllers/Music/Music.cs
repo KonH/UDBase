@@ -1,12 +1,12 @@
 ﻿namespace UDBase.Controllers.MusicSystem {
 	public class Music : ControllerHelper<MusicController> {
-		public void Pause() {
+		public static void Pause() {
 			if ( Instance != null ) {
 				Instance.Pause();
 			}
 		}
 
-		public void UpPause() {
+		public static void UnPause() {
 			if ( Instance != null ) {
 				Instance.UnPause();
 			}
