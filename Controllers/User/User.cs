@@ -1,3 +1,5 @@
+using UDBase.Controllers.EventSystem;
+
 namespace UDBase.Controllers.UserSystem {
 	public class User : ControllerHelper<IUser> {
 		public static string Id {
@@ -19,6 +21,7 @@ namespace UDBase.Controllers.UserSystem {
 			set {
 				if ( Instance != null ) {
 					Instance.Name = value;
+					Events.Fire(new User_NameChange(value));
 				}
 			}
 		}
@@ -29,6 +32,7 @@ namespace UDBase.Controllers.UserSystem {
 		public static void AddExternalId(string provider, string id) {
 			if ( Instance != null ) {
 				Instance.AddExternalId(provider, id);
+				Events.Fire(new User_ExternalIdChange(provider, id));
 			}
 		}
 	}
