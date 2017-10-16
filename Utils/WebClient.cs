@@ -96,5 +96,20 @@ namespace UDBase.Utils {
 				}
 			});
 		}
+
+		public void SendDeleteRequest(
+			string url,
+			float timeout = NetUtils.DefaultTimeout,
+			Dictionary<string, string> headers = null,
+			Action<NetUtils.Response> onComplete = null) {
+			_requestCount++;
+			headers = UpdateHeaders(headers);
+			NetUtils.SendDeleteRequest(url, timeout, headers, resp => {
+				_requestCount--;
+				if ( onComplete != null ) {
+					onComplete(resp);
+				}
+			});
+		}
 	}
 }

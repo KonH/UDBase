@@ -59,6 +59,10 @@ namespace UDBase.Utils {
 			return req;
 		}
 
+		public static UnityWebRequest CreateDeleteRequest(string url) {
+			return UnityWebRequest.Delete(url);
+		}
+
 		public static void SendGetRequest(
 			string url,
 			float timeout = DefaultTimeout,
@@ -85,8 +89,19 @@ namespace UDBase.Utils {
 			string data,
 			float timeout = DefaultTimeout,
 			Dictionary<string, string> headers = null,
-			Action<Response> onComplete = null) {
+			Action<Response> onComplete = null)
+		{
 			var req = CreateJsonPostRequest(url, data);
+			SendRequest(req, timeout, headers, onComplete);
+		}
+
+		public static void SendDeleteRequest(
+			string url,
+			float timeout = DefaultTimeout,
+			Dictionary<string, string> headers = null,
+			Action<Response> onComplete = null) 
+		{
+			var req = CreateDeleteRequest(url);
 			SendRequest(req, timeout, headers, onComplete);
 		}
 
