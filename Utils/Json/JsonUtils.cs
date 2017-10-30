@@ -17,6 +17,19 @@ namespace UDBase.Utils.Json {
 			return default(T);
 		}
 
+		public static object Deserialize(string json, Type type) {
+			var serializer = new fsSerializer();
+			try {
+				var data = fsJsonParser.Parse(json);
+				object result = null;
+				serializer.TryDeserialize(data, type, ref result);
+				return result;
+			} catch ( Exception e ) {
+				Log.ErrorFormat("Serialize: exception: {0}", LogTags.Common, e);
+			}
+			return null;
+		}
+
 		public static string Serialize<T>(T item, bool pretty = true) where T : new() {
 			var serializer = new fsSerializer();
 			try {
