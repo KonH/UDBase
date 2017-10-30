@@ -15,6 +15,8 @@ namespace UDBase.Utils {
 			public string Text    { get; private set; }
 			public string Error   { get; private set; }
 			public bool   Timeout { get; private set; }
+
+			public Dictionary<string, string> Headers { get; private set; }
 			
 			public bool HasError {
 				get {
@@ -27,12 +29,21 @@ namespace UDBase.Utils {
 				}
 			}
 			
-			public Response(long code, string text, string error, bool timeout) {
+			public Response(long code, string text, string error, Dictionary<string, string> headers, bool timeout) {
 				Code    = code;
 				Text    = text;
 				Error   = error;
+				Headers = headers;
 				Timeout = timeout;
-			} 
+			}
+
+			public string GetHeader(string name) {
+				string value = null;
+				if ( Headers != null ) {
+					Headers.TryGetValue(name, out value);
+				}
+				return value;
+			}
 		}
 
 		public static string CreateBasicAuthorization(string userName, string userPassword) {
@@ -157,6 +168,7 @@ namespace UDBase.Utils {
 				request.responseCode,
 				request.downloadHandler != null ? request.downloadHandler.text : null,
 				request.error,
+				request.GetResponseHeaders(),
 				isTimeout);
 			if ( isTimeout ) {
 				Log.ErrorFormat("Request to '{0}': timeout", LogTags.Network, url);
