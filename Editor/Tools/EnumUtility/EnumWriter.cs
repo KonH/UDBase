@@ -35,7 +35,7 @@ namespace UDBase.Editor.Tools.EnumUtility {
 			var assetPath = FindAssetPathForType(type);
 			if (!string.IsNullOrEmpty(assetPath)) {
 				var oldContent = IOTool.ReadAllText(assetPath);
-				if (oldContent == content) {
+				if (TextUtils.EqualsIgnoreWhitespaces(oldContent, content)) {
 					return;
 				}
 				IOTool.WriteAllText(assetPath, content);
