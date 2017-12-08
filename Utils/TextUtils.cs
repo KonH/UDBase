@@ -28,5 +28,9 @@ namespace UDBase.Utils {
 			var normRight = RemoveWhitespaces(rightStr);
 			return normLeft.Equals(normRight, comparison);
 		}
+
+		public static string TrimQuotes(string text) {
+			return text?.Trim('\"', '\'');
+		}
 	}
 }

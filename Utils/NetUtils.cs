@@ -44,6 +44,12 @@ namespace UDBase.Utils {
 				}
 				return value;
 			}
+
+			public string GetNonEmptyText() {
+				return !string.IsNullOrEmpty(Text) ?
+					Text :
+					string.Format("{0} ({1})", Error, Code.ToString());
+			}
 		}
 
 		public static string CreateBasicAuthorization(string userName, string userPassword) {
