@@ -22,12 +22,6 @@ namespace UDBase.Controllers.LeaderboardSystem {
 			_postHeaders.Add("Content-Type", "application/json");
 		}
 
-		public void Init() { }
-
-		public void PostInit() { }
-
-		public void Reset() { }
-
 		string FormatGetScoresUrl(int max, string parameter) {
 			var url = string.Format("{0}/api/Score/top/{1}?max={2}", _url, _gameName, max);
 			if ( !string.IsNullOrEmpty(parameter) ) {

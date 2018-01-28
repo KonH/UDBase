@@ -5,8 +5,6 @@ namespace UDBase.Controllers.UserSystem {
 	public class SaveUser : IUser {
 		UserSaveNode _userNode;
 
-		public void Init() {}
-
 		public string Id {
 			get {
 				return _userNode.Id;
@@ -33,11 +31,9 @@ namespace UDBase.Controllers.UserSystem {
 			}
 		}
 
-		public void PostInit() {
+		public SaveUser() {
 			_userNode = LoadNode();
 		}
-
-		public void Reset() {}
 
 		public string FindExternalId(string provider) {
 			string value = null;

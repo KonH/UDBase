@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 
 namespace UDBase.Controllers.LeaderboardSystem {
-	public interface ILeaderboard : IController {
+	public interface ILeaderboard {
 		string Version { get; set; }
 
 		void GetScores(int max, string parameter, Action<List<LeaderboardItem>> callback);
