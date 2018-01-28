@@ -14,16 +14,9 @@ namespace UDBase.Controllers.SoundSystem {
 
 		public SoundController(int initialPoolSize = 3) {
 			_initialPoolSize = initialPoolSize;
-		}
-
-		public void Init() {
 			_utility = UnityHelper.AddPersistant<SoundUtility>(true);
 			_utility.InitPool(_initialPoolSize);
 		}
-
-		public void PostInit() { }
-
-		public void Reset() { }
 
 		void Play(ContentId sound, bool loop, float delay, string channelName) {
 			if ( sound == null ) {

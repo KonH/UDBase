@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UDBase.Controllers.AudioSystem;
 using UDBase.Controllers.ContentSystem;
+using Zenject;
 
 namespace UDBase.Controllers.SoundSystem {
 	[RequireComponent(typeof(AudioSource))]
@@ -21,6 +22,13 @@ namespace UDBase.Controllers.SoundSystem {
 		float       _fadeTimer;
 		float       _playDelay;
 		float       _maxVolume;
+
+		IAudio _audio;
+
+		[Inject]
+		public void Init(IAudio audio) {
+			_audio = audio;
+		}
 
 		void OnValidate() {
 			if ( string.IsNullOrEmpty(Settings.ChannelName) && string.IsNullOrEmpty(Settings.ChannelParam) && !Settings.DefaultMusic ) {
@@ -79,7 +87,7 @@ namespace UDBase.Controllers.SoundSystem {
 
 		void Setup() {
 			Settings.SetupChannelParams();
-			var mixerGroup = Audio.GetMixerGroup(Settings.ChannelName);
+			var mixerGroup = _audio.GetMixerGroup(Settings.ChannelName);
 			if ( !_source ) {
 				_source = GetComponent<AudioSource>();
 			}

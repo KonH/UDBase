@@ -19,14 +19,6 @@ namespace UDBase.Controllers.AudioSystem {
 			string mixerPath, float saveDelta = 0.1f, string[] channels = null, float initialVolume = 0.5f) : 
 			this(new AudioController(mixerPath, channels, initialVolume)) {
 			_saveDelta = saveDelta;
-		}
-
-		public void Init() {
-			_controller.Init();
-		}
-
-		public void PostInit() {
-			_controller.PostInit();
 			LoadState();
 			UnityHelper.AddPersistantStartCallback(SetupState);
 		}

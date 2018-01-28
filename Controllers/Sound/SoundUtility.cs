@@ -1,11 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UDBase.Controllers.AudioSystem;
+using Zenject;
 
 namespace UDBase.Controllers.SoundSystem {
 	public class SoundUtility : MonoBehaviour {
 		Stack<SoundPoolItem> _freeItems = new Stack<SoundPoolItem>();
 		List<SoundPoolItem>  _usedItems = new List<SoundPoolItem>();
+
+		IAudio _audio;
+
+		[Inject]
+		public void Init(IAudio audio) {
+			_audio = audio;
+		}
 
 		void Update() {
 			if ( _usedItems.Count > 0 ) {
@@ -57,7 +65,7 @@ namespace UDBase.Controllers.SoundSystem {
 
 		public void Play(string key, AudioClip clip, bool loop, float delay, string channelName) {
 			var item = GetOrCreateFromPool();
-			var group = Audio.GetMixerGroup(channelName);
+			var group = _audio.GetMixerGroup(channelName);
 			item.Init(key, clip, group, loop, delay);
 			if ( delay <= 0 ) {
 				item.Play();

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UDBase.Controllers.EventSystem;
+using Zenject;
 
 namespace UDBase.Controllers.AudioSystem.UI {
 	[RequireComponent(typeof(Slider))]
@@ -8,6 +9,13 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		public ChannelSettings Settings = new ChannelSettings();
 
 		Slider _slider;
+
+		IAudio _audio;
+
+		[Inject]
+		void Init(IAudio audio) {
+			_audio = audio;
+		}
 
 		void OnEnable() {
 			Events.Subscribe<VolumeChangeEvent>(this, OnVolumeChanged);
@@ -20,7 +28,7 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		void Start() {
 			_slider = GetComponent<Slider>();
 			Settings.SetupChannelParams();
-			_slider.value = Audio.GetChannelVolume(Settings.ChannelParam);
+			_slider.value = _audio.GetChannelVolume(Settings.ChannelParam);
 			_slider.onValueChanged.AddListener(OnValueChanged);
 		}
 
@@ -31,9 +39,9 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		}
 
 		void OnValueChanged(float value) {
-			var curValue = Audio.GetChannelVolume(Settings.ChannelParam);
+			var curValue = _audio.GetChannelVolume(Settings.ChannelParam);
 			if ( !Mathf.Approximately(value, curValue) ) {
-				Audio.SetChannelVolume(Settings.ChannelParam, value);
+				_audio.SetChannelVolume(Settings.ChannelParam, value);
 			}
 		}
 	}

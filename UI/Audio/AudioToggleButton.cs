@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UDBase.Controllers.EventSystem;
+using Zenject;
 
 namespace UDBase.Controllers.AudioSystem.UI {
 	[RequireComponent(typeof(Button))]
@@ -10,6 +11,13 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		public GameObject      MutedItem;
 
 		Button _button;
+
+		IAudio _audio;
+
+		[Inject]
+		void Init(IAudio audio) {
+			_audio = audio;
+		}
 
 		void OnEnable() {
 			Events.Subscribe<VolumeChangeEvent>(this, OnVolumeChanged);
@@ -27,7 +35,7 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		}
 
 		void UpdateState() {
-			var muted = Audio.IsChannelMuted(Settings.ChannelParam);
+			var muted = _audio.IsChannelMuted(Settings.ChannelParam);
 			if ( ActiveItem ) {
 				ActiveItem.SetActive(!muted);
 			}
@@ -43,7 +51,7 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		}
 
 		void OnClick() {
-			Audio.ToggleChannel(Settings.ChannelParam);
+			_audio.ToggleChannel(Settings.ChannelParam);
 		}
 	}
 }

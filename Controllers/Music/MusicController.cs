@@ -7,17 +7,10 @@ namespace UDBase.Controllers.MusicSystem {
 		MusicUtility _utility;
 		bool         _paused;
 
-		public void Init() {
+		public MusicController() {
 			_utility = UnityHelper.AddPersistant<MusicUtility>(true);
-		}
-
-		public void PostInit() {
 			Events.Subscribe<Scene_Loaded>(this, OnSceneLoaded);
 			UpdateCurrentTrack();
-		}
-
-		public void Reset() {
-			Events.Unsubscribe<Scene_Loaded>(OnSceneLoaded);
 		}
 
 		void OnSceneLoaded(Scene_Loaded e) {

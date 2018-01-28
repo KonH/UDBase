@@ -24,18 +24,13 @@ namespace UDBase.Controllers.AudioSystem {
 			_mixerPath     = mixerPath;
 			_channels      = channels;
 			_initialVolume = initialVolume;
-		}
 
-		public void Init() {
 			_mixer = Resources.Load(_mixerPath) as AudioMixer;
 			if ( _mixer ) {
 				Log.MessageFormat("AudioMixer loaded from '{0}'", LogTags.Audio, _mixerPath);
 			} else {
 				Log.ErrorFormat("AudioMixer not found at '{0}'", LogTags.Audio, _mixerPath);
 			}
-		}
-
-		public void PostInit() {
 			UnityHelper.AddPersistantStartCallback(() => InitializeChannels());
 		}
 
@@ -46,8 +41,6 @@ namespace UDBase.Controllers.AudioSystem {
 				}
 			}
 		}
-
-		public void Reset() {}
 
 		public void MuteChannel(string channelParam) {
 			UpdateMute(channelParam, true);
