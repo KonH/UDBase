@@ -156,7 +156,7 @@ namespace UDBase.Utils {
 			using ( request ) {
 				var startTime = CurrentTime;
 				var isTimeout = false;
-				var operation = request.Send();
+				var operation = request.SendWebRequest();
 				while ( !operation.isDone ) {
 					if ( CurrentTime - startTime > timeout ) {
 						isTimeout = true;

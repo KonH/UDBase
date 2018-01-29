@@ -20,14 +20,11 @@ namespace UDBase.EditorTools {
 			AddToMap(BuildTargetGroup.PS4, BuildTarget.PS4);
 			AddToMap(BuildTargetGroup.PSM, BuildTarget.PSM);
 			AddToMap(BuildTargetGroup.PSP2, BuildTarget.PSP2);
-			AddToMap(BuildTargetGroup.SamsungTV, BuildTarget.SamsungTV);
 			AddToMap(BuildTargetGroup.Standalone, 
 				BuildTarget.StandaloneLinux, 
 				BuildTarget.StandaloneLinux64, 
 				BuildTarget.StandaloneLinuxUniversal,
-				BuildTarget.StandaloneOSXIntel,
-				BuildTarget.StandaloneOSXIntel64,
-				BuildTarget.StandaloneOSXUniversal,
+				BuildTarget.StandaloneOSX,
 				BuildTarget.StandaloneWindows,
 				BuildTarget.StandaloneWindows64);
 			AddToMap(BuildTargetGroup.Tizen, BuildTarget.Tizen);
