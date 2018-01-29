@@ -7,12 +7,6 @@ namespace UDBase.Controllers.EventSystem {
 		readonly Dictionary<Type, EventHandlerBase> _handlers    = new Dictionary<Type, EventHandlerBase>();
 		readonly Dictionary<Type, List<object>>     _tmpHandlers = new Dictionary<Type, List<object>>();
 
-		public void Init() {}
-
-		public void PostInit() {}
-
-		public void Reset() {}
-
 		EventHandler<T> GetHandler<T>() {
 			var eventType = typeof(T);
 			EventHandlerBase baseHandler;

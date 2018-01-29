@@ -4,6 +4,7 @@ using UDBase.Controllers.LogSystem;
 using System.Collections.Generic;
 using UDBase.Controllers.EventSystem;
 using UDBase.Utils;
+using Zenject;
 
 namespace UDBase.Controllers.AudioSystem {
 	public class AudioController : IAudio {
@@ -19,6 +20,9 @@ namespace UDBase.Controllers.AudioSystem {
 		readonly Dictionary<string, AudioMixerGroup> _groups = new Dictionary<string, AudioMixerGroup>();
 
 		AudioMixer _mixer;
+
+		[Inject]
+		IEvent _events;
 		
 		public AudioController(string mixerPath, string[] channels = null, float initialVolume = 0.5f) {
 			_mixerPath     = mixerPath;
@@ -131,7 +135,7 @@ namespace UDBase.Controllers.AudioSystem {
 		}
 
 		void OnVolumeChanged(string channelParam) {
-			Events.Fire(new VolumeChangeEvent(channelParam, GetChannelVolume(channelParam)));
+			_events.Fire(new VolumeChangeEvent(channelParam, GetChannelVolume(channelParam)));
 		}
 
 		bool GetMixerGroupFast(string channelName, out AudioMixerGroup result) {

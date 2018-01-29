@@ -2,6 +2,7 @@
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
 using UDBase.Utils;
+using Zenject;
 
 namespace UDBase.Controllers.SceneSystem {
 	public sealed class AsyncSceneLoader : IScene {
@@ -11,7 +12,9 @@ namespace UDBase.Controllers.SceneSystem {
 		readonly ISceneInfo _firstScene;
 		
 		AsyncLoadHelper _helper;
-		
+
+		[Inject]
+		IEvent _events;		
 
 		public AsyncSceneLoader(string loadingSceneName = null, string firstSceneName = null) {
 			_loadingScene = new SceneName(loadingSceneName);
@@ -40,7 +43,7 @@ namespace UDBase.Controllers.SceneSystem {
 				TryLoadLoadingScene();
 				_helper.LoadScene(sceneName, () => {
 					CurrentScene = sceneInfo;
-					Events.Fire(new Scene_Loaded(sceneInfo));
+					_events.Fire(new Scene_Loaded(sceneInfo));
 				});
 			} else {
 				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);

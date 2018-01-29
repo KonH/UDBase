@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
+using Zenject;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class BasicInventory : IInventory {	
@@ -9,6 +10,9 @@ namespace UDBase.Controllers.InventorySystem {
 		protected ItemFactory       _factory  = null;
 		protected ITransitionHelper _helper   = null;
 		protected bool              _autoSave = false;
+
+		[Inject]
+		IEvent _events;
 
 		public BasicInventory(
 			IItemSource source, 
@@ -89,8 +93,8 @@ namespace UDBase.Controllers.InventorySystem {
 			}
 			holder.AddToPack(pack, count);
 
-			Events.Fire<Inv_PackChanged>(new Inv_PackChanged(holderName, packName));
-			Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+			OnPackChanged(holderName, pack);
+			OnHolderChanged(holderName);
 
 			TryToAutoSave();
 		}
@@ -104,8 +108,8 @@ namespace UDBase.Controllers.InventorySystem {
 			}
 			holder.AddItem(item);
 
-			Events.Fire<Inv_ItemAdded>(new Inv_ItemAdded(holderName, item));
-			Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+			OnItemAdded(holderName, item);
+			OnHolderChanged(holderName);
 
 			TryToAutoSave();
 		}
@@ -114,8 +118,8 @@ namespace UDBase.Controllers.InventorySystem {
 			var holder = GetOrCreateHolder(holderName);
 			holder.AddItem(item);
 
-			Events.Fire<Inv_ItemAdded>(new Inv_ItemAdded(holderName, item));
-			Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+			OnItemAdded(holderName, item);
+			OnHolderChanged(holderName);
 
 			TryToAutoSave();
 		}
@@ -141,8 +145,8 @@ namespace UDBase.Controllers.InventorySystem {
 			if( holder != null ) {
 				holder.RemoveFromPack(pack, count);
 
-				Events.Fire<Inv_PackChanged>(new Inv_PackChanged(holderName, pack.Name));
-				Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+				OnPackChanged(holderName, pack);
+				OnHolderChanged(holderName);
 
 				TryToAutoSave();
 			}
@@ -153,8 +157,8 @@ namespace UDBase.Controllers.InventorySystem {
 			if( holder != null ) {
 				holder.ClearPack(pack);
 
-				Events.Fire<Inv_PackChanged>(new Inv_PackChanged(holderName, pack.Name));
-				Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+				OnPackChanged(holderName, pack);
+				OnHolderChanged(holderName);
 
 				TryToAutoSave();
 			}
@@ -181,7 +185,7 @@ namespace UDBase.Controllers.InventorySystem {
 			if( holder != null ) {
 				holder.RemoveItem(item);
 
-				Events.Fire<Inv_HolderChanged>(new Inv_HolderChanged(holderName));
+				OnHolderChanged(holderName);
 
 				TryToAutoSave();
 			}
@@ -215,6 +219,18 @@ namespace UDBase.Controllers.InventorySystem {
 
 		public void Send(string fromHolder, string toHolder, InventoryPack pack, int count) {
 			_helper.Send(fromHolder, toHolder, pack, count);
+		}
+
+		void OnHolderChanged(string holderName) {
+			_events.Fire(new Inv_HolderChanged(holderName));
+		}
+
+		void OnPackChanged(string holderName, InventoryPack pack) {
+			_events.Fire(new Inv_PackChanged(holderName, pack.Name));
+		}
+
+		void OnItemAdded(string holderName, InventoryItem item) {
+			_events.Fire(new Inv_ItemAdded(holderName, item));
 		}
 	}
 }

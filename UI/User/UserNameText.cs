@@ -10,20 +10,22 @@ namespace UDBase.Controllers.UserSystem.UI {
 		Text _text;
 
 		IUser _user;
+		IEvent _events;
 
 		[Inject]
-		void Init(IUser user) {
-			_user = user;
+		public void Init(IUser user, IEvent events) {
+			_user   = user;
+			_events = events;
 		}
 
 		void Start() {
 			_text = GetComponent<Text>();
 			UpdateValue(_user.Name);
-			Events.Subscribe<User_NameChange>(this, OnUserNameChange);
+			_events.Subscribe<User_NameChange>(this, OnUserNameChange);
 		}
 
 		void OnDestroy() {
-			Events.Unsubscribe<User_NameChange>(OnUserNameChange);
+			_events.Unsubscribe<User_NameChange>(OnUserNameChange);
 		}
 
 		void OnUserNameChange(User_NameChange e) {

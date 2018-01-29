@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UDBase.Controllers.EventSystem;
+using Zenject;
 
 namespace UDBase.EditorTools {
 	public class EventWindow : EditorWindow {
@@ -12,15 +13,17 @@ namespace UDBase.EditorTools {
 		Dictionary<Type, List<object>> _handlers;
 		Vector2                        _scrollPos = Vector2.zero;
 
+		[InjectOptional]
+		IEvent _events;
+
 		void OnGUI() {
 			_ready = UpdateState();
 			DrawState();
 		}
 
 		bool UpdateState() {
-			if( Events.IsActive() ) {
-				var instance = Events.GetInstance();
-				var eventController = instance as EventController;
+			if( _events != null ) {
+				var eventController = _events as EventController;
 				if( eventController != null ) {
 					_handlers = eventController.GetHandlers();
 					return true;

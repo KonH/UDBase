@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UDBase.Controllers.EventSystem;
+using Zenject;
 
 namespace UDBase.UI.Common {
 	public class UIElement : MonoBehaviour {
@@ -60,6 +61,13 @@ namespace UDBase.UI.Common {
 		CanvasGroup     _group          = null;
 		UIElement       _parent         = null;
 
+		IEvent _events;
+
+		[Inject]
+		public void Init(IEvent events) {
+			_events = events;
+		}
+
 		void Awake() {
 			Instances.Add(this);
 			if( CacheAnimation ) {
@@ -70,7 +78,7 @@ namespace UDBase.UI.Common {
 					Childs[i].SetParent(this);
 				}
 			}
-			Events.Subscribe<UI_ElementHidden>(this, OnElementHidden);
+			_events.Subscribe<UI_ElementHidden>(this, OnElementHidden);
 		}
 
 		bool IsChild(UIElement element) {
@@ -163,7 +171,7 @@ namespace UDBase.UI.Common {
 
 		public void OnShowComplete() {
 			State = UIElementState.Shown;
-			Events.Fire(new UI_ElementShown(this));
+			_events.Fire(new UI_ElementShown(this));
 			if( Ordered ) {
 				for( int i = 0; i < Childs.Count; i++ ) {
 					Childs[i].Show();
@@ -208,7 +216,7 @@ namespace UDBase.UI.Common {
 				gameObject.SetActive(false);
 			}
 			State = UIElementState.Hidden;
-			Events.Fire(new UI_ElementHidden(this));
+			_events.Fire(new UI_ElementHidden(this));
 		}
 
 		[ContextMenu("Activate")]

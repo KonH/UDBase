@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UDBase.Controllers.EventSystem;
+using Zenject;
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	public class HolderPacksView: MonoBehaviour {
@@ -11,12 +12,19 @@ namespace UDBase.Controllers.InventorySystem.UI {
 
 		readonly List<PackView> _views = new List<PackView>();
 
+		IEvent _events;
+
+		[Inject]
+		public void Init(IEvent events) {
+			_events = events;
+		}
+
 		protected virtual void OnEnable() {
-			Events.Subscribe<Inv_HolderChanged>(this, OnHolderChanged);
+			_events.Subscribe<Inv_HolderChanged>(this, OnHolderChanged);
 		}
 
 		protected virtual void OnDisable() {
-			Events.Unsubscribe<Inv_HolderChanged>(OnHolderChanged);
+			_events.Unsubscribe<Inv_HolderChanged>(OnHolderChanged);
 		}
 
 		protected virtual void OnHolderChanged(Inv_HolderChanged e) {

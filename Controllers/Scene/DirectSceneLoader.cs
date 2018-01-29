@@ -6,6 +6,12 @@ namespace UDBase.Controllers.SceneSystem {
 	public sealed class DirectSceneLoader : IScene {
 		public ISceneInfo CurrentScene { get; private set; }
 
+		IEvent _events;
+
+		public DirectSceneLoader(IEvent events) {
+			_events = events;
+		}
+
 		public void Init() {}
 
 		public void PostInit() {}
@@ -17,7 +23,7 @@ namespace UDBase.Controllers.SceneSystem {
 			if( Scene.IsSceneNameValid(sceneName) ) {
 				SceneManager.LoadScene(sceneName);
 				CurrentScene = sceneInfo;
-				Events.Fire(new Scene_Loaded(sceneInfo));
+				_events.Fire(new Scene_Loaded(sceneInfo));
 			} else {
 				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
 			}

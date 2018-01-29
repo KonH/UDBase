@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UDBase.Controllers.EventSystem;
+using Zenject;
 
 namespace UDBase.UI.Common {
 	[RequireComponent(typeof(UIElement))]
@@ -25,9 +26,16 @@ namespace UDBase.UI.Common {
 		bool      _ended;
 		bool      _result;
 
+		IEvent _events;
+
+		[Inject]
+		public void Init(IEvent events) {
+			_events = events;
+		}
+
 		public void Show() {
 			Element.Show();
-			Events.Subscribe<UI_ElementHidden>(this, OnElementHidden);
+			_events.Subscribe<UI_ElementHidden>(this, OnElementHidden);
 		}
 
 		public void Close() {

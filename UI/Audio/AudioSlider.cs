@@ -11,18 +11,20 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		Slider _slider;
 
 		IAudio _audio;
+		IEvent _events;
 
 		[Inject]
-		void Init(IAudio audio) {
-			_audio = audio;
+		public void Init(IAudio audio, IEvent events) {
+			_audio  = audio;
+			_events = events;
 		}
 
 		void OnEnable() {
-			Events.Subscribe<VolumeChangeEvent>(this, OnVolumeChanged);
+			_events.Subscribe<VolumeChangeEvent>(this, OnVolumeChanged);
 		}
 
 		void OnDisable() {
-			Events.Unsubscribe<VolumeChangeEvent>(OnVolumeChanged);
+			_events.Unsubscribe<VolumeChangeEvent>(OnVolumeChanged);
 		}
 
 		void Start() {

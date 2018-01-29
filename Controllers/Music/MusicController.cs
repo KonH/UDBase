@@ -7,9 +7,9 @@ namespace UDBase.Controllers.MusicSystem {
 		MusicUtility _utility;
 		bool         _paused;
 
-		public MusicController() {
+		public MusicController(IEvent events) {
 			_utility = UnityHelper.AddPersistant<MusicUtility>(true);
-			Events.Subscribe<Scene_Loaded>(this, OnSceneLoaded);
+			events.Subscribe<Scene_Loaded>(this, OnSceneLoaded);
 			UpdateCurrentTrack();
 		}
 

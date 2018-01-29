@@ -16,7 +16,7 @@ namespace UDBase.Controllers.LogSystem {
 		readonly VisualLogHandler _handler;
 
 		public VisualLog(string prefabPath, ButtonPosition openButtonPos) {
-			_handler = UnityHelper.LoadPersistant<VisualLogHandler>(prefabPath);
+			_handler = UnityHelper.LoadPersistant<VisualLogHandler>(prefabPath); // TODO: Fix init issue
 			if( _handler ) {
 				_handler.Init(GetTagNames(), openButtonPos);
 			}

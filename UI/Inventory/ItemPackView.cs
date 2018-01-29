@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UDBase.Controllers.EventSystem;
+using Zenject;
 
 namespace UDBase.Controllers.InventorySystem.UI {
 	[RequireComponent(typeof(Text))]
@@ -10,13 +11,20 @@ namespace UDBase.Controllers.InventorySystem.UI {
 		public string PackName   = "";
 
 		Text _text;
+		
+		IEvent _events;
+
+		[Inject]
+		public void Init(IEvent events) {
+			_events = events;
+		}
 
 		void OnEnable() {
-			Events.Subscribe<Inv_PackChanged>(this, OnPackChanged);
+			_events.Subscribe<Inv_PackChanged>(this, OnPackChanged);
 		}
 
 		void OnDisable() {
-			Events.Unsubscribe<Inv_PackChanged>(OnPackChanged);
+			_events.Unsubscribe<Inv_PackChanged>(OnPackChanged);
 		}
 
 		void OnPackChanged(Inv_PackChanged e) {
