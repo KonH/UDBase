@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UDBase.Controllers.LogSystem;
 using UDBase.Utils;
+using Zenject;
 
 namespace UDBase.Controllers.SceneSystem.UI {
 	public class LoadingView : MonoBehaviour {
@@ -16,17 +17,9 @@ namespace UDBase.Controllers.SceneSystem.UI {
 		AsyncLoadHelper _helper;
 		float           _progress;
 
-		void Start () {
-			Init();
-			UpdateState();
-		}
-
-		void Init() {
-			_helper = UnityHelper.GetComponent<AsyncLoadHelper>();
-			if( !_helper ) {
-				enabled = false;
-				Log.Error("No AsyncLoadHelper is found!", LogTags.UI);
-			}
+		[Inject]
+		public void Init(AsyncLoadHelper helper) {
+			_helper = helper;
 		}
 
 		void Update () {

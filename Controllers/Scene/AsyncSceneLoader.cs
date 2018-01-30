@@ -6,6 +6,25 @@ using Zenject;
 
 namespace UDBase.Controllers.SceneSystem {
 	public sealed class AsyncSceneLoader : IScene {
+		public class SceneSetup {
+			public ISceneInfo LoadingScene { get; }
+			public ISceneInfo FirstScene   { get; }
+
+			public SceneSetup(ISceneInfo loadingScene = null, ISceneInfo firtsScene = null) {
+				LoadingScene = loadingScene;
+				FirstScene   = firtsScene;
+			}
+
+			public SceneSetup(string loadingSceneName = null, string firtsSceneName = null) {
+				if ( loadingSceneName != null ) {
+                    LoadingScene = new SceneName(loadingSceneName);
+                }
+				if ( firtsSceneName != null ) {
+					FirstScene = new SceneName(firtsSceneName);
+				}
+			}
+		}
+
 		public ISceneInfo CurrentScene { get; private set; }
 
 		readonly ISceneInfo _loadingScene;
@@ -13,41 +32,39 @@ namespace UDBase.Controllers.SceneSystem {
 		
 		AsyncLoadHelper _helper;
 
-		[Inject]
-		IEvent _events;		
+		SceneSetup _setup;
+		IEvent _events;
 
-		public AsyncSceneLoader(string loadingSceneName = null, string firstSceneName = null) {
-			_loadingScene = new SceneName(loadingSceneName);
-			_firstScene   = new SceneName(firstSceneName);
-		}
-
-		public AsyncSceneLoader(ISceneInfo loadingScene = null, ISceneInfo firstScene = null) {
-			_loadingScene = loadingScene;
-			_firstScene   = firstScene;
-		}
-
-		public void Init() {
-			_helper = UnityHelper.AddPersistant<AsyncLoadHelper>();
+		public AsyncSceneLoader(IEvent events, SceneSetup setup, AsyncLoadHelper helper) {
+			_events       = events;
+			_loadingScene = setup.LoadingScene;
+			_firstScene   = setup.FirstScene;
+			_helper       = helper;
 			if( (_firstScene != null) && !string.IsNullOrEmpty(_firstScene.Name) ) {
 				LoadScene(_firstScene);
 			}
 		}
 
-		public void PostInit() {}
-
-		public void Reset() {}
-
 		public void LoadScene(ISceneInfo sceneInfo) {
 			var sceneName = sceneInfo.Name;
-			if( Scene.IsSceneNameValid(sceneName) ) {
-				TryLoadLoadingScene();
-				_helper.LoadScene(sceneName, () => {
-					CurrentScene = sceneInfo;
-					_events.Fire(new Scene_Loaded(sceneInfo));
-				});
-			} else {
-				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
-			}
+			TryOpenLoadingScene();
+			_helper.LoadScene(sceneName, () => {
+				CurrentScene = sceneInfo;
+				_events.Fire(new Scene_Loaded(sceneInfo));
+			});
+		}
+
+		public void LoadScene(string sceneName) {
+			LoadScene(new SceneName(sceneName));
+		}
+		public void LoadScene<T>(T type) {
+			LoadScene(SceneInfo.Get(type));
+		}
+		public void LoadScene<T>(T type, string param) {
+			LoadScene(SceneInfo.Get(type, param));
+		}
+		public void LoadScene<T>(T type, params string[] parameters) {
+			LoadScene(SceneInfo.Get(type, parameters));
 		}
 
 		public void ReloadScene() {
@@ -57,7 +74,7 @@ namespace UDBase.Controllers.SceneSystem {
 			LoadScene(CurrentScene);
 		}
 
-		void TryLoadLoadingScene() {
+		void TryOpenLoadingScene() {
 			var sceneName = GetLoadingSceneName();
 			if( !string.IsNullOrEmpty(sceneName) ) {
 				SceneManager.LoadScene(sceneName);

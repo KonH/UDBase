@@ -1,9 +1,17 @@
 ﻿using UDBase.UI.Common;
+using Zenject;
 
 namespace UDBase.Controllers.SceneSystem.UI {
 	public class SceneParamLoadButton<T> : ActionButton {
 		public T      Type;
 		public string Param = "";
+
+		IScene _scene;
+
+		[Inject]
+		public void Init(IScene scene) {
+			_scene = scene;
+		}
 
 		public override bool IsVisible() { 
 			return true; 
@@ -14,7 +22,7 @@ namespace UDBase.Controllers.SceneSystem.UI {
 		}
 
 		public override void OnClick() {
-			Scene.LoadScene(Type, Param);
+			_scene.LoadScene(Type, Param);
 		}
 	}
 }

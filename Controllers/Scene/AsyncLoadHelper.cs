@@ -26,10 +26,10 @@ namespace UDBase.Controllers.SceneSystem {
 
 		public void LoadScene(string sceneName, Action callback) {
 			_loadCallback = callback;
-			StartCoroutine(LoadSceneCo(sceneName));
+			StartCoroutine(LoadSceneCoroutine(sceneName));
 		}
 
-		IEnumerator LoadSceneCo(string sceneName) {
+		IEnumerator LoadSceneCoroutine(string sceneName) {
 			yield return null;
 			var operation = SceneManager.LoadSceneAsync(sceneName);
 			operation.allowSceneActivation = false;

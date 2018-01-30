@@ -12,21 +12,24 @@ namespace UDBase.Controllers.SceneSystem {
 			_events = events;
 		}
 
-		public void Init() {}
-
-		public void PostInit() {}
-
-		public void Reset() {}
-
 		public void LoadScene(ISceneInfo sceneInfo) {
 			var sceneName = sceneInfo.Name;
-			if( Scene.IsSceneNameValid(sceneName) ) {
-				SceneManager.LoadScene(sceneName);
-				CurrentScene = sceneInfo;
-				_events.Fire(new Scene_Loaded(sceneInfo));
-			} else {
-				Log.ErrorFormat("Scene not found: \"{0}\" via {1}", LogTags.Scene, sceneName, sceneInfo);
-			}
+			SceneManager.LoadScene(sceneName);
+			CurrentScene = sceneInfo;
+			_events.Fire(new Scene_Loaded(sceneInfo));
+		}
+
+		public void LoadScene(string sceneName) {
+			LoadScene(new SceneName(sceneName));
+		}
+		public void LoadScene<T>(T type) {
+			LoadScene(SceneInfo.Get(type));
+		}
+		public void LoadScene<T>(T type, string param) {
+			LoadScene(SceneInfo.Get(type, param));
+		}
+		public void LoadScene<T>(T type, params string[] parameters) {
+			LoadScene(SceneInfo.Get(type, parameters));
 		}
 
 		public void ReloadScene() {

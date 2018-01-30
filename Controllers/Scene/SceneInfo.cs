@@ -1,6 +1,20 @@
 ﻿using System.Text;
 
 namespace UDBase.Controllers.SceneSystem {
+	public static class SceneInfo {
+		public static ISceneInfo Get<T>(T type) {
+			return new SceneParam<T>(type, "");
+		}
+
+		public static ISceneInfo Get<T>(T type, string param) {
+			return new SceneParam<T>(type, param);
+		}
+
+		public static ISceneInfo Get<T>(T type, params string[] param) {
+			return new MultiSceneParam<T>(type, param);
+		}
+	}
+
 	/*
 	 * Basic scene info - requires only name
 	 */
@@ -9,6 +23,10 @@ namespace UDBase.Controllers.SceneSystem {
 
 		public SceneName(string name) {
 			Name = name;
+		}
+
+		public override string ToString() {
+			return Name;
 		}
 	}
 
