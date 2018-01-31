@@ -5,14 +5,21 @@ using Zenject;
 
 namespace UDBase.Controllers.SoundSystem {
 	public class SoundUtility : MonoBehaviour {
+		public class Settings {
+			public int PoolSize = 4;	
+		}
+
 		Stack<SoundPoolItem> _freeItems = new Stack<SoundPoolItem>();
 		List<SoundPoolItem>  _usedItems = new List<SoundPoolItem>();
 
 		IAudio _audio;
 
 		[Inject]
-		public void Init(IAudio audio) {
+		public void Init(IAudio audio, SoundUtility.Settings settings) {
 			_audio = audio;
+			for ( int i = 0; i < settings.PoolSize; i++ ) {
+				AddItemToPool();
+			}
 		}
 
 		void Update() {
@@ -32,12 +39,6 @@ namespace UDBase.Controllers.SoundSystem {
 						}
 					}
 				}
-			}
-		}
-
-		public void InitPool(int poolSize) {
-			for ( int i = 0; i < poolSize; i++ ) {
-				AddItemToPool();
 			}
 		}
 

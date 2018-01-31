@@ -6,16 +6,16 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.SoundSystem {
 	public class SoundController : ISound {
-		int _initialPoolSize;
-
-		SoundUtility _utility;
-
+		
 		Dictionary<ContentId, AudioClip> _clipCache = new Dictionary<ContentId, AudioClip>();
 
-		public SoundController(int initialPoolSize = 3) {
-			_initialPoolSize = initialPoolSize;
-			_utility = UnityHelper.AddPersistant<SoundUtility>(true);
-			_utility.InitPool(_initialPoolSize);
+		SoundUtility _utility;
+		List<IContent> _loaders;
+
+
+		public SoundController(SoundUtility utility, List<IContent> loaders) {
+			_utility = utility;
+			_loaders = loaders;
 		}
 
 		void Play(ContentId sound, bool loop, float delay, string channelName) {
@@ -27,7 +27,7 @@ namespace UDBase.Controllers.SoundSystem {
 				_utility.Play(sound.ToString(), cachedClip, loop, delay, channelName);
 				return;
 			}
-			Content.LoadAsync<AudioClip>(sound, (clip) => {
+			_loaders.GetLoaderFor(sound).LoadAsync<AudioClip>(sound, (clip) => {
 				if ( clip ) {
 					Log.MessageFormat("Loaded clip for '{0}': '{1}'", LogTags.Sound, sound.ToString(), clip.name);
 					if ( !_clipCache.ContainsKey(sound) ) {

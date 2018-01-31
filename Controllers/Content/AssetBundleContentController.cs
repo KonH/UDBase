@@ -4,39 +4,37 @@ using UDBase.Utils;
 
 namespace UDBase.Controllers.ContentSystem {
 	public sealed class AssetBundleContentController:IContent {
+		public class Settings {
+			public AssetBundleMode Mode = AssetBundleMode.StreamingAssets;
+			public string Path = "";
+		}
+
 		readonly string _streamingAssetsPath;
 		readonly string _baseUrl;
 		
 		AssetBundleHelper _helper;
 
-		public AssetBundleContentController(AssetBundleMode mode, string path = "") {
-			if( mode == AssetBundleMode.StreamingAssets ) {
-				_streamingAssetsPath = path;
+		public AssetBundleContentController(AssetBundleHelper helper, Settings settings) {
+			if( settings.Mode == AssetBundleMode.StreamingAssets ) {
+				_streamingAssetsPath = settings.Path;
 			} else {
-				if( string.IsNullOrEmpty(path) ) {
+				if( string.IsNullOrEmpty(settings.Path) ) {
 					Debug.LogError("For WebServer mode you need to provide path!");
 				}
-				_baseUrl = path;
+				_baseUrl = settings.Path;
 			}
-		}
-
-		public void Init() {
-			_helper = UnityHelper.AddPersistant<AssetBundleHelper>();
+			_helper = helper;
 			if( _helper ) {
 				_helper.Init(_streamingAssetsPath, _baseUrl);
 			}
 		}
 
-		public void PostInit() {}
+		public bool CanLoad(ContentId id) {
+			return id && (id.LoadType == ContentLoadType.AssetBundle);
+		}
 
-		public void Reset() {}
-
-		public bool LoadAsync<T>(ContentId id, Action<T> callback) where T:UnityEngine.Object {
-			if( !id || id.LoadType != ContentLoadType.AssetBundle ) {
-				return false;
-			}
+		public void LoadAsync<T>(ContentId id, Action<T> callback) where T:UnityEngine.Object {
 			_helper.StartLoadAsync(id.BundleName, id.AssetName, callback);
-			return true;
 		}
 	}
 }

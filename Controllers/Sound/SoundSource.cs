@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UDBase.Controllers.AudioSystem;
 using UDBase.Controllers.ContentSystem;
 using Zenject;
@@ -24,10 +25,12 @@ namespace UDBase.Controllers.SoundSystem {
 		float       _maxVolume;
 
 		IAudio _audio;
+		List<IContent> _loaders;
 
 		[Inject]
-		public void Init(IAudio audio) {
+		public void Init(IAudio audio, List<IContent> loaders) {
 			_audio = audio;
+			_loaders = loaders;
 		}
 
 		void OnValidate() {
@@ -93,7 +96,7 @@ namespace UDBase.Controllers.SoundSystem {
 			}
 			_source.outputAudioMixerGroup = mixerGroup;
 			_maxVolume = _source.volume;
-			Content.LoadAsync<AudioClip>(Holder.Id, OnClipLoad);
+			_loaders.GetLoaderFor(Holder.Id).LoadAsync<AudioClip>(Holder.Id, OnClipLoad);
 		}
 
 		void OnClipLoad(AudioClip clip) {

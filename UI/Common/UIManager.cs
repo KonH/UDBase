@@ -4,6 +4,7 @@ using UnityEngine;
 using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.ContentSystem;
+using Zenject;
 
 namespace UDBase.UI.Common {
 	public class UIManager : MonoBehaviour {
@@ -40,6 +41,13 @@ namespace UDBase.UI.Common {
 		bool _isLoading;
 
 		readonly Stack<UIDialogGroup> _dialogs = new Stack<UIDialogGroup>();
+
+		List<IContent> _loaders;
+
+		[Inject]
+		public void Init(List<IContent> loaders) {
+			_loaders = loaders;
+		}
 
 		void Awake() {
 			if( _current ) {
@@ -139,7 +147,7 @@ namespace UDBase.UI.Common {
 		public void ShowDialog(ContentId content, Action<bool> callback) {
 			if( !_isLoading ) {
 				_isLoading = true;
-				Content.LoadAsync<GameObject>(content, (go) => ShowDialog(go, callback));
+				_loaders.GetLoaderFor(content).LoadAsync<GameObject>(content, (go) => ShowDialog(go, callback));
 			}
 		}
 
