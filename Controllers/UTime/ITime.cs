@@ -1,8 +1,7 @@
 ﻿using System;
 
 namespace UDBase.Controllers.UTime {
-	public interface ITime : IController {
-		bool     IsTrusted   { get; }
+	public interface ITime {
 		bool     IsAvailable { get; }
 		bool     IsFailed    { get; }
 		DateTime CurrentTime { get; }

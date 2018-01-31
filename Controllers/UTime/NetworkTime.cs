@@ -11,19 +11,11 @@ namespace UDBase.Controllers.UTime {
 		DateTime _startDate = default(DateTime);
 		float    _startTime;
 
-		public NetworkTime(string url, float timeout = 10.0f, bool isTrusted = true) {
+		public NetworkTime(string url, float timeout = 10.0f) {
 			_url      = url;
 			_timeout  = timeout;
-			IsTrusted = isTrusted;
-		}
-
-		public void Init () {
 			NetUtils.SendGetRequest(_url, timeout: _timeout, onComplete: OnTimeRequestComplete);
 		}
-
-		public void PostInit() {}
-		
-		public void Reset() {}
 
 		float GetAppTime() {
 			return Time.realtimeSinceStartup;
@@ -53,7 +45,6 @@ namespace UDBase.Controllers.UTime {
 			}
 		}
 
-		public bool IsTrusted   { get; private set; }
 		public bool IsAvailable { get; private set; }
 		public bool IsFailed    { get; private set; }
 
