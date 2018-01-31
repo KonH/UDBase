@@ -15,15 +15,10 @@ namespace UDBase.Controllers.ConfigSystem {
 		FsJsonListContainer _listContainer;
 		string              _configContent;
 
-		public FsJsonResourcesConfig() {
-			_fileName = UDBaseConfig.JsonConfigName;
-		}
+		public FsJsonResourcesConfig():this(UDBaseConfig.JsonConfigName) { }
 
 		public FsJsonResourcesConfig(string fileName) {
 			_fileName = fileName;
-		}
-
-		public void Init() {
 			var config = Resources.Load(_fileName) as TextAsset;
 			if( config ) {
 				_configContent = config.text;
@@ -35,13 +30,8 @@ namespace UDBase.Controllers.ConfigSystem {
 					"JsonResourcesConfig: Can't read config file from Resources/{0}", 
 					_fileName);
 			}
-		}
-
-		public void PostInit() {
 			Log.MessageFormat("Config content: \"{0}\"", LogTags.Config, _configContent);
 		}
-
-		public void Reset() {}
 
 		public FsJsonResourcesConfig AddNode<T>(string name) {
 			if( _nodeContainer == null ) {

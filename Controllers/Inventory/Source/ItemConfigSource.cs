@@ -1,18 +1,22 @@
 ﻿using System.Collections.Generic;
 using UDBase.Controllers.ConfigSystem;
 using UDBase.Controllers.LogSystem;
+using Zenject;
 
 namespace UDBase.Controllers.InventorySystem {
 	public class ItemConfigSource: IItemSource {
 		readonly ItemFactory _factory;
 		ItemSourceConfigNode _node;
 
+		[Inject]
+		IConfig _config;
+
 		public ItemConfigSource(ItemFactory factory) {
 			_factory = factory;
 		}
 
 		public void Load() {
-			_node = Config.GetNode<ItemSourceConfigNode>();
+			_node = _config.GetNode<ItemSourceConfigNode>();
 			Log.MessageFormat("Load inventory source: {0} items, {1} packs, {2} holders.", LogTags.Inventory, 
 				_node.Items   != null ? _node.Items.Count   : -1,
 				_node.Packs   != null ? _node.Packs.Count   : -1,
