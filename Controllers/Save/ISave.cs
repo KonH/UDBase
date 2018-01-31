@@ -1,7 +1,6 @@
 ﻿namespace UDBase.Controllers.SaveSystem {
-	public interface ISave : IController {		
-		T GetNode<T>(bool autoFill);
+	public interface ISave {		
+		T GetNode<T>(bool autoFill = true);
 		void SaveNode<T>(T node);
-		void Clear();
 	}
 }

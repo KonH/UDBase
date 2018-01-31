@@ -6,6 +6,8 @@ namespace UDBase.Controllers.InventorySystem {
 	public class InventorySaveState: IInventorySave {
 		InventorySaveNode _node;
 
+		ISave _save;
+
 		public InventorySaveState() {}
 
 		public void Setup(List<InventoryHolder> defaultHolders, Dictionary<string, string> nameToTypes) {
@@ -19,7 +21,7 @@ namespace UDBase.Controllers.InventorySystem {
 		}
 
 		void TryLoad() {
-			_node = Save.GetNode<InventorySaveNode>();
+			_node = _save.GetNode<InventorySaveNode>();
 		}
 
 		bool IsExist() {
@@ -33,7 +35,7 @@ namespace UDBase.Controllers.InventorySystem {
 		}
 
 		public void SaveChanges() {
-			Save.SaveNode(_node);
+			_save.SaveNode(_node);
 		}
 
 		public InventoryHolder GetHolder(string name) {

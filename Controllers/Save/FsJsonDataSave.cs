@@ -33,9 +33,6 @@ namespace UDBase.Controllers.SaveSystem {
 			_prettyJson = prettyJson;
 			_fileName   = fileName;
 			_versioning = versioning;
-		}
-
-		public void Init() {
 			if( _versioning ) {
 				AddNode<SaveInfoNode>("_info");
 			}
@@ -48,13 +45,8 @@ namespace UDBase.Controllers.SaveSystem {
 				IOTool.CreateFile(_filePath);
 				TryLoadContainer();
 			}
+			Log.MessageFormat("Save content: \"{0}\"", LogTags.Save, _saveContent);
 		}
-
-		public void PostInit() {
-			Log.MessageFormat("Save content: \"{0}\"", LogTags.Save, _saveContent); 
-		}
-
-		public void Reset() {}
 
 		bool TryLoadContainer() {
 			if( _container == null ) {
@@ -112,10 +104,6 @@ namespace UDBase.Controllers.SaveSystem {
 			} else {
 				Log.Error("SaveNode: could not load container!", LogTags.Save);
 			}
-		}
-			
-		public void Clear() {
-			IOTool.DeleteFile(_filePath);
 		}
 	}
 }

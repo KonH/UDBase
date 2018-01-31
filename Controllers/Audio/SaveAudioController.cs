@@ -11,20 +11,23 @@ namespace UDBase.Controllers.AudioSystem {
 		
 		AudioSaveNode _node;
 
-		public SaveAudioController(IAudio controller) {
+		ISave _save;
+
+		SaveAudioController(IAudio controller) {
 			_controller = controller;
 		}
 
 		public SaveAudioController(
-			string mixerPath, float saveDelta = 0.1f, string[] channels = null, float initialVolume = 0.5f) : 
+			ISave save, string mixerPath, float saveDelta = 0.1f, string[] channels = null, float initialVolume = 0.5f) : 
 			this(new AudioController(mixerPath, channels, initialVolume)) {
+			_save = save;
 			_saveDelta = saveDelta;
 			LoadState();
 			UnityHelper.AddPersistantStartCallback(SetupState);
 		}
 
 		void LoadState() {
-			_node = Save.GetNode<AudioSaveNode>();
+			_node = _save.GetNode<AudioSaveNode>();
 			if ( _node.Channels == null ) {
 				_node.Channels = new Dictionary<string, ChannelNode>();
 			}
@@ -82,7 +85,7 @@ namespace UDBase.Controllers.AudioSystem {
 			var mute = _controller.IsChannelMuted(channelParam);
 			if ( channel.IsMuted != mute ) {
 				channel.IsMuted = mute;
-				Save.SaveNode(_node);
+				_save.SaveNode(_node);
 			}
 		}
 
@@ -105,7 +108,7 @@ namespace UDBase.Controllers.AudioSystem {
 			var channel = GetOrCreateChannelNode(channelParam);
 			if ( IsNeedToSaveVolume(channel.Volume, normalizedVolume) ) {
 				channel.Volume = normalizedVolume;
-				Save.SaveNode(_node);
+				_save.SaveNode(_node);
 			}
 		}
 

@@ -31,7 +31,10 @@ namespace UDBase.Controllers.UserSystem {
 			}
 		}
 
-		public SaveUser() {
+		ISave _save;
+
+		public SaveUser(ISave save) {
+			_save = save;
 			_userNode = LoadNode();
 		}
 
@@ -57,11 +60,11 @@ namespace UDBase.Controllers.UserSystem {
 		}
 
 		UserSaveNode LoadNode() {
-			return Save.GetNode<UserSaveNode>();
+			return _save.GetNode<UserSaveNode>();
 		}
 
 		void UpdateNode() {
-			Save.SaveNode(_userNode);
+			_save.SaveNode(_userNode);
 		}
 	}
 }
