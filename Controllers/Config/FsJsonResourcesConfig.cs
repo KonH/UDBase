@@ -9,21 +9,16 @@ namespace UDBase.Controllers.ConfigSystem {
 	public sealed class FsJsonResourcesConfig : IConfig {
 		readonly string                   _fileName;
 		readonly Dictionary<Type, string> _nodeNames = new Dictionary<Type, string>();
-		readonly Dictionary<Type, string> _listNames = new Dictionary<Type, string>();
 		
 		FsJsonNodeContainer _nodeContainer;
-		FsJsonListContainer _listContainer;
 		string              _configContent;
 
-		public FsJsonResourcesConfig():this(UDBaseConfig.JsonConfigName) { }
-
-		public FsJsonResourcesConfig(string fileName) {
-			_fileName = fileName;
+		public FsJsonResourcesConfig(Config.JsonSettings settings) {
+			_fileName = settings.FileName;
 			var config = Resources.Load(_fileName) as TextAsset;
 			if( config ) {
 				_configContent = config.text;
 				_nodeContainer = new FsJsonNodeContainer(_configContent, _nodeNames);
-				_listContainer = new FsJsonListContainer(_nodeContainer, _listNames);
 			} else {
 				// LogSystem not ready yet
 				Debug.LogErrorFormat(
@@ -31,11 +26,13 @@ namespace UDBase.Controllers.ConfigSystem {
 					_fileName);
 			}
 			Log.MessageFormat("Config content: \"{0}\"", LogTags.Config, _configContent);
+			foreach ( var item in settings.Items ) {
+				AddNode(item.Type, item.Name);
+			}
 		}
 
-		public FsJsonResourcesConfig AddNode<T>(string name) {
+		FsJsonResourcesConfig AddNode(Type type, string name) {
 			if( _nodeContainer == null ) {
-				var type = typeof(T);
 				if( !_nodeNames.ContainsKey(type) ) {
 					_nodeNames.Add(type, name);
 				} else {
@@ -43,36 +40,13 @@ namespace UDBase.Controllers.ConfigSystem {
 					Debug.LogErrorFormat("Config: node already added: {0}!", type);
 				}
 			} else {
-				_nodeContainer.Add<T>(name);
+				_nodeContainer.Add(type, name);
 			}
 			return this;
 		}
 
-		public FsJsonResourcesConfig AddList<T>(string name) {
-			if( _listContainer == null ) {
-				var type = typeof(T);
-				if( !_listNames.ContainsKey(type) ) {
-					_listNames.Add(type, name);
-				} else {
-					// LogSystem not ready yet
-					Debug.LogErrorFormat("Config: list node already added: {0}!", type);
-				}
-			} else {
-				_listContainer.Add<T>(name);
-			}
-			return this;
-		}
-
-		public T GetNode<T>() {
+		public T GetNode<T>() where T:IConfigSource {
 			return (_nodeContainer != null) ? _nodeContainer.LoadNode<T>(false) : default(T);
-		}
-
-		public T GetItem<T>(string name) {
-			return (_listContainer != null) ? _listContainer.LoadItem<T>(name, false) : default(T);
-		}
-
-		public Dictionary<string, T> GetItems<T>() {
-			return (_listContainer != null) ? _listContainer.LoadDict<T>() : null;
 		}
 	}
 }

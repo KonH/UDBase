@@ -2,7 +2,7 @@
 using FullSerializer;
 
 namespace UDBase.Controllers.SaveSystem {
-	public class SaveInfoNode {
+	public class SaveInfoNode:ISaveSource {
 		[fsProperty("ver")]
 		public long   Version   { get; private set; }
 		[fsProperty("time")]

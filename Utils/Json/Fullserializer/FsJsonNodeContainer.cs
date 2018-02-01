@@ -24,8 +24,7 @@ namespace UDBase.Utils.Json.Fullserializer {
 			_names = names;
 		}
 
-		public void Add<T>(string name) {
-			var type = typeof(T);
+		public void Add(Type type, string name) {
 			if( !_names.ContainsKey(type) ) {
 				_names.Add(type, name);
 			} else {

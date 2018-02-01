@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using UDBase.Controllers.SaveSystem;
 using FullSerializer;
 
 namespace UDBase.Controllers.AudioSystem {
-	public class AudioSaveNode {
+	public class AudioSaveNode:ISaveSource {
 		[fsProperty("channels")]
 		public Dictionary<string, ChannelNode> Channels { get; set; }
 	}

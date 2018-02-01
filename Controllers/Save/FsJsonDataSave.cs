@@ -17,24 +17,15 @@ namespace UDBase.Controllers.SaveSystem {
 		string              _filePath    = "";
 		FsJsonNodeContainer _container;
 
-		public FsJsonDataSave():this(false, UDBaseConfig.JsonSaveName, false) {}
-
-		public FsJsonDataSave(bool prettyJson):this(prettyJson, UDBaseConfig.JsonSaveName, false) {}
-
-		public FsJsonDataSave(string fileName):this(false, fileName, false) {}
-
-		public FsJsonDataSave(bool prettyJson, bool versioning):
-			this(prettyJson, UDBaseConfig.JsonSaveName, versioning) {}
-
-		public FsJsonDataSave(string fileName, bool versioning):
-			this(false, fileName, versioning) {}
-
-		public FsJsonDataSave(bool prettyJson, string fileName, bool versioning) {
-			_prettyJson = prettyJson;
-			_fileName   = fileName;
-			_versioning = versioning;
+		public FsJsonDataSave(Save.JsonSettings settings) {
+			_prettyJson = settings.PrettyJson;
+			_fileName   = settings.FileName;
+			_versioning = settings.Versioning;
 			if( _versioning ) {
-				AddNode<SaveInfoNode>("_info");
+				AddNode(typeof(SaveInfoNode), "_info");
+			}
+			foreach ( var item in settings.Items ) {
+				AddNode(item.Type, item.Name);
 			}
 			_filePath = IOTool.GetPath(Application.persistentDataPath, _fileName);
 			if( !TryLoadContainer() ) {
@@ -61,9 +52,8 @@ namespace UDBase.Controllers.SaveSystem {
 			return true;
 		}
 
-		public FsJsonDataSave AddNode<T>(string name) {
+		FsJsonDataSave AddNode(Type type, string name) {
 			if( _container == null ) {
-				var type = typeof(T);
 				if( !_names.ContainsKey(type) ) {
 					_names.Add(type, name);
 				} else {
@@ -71,12 +61,12 @@ namespace UDBase.Controllers.SaveSystem {
 					Debug.LogErrorFormat("FsJsonDataSave: node already added: {0}!", type);
 				}
 			} else {
-				_container.Add<T>(name);
+				_container.Add(type, name);
 			}
 			return this;
 		}
 
-		public T GetNode<T>(bool autoFill) {
+		public T GetNode<T>(bool autoFill) where T:ISaveSource {
 			if( TryLoadContainer() ) {
 				return _container.LoadNode<T>(autoFill);
 			}
@@ -87,7 +77,7 @@ namespace UDBase.Controllers.SaveSystem {
 			return Activator.CreateInstance<T>();
 		}
 
-		public void SaveNode<T>(T node) {
+		public void SaveNode<T>(T node) where T:ISaveSource {
 			if( TryLoadContainer() ) {
 				if( _container.SaveNode(node) ) {
 					if( _versioning ) {
