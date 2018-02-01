@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using UDBase.Utils;
@@ -6,6 +7,12 @@ using UDBase.Controllers.SaveSystem;
 
 namespace UDBase.Controllers.AudioSystem {
 	public class SaveAudioController : IAudio {
+		
+		[Serializable]
+		public class Settings {
+			public float SaveDelta;
+		}
+
 		readonly IAudio _controller;
 		readonly float  _saveDelta;
 		
@@ -17,11 +24,10 @@ namespace UDBase.Controllers.AudioSystem {
 			_controller = controller;
 		}
 
-		public SaveAudioController(
-			ISave save, string mixerPath, float saveDelta = 0.1f, string[] channels = null, float initialVolume = 0.5f) : 
-			this(new AudioController(mixerPath, channels, initialVolume)) {
+		public SaveAudioController(ISave save, AudioController.Settings audioSettings, SaveAudioController.Settings saveSettings) : 
+			this(new AudioController(audioSettings)) {
 			_save = save;
-			_saveDelta = saveDelta;
+			_saveDelta = saveSettings.SaveDelta;
 			LoadState();
 			UnityHelper.AddPersistantStartCallback(SetupState);
 		}

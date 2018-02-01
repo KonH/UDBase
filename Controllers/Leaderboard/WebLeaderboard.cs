@@ -6,6 +6,24 @@ using FullSerializer;
 
 namespace UDBase.Controllers.LeaderboardSystem {
 	public class WebLeaderboard : ILeaderboard {
+		
+		[Serializable]
+		public class Settings {
+			public string Url;
+			public string GameName;
+			public string GameVersion;
+			public string ClientName;
+			public string ClientPassword;
+
+			public Settings(string url, string gameName, string gameVersion, string clientName, string clientPassword) {
+				Url = url;
+				GameName = gameName;
+				GameVersion = gameVersion;
+				ClientName = clientName;
+				ClientPassword = clientPassword;
+			}
+		}
+
 		readonly string                     _url;
 		readonly string                     _gameName;
 		readonly WebClient                  _client;
@@ -14,11 +32,11 @@ namespace UDBase.Controllers.LeaderboardSystem {
 
 		public string Version { get; set; }
 
-		public WebLeaderboard(string url, string gameName, string gameVersion, string clientName, string clientPassword) {
-			Version   = gameVersion;
-			_url      = url;
-			_gameName = gameName;
-			_client   = new WebClient(clientName, clientPassword);
+		public WebLeaderboard(Settings settings) {
+			Version   = settings.GameVersion;
+			_url      = settings.Url;
+			_gameName = settings.GameName;
+			_client   = new WebClient(settings.ClientName, settings.ClientPassword);
 			_postHeaders.Add("Content-Type", "application/json");
 		}
 

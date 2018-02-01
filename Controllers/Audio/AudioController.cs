@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Audio;
 using UDBase.Controllers.LogSystem;
 using System.Collections.Generic;
@@ -11,9 +12,16 @@ namespace UDBase.Controllers.AudioSystem {
 		const float MinVolume = -80.0f;
 		const float MaxVolume = 0.0f;
 
+		[Serializable]
+		public class Settings {
+			public string MixerPath;
+			public List<string> Channels;
+			public float InitialVolume;
+		}
+
 		readonly string                    _mixerPath;
 		readonly float                     _initialVolume;
-		readonly string[]                  _channels;
+		readonly List<string>              _channels;
 		readonly Dictionary<string, float> _volumes = new Dictionary<string, float>();
 		readonly Dictionary<string, bool>  _mutes   = new Dictionary<string, bool>();
 
@@ -24,10 +32,10 @@ namespace UDBase.Controllers.AudioSystem {
 		[Inject]
 		IEvent _events;
 		
-		public AudioController(string mixerPath, string[] channels = null, float initialVolume = 0.5f) {
-			_mixerPath     = mixerPath;
-			_channels      = channels;
-			_initialVolume = initialVolume;
+		public AudioController(Settings settings) {
+			_mixerPath     = settings.MixerPath;
+			_channels      = settings.Channels;
+			_initialVolume = settings.InitialVolume;
 
 			_mixer = Resources.Load(_mixerPath) as AudioMixer;
 			if ( _mixer ) {
@@ -40,7 +48,7 @@ namespace UDBase.Controllers.AudioSystem {
 
 		void InitializeChannels() {
 			if ( _channels != null ) {
-				for ( int i = 0; i < _channels.Length; i++ ) {
+				for ( int i = 0; i < _channels.Count; i++ ) {
 					SetChannelVolume(_channels[i], _initialVolume);
 				}
 			}

@@ -4,15 +4,17 @@ using UDBase.Utils;
 
 namespace UDBase.Controllers.ContentSystem {
 	public sealed class AssetBundleContentController:IContent {
+		
+		[Serializable]
 		public class Settings {
 			public AssetBundleMode Mode = AssetBundleMode.StreamingAssets;
-			public string Path = "";
+			public string Path;
 		}
+
+		readonly AssetBundleHelper _helper;
 
 		readonly string _streamingAssetsPath;
 		readonly string _baseUrl;
-		
-		AssetBundleHelper _helper;
 
 		public AssetBundleContentController(AssetBundleHelper helper, Settings settings) {
 			if( settings.Mode == AssetBundleMode.StreamingAssets ) {

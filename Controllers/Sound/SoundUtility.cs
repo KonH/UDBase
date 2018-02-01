@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UDBase.Controllers.AudioSystem;
 using Zenject;
 
 namespace UDBase.Controllers.SoundSystem {
 	public class SoundUtility : MonoBehaviour {
+		
+		[Serializable]
 		public class Settings {
-			public int PoolSize = 4;	
+			public int PoolSize;	
 		}
 
 		Stack<SoundPoolItem> _freeItems = new Stack<SoundPoolItem>();

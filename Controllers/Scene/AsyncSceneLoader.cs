@@ -1,4 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using System;
+using UnityEngine.SceneManagement;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
 using UDBase.Utils;
@@ -6,43 +7,43 @@ using Zenject;
 
 namespace UDBase.Controllers.SceneSystem {
 	public sealed class AsyncSceneLoader : IScene {
-		public class SceneSetup {
-			public ISceneInfo LoadingScene { get; }
-			public ISceneInfo FirstScene   { get; }
+		public class BaseSettings {
+			public virtual ISceneInfo LoadingSceneInfo { get; }
 
-			public SceneSetup(ISceneInfo loadingScene = null, ISceneInfo firtsScene = null) {
-				LoadingScene = loadingScene;
-				FirstScene   = firtsScene;
+			public BaseSettings(ISceneInfo loadingSceneInfo = null) {
+				LoadingSceneInfo = loadingSceneInfo;
 			}
+		}
 
-			public SceneSetup(string loadingSceneName = null, string firtsSceneName = null) {
-				if ( loadingSceneName != null ) {
-                    LoadingScene = new SceneName(loadingSceneName);
-                }
-				if ( firtsSceneName != null ) {
-					FirstScene = new SceneName(firtsSceneName);
+		[Serializable]
+		public class Settings : BaseSettings {
+			public string LoadingScene;
+
+			public override ISceneInfo LoadingSceneInfo {
+				get {
+					return GetSceneInfoByName(LoadingScene);
 				}
 			}
+
+			ISceneInfo GetSceneInfoByName(string sceneName) {
+				if (!string.IsNullOrEmpty(sceneName)) {
+					return new SceneName(sceneName);
+				}
+				return null;
+			}			
 		}
 
 		public ISceneInfo CurrentScene { get; private set; }
 
 		readonly ISceneInfo _loadingScene;
-		readonly ISceneInfo _firstScene;
 		
 		AsyncLoadHelper _helper;
-
-		SceneSetup _setup;
 		IEvent _events;
 
-		public AsyncSceneLoader(IEvent events, SceneSetup setup, AsyncLoadHelper helper) {
+		public AsyncSceneLoader(IEvent events, Settings settings, AsyncLoadHelper helper) {
 			_events       = events;
-			_loadingScene = setup.LoadingScene;
-			_firstScene   = setup.FirstScene;
+			_loadingScene = settings.LoadingSceneInfo;
 			_helper       = helper;
-			if( (_firstScene != null) && !string.IsNullOrEmpty(_firstScene.Name) ) {
-				LoadScene(_firstScene);
-			}
 		}
 
 		public void LoadScene(ISceneInfo sceneInfo) {
