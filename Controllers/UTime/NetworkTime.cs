@@ -5,15 +5,22 @@ using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.UTime {
 	public class NetworkTime : ITime {
+
+		[Serializable]
+		public class Settings {
+			public string Url;
+			public float Timeout;
+		}
+
 		readonly string _url;
 		readonly float  _timeout;
 		
 		DateTime _startDate = default(DateTime);
 		float    _startTime;
 
-		public NetworkTime(string url, float timeout = 10.0f) {
-			_url      = url;
-			_timeout  = timeout;
+		public NetworkTime(Settings settings) {
+			_url      = settings.Url;
+			_timeout  = settings.Timeout;
 			NetUtils.SendGetRequest(_url, timeout: _timeout, onComplete: OnTimeRequestComplete);
 		}
 

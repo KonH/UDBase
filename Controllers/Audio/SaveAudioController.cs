@@ -9,7 +9,7 @@ namespace UDBase.Controllers.AudioSystem {
 	public class SaveAudioController : IAudio {
 		
 		[Serializable]
-		public class Settings {
+		public class Settings : AudioController.Settings {
 			public float SaveDelta;
 		}
 
@@ -24,10 +24,10 @@ namespace UDBase.Controllers.AudioSystem {
 			_controller = controller;
 		}
 
-		public SaveAudioController(ISave save, AudioController.Settings audioSettings, SaveAudioController.Settings saveSettings) : 
-			this(new AudioController(audioSettings)) {
+		public SaveAudioController(ISave save, Settings settings) : 
+			this(new AudioController(settings)) {
 			_save = save;
-			_saveDelta = saveSettings.SaveDelta;
+			_saveDelta = settings.SaveDelta;
 			LoadState();
 			UnityHelper.AddPersistantStartCallback(SetupState);
 		}
