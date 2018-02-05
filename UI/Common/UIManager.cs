@@ -43,22 +43,24 @@ namespace UDBase.UI.Common {
 		readonly Stack<UIDialogGroup> _dialogs = new Stack<UIDialogGroup>();
 
 		List<IContent> _loaders;
+		ILog _log;
 
 		[Inject]
-		public void Init(List<IContent> loaders) {
+		public void Init(List<IContent> loaders, ILog log) {
 			_loaders = loaders;
+			_log = log;
 		}
 
 		void Awake() {
 			if( _current ) {
-				Log.Warning("Multiple UIManager is not supported.", LogTags.UI);
+				_log.Warning(LogTags.UI, "Multiple UIManager is not supported.");
 			}
 			if( !Canvas ) {
 				var wantedCanvas = FindObjectOfType<UICanvas>();
 				if( wantedCanvas ) {
 					Canvas = wantedCanvas.GetComponent<Canvas>();
 				} else {
-					Log.Warning("You need to assign Canvas to UIManager or add UICanvas component to wanted canvas.", LogTags.UI);
+					_log.Warning(LogTags.UI, "You need to assign Canvas to UIManager or add UICanvas component to wanted canvas.");
 				}
 			}
 			_current = this;

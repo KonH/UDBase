@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils {
-	public static class NetUtils {
+	public class NetUtils {
 		public const float DefaultTimeout = 10.0f;
 
 		public class Response {
@@ -52,22 +52,28 @@ namespace UDBase.Utils {
 			}
 		}
 
-		public static string CreateBasicAuthorization(string userName, string userPassword) {
+		ILog _log;
+
+		public NetUtils(ILog log) {
+			_log = log;
+		}
+
+		public string CreateBasicAuthorization(string userName, string userPassword) {
 			var prefix = "Basic ";
 			var userPassBlock = Encoding.ASCII.GetBytes(userName + ":" + userPassword);
 			var base64String = Convert.ToBase64String(userPassBlock);
 			return prefix + base64String;
 		}
 
-		public static UnityWebRequest CreateGetRequest(string url) {
+		UnityWebRequest CreateGetRequest(string url) {
 			return UnityWebRequest.Get(url);
 		}
 
-		public static UnityWebRequest CreatePostRequest(string url, string data) {
+		UnityWebRequest CreatePostRequest(string url, string data) {
 			return UnityWebRequest.Post(url, data);
 		}
 
-		public static UnityWebRequest CreateJsonPostRequest(string url, string data) {
+		UnityWebRequest CreateJsonPostRequest(string url, string data) {
 			var req = UnityWebRequest.Post(url, UnityWebRequest.kHttpVerbPOST);
 			byte[] bytes = Encoding.UTF8.GetBytes(data);
 			UploadHandlerRaw uploadHandler = new UploadHandlerRaw(bytes);
@@ -76,11 +82,11 @@ namespace UDBase.Utils {
 			return req;
 		}
 
-		public static UnityWebRequest CreateDeleteRequest(string url) {
+		UnityWebRequest CreateDeleteRequest(string url) {
 			return UnityWebRequest.Delete(url);
 		}
 
-		public static void SendGetRequest(
+		public void SendGetRequest(
 			string url,
 			float timeout = DefaultTimeout,
 			Dictionary<string, string> headers = null,
@@ -90,7 +96,7 @@ namespace UDBase.Utils {
 			SendRequest(req, timeout, headers, onComplete);
 		}
 
-		public static void SendPostRequest(
+		public void SendPostRequest(
 			string url,
 			string data,
 			float timeout = DefaultTimeout,
@@ -101,7 +107,7 @@ namespace UDBase.Utils {
 			SendRequest(req, timeout, headers, onComplete);
 		}
 
-		public static void SendJsonPostRequest(
+		public void SendJsonPostRequest(
 			string url,
 			string data,
 			float timeout = DefaultTimeout,
@@ -112,7 +118,7 @@ namespace UDBase.Utils {
 			SendRequest(req, timeout, headers, onComplete);
 		}
 
-		public static void SendDeleteRequest(
+		public void SendDeleteRequest(
 			string url,
 			float timeout = DefaultTimeout,
 			Dictionary<string, string> headers = null,
@@ -122,7 +128,7 @@ namespace UDBase.Utils {
 			SendRequest(req, timeout, headers, onComplete);
 		}
 
-		public static void SendRequest(
+		public void SendRequest(
 			UnityWebRequest request, 
 			float timeout = DefaultTimeout, 
 			Dictionary<string, string> headers = null, 
@@ -132,17 +138,17 @@ namespace UDBase.Utils {
 			UnityHelper.StartCoroutine(RequestCoroutine(request, timeout, headers, onComplete));
 		}
 
-		static float CurrentTime {
+		float CurrentTime {
 			get {
 				return Time.realtimeSinceStartup;
 			}
 		}
 
-		public static void AddHeader(UnityWebRequest request, string name, string value) {
+		public void AddHeader(UnityWebRequest request, string name, string value) {
 			request.SetRequestHeader(name, value);
 		}
 
-		public static void AddHeaders(UnityWebRequest request, Dictionary<string, string> headers) {
+		public void AddHeaders(UnityWebRequest request, Dictionary<string, string> headers) {
 			if ( headers != null ) {
 				var iter = headers.GetEnumerator();
 				while ( iter.MoveNext() ) {
@@ -152,7 +158,7 @@ namespace UDBase.Utils {
 			}
 		}
 
-		static IEnumerator RequestCoroutine(UnityWebRequest request, float timeout, Dictionary<string, string> headers, Action<Response> onComplete) {
+		IEnumerator RequestCoroutine(UnityWebRequest request, float timeout, Dictionary<string, string> headers, Action<Response> onComplete) {
 			using ( request ) {
 				var startTime = CurrentTime;
 				var isTimeout = false;
@@ -168,7 +174,7 @@ namespace UDBase.Utils {
 			}
 		}
 
-		static void ProcessRequestResult(UnityWebRequest request, bool isTimeout, Action<Response> onComplete) {
+		void ProcessRequestResult(UnityWebRequest request, bool isTimeout, Action<Response> onComplete) {
 			var url = request.url;
 			var response = new Response(
 				request.responseCode,
@@ -177,11 +183,11 @@ namespace UDBase.Utils {
 				request.GetResponseHeaders(),
 				isTimeout);
 			if ( isTimeout ) {
-				Log.ErrorFormat("Request to '{0}': timeout", LogTags.Network, url);
+				_log.ErrorFormat(LogTags.Network, "Request to '{0}': timeout", url);
 			} else if ( request.isNetworkError ) {
-				Log.ErrorFormat("Request to '{0}': error: '{1}'", LogTags.Network, url, request.error);
+				_log.ErrorFormat(LogTags.Network, "Request to '{0}': error: '{1}'", url, request.error);
 			} else {
-				Log.MessageFormat("Request to '{0}': response code: {1}, text: '{2}'", LogTags.Network, url, request.responseCode, response.Text);
+				_log.MessageFormat(LogTags.Network, "Request to '{0}': response code: {1}, text: '{2}'", url, request.responseCode, response.Text);
 			}
 			if ( onComplete != null ) {
 				onComplete(response);

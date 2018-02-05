@@ -7,6 +7,12 @@ namespace UDBase.Controllers.EventSystem {
 		readonly Dictionary<Type, EventHandlerBase> _handlers    = new Dictionary<Type, EventHandlerBase>();
 		readonly Dictionary<Type, List<object>>     _tmpHandlers = new Dictionary<Type, List<object>>();
 
+		ILog _log;
+
+		public EventController(ILog log) {
+			_log = log;
+		}
+
 		EventHandler<T> GetHandler<T>() {
 			var eventType = typeof(T);
 			EventHandlerBase baseHandler;
@@ -32,13 +38,13 @@ namespace UDBase.Controllers.EventSystem {
 			if( handler != null ) {
 				handler.Fire(arg);
 			}
-			Log.MessageFormat("Fire: {0}", LogTags.Event, arg);
+			_log.MessageFormat(LogTags.Event, "Fire: {0}", arg);
 		}
 
 		public void Subscribe<T>(object handler, Action<T> callback) {
 			var eventHandler = GetOrCreateHandler<T>();
 			eventHandler.Subscribe(handler, callback);
-			Log.MessageFormat("Subscribe: {0} for {1}", LogTags.Event, typeof(T), handler);
+			_log.MessageFormat(LogTags.Event, "Subscribe: {0} for {1}", typeof(T), handler);
 		}
 
 		public void Unsubscribe<T>(Action<T> action) {
@@ -46,7 +52,7 @@ namespace UDBase.Controllers.EventSystem {
 			if( handler != null ) {
 				handler.Unsubscribe(action);
 			}
-			Log.MessageFormat("Unsubscribe: {0}", LogTags.Event, typeof(T));
+			_log.MessageFormat(LogTags.Event, "Unsubscribe: {0}", typeof(T));
 		}
 	
 		public Dictionary<Type, List<object>> GetHandlers() {

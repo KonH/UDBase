@@ -1,6 +1,6 @@
 ﻿using System;
 using UnityEngine;
-using UDBase.Utils;
+using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ContentSystem {
 	public sealed class AssetBundleContentController:IContent {
@@ -16,18 +16,18 @@ namespace UDBase.Controllers.ContentSystem {
 		readonly string _streamingAssetsPath;
 		readonly string _baseUrl;
 
-		public AssetBundleContentController(AssetBundleHelper helper, Settings settings) {
+		public AssetBundleContentController(Settings settings, AssetBundleHelper helper, ILog log) {
 			if( settings.Mode == AssetBundleMode.StreamingAssets ) {
 				_streamingAssetsPath = settings.Path;
 			} else {
 				if( string.IsNullOrEmpty(settings.Path) ) {
-					Debug.LogError("For WebServer mode you need to provide path!");
+					log.Error(LogTags.Content, "For WebServer mode you need to provide path!");
 				}
 				_baseUrl = settings.Path;
 			}
 			_helper = helper;
 			if( _helper ) {
-				_helper.Init(_streamingAssetsPath, _baseUrl);
+				_helper.Init(log, _streamingAssetsPath, _baseUrl);
 			}
 		}
 

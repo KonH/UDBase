@@ -17,7 +17,10 @@ namespace UDBase.Controllers.SaveSystem {
 		string              _filePath    = "";
 		FsJsonNodeContainer _container;
 
-		public FsJsonDataSave(Save.JsonSettings settings) {
+		ILog _log;
+
+		public FsJsonDataSave(Save.JsonSettings settings, ILog log) {
+			_log = log;
 			_prettyJson = settings.PrettyJson;
 			_fileName   = settings.FileName;
 			_versioning = settings.Versioning;
@@ -29,21 +32,21 @@ namespace UDBase.Controllers.SaveSystem {
 			}
 			_filePath = IOTool.GetPath(Application.persistentDataPath, _fileName);
 			if( !TryLoadContainer() ) {
-				// LogSystem not ready yet
-				Debug.LogFormat(
+				_log.MessageFormat(
+					LogTags.Save,
 					"JsonDataSave: Can't read save file from {0}, re-create it.", 
 					_fileName);
 				IOTool.CreateFile(_filePath);
 				TryLoadContainer();
 			}
-			Log.MessageFormat("Save content: \"{0}\"", LogTags.Save, _saveContent);
+			_log.MessageFormat(LogTags.Save, "Save content: \"{0}\"", _saveContent);
 		}
 
 		bool TryLoadContainer() {
 			if( _container == null ) {
 				_saveContent = IOTool.ReadAllText(_filePath, true);
 				if( _saveContent != null ) {
-					_container = new FsJsonNodeContainer(_saveContent, _names);
+					_container = new FsJsonNodeContainer(_saveContent, _names, _log );
 					return true;
 				}
 
@@ -57,8 +60,7 @@ namespace UDBase.Controllers.SaveSystem {
 				if( !_names.ContainsKey(type) ) {
 					_names.Add(type, name);
 				} else {
-					// LogSystem not ready yet
-					Debug.LogErrorFormat("FsJsonDataSave: node already added: {0}!", type);
+					_log.ErrorFormat(LogTags.Save, "FsJsonDataSave: node already added: {0}!", type);
 				}
 			} else {
 				_container.Add(type, name);
@@ -72,7 +74,7 @@ namespace UDBase.Controllers.SaveSystem {
 			}
 			var type = typeof(T);
 			if( !_names.ContainsKey(type) ) {
-				Log.ErrorFormat("GetNode: node is not added: {0}!", LogTags.Save, type);
+				_log.ErrorFormat(LogTags.Save, "GetNode: node is not added: {0}!", type);
 			}
 			return Activator.CreateInstance<T>();
 		}
@@ -87,12 +89,12 @@ namespace UDBase.Controllers.SaveSystem {
 					}
 					_saveContent = _container.GetNodesContent(_prettyJson);
 					IOTool.WriteAllText(_filePath, _saveContent);
-					Log.MessageFormat("New save content: \"{0}\"", LogTags.Save, _saveContent);
+					_log.MessageFormat(LogTags.Save, "New save content: \"{0}\"", _saveContent);
 				} else {
-					Log.ErrorFormat("SaveNode: node is not added: {0}!", LogTags.Save, typeof(T));
+					_log.ErrorFormat(LogTags.Save, "SaveNode: node is not added: {0}!", typeof(T));
 				}
 			} else {
-				Log.Error("SaveNode: could not load container!", LogTags.Save);
+				_log.Error(LogTags.Save, "SaveNode: could not load container!");
 			}
 		}
 	}

@@ -18,10 +18,15 @@ namespace UDBase.Controllers.UTime {
 		DateTime _startDate = default(DateTime);
 		float    _startTime;
 
-		public NetworkTime(Settings settings) {
+		NetUtils _net;
+		ILog _log;
+
+		public NetworkTime(Settings settings, NetUtils net, ILog log) {
 			_url      = settings.Url;
 			_timeout  = settings.Timeout;
-			NetUtils.SendGetRequest(_url, timeout: _timeout, onComplete: OnTimeRequestComplete);
+			_net = net;
+			_log = log;
+			_net.SendGetRequest(_url, timeout: _timeout, onComplete: OnTimeRequestComplete);
 		}
 
 		float GetAppTime() {
@@ -34,19 +39,19 @@ namespace UDBase.Controllers.UTime {
 				if( DateTime.TryParse(response.Text, out dt) ) {
 					_startDate = dt.ToUniversalTime();
 					_startTime = GetAppTime();
-					Log.MessageFormat("NetworkTime: {0}", LogTags.Time, _startDate);
+					_log.MessageFormat(LogTags.Time, "NetworkTime: {0}", _startDate);
 					IsAvailable = true;
 				} else {
-					Log.ErrorFormat("Parsing error: '{0}' to DateTime", LogTags.Time, dt);
+					_log.ErrorFormat(LogTags.Time, "Parsing error: '{0}' to DateTime", dt);
 					IsFailed = true;
 				}
 			} else {
 				if( response.HasError ) {
-					Log.ErrorFormat("Request error: {0}", LogTags.Time, response.Error);
+					_log.ErrorFormat(LogTags.Time, "Request error: {0}", response.Error);
 				} else if( response.Timeout ) {
-					Log.Error("Request timeout", LogTags.Time);
+					_log.Error(LogTags.Time, "Request timeout");
 				} else {
-					Log.Error("Request unknown error", LogTags.Time);
+					_log.Error(LogTags.Time, "Request unknown error");
 				}
 				IsFailed = true;
 			}

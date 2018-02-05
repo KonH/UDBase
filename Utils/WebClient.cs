@@ -22,13 +22,16 @@ namespace UDBase.Utils {
 		Dictionary<string, string> _authHeaderOnly  = null;
 		int                        _requestCount    = 0;
 
-		public WebClient() {
+		NetUtils _net;
+
+		public WebClient(NetUtils net) {
+			_net = net;
 			_authHeaderValue = "";
 			_authHeaderOnly = new Dictionary<string, string>();
 		}
 
 		public WebClient(string userName, string userPassword) {
-			_authHeaderValue = NetUtils.CreateBasicAuthorization(userName, userPassword);
+			_authHeaderValue = _net.CreateBasicAuthorization(userName, userPassword);
 			_authHeaderOnly = UpdateHeaders(new Dictionary<string, string>());
 		}
 
@@ -55,7 +58,7 @@ namespace UDBase.Utils {
 		{
 			_requestCount++;
 			headers = UpdateHeaders(headers);
-			NetUtils.SendGetRequest(url, timeout, headers, resp => {
+			_net.SendGetRequest(url, timeout, headers, resp => {
 				_requestCount--;
 				if ( onComplete != null ) {
 					onComplete(resp);
@@ -72,7 +75,7 @@ namespace UDBase.Utils {
 		{
 			_requestCount++;
 			headers = UpdateHeaders(headers);
-			NetUtils.SendPostRequest(url, data, timeout, headers, resp => {
+			_net.SendPostRequest(url, data, timeout, headers, resp => {
 				_requestCount--;
 				if ( onComplete != null ) {
 					onComplete(resp);
@@ -89,7 +92,7 @@ namespace UDBase.Utils {
 		{
 			_requestCount++;
 			headers = UpdateHeaders(headers);
-			NetUtils.SendJsonPostRequest(url, data, timeout, headers, resp => {
+			_net.SendJsonPostRequest(url, data, timeout, headers, resp => {
 				_requestCount--;
 				if ( onComplete != null ) {
 					onComplete(resp);
@@ -104,7 +107,7 @@ namespace UDBase.Utils {
 			Action<NetUtils.Response> onComplete = null) {
 			_requestCount++;
 			headers = UpdateHeaders(headers);
-			NetUtils.SendDeleteRequest(url, timeout, headers, resp => {
+			_net.SendDeleteRequest(url, timeout, headers, resp => {
 				_requestCount--;
 				if ( onComplete != null ) {
 					onComplete(resp);

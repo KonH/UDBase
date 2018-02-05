@@ -8,6 +8,12 @@ using UDBase.Utils;
 namespace UDBase.Controllers.LogSystem.UI {
 	public class VisualLogHandler : MonoBehaviour {
 		[Serializable]
+		public class Settings {
+			public string PrefabName;
+			public ButtonPosition OpenButtonPosition;
+		}
+
+		[Serializable]
 		public class ButtonPosHander {
 			public ButtonPosition Position  = ButtonPosition.LeftTop;
 			public Transform      Transform = null;
@@ -103,12 +109,12 @@ namespace UDBase.Controllers.LogSystem.UI {
 		StringBuilder _sb = new StringBuilder(10000);
 		LoggerState   _state;
 
-		public void Init(string[] tags, ButtonPosition openButtonPos) {
+		public VisualLogHandler(Settings settings) {
 			Clear(true);
 			SetupTypes();
-			SetupTags(tags);
+			SetupTags(Enum.GetNames(typeof(LogTags)));
 			ChangeState(new HiddenState(this));
-			AttachButtonToPosition(openButtonPos);
+			AttachButtonToPosition(settings.OpenButtonPosition);
 			SetupButtons();
 		}
 
@@ -163,10 +169,10 @@ namespace UDBase.Controllers.LogSystem.UI {
 		void SetupTags(string[] tags) {
 			var states = new bool[tags.Length];
 			for( int i = 0; i < tags.Length; i++) {
-				var tag = tags[i];
-				var state = PlayerPrefsUtils.GetBool(FormatTagKey(tag), true);
+				var curTag = tags[i];
+				var state = PlayerPrefsUtils.GetBool(FormatTagKey(curTag), true);
 				states[i] = state;
-				_tagStates.Add(tag, state);
+				_tagStates.Add(curTag, state);
 			}
 			SetupToggles(TagSample, tags, states, OnTagChanged);
 		}
@@ -221,7 +227,7 @@ namespace UDBase.Controllers.LogSystem.UI {
 			return _typeStates[type];
 		}
 
-		public void AddMessage(string msg, LogType type, string tagName) {
+		public void AddMessage(LogType type, string tagName, string msg) {
 			_container.Store(msg, type, tagName);
 			ApplyMessage(msg, type, tagName, true);
 		}

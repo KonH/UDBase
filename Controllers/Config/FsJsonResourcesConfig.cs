@@ -13,19 +13,22 @@ namespace UDBase.Controllers.ConfigSystem {
 		FsJsonNodeContainer _nodeContainer;
 		string              _configContent;
 
-		public FsJsonResourcesConfig(Config.JsonSettings settings) {
+		ILog _log;
+
+		public FsJsonResourcesConfig(Config.JsonSettings settings, ILog log) {
+			_log = log;
 			_fileName = settings.FileName;
 			var config = Resources.Load(_fileName) as TextAsset;
 			if( config ) {
 				_configContent = config.text;
-				_nodeContainer = new FsJsonNodeContainer(_configContent, _nodeNames);
+				_nodeContainer = new FsJsonNodeContainer(_configContent, _nodeNames, _log);
 			} else {
-				// LogSystem not ready yet
-				Debug.LogErrorFormat(
-					"JsonResourcesConfig: Can't read config file from Resources/{0}", 
+				_log.ErrorFormat(
+					LogTags.Config,
+					"Can't read config file from Resources/{0}", 
 					_fileName);
 			}
-			Log.MessageFormat("Config content: \"{0}\"", LogTags.Config, _configContent);
+			_log.MessageFormat(LogTags.Config, "Config content: \"{0}\"", _configContent);
 			foreach ( var item in settings.Items ) {
 				AddNode(item.Type, item.Name);
 			}
@@ -36,8 +39,7 @@ namespace UDBase.Controllers.ConfigSystem {
 				if( !_nodeNames.ContainsKey(type) ) {
 					_nodeNames.Add(type, name);
 				} else {
-					// LogSystem not ready yet
-					Debug.LogErrorFormat("Config: node already added: {0}!", type);
+					_log.ErrorFormat(LogTags.Config, "Config: node already added: {0}!", type);
 				}
 			} else {
 				_nodeContainer.Add(type, name);

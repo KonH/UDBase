@@ -1175,6 +1175,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 6
+  m_LayoutPriority: 1
 --- !u!114 &114000010460268470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1328,6 +1329,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1
+  m_LayoutPriority: 1
 --- !u!114 &114000010844862958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1700,6 +1702,7 @@ MonoBehaviour:
   m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114000011259046374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1947,6 +1950,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114000011608917982
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2355,6 +2359,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 10
+  m_LayoutPriority: 1
 --- !u!114 &114000012482243580
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2433,6 +2438,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1.5
+  m_LayoutPriority: 1
 --- !u!114 &114000012578806756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2770,6 +2776,7 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114000013005177882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2788,6 +2795,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: 4
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114000013050273188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2942,6 +2950,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 3
+  m_LayoutPriority: 1
 --- !u!114 &114000013168822110
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3421,6 +3430,7 @@ MonoBehaviour:
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: 1.5
+  m_LayoutPriority: 1
 --- !u!114 &114000014202644744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3439,6 +3449,7 @@ MonoBehaviour:
   m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &114747000535480522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3747,7 +3758,7 @@ Canvas:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010366130072}
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
@@ -3756,6 +3767,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 100
   m_TargetDisplay: 0

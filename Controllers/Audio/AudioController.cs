@@ -5,7 +5,6 @@ using UDBase.Controllers.LogSystem;
 using System.Collections.Generic;
 using UDBase.Controllers.EventSystem;
 using UDBase.Utils;
-using Zenject;
 
 namespace UDBase.Controllers.AudioSystem {
 	public class AudioController : IAudio {
@@ -29,19 +28,21 @@ namespace UDBase.Controllers.AudioSystem {
 
 		AudioMixer _mixer;
 
-		[Inject]
+		ILog _log;
 		IEvent _events;
 		
-		public AudioController(Settings settings) {
+		public AudioController(Settings settings, ILog log, IEvent events) {
+			_log           = log;
+			_events        = events;
 			_mixerPath     = settings.MixerPath;
 			_channels      = settings.Channels;
 			_initialVolume = settings.InitialVolume;
 
 			_mixer = Resources.Load(_mixerPath) as AudioMixer;
 			if ( _mixer ) {
-				Log.MessageFormat("AudioMixer loaded from '{0}'", LogTags.Audio, _mixerPath);
+				_log.MessageFormat(LogTags.Audio, "AudioMixer loaded from '{0}'", _mixerPath);
 			} else {
-				Log.ErrorFormat("AudioMixer not found at '{0}'", LogTags.Audio, _mixerPath);
+				_log.ErrorFormat(LogTags.Audio, "AudioMixer not found at '{0}'", _mixerPath);
 			}
 			UnityHelper.AddPersistantStartCallback(() => InitializeChannels());
 		}
@@ -162,7 +163,7 @@ namespace UDBase.Controllers.AudioSystem {
 				_groups.Add(channelName, group);
 			}
 			if ( !group ) {
-				Log.ErrorFormat("Cannot find channel with name '{0}'", LogTags.Audio, channelName);
+				_log.ErrorFormat(LogTags.Audio, "Cannot find channel with name '{0}'", channelName);
 			}
 			return group;
 		}

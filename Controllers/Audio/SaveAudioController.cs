@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UDBase.Utils;
 using UDBase.Controllers.SaveSystem;
+using UDBase.Controllers.LogSystem;
+using UDBase.Controllers.EventSystem;
 
 namespace UDBase.Controllers.AudioSystem {
 	public class SaveAudioController : IAudio {
@@ -20,12 +22,8 @@ namespace UDBase.Controllers.AudioSystem {
 
 		ISave _save;
 
-		SaveAudioController(IAudio controller) {
-			_controller = controller;
-		}
-
-		public SaveAudioController(ISave save, Settings settings) : 
-			this(new AudioController(settings)) {
+		public SaveAudioController(Settings settings, ISave save, ILog log, IEvent events) {
+			_controller = new AudioController(settings, log, events);
 			_save = save;
 			_saveDelta = settings.SaveDelta;
 			LoadState();

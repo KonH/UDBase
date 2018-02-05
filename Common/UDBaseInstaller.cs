@@ -1,4 +1,7 @@
-﻿using UDBase.Controllers.EventSystem;
+﻿using UDBase.Utils;
+using UDBase.Controllers.LogSystem;
+using UDBase.Controllers.LogSystem.UI;
+using UDBase.Controllers.EventSystem;
 using UDBase.Controllers.SceneSystem;
 using UDBase.Controllers.ContentSystem;
 using UDBase.Controllers.AudioSystem;
@@ -14,6 +17,25 @@ using Zenject;
 namespace UDBase.Common {
     public abstract class UDBaseInstaller : MonoInstaller {
         
+		public void AddEmptyLogger() {
+			Container.Bind<ILog>().To<EmptyLog>().AsSingle();
+		}
+
+		public void AddUnityLogger() {
+			Container.Bind<ILog>().To<UnityLog>().AsSingle();
+		}
+
+		public void AddVisualLogger(VisualLogHandler.Settings settings) {
+			Container.BindInstance(settings);
+			Container.Bind<VisualLogHandler>().FromComponentInNewPrefabResource(settings.PrefabName).AsSingle();
+			Container.Bind<ILog>().To<VisualLog>().AsSingle();
+		}
+
+		public void AddNetUtils() {
+			Container.Bind<NetUtils>().ToSelf().AsSingle();
+			Container.Bind<WebClient>().ToSelf().AsTransient();
+		}
+
         public void AddEvents() {
             Container.Bind<IEvent>().To<EventController>().AsSingle();
         }
