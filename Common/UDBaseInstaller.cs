@@ -16,7 +16,14 @@ using Zenject;
 
 namespace UDBase.Common {
     public abstract class UDBaseInstaller : MonoInstaller {
-        
+
+		protected BuildType _buildType;
+
+		[Inject]
+		public virtual void Init([InjectOptional]BuildType buildType) {
+			_buildType = buildType;
+		}
+
 		public void AddEmptyLogger() {
 			Container.Bind<ILog>().To<EmptyLog>().AsSingle();
 		}
