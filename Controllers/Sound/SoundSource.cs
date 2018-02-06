@@ -44,7 +44,7 @@ namespace UDBase.Controllers.SoundSystem {
 			}
 		}
 
-		void Awake() {
+		void Start() {
 			Setup();
 		}
 

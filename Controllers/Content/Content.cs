@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ContentSystem {
 	public static class Content {
