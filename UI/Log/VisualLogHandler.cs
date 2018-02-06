@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UDBase.Utils;
+using Zenject;
 
 namespace UDBase.Controllers.LogSystem.UI {
 	public class VisualLogHandler : MonoBehaviour {
@@ -76,9 +77,9 @@ namespace UDBase.Controllers.LogSystem.UI {
 
 		
 		const string FormatStr = "<color=\"{0}\">[{1}] {2}: {3}\n</color>";
-		
+
 		[Header("Base")]
-		public List<ButtonPosHander> OpenPositions      = new List<ButtonPosHander>();
+		public List<ButtonPosHander> OpenPositions;
 		public Text                  Text;
 		public ToggleContainer       TagSample;
 		public ToggleContainer       TypeSample;
@@ -100,7 +101,7 @@ namespace UDBase.Controllers.LogSystem.UI {
 		public Button                OpenSettingsButton;
 
 		[Header("Runtime")]
-		public string                CurrentState        = "";
+		public string                CurrentState;
 
 		readonly Dictionary<LogType, bool> _typeStates = new Dictionary<LogType, bool>();
 		readonly Dictionary<string, bool>  _tagStates  = new Dictionary<string, bool>();
@@ -109,7 +110,8 @@ namespace UDBase.Controllers.LogSystem.UI {
 		StringBuilder _sb = new StringBuilder(10000);
 		LoggerState   _state;
 
-		public VisualLogHandler(Settings settings) {
+		[Inject]
+		public void Init(Settings settings) {
 			Clear(true);
 			SetupTypes();
 			SetupTags(Enum.GetNames(typeof(LogTags)));
