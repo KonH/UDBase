@@ -67,6 +67,10 @@ namespace UDBase.Common {
             Container.Bind<IContent>().To<AssetBundleContentController>().AsSingle();
         }
 
+		public void AddLocalLeaderboard() {
+			Container.Bind<ILeaderboard>().To<LocalLeaderboard>().AsSingle();
+		}
+
         public void AddWebLeaderboards(WebLeaderboard.Settings settings) {
             Container.BindInstance(settings);
             Container.Bind<ILeaderboard>().To<WebLeaderboard>().AsSingle();
