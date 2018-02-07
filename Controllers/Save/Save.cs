@@ -32,10 +32,5 @@ namespace UDBase.Controllers.SaveSystem {
 		public static void OpenDirectory() {
 			IOTool.Open(Application.persistentDataPath);
 		}
-
-		public static void Clear() {
-			IOTool.DeleteFile(IOTool.GetPath(Application.persistentDataPath, UDBaseConfig.JsonSaveName));
-			Debug.Log("Save file cleared.");
-		}
 	}
 }

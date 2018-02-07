@@ -3,22 +3,7 @@ using UDBase.Controllers.SaveSystem;
 using UDBase.Controllers.ContentSystem;
 
 namespace UDBase.EditorTools {
-	public static class MenuItems {		
-		[MenuItem("UDBase/Schemes/Edit", false, -99)]
-		static void OpenSchemes() {
-			SchemesEditor.GetWindow<SchemesEditor>("Schemes", true);
-		}
-
-		[MenuItem("UDBase/Schemes/Update", false, -99)]
-		static void Scheme() {
-			SchemesTool.UpdateSchemes();
-		}
-
-		[MenuItem("UDBase/Setup", false, -98)]
-		static void DoSetup() {
-			ProjectSetupTool.PrepareFolders();
-		}
-
+	public static class MenuItems {
 		[MenuItem("UDBase/About", false, -97)]
 		static void About() {
 			UDBaseInfo.ShowAbout();
@@ -39,19 +24,9 @@ namespace UDBase.EditorTools {
 			UDBaseInfo.OpenExamples();
 		}
 
-		[MenuItem("UDBase/Schemes/Default")]
-		static void SwitchToScheme_Default() {
-			SchemesTool.SwitchScheme("Default");
-		}
-
 		[MenuItem("UDBase/Save/Open")]
 		static void OpenDirectoryForSave() {
 			Save.OpenDirectory();
-		}
-
-		[MenuItem("UDBase/Save/Clear")]
-		static void ClearSave() {
-			Save.Clear();
 		}
 
 		[MenuItem("UDBase/Screenshots/Clear")]
