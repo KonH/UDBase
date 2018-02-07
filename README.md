@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)[![GitHub (pre-)release](https://img.shields.io/github/release/qubyte/rubidium/all.svg)]()
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.txt)[![GitHub (pre-)release](https://img.shields.io/github/release/konh/udbase/all.svg)](https://github.com/KonH/UDBase/releases)
 
 # UDBase 
 
