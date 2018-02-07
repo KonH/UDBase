@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)]()
+
 # UDBase 
 
 **Current version:** 0.10.0
