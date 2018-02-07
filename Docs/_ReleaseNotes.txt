@@ -1,3 +1,21 @@
+v.0.10.0
+Breaking changes:
+- IController, ControllerHelper, InventoryController deprecated;
+- Custom dependency-management replaced with Zenject;
+Features:
+- Unity 2017.3.0f3 support;
+- Installers;
+- BuildType;
+Improvements:
+- Updated project structure;
+New controller:
+- LocalLeaderboard;
+New extensions:
+- Zenject;
+- ClassTypeReference;
+Removed extensions:
+- Rider plugin;
+
 v.0.9.0
 New controllers: 
 - Audio;
