@@ -1,20 +1,21 @@
 ﻿using UDBase.Utils;
+using UDBase.Common;
+using UDBase.Controllers.UTime;
 using UDBase.Controllers.LogSystem;
-using UDBase.Controllers.LogSystem.UI;
+using UDBase.Controllers.UserSystem;
+using UDBase.Controllers.SaveSystem;
 using UDBase.Controllers.EventSystem;
 using UDBase.Controllers.SceneSystem;
-using UDBase.Controllers.ContentSystem;
 using UDBase.Controllers.AudioSystem;
 using UDBase.Controllers.SoundSystem;
 using UDBase.Controllers.MusicSystem;
-using UDBase.Controllers.LeaderboardSystem;
-using UDBase.Controllers.UserSystem;
-using UDBase.Controllers.UTime;
+using UDBase.Controllers.LogSystem.UI;
 using UDBase.Controllers.ConfigSystem;
-using UDBase.Controllers.SaveSystem;
+using UDBase.Controllers.ContentSystem;
+using UDBase.Controllers.LeaderboardSystem;
 using Zenject;
 
-namespace UDBase.Common {
+namespace UDBase.Installers {
     public abstract class UDBaseInstaller : MonoInstaller {
 
 		protected BuildType _buildType;

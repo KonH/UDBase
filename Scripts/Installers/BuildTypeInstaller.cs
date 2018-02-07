@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UDBase.Common;
 using Zenject;
 
-namespace UDBase.Common {
+namespace UDBase.Installers {
 	[CreateAssetMenu(fileName = "BuildType", menuName = "UDBase/BuildTypeSettings")]
 	public class BuildTypeInstaller : ScriptableObjectInstaller {
 		public enum BuildTypeSource {
