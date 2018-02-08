@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
-public class SetLanguageButton : MonoBehaviour {
+namespace UDBase.Controllers.LocalizationSystem.UI {
+	public class SetLanguageButton : MonoBehaviour {
 
+	}
 }
