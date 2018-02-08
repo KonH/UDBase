@@ -13,6 +13,7 @@ using UDBase.Controllers.LogSystem.UI;
 using UDBase.Controllers.ConfigSystem;
 using UDBase.Controllers.ContentSystem;
 using UDBase.Controllers.LeaderboardSystem;
+using UDBase.Controllers.LocalizationSystem;
 using Zenject;
 
 namespace UDBase.Installers {
@@ -123,5 +124,11 @@ namespace UDBase.Installers {
             Container.BindInstance(settings);
             Container.Bind<ITime>().To<NetworkTime>().AsSingle();
         }
+
+		public void AddSingleFileLocalization(SingleLocaleParser.Settings settings) {
+			Container.BindInstance(settings);
+			Container.Bind<ILocaleParser>().To<SingleLocaleParser>().AsSingle();
+			Container.Bind<ILocalization>().To<Localization>().AsSingle();
+		}
     }
 }
