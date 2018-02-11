@@ -2,7 +2,7 @@
 
 # UDBase 
 
-**Current version:** 0.10.0
+**Current version:** 0.11.0
 
 **Unity version:** 2017.3.0f3 (last tested)
 

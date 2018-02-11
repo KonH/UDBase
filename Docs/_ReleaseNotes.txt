@@ -1,3 +1,14 @@
+v.0.11.0
+New controllers:
+- Localization;
+- SaveLocalization;
+Fixes:
+- FxJsonNodeContainer: don't cache null values;
+- Log: Fix wrong calls;
+Improvements:
+- ActionButton.UpdateState method;
+
+
 v.0.10.0
 Breaking changes:
 - IController, ControllerHelper, InventoryController deprecated;
