@@ -35,7 +35,7 @@ namespace UDBase.Controllers.LogSystem {
 		}
 
 		public void ErrorFormat<T1>(LogTags tag, string msg, T1 arg1) {
-			Debug.unityLogger.Log(LogType.Error, tag.ToString(), msg);
+			Debug.unityLogger.Log(LogType.Error, tag.ToString(), string.Format(msg, arg1));
 		}
 
 		public void ErrorFormat<T1, T2>(LogTags tag, string msg, T1 arg1, T2 arg2) {
