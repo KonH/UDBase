@@ -48,7 +48,9 @@ namespace UDBase.Utils.Json.Fullserializer {
 				string key;
 				if( _names.TryGetValue(type, out key) ) {
 					value = LoadNode<T>(key, autoFill);
-					_cache.Add(type, value);
+					if ( value != null ) {
+						_cache.Add(type, value);
+					}
 				} else {
 					_log.ErrorFormat(LogTags.Json, "NodeContainer.LoadNode: Can't find node: {0}!", type);
 				}
