@@ -11,10 +11,14 @@ namespace UDBase.UI.Common {
 		}
 
 		protected virtual void Init() {
-			gameObject.SetActive(IsVisible());
 			_button = GetComponent<Button>();
-			_button.interactable = IsInteractable();
 			_button.onClick.AddListener(() => OnClick());
+			UpdateState();
+		}
+
+		protected void UpdateState() {
+			gameObject.SetActive(IsVisible());
+			_button.interactable = IsInteractable();
 		}
 
 		public abstract bool IsVisible();
