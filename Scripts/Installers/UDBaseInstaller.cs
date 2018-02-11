@@ -125,10 +125,20 @@ namespace UDBase.Installers {
             Container.Bind<ITime>().To<NetworkTime>().AsSingle();
         }
 
-		public void AddSingleFileLocalization(SingleLocaleParser.Settings settings) {
+		public void AddSingleFileLocalizationParser(SingleLocaleParser.Settings settings) {
 			Container.BindInstance(settings);
 			Container.Bind<ILocaleParser>().To<SingleLocaleParser>().AsSingle();
+			
+		}
+
+		public void AddLocalization(Localization.Settings settings) {
+			Container.BindInstance(settings);
 			Container.Bind<ILocalization>().To<Localization>().AsSingle();
+		}
+
+		public void AddSaveLocalization(Localization.Settings settings) {
+			Container.BindInstance(settings);
+			Container.Bind<ILocalization>().To<SaveLocalization>().AsSingle();
 		}
     }
 }
