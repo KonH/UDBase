@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UDBase.Controllers.ContentSystem;
-using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
+using UDBase.Controllers.ContentSystem;
 
 namespace UDBase.Controllers.SoundSystem {
-	public class SoundController : ISound {
+	public class SoundController : ISound, ILogContext {
 		
 		Dictionary<ContentId, AudioClip> _clipCache = new Dictionary<ContentId, AudioClip>();
 
@@ -31,13 +30,13 @@ namespace UDBase.Controllers.SoundSystem {
 			}
 			_loaders.GetLoaderFor(sound).LoadAsync<AudioClip>(sound, (clip) => {
 				if ( clip ) {
-					_log.MessageFormat(LogTags.Sound, "Loaded clip for '{0}': '{1}'", sound.ToString(), clip.name);
+					_log.MessageFormat(this, "Loaded clip for '{0}': '{1}'", sound.ToString(), clip.name);
 					if ( !_clipCache.ContainsKey(sound) ) {
 						_clipCache.Add(sound, clip);
 					}
 					_utility.Play(sound.ToString(), clip, loop, delay, channelName);
 				} else {
-					_log.ErrorFormat(LogTags.Sound, "Not found clip for {0}", sound.ToString());
+					_log.ErrorFormat(this, "Not found clip for {0}", sound.ToString());
 				}
 			});
 		}

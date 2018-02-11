@@ -7,7 +7,7 @@ using UDBase.Controllers.EventSystem;
 using UDBase.Utils;
 
 namespace UDBase.Controllers.AudioSystem {
-	public class AudioController : IAudio {
+	public class AudioController : IAudio, ILogContext {
 		const float MinVolume = -80.0f;
 		const float MaxVolume = 0.0f;
 
@@ -40,9 +40,9 @@ namespace UDBase.Controllers.AudioSystem {
 
 			_mixer = Resources.Load(_mixerPath) as AudioMixer;
 			if ( _mixer ) {
-				_log.MessageFormat(LogTags.Audio, "AudioMixer loaded from '{0}'", _mixerPath);
+				_log.MessageFormat(this, "AudioMixer loaded from '{0}'", _mixerPath);
 			} else {
-				_log.ErrorFormat(LogTags.Audio, "AudioMixer not found at '{0}'", _mixerPath);
+				_log.ErrorFormat(this, "AudioMixer not found at '{0}'", _mixerPath);
 			}
 			UnityHelper.AddPersistantStartCallback(() => InitializeChannels());
 		}
@@ -163,7 +163,7 @@ namespace UDBase.Controllers.AudioSystem {
 				_groups.Add(channelName, group);
 			}
 			if ( !group ) {
-				_log.ErrorFormat(LogTags.Audio, "Cannot find channel with name '{0}'", channelName);
+				_log.ErrorFormat(this, "Cannot find channel with name '{0}'", channelName);
 			}
 			return group;
 		}

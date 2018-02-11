@@ -53,14 +53,14 @@ namespace UDBase.UI.Common {
 
 		void Awake() {
 			if( _current ) {
-				_log.Warning(LogTags.UI, "Multiple UIManager is not supported.");
+				_log.Warning(UI.Context, "Multiple UIManager is not supported.");
 			}
 			if( !Canvas ) {
 				var wantedCanvas = FindObjectOfType<UICanvas>();
 				if( wantedCanvas ) {
 					Canvas = wantedCanvas.GetComponent<Canvas>();
 				} else {
-					_log.Warning(LogTags.UI, "You need to assign Canvas to UIManager or add UICanvas component to wanted canvas.");
+					_log.Warning(UI.Context, "You need to assign Canvas to UIManager or add UICanvas component to wanted canvas.");
 				}
 			}
 			_current = this;

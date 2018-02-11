@@ -2,7 +2,7 @@
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ContentSystem {
-	public sealed class AssetBundleContentController:IContent {
+	public sealed class AssetBundleContentController:IContent, ILogContext {
 		
 		[Serializable]
 		public class Settings {
@@ -20,7 +20,7 @@ namespace UDBase.Controllers.ContentSystem {
 				_streamingAssetsPath = settings.Path;
 			} else {
 				if( string.IsNullOrEmpty(settings.Path) ) {
-					log.Error(LogTags.Content, "For WebServer mode you need to provide path!");
+					log.Error(this, "For WebServer mode you need to provide path!");
 				}
 				_baseUrl = settings.Path;
 			}

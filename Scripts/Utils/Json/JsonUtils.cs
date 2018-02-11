@@ -3,7 +3,11 @@ using UDBase.Controllers.LogSystem;
 using FullSerializer;
 
 namespace UDBase.Utils.Json {
-	public static class JsonUtils {
+	public class JsonUtils : ILogContext {
+		static JsonUtils Context = new JsonUtils();
+
+		JsonUtils() { }
+
 		public static T Deserialize<T>(fsSerializer serializer, ILog log, string json) where T:new() {
 			try {
 				var data = fsJsonParser.Parse(json);
@@ -11,7 +15,7 @@ namespace UDBase.Utils.Json {
 				serializer.TryDeserialize(data, ref result);
 				return result;
 			} catch ( Exception e ) {
-				log.ErrorFormat(LogTags.Common, "Serialize: exception: {0}", e);
+				log.ErrorFormat(Context, "Serialize: exception: {0}", e);
 			}
 			return default(T);
 		}
@@ -23,7 +27,7 @@ namespace UDBase.Utils.Json {
 				serializer.TryDeserialize(data, type, ref result);
 				return result;
 			} catch ( Exception e ) {
-				log.ErrorFormat(LogTags.Common, "Serialize: exception: {0}", e);
+				log.ErrorFormat(Context, "Serialize: exception: {0}", e);
 			}
 			return null;
 		}
@@ -35,7 +39,7 @@ namespace UDBase.Utils.Json {
 				var result = pretty ? fsJsonPrinter.PrettyJson(data) : fsJsonPrinter.CompressedJson(data);
 				return result;
 			} catch ( Exception e ) {
-				log.ErrorFormat(LogTags.Common, "Serialize: exception: {0}", e);
+				log.ErrorFormat(Context, "Serialize: exception: {0}", e);
 			}
 			return null;
 		}

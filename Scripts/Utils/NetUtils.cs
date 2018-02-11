@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils {
-	public class NetUtils {
+	public class NetUtils : ILogContext {
 		public const float DefaultTimeout = 10.0f;
 
 		public class Response {
@@ -183,11 +183,11 @@ namespace UDBase.Utils {
 				request.GetResponseHeaders(),
 				isTimeout);
 			if ( isTimeout ) {
-				_log.ErrorFormat(LogTags.Network, "Request to '{0}': timeout", url);
+				_log.ErrorFormat(this, "Request to '{0}': timeout", url);
 			} else if ( request.isNetworkError ) {
-				_log.ErrorFormat(LogTags.Network, "Request to '{0}': error: '{1}'", url, request.error);
+				_log.ErrorFormat(this, "Request to '{0}': error: '{1}'", url, request.error);
 			} else {
-				_log.MessageFormat(LogTags.Network, "Request to '{0}': response code: {1}, text: '{2}'", url, request.responseCode, response.Text);
+				_log.MessageFormat(this, "Request to '{0}': response code: {1}, text: '{2}'", url, request.responseCode, response.Text);
 			}
 			if ( onComplete != null ) {
 				onComplete(response);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.EventSystem {
-	public class EventController : IEvent {
+	public class EventController : IEvent, ILogContext {
 		readonly Dictionary<Type, EventHandlerBase> _handlers    = new Dictionary<Type, EventHandlerBase>();
 		readonly Dictionary<Type, List<object>>     _tmpHandlers = new Dictionary<Type, List<object>>();
 
@@ -38,13 +38,13 @@ namespace UDBase.Controllers.EventSystem {
 			if( handler != null ) {
 				handler.Fire(arg);
 			}
-			_log.MessageFormat(LogTags.Event, "Fire: {0}", arg);
+			_log.MessageFormat(this, "Fire: {0}", arg);
 		}
 
 		public void Subscribe<T>(object handler, Action<T> callback) {
 			var eventHandler = GetOrCreateHandler<T>();
 			eventHandler.Subscribe(handler, callback);
-			_log.MessageFormat(LogTags.Event, "Subscribe: {0} for {1}", typeof(T), handler);
+			_log.MessageFormat(this, "Subscribe: {0} for {1}", typeof(T), handler);
 		}
 
 		public void Unsubscribe<T>(Action<T> action) {
@@ -52,7 +52,7 @@ namespace UDBase.Controllers.EventSystem {
 			if( handler != null ) {
 				handler.Unsubscribe(action);
 			}
-			_log.MessageFormat(LogTags.Event, "Unsubscribe: {0}", typeof(T));
+			_log.MessageFormat(this, "Unsubscribe: {0}", typeof(T));
 		}
 	
 		public Dictionary<Type, List<object>> GetHandlers() {

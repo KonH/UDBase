@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.LeaderboardSystem {
-	public class LocalLeaderboard : ILeaderboard {
+	public class LocalLeaderboard : ILeaderboard, ILogContext {
 		
 		public string Version { get; set; }
 
@@ -24,7 +24,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 				}
 			}
 			var result = filteredData.Take(max).OrderByDescending(i => i.Score).ToList();
-			_log.MessageFormat(LogTags.Leaderboard, "Retrieve {0} items for parameter '{1}'", result.Count, parameter);
+			_log.MessageFormat(this, "Retrieve {0} items for parameter '{1}'", result.Count, parameter);
 			if ( callback != null ) {
 				callback(result);
 			}
@@ -33,7 +33,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 		public void PostScore(string param, string userName, int score, Action<bool> callback) {
 			_items.Add(new LeaderboardItem(string.Empty, string.Empty, param, userName,  score));
 			_log.MessageFormat(
-				LogTags.Leaderboard,
+				this,
 				"Add item: param: '{0}', userName: '{1}', score = {2}",
 				param, userName, score);
 			if ( callback != null ) {

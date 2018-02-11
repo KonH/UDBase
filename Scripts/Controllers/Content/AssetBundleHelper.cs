@@ -6,7 +6,7 @@ using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ContentSystem {
-	public class AssetBundleHelper : MonoBehaviour {
+	public class AssetBundleHelper : MonoBehaviour, ILogContext {
 
 		public bool Ready { get; private set; }
 
@@ -20,7 +20,7 @@ namespace UDBase.Controllers.ContentSystem {
 			_streamingAssetsPath = streamingAssetsPath;
 			_baseUrl = baseUrl;
 			_log.MessageFormat(
-				LogTags.Content,
+				this,
 				"Init AssetBundle helper: '{0}', '{1}'",
 				_streamingAssetsPath, _baseUrl);
 		}
@@ -41,7 +41,7 @@ namespace UDBase.Controllers.ContentSystem {
 			} else if ( _baseUrl != null ) {
 				AssetBundleManager.SetSourceAssetBundleURL(_baseUrl);
 			} else {
-				_log.Error(LogTags.Content, "You need to set streaming asset path or base url!");
+				_log.Error(this, "You need to set streaming asset path or base url!");
 			}
 			#endif
 		}
@@ -72,7 +72,7 @@ namespace UDBase.Controllers.ContentSystem {
 			T asset = request.GetAsset<T>();
 			var elapsedTime = Time.realtimeSinceStartup - startTime;
 			_log.MessageFormat(
-				LogTags.Content,
+				this,
 				"Asset '{0}' {1} loaded in {2} seconds",
 				assetName, asset ? "was" : "was not", elapsedTime);
 			if( callback != null ) {

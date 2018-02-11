@@ -9,7 +9,7 @@ using LanguageKeyDict =
 		System.Collections.Generic.Dictionary<string, string>>;
 
 namespace UDBase.Controllers.LocalizationSystem {
-	public class SingleLocaleParser : ILocaleParser {
+	public class SingleLocaleParser : ILocaleParser, ILogContext {
 
 		[Serializable]
 		public class Settings {
@@ -32,7 +32,7 @@ namespace UDBase.Controllers.LocalizationSystem {
 			if ( asset ) {
 				return asset.text;
 			} else {
-				_log.ErrorFormat(LogTags.Localization, "Can't find file '{0}' in Resources", fileName);
+				_log.ErrorFormat(this, "Can't find file '{0}' in Resources", fileName);
 				return string.Empty;
 			}
 		}
@@ -53,7 +53,7 @@ namespace UDBase.Controllers.LocalizationSystem {
 					AddContent(languages, line, separator, values);
 				}
 			} else {
-				_log.Error(LogTags.Localization, "File is in wrong format");
+				_log.Error(this, "File is in wrong format");
 			}
 			return values;
 		}
@@ -71,7 +71,7 @@ namespace UDBase.Controllers.LocalizationSystem {
 					if ( Enum.TryParse(langStr, out langValue) ) {
 						languages.Add(langValue);
 					} else {
-						_log.ErrorFormat(LogTags.Localization, "Unknown language: '{0}'", langStr);
+						_log.ErrorFormat(this, "Unknown language: '{0}'", langStr);
 					}
 				}
 			}
@@ -94,7 +94,7 @@ namespace UDBase.Controllers.LocalizationSystem {
 				if ( !langDict.ContainsKey(key) ) {
 					langDict.Add(key, value);
 				} else {
-					_log.ErrorFormat(LogTags.Localization, "Several values for '{0}' in language {1}", key, language);
+					_log.ErrorFormat(this, "Several values for '{0}' in language {1}", key, language);
 				}
 			}
 		}
@@ -109,10 +109,10 @@ namespace UDBase.Controllers.LocalizationSystem {
 			if ( _values.TryGetValue(language, out keyDict) ) {
 				var found = keyDict.TryGetValue(key, out value);
 				if ( !found ) {
-					_log.ErrorFormat(LogTags.Localization, "Can't find value '{0}' in language {1}", key, language);
+					_log.ErrorFormat(this, "Can't find value '{0}' in language {1}", key, language);
 				}
 			} else {
-				_log.ErrorFormat(LogTags.Localization, "Can't find language {0}", language);
+				_log.ErrorFormat(this, "Can't find language {0}", language);
 			}
 			return value;
 		}

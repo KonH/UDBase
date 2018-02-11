@@ -5,7 +5,7 @@ using UDBase.Controllers.LogSystem;
 using FullSerializer;
 
 namespace UDBase.Controllers.LeaderboardSystem {
-	public class WebLeaderboard : ILeaderboard {
+	public class WebLeaderboard : ILeaderboard, ILogContext {
 		
 		[Serializable]
 		public class Settings {
@@ -69,7 +69,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 				var data = fsJsonParser.Parse(response.Text);
 				_serializer.TryDeserialize(data, ref result);
 			} else {
-				_log.ErrorFormat(LogTags.Leaderboard, "Wrong response: {0}, '{1}'", response.Code, response.Text);
+				_log.ErrorFormat(this, "Wrong response: {0}, '{1}'", response.Code, response.Text);
 			}
 			if ( callback != null ) {
 				callback(result);
@@ -81,7 +81,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 			fsData data = null;
 			_serializer.TrySerialize(item, out data);
 			var dataString = data.ToString();
-			_log.MessageFormat(LogTags.Leaderboard, "Serialized score item: '{0}'", dataString);
+			_log.MessageFormat(this, "Serialized score item: '{0}'", dataString);
 			var url = "https://konhit.xyz/lbservice/api/Score";
 			_client.SendJsonPostRequest(url, dataString, headers: _postHeaders, onComplete: (response) => OnPostScoreComplete(response, callback));
 		}
@@ -91,7 +91,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 			if ( IsCorrectResponse(response) && response.Code == 201 ) {
 				result = true;
 			} else {
-				_log.ErrorFormat(LogTags.Leaderboard, "Wrong response: {0}, '{1}'", response.Code, response.Text);
+				_log.ErrorFormat(this, "Wrong response: {0}, '{1}'", response.Code, response.Text);
 			}
 			if ( callback != null ) {
 				callback(result);

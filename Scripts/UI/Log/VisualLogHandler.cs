@@ -106,7 +106,9 @@ namespace UDBase.Controllers.LogSystem.UI {
 		readonly Dictionary<LogType, bool> _typeStates = new Dictionary<LogType, bool>();
 		readonly Dictionary<string, bool>  _tagStates  = new Dictionary<string, bool>();
 		readonly LogContainer              _container  = new LogContainer();
-		
+		readonly List<string>              _tagNames       = new List<string>();
+		readonly List<ToggleContainer>     _items      = new List<ToggleContainer>();
+
 		StringBuilder _sb = new StringBuilder(10000);
 		LoggerState   _state;
 
@@ -114,7 +116,7 @@ namespace UDBase.Controllers.LogSystem.UI {
 		public void Init(Settings settings) {
 			Clear(true);
 			SetupTypes();
-			SetupTags(Enum.GetNames(typeof(LogTags)));
+			SetupTags();
 			ChangeState(new HiddenState(this));
 			AttachButtonToPosition(settings.OpenButtonPosition);
 			SetupButtons();
@@ -165,24 +167,32 @@ namespace UDBase.Controllers.LogSystem.UI {
 				_typeStates.Add(type, state);
 			}
 
-			SetupToggles(TypeSample, Enum.GetNames(typeof(LogType)), states, OnTypeChanged);
+			SetupToggles(null, TypeSample, Enum.GetNames(typeof(LogType)), states, OnTypeChanged);
 		}
 
-		void SetupTags(string[] tags) {
-			var states = new bool[tags.Length];
-			for( int i = 0; i < tags.Length; i++) {
-				var curTag = tags[i];
+		void SetupTags() {
+			_tagStates.Clear();
+			var states = new bool[_tagNames.Count];
+			for( int i = 0; i < _tagNames.Count; i++) {
+				var curTag = _tagNames[i];
 				var state = PlayerPrefsUtils.GetBool(FormatTagKey(curTag), true);
 				states[i] = state;
 				_tagStates.Add(curTag, state);
 			}
-			SetupToggles(TagSample, tags, states, OnTagChanged);
+			SetupToggles(_items, TagSample, _tagNames.ToArray(), states, OnTagChanged);
 		}
 
-		void SetupToggles(ToggleContainer template, string[] names, bool[] values, Action<string, bool> callback) {
-			for(int i = 0; i < names.Length; i++) {
+		void SetupToggles(List<ToggleContainer> items, ToggleContainer template, string[] names, bool[] values, Action<string, bool> callback) {
+			if ( items != null ) {
+				foreach ( var item in _items ) {
+					Destroy(item.gameObject);
+				}
+				items.Clear();
+			}
+			for (int i = 0; i < names.Length; i++) {
 				var newItem = Instantiate(template, template.transform.parent) as ToggleContainer;
 				newItem.Init(values[i], names[i], callback);
+				_items[i] = newItem;
 			}
 			template.gameObject.SetActive(false);
 		}
@@ -230,6 +240,10 @@ namespace UDBase.Controllers.LogSystem.UI {
 		}
 
 		public void AddMessage(LogType type, string tagName, string msg) {
+			if ( !_tagNames.Contains(tagName) ) {
+				_tagNames.Add(tagName);
+				SetupTags();
+			}
 			_container.Store(msg, type, tagName);
 			ApplyMessage(msg, type, tagName, true);
 		}
