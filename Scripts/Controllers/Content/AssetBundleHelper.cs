@@ -79,5 +79,9 @@ namespace UDBase.Controllers.ContentSystem {
 				callback(asset);
 			}
 		}
+
+		public override string ToString() {
+			return "AssetBundleHelper";
+		}
 	}
 }

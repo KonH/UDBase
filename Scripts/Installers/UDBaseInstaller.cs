@@ -30,7 +30,8 @@ namespace UDBase.Installers {
 			Container.Bind<ILog>().To<EmptyLog>().AsSingle();
 		}
 
-		public void AddUnityLogger() {
+		public void AddUnityLogger(UnityLog.Settings settings) {
+			Container.BindInstance(settings);
 			Container.Bind<ILog>().To<UnityLog>().AsSingle();
 		}
 

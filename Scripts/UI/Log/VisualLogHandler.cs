@@ -9,8 +9,8 @@ using Zenject;
 namespace UDBase.Controllers.LogSystem.UI {
 	public class VisualLogHandler : MonoBehaviour {
 		[Serializable]
-		public class Settings {
-			public string PrefabName;
+		public class Settings : CommonLogSettings {
+			public string         PrefabName;
 			public ButtonPosition OpenButtonPosition;
 		}
 
@@ -112,8 +112,11 @@ namespace UDBase.Controllers.LogSystem.UI {
 		StringBuilder _sb = new StringBuilder(10000);
 		LoggerState   _state;
 
+		Settings _settings;
+
 		[Inject]
 		public void Init(Settings settings) {
+			_settings = settings;
 			Clear(true);
 			SetupTypes();
 			SetupTags();
@@ -191,8 +194,11 @@ namespace UDBase.Controllers.LogSystem.UI {
 			}
 			for (int i = 0; i < names.Length; i++) {
 				var newItem = Instantiate(template, template.transform.parent) as ToggleContainer;
+				newItem.gameObject.SetActive(true);
 				newItem.Init(values[i], names[i], callback);
-				_items[i] = newItem;
+				if ( items != null ) {
+					items.Add(newItem);
+				}
 			}
 			template.gameObject.SetActive(false);
 		}
@@ -239,7 +245,11 @@ namespace UDBase.Controllers.LogSystem.UI {
 			return _typeStates[type];
 		}
 
-		public void AddMessage(LogType type, string tagName, string msg) {
+		public void AddMessage(LogType type, ILogContext context, string msg) {
+			if ( !_settings.IsContextEnabled(context) ) {
+				return;
+			}
+			var tagName = context.ToString();
 			if ( !_tagNames.Contains(tagName) ) {
 				_tagNames.Add(tagName);
 				SetupTags();

@@ -9,10 +9,16 @@ namespace UDBase.Controllers.LogSystem.UI {
 
 		public void Init(bool state, string itemName, Action<string, bool> onValueChangedCallback) {
 			Toggle.isOn = state;
-			Text.text   = itemName;
+			Text.text   = ToShortName(itemName);
 			Toggle.onValueChanged.AddListener((bool status) => onValueChangedCallback(itemName, status));
 		}
 
-
+		string ToShortName(string fullName) {
+			var lastDotIndex = fullName.LastIndexOf('.');
+			if ( lastDotIndex > 0 ) {
+				return fullName.Substring(lastDotIndex + 1);
+			}
+			return fullName;
+		}
 	}
 }
