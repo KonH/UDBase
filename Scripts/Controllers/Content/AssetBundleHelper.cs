@@ -13,10 +13,12 @@ namespace UDBase.Controllers.ContentSystem {
 		string _streamingAssetsPath;
 		string _baseUrl;
 
-		ILog _log;
+		ILog               _log;
+		AssetBundleManager _manager;
 
-		public void Init(ILog log, string streamingAssetsPath, string baseUrl) {
+		public void Init(ILog log, AssetBundleManager manager, string streamingAssetsPath, string baseUrl) {
 			_log = log;
+			_manager = manager;
 			_streamingAssetsPath = streamingAssetsPath;
 			_baseUrl = baseUrl;
 			_log.MessageFormat(
@@ -26,7 +28,7 @@ namespace UDBase.Controllers.ContentSystem {
 		}
 
 		IEnumerator Start() {
-			yield return StartCoroutine(InitializeManager());
+			yield return StartCoroutine(InitializeManager(_manager));
 		}
 
 		protected void InitializeSourceUrl() {
@@ -46,9 +48,8 @@ namespace UDBase.Controllers.ContentSystem {
 			#endif
 		}
 
-		protected IEnumerator InitializeManager() {
+		protected IEnumerator InitializeManager(AssetBundleManager manager) {
 			InitializeSourceUrl();
-			UnityHelper.AddPersistant<AssetBundleManager>();
 			var request = AssetBundleManager.Initialize();			
 			if (request != null) {
 				yield return StartCoroutine(request);

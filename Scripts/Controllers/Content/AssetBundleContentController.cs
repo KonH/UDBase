@@ -1,5 +1,6 @@
 ﻿using System;
 using UDBase.Controllers.LogSystem;
+using AssetBundles;
 
 namespace UDBase.Controllers.ContentSystem {
 	public sealed class AssetBundleContentController:IContent, ILogContext {
@@ -15,7 +16,7 @@ namespace UDBase.Controllers.ContentSystem {
 		readonly string _streamingAssetsPath;
 		readonly string _baseUrl;
 
-		public AssetBundleContentController(Settings settings, AssetBundleHelper helper, ILog log) {
+		public AssetBundleContentController(Settings settings, AssetBundleManager manager, AssetBundleHelper helper, ILog log) {
 			if( settings.Mode == AssetBundleMode.StreamingAssets ) {
 				_streamingAssetsPath = settings.Path;
 			} else {
@@ -26,7 +27,7 @@ namespace UDBase.Controllers.ContentSystem {
 			}
 			_helper = helper;
 			if( _helper ) {
-				_helper.Init(log, _streamingAssetsPath, _baseUrl);
+				_helper.Init(log, manager, _streamingAssetsPath, _baseUrl);
 			}
 		}
 

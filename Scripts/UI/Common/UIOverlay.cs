@@ -26,16 +26,22 @@ namespace UDBase.UI.Common {
 		bool      _ended;
 		bool      _result;
 
-		IEvent _events;
+		IEvent    _events;
+		UIManager _manager;
 
 		[Inject]
-		public void Init(IEvent events) {
-			_events = events;
+		public void Init(IEvent events, UIManager manager) {
+			_events  = events;
+			_manager = manager;
 		}
 
 		public void Show() {
 			Element.Show();
 			_events.Subscribe<UI_ElementHidden>(this, OnElementHidden);
+		}
+
+		void OnDestroy() {
+			_events?.Unsubscribe<UI_ElementHidden>(OnElementHidden);
 		}
 
 		public void Close() {
@@ -57,13 +63,13 @@ namespace UDBase.UI.Common {
 			if( _ended ) {
 				Element.Hide();
 			} else {
-				UIManager.Current.CallOverlayCallback(_result);
+				_manager.CallOverlayCallback(_result);
 			}
 		}
 
 		void OnElementHidden(UI_ElementHidden e) {
-			if( _ended && (e.Element == Element) ) {
-				UIManager.Current.FreeOverlay(_result);
+			if ( _ended && (e.Element == Element) ) {
+				_manager.FreeOverlay(_result);
 				Destroy(gameObject);
 			}
 		}

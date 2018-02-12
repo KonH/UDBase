@@ -15,6 +15,7 @@ using UDBase.Controllers.ContentSystem;
 using UDBase.Controllers.LeaderboardSystem;
 using UDBase.Controllers.LocalizationSystem;
 using Zenject;
+using AssetBundles;
 
 namespace UDBase.Installers {
     public abstract class UDBaseInstaller : MonoInstaller {
@@ -42,7 +43,7 @@ namespace UDBase.Installers {
 		}
 
 		public void AddNetUtils() {
-			Container.Bind<NetUtils>().ToSelf().AsSingle();
+			Container.Bind<NetUtils>().FromNewComponentOnNewGameObject().AsSingle();
 			Container.Bind<WebClient>().ToSelf().AsTransient();
 		}
 
@@ -65,7 +66,8 @@ namespace UDBase.Installers {
         }
 
         public void AddBundleContentLoader(AssetBundleContentController.Settings settings) {
-            Container.Bind<AssetBundleHelper>().FromNewComponentOnNewGameObject().AsSingle();
+			Container.Bind<AssetBundleManager>().FromNewComponentOnNewGameObject().AsSingle();
+			Container.Bind<AssetBundleHelper>().FromNewComponentOnNewGameObject().AsSingle();
             Container.BindInstance(settings);
             Container.Bind<IContent>().To<AssetBundleContentController>().AsSingle();
         }
@@ -81,12 +83,12 @@ namespace UDBase.Installers {
 
         public void AddAudio(AudioController.Settings settings) {
             Container.BindInstance(settings);
-            Container.Bind<IAudio>().To<AudioController>().AsSingle();
+            Container.Bind(typeof(IAudio), typeof(IInitializable)).To<AudioController>().AsSingle();
         }
 
         public void AddSaveAudio(SaveAudioController.Settings settings) {
             Container.BindInstance(settings);
-            Container.Bind<IAudio>().To<SaveAudioController>().AsSingle();
+            Container.Bind(typeof(IAudio), typeof(IInitializable)).To<SaveAudioController>().AsSingle();
         }
 
         public void AddSound(SoundUtility.Settings settings) {
@@ -96,6 +98,7 @@ namespace UDBase.Installers {
         }
 
         public void AddMusic() {
+			Container.Bind<MusicUtility>().FromNewComponentOnNewGameObject().AsSingle();
             Container.Bind<IMusic>().To<MusicController>().AsSingle().NonLazy();
         }
 

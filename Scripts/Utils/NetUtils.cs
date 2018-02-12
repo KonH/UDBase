@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils {
-	public class NetUtils : ILogContext {
+	public class NetUtils : MonoBehaviour, ILogContext {
 		public const float DefaultTimeout = 10.0f;
 
 		public class Response {
@@ -135,7 +135,7 @@ namespace UDBase.Utils {
 			Action<Response> onComplete = null)
 		{
 			AddHeaders(request, headers);
-			UnityHelper.StartCoroutine(RequestCoroutine(request, timeout, headers, onComplete));
+			StartCoroutine(RequestCoroutine(request, timeout, headers, onComplete));
 		}
 
 		float CurrentTime {

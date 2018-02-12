@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UDBase.Utils;
 using UDBase.Controllers.SaveSystem;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
+using Zenject;
 
 namespace UDBase.Controllers.AudioSystem {
-	public class SaveAudioController : IAudio {
+	public class SaveAudioController : IAudio, IInitializable {
 		
 		[Serializable]
 		public class Settings : AudioController.Settings {
@@ -27,7 +27,6 @@ namespace UDBase.Controllers.AudioSystem {
 			_save = save;
 			_saveDelta = settings.SaveDelta;
 			LoadState();
-			UnityHelper.AddPersistantStartCallback(SetupState);
 		}
 
 		void LoadState() {
@@ -35,6 +34,10 @@ namespace UDBase.Controllers.AudioSystem {
 			if ( _node.Channels == null ) {
 				_node.Channels = new Dictionary<string, ChannelNode>();
 			}
+		}
+
+		public void Initialize() {
+			SetupState();
 		}
 
 		void SetupState() {

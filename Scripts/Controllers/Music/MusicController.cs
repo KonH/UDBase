@@ -1,5 +1,4 @@
-﻿using UDBase.Utils;
-using UDBase.Controllers.EventSystem;
+﻿using UDBase.Controllers.EventSystem;
 using UDBase.Controllers.SceneSystem;
 
 namespace UDBase.Controllers.MusicSystem {
@@ -7,8 +6,8 @@ namespace UDBase.Controllers.MusicSystem {
 		MusicUtility _utility;
 		bool         _paused;
 
-		public MusicController(IEvent events) {
-			_utility = UnityHelper.AddPersistant<MusicUtility>(true);
+		public MusicController(MusicUtility utility, IEvent events) {
+			_utility = utility;
 			events.Subscribe<Scene_Loaded>(this, OnSceneLoaded);
 			UpdateCurrentTrack();
 		}

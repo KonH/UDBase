@@ -4,10 +4,10 @@ using UnityEngine.Audio;
 using UDBase.Controllers.LogSystem;
 using System.Collections.Generic;
 using UDBase.Controllers.EventSystem;
-using UDBase.Utils;
+using Zenject;
 
 namespace UDBase.Controllers.AudioSystem {
-	public class AudioController : IAudio, ILogContext {
+	public class AudioController : IAudio, ILogContext, IInitializable {
 		const float MinVolume = -80.0f;
 		const float MaxVolume = 0.0f;
 
@@ -44,7 +44,11 @@ namespace UDBase.Controllers.AudioSystem {
 			} else {
 				_log.ErrorFormat(this, "AudioMixer not found at '{0}'", _mixerPath);
 			}
-			UnityHelper.AddPersistantStartCallback(() => InitializeChannels());
+		}
+
+
+		public void Initialize() {
+			InitializeChannels();
 		}
 
 		void InitializeChannels() {

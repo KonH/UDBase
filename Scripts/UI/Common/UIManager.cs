@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.ContentSystem;
+using UDBase.Controllers.EventSystem;
 using Zenject;
 
 namespace UDBase.UI.Common {
 	public class UIManager : MonoBehaviour {
+
+		[Serializable]
+		public class Settings {
+			public Canvas  Canvas;
+			public KeyCode ShowHideToggle;
+		}
+
 		class UIDialogGroup {
 			public readonly List<UIElement> Blocked;
 			public readonly Action<bool>    OnClose;
@@ -18,56 +25,41 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		static UIManager _current;
-		public static UIManager Current {
-			get {
-				if( !_current ) {
-					_current = UnityHelper.AddForScene<UIManager>();
-				}
-				return _current;
-			}
-		}
-
 		public int OverlayDepth {
 			get {
 				return _dialogs.Count;
 			}
 		}
 
-		public Canvas  Canvas;
-		public KeyCode ShowHideToggle = KeyCode.None;
-
 		bool _showHide;
 		bool _isLoading;
 
 		readonly Stack<UIDialogGroup> _dialogs = new Stack<UIDialogGroup>();
 
+		Settings       _settings;
+		OverlayFactory _overlayFactory;
+
 		List<IContent> _loaders;
-		ILog _log;
+		ILog           _log;
 
 		[Inject]
-		public void Init(List<IContent> loaders, ILog log) {
-			_loaders = loaders;
-			_log = log;
-		}
-
-		void Awake() {
-			if( _current ) {
-				_log.Warning(UI.Context, "Multiple UIManager is not supported.");
-			}
-			if( !Canvas ) {
+		public void Init(Settings settings, OverlayFactory overlayFactory, List<IContent> loaders, ILog log) {
+			_settings       = settings;
+			_overlayFactory = overlayFactory;
+			_loaders        = loaders;
+			_log            = log;
+			if( !_settings.Canvas ) {
 				var wantedCanvas = FindObjectOfType<UICanvas>();
 				if( wantedCanvas ) {
-					Canvas = wantedCanvas.GetComponent<Canvas>();
+					_settings.Canvas = wantedCanvas.GetComponent<Canvas>();
 				} else {
 					_log.Warning(UI.Context, "You need to assign Canvas to UIManager or add UICanvas component to wanted canvas.");
 				}
 			}
-			_current = this;
 		}
 
 		void Update() {
-			if( (ShowHideToggle != KeyCode.None) && Input.GetKeyDown(ShowHideToggle) ) {
+			if( (_settings.ShowHideToggle != KeyCode.None) && Input.GetKeyDown(_settings.ShowHideToggle) ) {
 				if( _showHide ) {
 					ShowAll();
 				} else {
@@ -159,19 +151,13 @@ namespace UDBase.UI.Common {
 
 		public void ShowDialog(GameObject prefab, Action<bool> callback) {
 			_isLoading = false;
-			var go = Instantiate(prefab);
-			if (!go) {
-				return;
-			}
-			var overlay = go.GetComponent<UIOverlay>();
-			if( overlay ) {
-				ProcessOverlay(overlay, callback);
-			}
+			var overlay = _overlayFactory.Create(prefab);
+			ProcessOverlay(overlay, callback);
 		}
 
 		void ProcessOverlay(UIOverlay dialog, Action<bool> callback) {
-			if( Canvas ) {
-				dialog.transform.SetParent(Canvas.transform, false);
+			if( _settings.Canvas ) {
+				dialog.transform.SetParent(_settings.Canvas.transform, false);
 			}
 			var blockedElements = GetBlockedElements();
 			var dialogGroup = new UIDialogGroup(blockedElements, callback);

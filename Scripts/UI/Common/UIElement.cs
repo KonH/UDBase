@@ -66,9 +66,6 @@ namespace UDBase.UI.Common {
 		[Inject]
 		public void Init(IEvent events) {
 			_events = events;
-		}
-
-		void Awake() {
 			Instances.Add(this);
 			if( CacheAnimation ) {
 				AssingAnimation(true);
@@ -241,6 +238,7 @@ namespace UDBase.UI.Common {
 
 		void OnDestroy() {
 			Instances.Remove(this);
+			_events?.Unsubscribe<UI_ElementHidden>(OnElementHidden);
 		}
 	}
 }
