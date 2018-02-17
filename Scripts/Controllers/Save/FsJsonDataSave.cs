@@ -1,7 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
-using UDBase.Common;
 using UDBase.Controllers.LogSystem;
 using UDBase.Utils;
 using UDBase.Utils.Json.Fullserializer;
@@ -30,7 +30,7 @@ namespace UDBase.Controllers.SaveSystem {
 			foreach ( var item in settings.Items ) {
 				AddNode(item.Type, item.Name);
 			}
-			_filePath = IOTool.GetPath(Application.persistentDataPath, _fileName);
+			_filePath = Path.Combine(Application.persistentDataPath, _fileName);
 			if( !TryLoadContainer() ) {
 				_log.MessageFormat(this, "JsonDataSave: Can't read save file from {0}, re-create it.", _fileName);
 				IOTool.CreateFile(_filePath);

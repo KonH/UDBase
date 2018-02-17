@@ -18,6 +18,9 @@ using Zenject;
 using AssetBundles;
 
 namespace UDBase.Installers {
+	/// <summary>
+	/// Base UDBase installer with set of helper methods to bind UDBase controllers and helpers 
+	/// </summary>
     public abstract class UDBaseInstaller : MonoInstaller {
 
 		protected BuildType _buildType;

@@ -1,11 +1,11 @@
-﻿using UDBase.Utils;
-using UDBase.Common;
-using UDBase.Controllers.UTime;
-using UDBase.Controllers.LogSystem;
-using UnityEngine;
+﻿using UnityEngine;
 using UDBase.UI.Common;
 
 namespace UDBase.Installers {
+	/// <summary>
+	/// Installer for UDBase components with scene-based life-cycle
+	/// </summary>
+	[AddComponentMenu("UDBase/Installers/SceneInstaller")]
     public class UDBaseSceneInstaller : UDBaseInstaller {
 
 		public UIManager.Settings UISettings;

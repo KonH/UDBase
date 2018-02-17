@@ -3,6 +3,9 @@ using UDBase.Common;
 using Zenject;
 
 namespace UDBase.Installers {
+	/// <summary>
+	/// Scriptable object UDBase installer for load BuildType from given source before all installers is called 
+	/// </summary>
 	[CreateAssetMenu(fileName = "BuildType", menuName = "UDBase/BuildTypeSettings")]
 	public class BuildTypeInstaller : ScriptableObjectInstaller {
 		public enum BuildTypeSource {

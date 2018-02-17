@@ -12,7 +12,7 @@ namespace UDBase.EditorTools {
 
 		public static void Make(int superSize) {
 			var dir = ScreenshotsDirectory;
-			if(!IOTool.DirectoryExist(dir)) {
+			if ( !Directory.Exists(dir) ) {
 				IOTool.CreateDirectory(dir);
 			}
 			var fileName = GetRandomName();
@@ -27,7 +27,7 @@ namespace UDBase.EditorTools {
 
 		public static void Clear() {
 			var dir = ScreenshotsDirectory;
-			if(IOTool.DirectoryExist(dir)) {
+			if ( Directory.Exists(dir) ) {
 				IOTool.DeleteDirectory(dir, true);
 				Debug.Log("Directorory cleared: " + dir);
 			}
