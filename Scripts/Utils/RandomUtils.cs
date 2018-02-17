@@ -11,9 +11,12 @@ namespace UDBase.Utils {
 
 		/// <summary>
 		/// Returns random value in [min, max] interval without exclusion items
+		/// Throws InvalidOperationException when all items is excluded
 		/// </summary>
 		public static int RangeExcluded(int min, int max, int[] exclusions) {
-			Assert.IsFalse(IsAllRangeExcluded(min, max, exclusions));
+			if ( IsAllRangeExcluded(min, max, exclusions) ) {
+				throw new InvalidOperationException("All items in range excluded!");
+			}
 			var value = min;
 			do {
 				value = Range(min, max);

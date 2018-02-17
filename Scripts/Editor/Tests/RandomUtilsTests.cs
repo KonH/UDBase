@@ -1,4 +1,5 @@
-﻿using UDBase.Utils;
+﻿using System;
+using UDBase.Utils;
 using NUnit.Framework;
 
 namespace UDBase.Tests {
@@ -19,7 +20,7 @@ namespace UDBase.Tests {
 
 		[Test]
 		public void RangeExcluded_OnlyForNonEmptySets() {
-			TestUtils.ThrowsAssert(() => RandomUtils.RangeExcluded(0, 3, new int[] { 0, 1, 2 }));
+			Assert.Throws<InvalidOperationException>(() => RandomUtils.RangeExcluded(0, 3, new int[] { 0, 1, 2 }));
 		}
 
 		[Test]
