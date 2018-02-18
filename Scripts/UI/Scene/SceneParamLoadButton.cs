@@ -2,7 +2,10 @@
 using Zenject;
 
 namespace UDBase.Controllers.SceneSystem.UI {
-	public class SceneParamLoadButton<T> : ActionButton {
+	/// <summary>
+	/// Base ActionButton to load scene by typed parameter via IScene controller 
+	/// </summary>
+	public abstract class SceneParamLoadButton<T> : ActionButton {
 		public T      Type;
 		public string Param = "";
 

@@ -34,9 +34,6 @@ namespace UDBase.Controllers.SoundSystem {
 		}
 
 		void OnValidate() {
-			if ( string.IsNullOrEmpty(Settings.ChannelName) && string.IsNullOrEmpty(Settings.ChannelParam) && !Settings.DefaultMusic ) {
-				Settings.DefaultSound = true;
-			}
 			_source = GetComponent<AudioSource>();
 			if ( _source ) {
 				_source.playOnAwake = false;
@@ -89,7 +86,6 @@ namespace UDBase.Controllers.SoundSystem {
 		}
 
 		void Setup() {
-			Settings.SetupChannelParams();
 			var mixerGroup = _audio.GetMixerGroup(Settings.ChannelName);
 			if ( !_source ) {
 				_source = GetComponent<AudioSource>();

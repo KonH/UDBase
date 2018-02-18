@@ -1,7 +1,12 @@
-﻿using UDBase.UI.Common;
+﻿using UnityEngine;
+using UDBase.UI.Common;
 using Zenject;
 
 namespace UDBase.Controllers.SceneSystem.UI {
+	/// <summary>
+	/// ActionButton to load scene by name via IScene component
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/Scene/SceneLoadButton")]
 	public class SceneLoadButton : ActionButton {
 		public string Name = "";
 

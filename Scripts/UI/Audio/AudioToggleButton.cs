@@ -4,6 +4,10 @@ using UDBase.Controllers.EventSystem;
 using Zenject;
 
 namespace UDBase.Controllers.AudioSystem.UI {
+	/// <summary>
+	/// Button to mute/unmute IAudio channel
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/AudioToggleButton")]
 	[RequireComponent(typeof(Button))]
 	public class AudioToggleButton : MonoBehaviour {
 		public ChannelSettings Settings   = new ChannelSettings();
@@ -32,7 +36,6 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		void Start() {
 			_button = GetComponent<Button>();
 			_button.onClick.AddListener(OnClick);
-			Settings.SetupChannelParams();
 			UpdateState();
 		}
 

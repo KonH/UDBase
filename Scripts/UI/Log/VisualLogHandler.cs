@@ -7,6 +7,10 @@ using UDBase.Utils;
 using Zenject;
 
 namespace UDBase.Controllers.LogSystem.UI {
+	/// <summary>
+	/// Component to show ILog messages in visual overlay
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/Log/VisualLogHandler")]
 	public class VisualLogHandler : MonoBehaviour {
 		[Serializable]
 		public class Settings : CommonLogSettings {
@@ -125,6 +129,22 @@ namespace UDBase.Controllers.LogSystem.UI {
 			SetupButtons();
 		}
 
+		/// <summary>
+		/// Add given message to log handler to display in visual overlay
+		/// </summary>
+		public void AddMessage(LogType type, ILogContext context, string msg) {
+			if ( !_settings.IsContextEnabled(context) ) {
+				return;
+			}
+			var tagName = context.ToString();
+			if ( !_tagNames.Contains(tagName) ) {
+				_tagNames.Add(tagName);
+				SetupTags();
+			}
+			_container.Store(msg, type, tagName);
+			ApplyMessage(msg, type, tagName, true);
+		}
+
 		Transform GetButtonPos(ButtonPosition pos) {
 			for(int i = 0; i < OpenPositions.Count; i++) {
 				var posItem = OpenPositions[i];
@@ -224,7 +244,7 @@ namespace UDBase.Controllers.LogSystem.UI {
 			PlayerPrefsUtils.SetBool(FormatTagKey(tagName), state);
 		}
 
-		public void Clear(bool full) {
+		void Clear(bool full) {
 			if( full ) {
 				_container.Entries.Clear();
 			}
@@ -245,18 +265,6 @@ namespace UDBase.Controllers.LogSystem.UI {
 			return _typeStates[type];
 		}
 
-		public void AddMessage(LogType type, ILogContext context, string msg) {
-			if ( !_settings.IsContextEnabled(context) ) {
-				return;
-			}
-			var tagName = context.ToString();
-			if ( !_tagNames.Contains(tagName) ) {
-				_tagNames.Add(tagName);
-				SetupTags();
-			}
-			_container.Store(msg, type, tagName);
-			ApplyMessage(msg, type, tagName, true);
-		}
 
 		string GetColor(LogType type) {
 			switch( type ) {

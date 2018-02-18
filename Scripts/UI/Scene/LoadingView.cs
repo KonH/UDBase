@@ -1,11 +1,13 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UDBase.Controllers.LogSystem;
-using UDBase.Utils;
 using Zenject;
 
 namespace UDBase.Controllers.SceneSystem.UI {
+	/// <summary>
+	/// Component to show IScene loading progress on UnityEngine.UI.Text (in percent format) and Image (use fill amount)
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/Scene/LoadingView")]
 	public class LoadingView : MonoBehaviour {
 		[Header("Dependencies")]
 		public Image ProgressBar;

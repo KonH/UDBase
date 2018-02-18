@@ -3,6 +3,9 @@ using UnityEngine.UI;
 using System;
 
 namespace UDBase.Controllers.LogSystem.UI {
+	/// <summary>
+	/// Internal LogSystem.UI component to switch tag/type visibility
+	/// </summary>
 	public class ToggleContainer : MonoBehaviour {
 		public Toggle Toggle;
 		public Text   Text;

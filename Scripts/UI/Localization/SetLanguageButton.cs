@@ -4,6 +4,10 @@ using UDBase.Controllers.EventSystem;
 using Zenject;
 
 namespace UDBase.Controllers.LocalizationSystem.UI {
+	/// <summary>
+	/// ActionButton to change current language of ILocalization component 
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/Localization/SetLanguageButton")]
 	public class SetLanguageButton : ActionButton {
 		public SystemLanguage Language;
 
