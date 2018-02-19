@@ -7,14 +7,36 @@ using UDBase.Controllers.EventSystem;
 using Zenject;
 
 namespace UDBase.Controllers.AudioSystem {
+
+	/// <summary>
+	/// AudioController changes volume and mute settings within current session
+	/// </summary>
 	public class AudioController : IAudio, ILogContext, IInitializable {
 		const float MinVolume = -80.0f;
 		const float MaxVolume = 0.0f;
 
+		/// <summary>
+		/// Settings for AudioController
+		/// </summary>
 		[Serializable]
 		public class Settings {
+
+			/// <summary>
+			/// The mixer asset path in resources
+			/// </summary>
+			[Tooltip("The mixer asset path in resources")]
 			public string MixerPath;
+
+			/// <summary>
+			/// What channels is need to use in that mixer
+			/// </summary>
+			[Tooltip("What channels is need to use in that mixer")]
 			public List<string> Channels;
+
+			/// <summary>
+			/// Normalized initial volume to use
+			/// </summary>
+			[Tooltip("Normalized initial volume to use")]
 			public float InitialVolume;
 		}
 
@@ -46,7 +68,10 @@ namespace UDBase.Controllers.AudioSystem {
 			}
 		}
 
-
+		/// <summary>
+		/// Initialize this instance is required because channels can't be set correctly in constructor 
+		/// (Unity audio mixer initialization specific) 
+		/// </summary>
 		public void Initialize() {
 			InitializeChannels();
 		}

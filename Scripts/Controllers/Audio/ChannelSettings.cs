@@ -2,11 +2,13 @@
 using UnityEngine;
 
 namespace UDBase.Controllers.AudioSystem {
+
 	/// <summary>
 	/// Audio channel inspector setup
 	/// </summary>
 	[Serializable]
 	public class ChannelSettings {
+
 		/// <summary>
 		/// Current volume parameter in given context
 		/// </summary>
