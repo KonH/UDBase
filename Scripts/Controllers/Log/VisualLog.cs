@@ -2,6 +2,10 @@
 using UDBase.Controllers.LogSystem.UI;
 
 namespace UDBase.Controllers.LogSystem {
+
+	/// <summary>
+	/// Debug button position
+	/// </summary>
 	public enum ButtonPosition {
 		LeftTop,
 		RightTop,
@@ -9,6 +13,9 @@ namespace UDBase.Controllers.LogSystem {
 		RightBottom
 	}
 
+	/// <summary>
+	/// Logger using VisualLogHandler to display overlay on additional Canvas
+	/// </summary>
 	public sealed class VisualLog : ILog {
 		readonly VisualLogHandler _handler;
 

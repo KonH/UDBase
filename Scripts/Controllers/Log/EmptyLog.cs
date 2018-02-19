@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿namespace UDBase.Controllers.LogSystem {
 
-namespace UDBase.Controllers.LogSystem {
+	/// <summary>
+	/// Logger without any output for cases when you don't need any logs
+	/// </summary>
 	public sealed class EmptyLog : ILog {
 		public void Assert(ILogContext context, string msg) { }
 		public void AssertFormat<T1>(ILogContext context, string msg, T1 arg1) { }
@@ -23,14 +25,7 @@ namespace UDBase.Controllers.LogSystem {
 		public void ExceptionFormat<T1, T2, T3, T4>(ILogContext context, string msg, T1 arg1, T2 arg2, T3 arg3, T4 arg4) { }
 		public void ExceptionFormat<T1, T2, T3, T4, T5>(ILogContext context, string msg, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) { }
 		public void ExceptionFormat(ILogContext context, string msg, params object[] args) { }
-		public void Message(LogType type, ILogContext context, string msg) { }
 		public void Message(ILogContext context, string msg) { }
-		public void MessageFormat<T1>(LogType type, ILogContext context, string msg, T1 arg1) { }
-		public void MessageFormat<T1, T2>(LogType type, ILogContext context, string msg, T1 arg1, T2 arg2) { }
-		public void MessageFormat<T1, T2, T3>(LogType type, ILogContext context, string msg, T1 arg1, T2 arg2, T3 arg3) { }
-		public void MessageFormat<T1, T2, T3, T4>(LogType type, ILogContext context, string msg, T1 arg1, T2 arg2, T3 arg3, T4 arg4) { }
-		public void MessageFormat<T1, T2, T3, T4, T5>(LogType type, ILogContext context, string msg, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) { }
-		public void MessageFormat(LogType type, ILogContext context, string msg, params object[] args) { }
 		public void MessageFormat<T1>(ILogContext context, string msg, T1 arg1) { }
 		public void MessageFormat<T1, T2>(ILogContext context, string msg, T1 arg1, T2 arg2) { }
 		public void MessageFormat<T1, T2, T3>(ILogContext context, string msg, T1 arg1, T2 arg2, T3 arg3) { }

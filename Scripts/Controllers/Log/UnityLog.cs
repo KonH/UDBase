@@ -2,6 +2,10 @@
 using UnityEngine;
 
 namespace UDBase.Controllers.LogSystem {
+
+	/// <summary>
+	/// Logger using default UnityLogger.
+	/// </summary>
 	public sealed class UnityLog : ILog {
 		
 		[Serializable]
@@ -139,51 +143,9 @@ namespace UDBase.Controllers.LogSystem {
 			}
 		}
 
-		public void Message(LogType type, ILogContext context, string msg) {
-			if ( _settings.IsContextEnabled(context) ) {
-				Debug.unityLogger.Log(type, context.ToString(), msg);
-			}
-		}
-
 		public void Message(ILogContext context, string msg) {
 			if ( _settings.IsContextEnabled(context) ) {
 				Debug.unityLogger.Log(LogType.Log, context.ToString(), msg);
-			}
-		}
-
-		public void MessageFormat<T1>(LogType type, ILogContext context, string msg, T1 arg1) {
-			if ( _settings.IsContextEnabled(context) ) {
-				Debug.unityLogger.Log(type, context.ToString(), string.Format(msg, arg1));
-			}
-		}
-
-		public void MessageFormat<T1, T2>(LogType type, ILogContext context, string msg, T1 arg1, T2 arg2) {
-			if ( _settings.IsContextEnabled(context) ) {
-				Debug.unityLogger.Log(type, context.ToString(), string.Format(msg, arg1, arg2));
-			}
-		}
-
-		public void MessageFormat<T1, T2, T3>(LogType type, ILogContext context, string msg, T1 arg1, T2 arg2, T3 arg3) {
-			if ( _settings.IsContextEnabled(context) ) {
-				Debug.unityLogger.Log(type, context.ToString(), string.Format(msg, arg1, arg2, arg3));
-			}
-		}
-
-		public void MessageFormat<T1, T2, T3, T4>(LogType type, ILogContext context, string msg, T1 arg1, T2 arg2, T3 arg3, T4 arg4) {
-			if ( _settings.IsContextEnabled(context) ) {
-				Debug.unityLogger.Log(type, context.ToString(), string.Format(msg, arg1, arg2, arg3, arg4));
-			}
-		}
-
-		public void MessageFormat<T1, T2, T3, T4, T5>(LogType type, ILogContext context, string msg, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5) {
-			if ( _settings.IsContextEnabled(context) ) {
-				Debug.unityLogger.Log(type, context.ToString(), string.Format(msg, arg1, arg2, arg3, arg4, arg5));
-			}
-		}
-
-		public void MessageFormat(LogType type, ILogContext context, string msg, params object[] args) {
-			if ( _settings.IsContextEnabled(context) ) {
-				Debug.unityLogger.Log(type, context.ToString(), string.Format(msg, args));
 			}
 		}
 
