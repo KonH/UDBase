@@ -4,7 +4,7 @@ using FullSerializer;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils.Json.Fullserializer {
-	public sealed class FsJsonListContainer : ILogContext {
+	sealed class FsJsonListContainer : ILogContext {
 		class NodeCache : Dictionary<string, Dictionary<string, object>> { }
 		
 		readonly FsJsonNodeContainer      _nodeContainer;

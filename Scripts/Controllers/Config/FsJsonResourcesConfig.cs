@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UDBase.Common;
 using UDBase.Utils.Json.Fullserializer;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ConfigSystem {
+
+	/// <summary>
+	/// Config controller, which uses JSON file serialization via Fullserializer
+	/// </summary>
 	public sealed class FsJsonResourcesConfig : IConfig, ILogContext {
 		readonly string                   _fileName;
 		readonly Dictionary<Type, string> _nodeNames = new Dictionary<Type, string>();
