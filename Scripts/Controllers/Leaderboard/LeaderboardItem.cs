@@ -1,6 +1,10 @@
 ﻿using FullSerializer;
 
 namespace UDBase.Controllers.LeaderboardSystem {
+
+	/// <summary>
+	/// One leaderboard record representation
+	/// </summary>
 	public class LeaderboardItem {
 		[fsProperty("game")]
 		public string Game     { get; private set; }

@@ -4,6 +4,11 @@ using System.Collections.Generic;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.LeaderboardSystem {
+
+	/// <summary>
+	/// Leaderboard without network interactions (can be used as mock).
+	/// Works only in current session and doesn't save data after relaunch.
+	/// </summary>
 	public class LocalLeaderboard : ILeaderboard, ILogContext {
 		
 		public string Version { get; set; }
@@ -25,20 +30,16 @@ namespace UDBase.Controllers.LeaderboardSystem {
 			}
 			var result = filteredData.Take(max).OrderByDescending(i => i.Score).ToList();
 			_log.MessageFormat(this, "Retrieve {0} items for parameter '{1}'", result.Count, parameter);
-			if ( callback != null ) {
-				callback(result);
-			}
+			callback?.Invoke(result);
 		}
 
-		public void PostScore(string param, string userName, int score, Action<bool> callback) {
-			_items.Add(new LeaderboardItem(string.Empty, string.Empty, param, userName,  score));
+		public void PostScore(string parameter, string playerName, int score, Action<bool> callback) {
+			_items.Add(new LeaderboardItem(string.Empty, string.Empty, parameter, playerName,  score));
 			_log.MessageFormat(
 				this,
-				"Add item: param: '{0}', userName: '{1}', score = {2}",
-				param, userName, score);
-			if ( callback != null ) {
-				callback(true);
-			}
+				"Add item: param: '{0}', playerName: '{1}', score = {2}",
+				parameter, playerName, score);
+			callback?.Invoke(true);
 		}
 	}
 }
