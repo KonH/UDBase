@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.EventSystem {
+
+	/// <summary>
+	/// Default event controller
+	/// </summary>
 	public class EventController : IEvent, ILogContext {
 		readonly Dictionary<Type, EventHandlerBase> _handlers    = new Dictionary<Type, EventHandlerBase>();
 		readonly Dictionary<Type, List<object>>     _tmpHandlers = new Dictionary<Type, List<object>>();
@@ -55,6 +59,9 @@ namespace UDBase.Controllers.EventSystem {
 			_log.MessageFormat(this, "Unsubscribe: {0}", typeof(T));
 		}
 	
+		/// <summary>
+		/// Gets the handlers for further use in EventWindow
+		/// </summary>
 		public Dictionary<Type, List<object>> GetHandlers() {
 			_tmpHandlers.Clear();
 			var handlerIter = _handlers.GetEnumerator();
