@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using UDBase.Controllers.SaveSystem;
 
 namespace UDBase.Controllers.UserSystem {
+
+	/// <summary>
+	/// User controller with saving information using ISave
+	/// </summary>
 	public class SaveUser : IUser {
 		UserSaveNode _userNode;
 
