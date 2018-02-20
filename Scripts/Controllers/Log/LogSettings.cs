@@ -13,14 +13,14 @@ namespace UDBase.Controllers.LogSystem {
 		/// <summary>
 		/// Current log context
 		/// </summary>
-		[Header("Current log context")]
+		[Tooltip("Current log context")]
 		[ClassImplements(typeof(ILogContext))]
 		public ClassTypeReference Context;
 
 		/// <summary>
 		/// Is logs enabled for current context?
 		/// </summary>
-		[Header("Is logs enabled for current context?")]
+		[Tooltip("Is logs enabled for current context?")]
 		public bool Enabled;
 	}
 
@@ -32,13 +32,13 @@ namespace UDBase.Controllers.LogSystem {
 		/// <summary>
 		/// Is logging for all contexts enabled by default?
 		/// </summary>
-		[Header("Is logging for all contexts enabled by default?")]
+		[Tooltip("Is logging for all contexts enabled by default?")]
 		public bool EnabledByDefault = false;
 
 		/// <summary>
 		/// The contexts with specific enabled state
 		/// </summary>
-		[Header("The contexts with specific enabled state")]
+		[Tooltip("The contexts with specific enabled state")]
 		public List<LogNode> Nodes = new List<LogNode>();
 
 		internal bool IsContextEnabled(ILogContext context) {
