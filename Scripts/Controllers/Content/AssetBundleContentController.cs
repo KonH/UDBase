@@ -1,13 +1,32 @@
 ﻿using System;
+using UnityEngine;
 using UDBase.Controllers.LogSystem;
 using AssetBundles;
 
 namespace UDBase.Controllers.ContentSystem {
+
+	/// <summary>
+	/// Content loader, which used asset bundles as content source
+	/// </summary>
 	public sealed class AssetBundleContentController:IContent, ILogContext {
-		
+
+		/// <summary>
+		/// AssetBundleContentController settings
+		/// </summary>
 		[Serializable]
 		public class Settings {
+
+			/// <summary>
+			/// Where asset bundles is found?
+			/// </summary>
+			[Tooltip("Where asset bundles is found?")]
 			public AssetBundleMode Mode = AssetBundleMode.StreamingAssets;
+
+
+			/// <summary>
+			/// Path to assets in StreamingAssets or base url in case of WebServer
+			/// </summary>
+			[Tooltip("Path to assets in StreamingAssets or base url in case of WebServer")]
 			public string Path;
 		}
 

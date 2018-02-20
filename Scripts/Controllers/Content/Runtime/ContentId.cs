@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 
 namespace UDBase.Controllers.ContentSystem {
+
+	/// <summary>
+	/// Content asset, which used is ContentConfig
+	/// </summary>
 	public class ContentId : ScriptableObject {
 		public ContentLoadType LoadType;
 		public Object          Asset;
@@ -9,7 +13,7 @@ namespace UDBase.Controllers.ContentSystem {
 		public string          AssetName;
 
 		[System.NonSerialized]
-		string _toStringCache = null;
+		string _toStringCache;
 
 		public override string ToString() {
 			if ( _toStringCache == null ) {

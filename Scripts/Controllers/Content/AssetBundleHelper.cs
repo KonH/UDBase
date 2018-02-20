@@ -2,10 +2,13 @@
 using System.Collections;
 using UnityEngine;
 using AssetBundles;
-using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ContentSystem {
+
+	/// <summary>
+	/// Helper utility for AssetBundleContentController
+	/// </summary>
 	public class AssetBundleHelper : MonoBehaviour, ILogContext {
 
 		public bool Ready { get; private set; }

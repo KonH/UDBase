@@ -2,6 +2,10 @@
 using UnityEngine;
 
 namespace UDBase.Controllers.ContentSystem {
+
+	/// <summary>
+	/// Set of content for Content Loaders in project
+	/// </summary>
 	public class ContentConfig : ScriptableObject {
 		public List<ContentId> Items = new List<ContentId>();
 
