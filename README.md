@@ -68,6 +68,7 @@ Also, you can re-install project as described above.
 - [ObjectPool](https://github.com/UnityPatterns/ObjectPool) - pooling script to prevent garbage generation and performance hiccups while create and recycle objects
 - [DOTween](http://dotween.demigiant.com/) - tweening library
 - [ClassTypeReference](https://github.com/rotorz/unity3d-class-type-reference) - helper to serialize types
+- [OneLine](https://github.com/slavniyteo/one-line) - editor helper to draw simple one-line inspectors
 
 ## Helpers & Editor Tools
 
