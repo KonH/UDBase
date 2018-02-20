@@ -2,6 +2,12 @@
 using UDBase.Controllers.SceneSystem;
 
 namespace UDBase.Controllers.MusicSystem {
+
+	/// <summary>
+	/// Default music controller.
+	/// For use it, you need to add to scene where you need music MusicHolder with assigned list of SoundSource,
+	/// represented wanted music tracks.
+	/// </summary>
 	public class MusicController : IMusic {
 		MusicUtility _utility;
 		bool         _paused;
