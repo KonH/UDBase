@@ -7,6 +7,11 @@ using UDBase.Utils;
 using UDBase.Utils.Json.Fullserializer;
 
 namespace UDBase.Controllers.SaveSystem {
+
+	/// <summary>
+	/// ISave implementation, which used JSON file with FullSerializer.
+	/// File with name from settings is saved to Application.persistantDataPath.
+	/// </summary>
 	public sealed class FsJsonDataSave:ISave, ILogContext {
 		readonly bool                     _prettyJson;
 		readonly string                   _fileName;

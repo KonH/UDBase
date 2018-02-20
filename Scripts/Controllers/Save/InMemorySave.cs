@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 
 namespace UDBase.Controllers.SaveSystem {
+
+	/// <summary>
+	/// ISave implementation, which doesn't save data between sessions
+	/// </summary>
 	public sealed class InMemorySave:ISave {
 		public Dictionary<Type, object> _state = new Dictionary<Type, object>();
 
