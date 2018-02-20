@@ -4,6 +4,12 @@ using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.UTime {
+
+	/// <summary>
+	/// Time controller uses remote server.
+	/// Supported response format: "2016-12-25T14:12:33+00:00"
+	/// Reference implementation is here: https://github.com/KonH/DotNetCoreTimeServer
+	/// </summary>
 	public class NetworkTime : ITime, ILogContext {
 
 		[Serializable]
@@ -15,7 +21,7 @@ namespace UDBase.Controllers.UTime {
 		readonly string _url;
 		readonly float  _timeout;
 		
-		DateTime _startDate = default(DateTime);
+		DateTime _startDate;
 		float    _startTime;
 
 		NetUtils _net;
