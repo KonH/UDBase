@@ -4,6 +4,10 @@ using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.ContentSystem;
 
 namespace UDBase.Controllers.SoundSystem {
+
+	/// <summary>
+	/// Default sound controller
+	/// </summary>
 	public class SoundController : ISound, ILogContext {
 		
 		Dictionary<ContentId, AudioClip> _clipCache = new Dictionary<ContentId, AudioClip>();

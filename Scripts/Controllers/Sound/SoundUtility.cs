@@ -5,10 +5,22 @@ using UDBase.Controllers.AudioSystem;
 using Zenject;
 
 namespace UDBase.Controllers.SoundSystem {
+
+	/// <summary>
+	/// Sound utility for playing sounds with ISound/SoundController
+	/// </summary>
 	public class SoundUtility : MonoBehaviour {
-		
+
+		/// <summary>
+		/// Settings for sound utility
+		/// </summary>
 		[Serializable]
 		public class Settings {
+
+			/// <summary>
+			/// How many AudioSources needs to created at startup?
+			/// </summary>
+			[Tooltip("How many AudioSources needs to created at startup?")]
 			public int PoolSize;	
 		}
 
@@ -67,7 +79,7 @@ namespace UDBase.Controllers.SoundSystem {
 			return _freeItems.Pop();
 		}
 
-		public void Play(string key, AudioClip clip, bool loop, float delay, string channelName) {
+		internal void Play(string key, AudioClip clip, bool loop, float delay, string channelName) {
 			var item = GetOrCreateFromPool();
 			var group = _audio.GetMixerGroup(channelName);
 			item.Init(key, clip, group, loop, delay);
@@ -77,7 +89,7 @@ namespace UDBase.Controllers.SoundSystem {
 			_usedItems.Add(item);
 		}
 
-		public void StopLoop(string key) {
+		internal void StopLoop(string key) {
 			for ( var i = 0; i < _usedItems.Count; i++ ) {
 				var item = _usedItems[i];
 				if ( item.Key == key) {
