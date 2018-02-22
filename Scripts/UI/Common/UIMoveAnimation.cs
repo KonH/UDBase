@@ -4,9 +4,23 @@ using DG.Tweening;
 using UDBase.Utils;
 
 namespace UDBase.UI.Common {
-    public class UIMoveAnimation : UIShowHideAnimation {
+    
+	/// <summary>
+	/// Move element with given offset when shown
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/MoveAnimation")]
+	public class UIMoveAnimation : UIShowHideAnimation {
+
+		/// <summary>
+		/// Duration of both animations
+		/// </summary>
+		[Tooltip("Duration of both animations")]
 		public float Duration = 1.0f;
-		
+
+		/// <summary>
+		/// Offset to move
+		/// </summary>
+		[Tooltip("Offset to move")]
 		public Vector3 Offset = Vector3.zero;
 
 		Vector3 _originalPosition = Vector3.zero;

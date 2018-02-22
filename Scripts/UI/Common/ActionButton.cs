@@ -2,12 +2,13 @@
 using UnityEngine.UI;
 
 namespace UDBase.UI.Common {
+
 	/// <summary>
 	/// Base class for buttons which perform specific action
 	/// </summary>
 	[RequireComponent(typeof(Button))]
 	public abstract class ActionButton : MonoBehaviour {
-		Button _button = null;
+		Button _button;
 
 		void Start() {
 			Init();

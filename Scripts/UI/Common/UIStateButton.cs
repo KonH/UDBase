@@ -1,6 +1,18 @@
-﻿namespace UDBase.UI.Common {
-    public class UIStateButton : ActionButton {
-        public UIElement Element = null;
+﻿using UnityEngine;
+
+namespace UDBase.UI.Common {
+    
+	/// <summary>
+	/// Button to simply change state of UI element
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/State Button")]
+	public class UIStateButton : ActionButton {
+        
+		/// <summary>
+		/// Element, which state is controlled
+		/// </summary>
+		[Tooltip("Element, which state is controlled")]
+		public UIElement Element;
 		
 	    public override bool IsInteractable() {
 			return true;

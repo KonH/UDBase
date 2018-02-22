@@ -4,8 +4,18 @@ using DG.Tweening;
 using UDBase.Utils;
 
 namespace UDBase.UI.Common {
+
+	/// <summary>
+	/// Set element visibility from transparent to solid when shown
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/ShowHideAnimation")]
 	[RequireComponent(typeof(CanvasGroup))]
     public class UIFadeAnimation : UIShowHideAnimation {
+
+		/// <summary>
+		/// Duration of both animations
+		/// </summary>
+		[Tooltip("Duration of both animations")]
 		public float Duration = 1.0f;
 		
 		Sequence _seq;

@@ -2,6 +2,7 @@
 using Zenject;
 
 namespace UDBase.UI.Common {
+
 	public class OverlayFactory : Factory<GameObject, UIOverlay> { }
 
 	public class CustomOverlayFactory : IFactory<GameObject, UIOverlay> {

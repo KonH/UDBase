@@ -4,7 +4,17 @@ using DG.Tweening;
 using UDBase.Utils;
 
 namespace UDBase.UI.Common {
+
+	/// <summary>
+	/// Scale element from zero to original when shown
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/ScaleAnimation")]
     public class UIScaleAnimation : UIShowHideAnimation {
+
+		/// <summary>
+		/// Duration of both animations
+		/// </summary>
+		[Tooltip("Duration of both animations")]
 		public float Duration = 1.0f;
 		
 		Vector3 _originalScale = Vector3.zero;

@@ -3,15 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.ContentSystem;
-using UDBase.Controllers.EventSystem;
 using Zenject;
 
 namespace UDBase.UI.Common {
+
+	/// <summary>
+	/// UI system is based on Unity UI and provides you methods of interacting with grouped interface elements which can contain animations.
+	/// With UIManager you can show overlays and dialogs and also switch elements visibility: all or by its group.
+	/// You can specify key command to Show/Hide elements using ShowHideToggle field.
+	/// UIManager is created by request if it is not exist on scene before.
+	/// To show overlay/dialog you need to add* UICanvas* component to your canvas, that will show that elements, or assign it directly.
+	/// </summary>
 	public class UIManager : MonoBehaviour {
 
+		/// <summary>
+		/// UI Manager settings
+		/// </summary>
 		[Serializable]
 		public class Settings {
+
+			/// <summary>
+			/// Canvas to attach UI elements
+			/// </summary>
+			[Tooltip("Canvas to attach UI elements")]
 			public Canvas  Canvas;
+
+			/// <summary>
+			/// Optional button to show/hide all UI elements
+			/// </summary>
+			[Tooltip("Optional button to show/hide all UI elements")]
 			public KeyCode ShowHideToggle;
 		}
 
@@ -25,6 +45,9 @@ namespace UDBase.UI.Common {
 			}
 		}
 
+		/// <summary>
+		/// How many overlays is shown?
+		/// </summary>
 		public int OverlayDepth {
 			get {
 				return _dialogs.Count;
@@ -42,6 +65,9 @@ namespace UDBase.UI.Common {
 		List<IContent> _loaders;
 		ILog           _log;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(Settings settings, OverlayFactory overlayFactory, List<IContent> loaders, ILog log) {
 			_settings       = settings;
@@ -69,6 +95,9 @@ namespace UDBase.UI.Common {
 			}
 		}
 
+		/// <summary>
+		/// Shows all UI elements
+		/// </summary>
 		public void ShowAll() {
 			var elements = UIElement.Instances;
 			for( int i = 0; i < elements.Count; i++ ) {
@@ -79,6 +108,9 @@ namespace UDBase.UI.Common {
 			}
 		}
 
+		/// <summary>
+		/// Hide all UI elements
+		/// </summary>
 		public void HideAll() {
 			var elements = UIElement.Instances;
 			for( int i = 0; i < elements.Count; i++ ) {
@@ -89,6 +121,9 @@ namespace UDBase.UI.Common {
 			}
 		}
 
+		/// <summary>
+		/// Show UI elements of the specified group
+		/// </summary>
 		public void Show(string group) {
 			var elements = UIElement.Instances;
 			for( int i = 0; i < elements.Count; i++ ) {
@@ -99,6 +134,9 @@ namespace UDBase.UI.Common {
 			}
 		}
 
+		/// <summary>
+		/// Hide UI elements of the specified group
+		/// </summary>
 		public void Hide(string group) {
 			var elements = UIElement.Instances;
 			for( int i = 0; i < elements.Count; i++ ) {
@@ -126,18 +164,30 @@ namespace UDBase.UI.Common {
 			}
 		}
 
+		/// <summary>
+		/// Shows the overlay with closing callback
+		/// </summary>
 		public void ShowOverlay(ContentId content, Action callback) {
 			ShowDialog(content, _ => SafeCallback(callback));
 		}
 
+		/// <summary>
+		/// Shows the overlay with closing callback
+		/// </summary>
 		public void ShowOverlay(GameObject prefab, Action callback) {
 			ShowDialog(prefab, _ => SafeCallback(callback));
 		}
 
+		/// <summary>
+		/// Shows the dialog with positive and negative callbacks
+		/// </summary>
 		public void ShowDialog(ContentId content, Action onOk, Action onCancel) {
 			ShowDialog(content, (result) => SelectionCallback(result, onOk, onCancel));
 		}
 
+		/// <summary>
+		/// Shows the dialog with positive and decision result callback
+		/// </summary>
 		public void ShowDialog(ContentId content, Action<bool> callback) {
 			if( !_isLoading ) {
 				_isLoading = true;
@@ -145,10 +195,16 @@ namespace UDBase.UI.Common {
 			}
 		}
 
+		/// <summary>
+		/// Shows the dialog with positive and negative callbacks
+		/// </summary>
 		public void ShowDialog(GameObject prefab, Action onOk, Action onCancel) {
 			ShowDialog(prefab, (result) => SelectionCallback(result, onOk, onCancel));
 		}
 
+		/// <summary>
+		/// Shows the dialog with positive and decision result callback
+		/// </summary>
 		public void ShowDialog(GameObject prefab, Action<bool> callback) {
 			_isLoading = false;
 			var overlay = _overlayFactory.Create(prefab);
@@ -178,26 +234,20 @@ namespace UDBase.UI.Common {
 			return blockedElements;
 		}
 
-		public void FreeOverlay(bool result) {
+		internal void FreeOverlay(bool result) {
 			if( _dialogs.Count > 0 ) {
 				var curOverlay = _dialogs.Pop();
 				for( int i = 0; i < curOverlay.Blocked.Count; i++ ) {
 					curOverlay.Blocked[i].Activate();
 				}
-				var callback = curOverlay.OnClose;
-				if( callback != null ) {
-					callback(result);
-				}
+				curOverlay.OnClose?.Invoke(result);
 			}
 		}
 
-		public void CallOverlayCallback(bool result) {
+		internal void CallOverlayCallback(bool result) {
 			if( _dialogs.Count > 0 ) {
 				var curOverlay = _dialogs.Peek();
-				var callback = curOverlay.OnClose;
-				if( callback != null ) {
-					callback(result);
-				}
+				curOverlay.OnClose?.Invoke(result);
 			}
 		}
 	}
