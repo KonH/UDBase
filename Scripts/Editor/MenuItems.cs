@@ -81,7 +81,7 @@ namespace UDBase.EditorTools {
 
 		[MenuItem("UDBase/Dev/Update .csproj")]
 		public static void DevUpdateCsprojFile() {
-			CSProjUpdater.UpdateCsprojFile("UDBaseExample.csproj");
+			CSProjUpdater.UpdateCsprojFile("UDBase.Scripts");
 		}
 	}
 }

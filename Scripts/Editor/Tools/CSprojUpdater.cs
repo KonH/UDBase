@@ -4,7 +4,10 @@ using UnityEngine;
 namespace UDBase.EditorTools {
 	public static class CSProjUpdater {
 		
-		public static void UpdateCsprojFile(string fileName) {
+		public static void UpdateCsprojFile(string assemblyName) {
+			var fileName = assemblyName + ".csproj";
+			var docName = assemblyName + ".xml";
+
 			var doc = new XmlDocument();
 			doc.Load(fileName);
 
@@ -14,12 +17,12 @@ namespace UDBase.EditorTools {
 			var namespaceUri = doc.LastChild.Attributes["xmlns"].Value;
 			var group = doc.CreateElement("PropertyGroup", namespaceUri);
 			var docFile = doc.CreateElement("DocumentationFile", namespaceUri);
-			docFile.InnerText = "$(OutputPath)Assembly-CSharp.xml";
+			docFile.InnerText = $"$(OutputPath){docName}";
 			group.AppendChild(docFile);
 
 			doc.LastChild.AppendChild(group);
 
-			Debug.Log($"Xml documentation generation added to project '{fileName}'");
+			Debug.Log($"Xml documentation generation added to project '{assemblyName}' (file: '{fileName}', docs: '{docName}')");
 
 			// Windows:
 			// <Target Name="PostBuild" AfterTargets="PostBuildEvent">
@@ -53,7 +56,7 @@ namespace UDBase.EditorTools {
 			}
 			doc.LastChild.AppendChild(target);
 
-			Debug.Log($"Markdown post-process successfully added to project '{fileName}'");
+			Debug.Log($"Markdown post-process successfully added to project '{assemblyName}' (file: '{fileName}', docs: '{docName}')");
 
 			doc.Save(fileName);
 		}

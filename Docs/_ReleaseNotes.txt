@@ -5,6 +5,7 @@ Breaking changes:
 Improvements:
 - Docs moved to GitHub wiki and now generated from sources;
 - RandomUtils;
+- Assembly definition files used;
 Extensions:
 - OneLine;
 Other:
