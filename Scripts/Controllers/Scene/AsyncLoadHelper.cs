@@ -11,7 +11,7 @@ namespace UDBase.Controllers.SceneSystem {
 	public class AsyncLoadHelper : MonoBehaviour {
 		public float Progress { get; private set; }
 
-		Action _loadCallback;
+		Action<string> _loadCallback;
 
 		void Start() {
 			SceneManager.activeSceneChanged += OnSceneChanged;
@@ -22,10 +22,10 @@ namespace UDBase.Controllers.SceneSystem {
 		}
 
 		void OnSceneChanged(Scene scene0, Scene scene1) {
-			_loadCallback?.Invoke();
+			_loadCallback?.Invoke(scene1.name);
 		}
 
-		internal void LoadScene(string sceneName, Action callback) {
+		internal void LoadScene(string sceneName, Action<string> callback) {
 			_loadCallback = callback;
 			StartCoroutine(LoadSceneCoroutine(sceneName));
 		}

@@ -59,9 +59,11 @@ namespace UDBase.Controllers.SceneSystem {
 		public void LoadScene(ISceneInfo sceneInfo) {
 			var sceneName = sceneInfo.Name;
 			TryOpenLoadingScene();
-			_helper.LoadScene(sceneName, () => {
-				CurrentScene = sceneInfo;
-				_events.Fire(new Scene_Loaded(sceneInfo));
+			_helper.LoadScene(sceneName, (name) => {
+				if ( name == sceneName ) {
+					CurrentScene = sceneInfo;
+					_events.Fire(new Scene_Loaded(sceneInfo));
+				}
 			});
 		}
 
