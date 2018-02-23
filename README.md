@@ -2,7 +2,7 @@
 
 # UDBase 
 
-**Current version:** 0.11.0
+**Current version:** 0.12.0
 
 **Unity version:** 2017.3.0f3 (last tested)
 
@@ -42,24 +42,45 @@ Just update submodule: `git submodule update`
 ### Manual
 Also, you can re-install project as described above.
 
-## Deprecation notice
-**Documentation below is deprecated and will be rewritten as soon as possible.** New docs will be generated from source-code instead of hand-made documentation. IController/ControllerHelper, Scheme, Inventory no longer supported (now Zenject is used as architecture basics).
+## Basics
+
+UDBase is uses **Zenject** in the core, you need to use it to reach controller functionality.
+
+1. Firstly, creates **ProjectContext** in your Resources directory
+2. Creates your installer class(es), then adds adn assign it on ProjectContext
+3. You can inherit from **UDBaseInstaller** to bind controllers in easy way using Add* methods 
+4. If you need conditional binding (e.g. some controller implementation depends on environment), creates **BuildTypeInstaller** (Create/UDBase/BuildTypeSettings) and assign it on your ProjectContext
+5. If you need to use UI system, place custom scene context from UDBase/Prefabs/UDBSceneContext
+6. Otherwise, use default scene context
+7. In your installer class(es) adds required controllers
+8. Implement your logics based on Zenject DI features
+9. ...
+8. PROFIT 
+
+## How to use controllers
+
+When you use Add* methods in **UDBaseInstaller**, method signature indicates required dependencies, so you can simply creates it from where you want. For example, all 'settings' arguments can be exposed as fields of your installer and serialized in Unity-friendly way.
+
+Almost all controllers requires **ILog**, so you need to add it before adding these controllers. You can use EmptyLog when you do not need any logs, it is not affect performance (if you use it properly and do not make string concatenations in your log calls or something like that).
+
+In other cases, Zenject asserts show you what hidden dependencies is required and must me added using Add* methods.  
 
 ## Built-in Controllers
 
-- **[Scene](Docs/Scene.md)** (load scenes)
-- **[Config](Docs/Config.md)** (load permanent configuration, json)
-- **[Save](Docs/Save.md)** (load and save user data, json)
-- **[Log](Docs/Log.md)** (custom logging with visual logger)
-- **[Event](Docs/Event.md)** (lightweight event manager)
-- **[Content](Docs/Content.md)** (content loading system using direct load and AssetBundles)
-- **[UTime](Docs/UTime.md)** (local/network time controller)
-- **[UI](Docs/UI.md)** (UI system)
-- **[User](Docs/User.md)** (User system)
-- **[Leaderboard](Docs/Leaderboard.md)** (Leaderboard system)
-- **[Audio](Docs/Audio.md)** (Audio system)
-- **[Sound](Docs/Sound.md)** (Sound playing system)
-- **[Music](Docs/Music.md)** (Music playing system for scenes)
+- **[Scene](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.SceneSystem)** (load scenes)
+- **[Config](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.ConfigSystem)** (load permanent configuration, json)
+- **[Save](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.SaveSystem)** (load and save user data, json)
+- **[Log](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.LogSystem)** (custom logging with visual logger)
+- **[Event](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.EventSystem)** (lightweight event manager)
+- **[Content](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.ContentSystem)** (content loading system using direct load and AssetBundles)
+- **[UTime](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.UTime)** (local/network time controller)
+- **[UI](Docs/https://github.com/KonH/UDBase/wiki/UDBase.UI.Common)** (UI system)
+- **[User](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.UserSystem)** (User system)
+- **[Leaderboard](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.LeaderboardSystem)** (Leaderboard system)
+- **[Audio](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.AudioSystem)** (Audio system)
+- **[Sound](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.SoundSystem)** (Sound playing system)
+- **[Music](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.MusicSystem)** (Music playing system for scenes)
+- **[Localization](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.LocalizationSystem)** (localization)
 
 ## Extensions
 - [Zenject](https://github.com/modesttree/Zenject) - DI-container
@@ -70,9 +91,13 @@ Also, you can re-install project as described above.
 - [ClassTypeReference](https://github.com/rotorz/unity3d-class-type-reference) - helper to serialize types
 - [OneLine](https://github.com/slavniyteo/one-line) - editor helper to draw simple one-line inspectors
 
+## Common Utils
+- [Utils](https://github.com/KonH/UDBase/wiki/UDBase.Utils) - set of useful IO, network, text and etc. utilily classes; 
+
+
 ## Helpers & Editor Tools
 
-- [Helpers](Docs/Helpers.md) - docs about helper tools and common features;
+- [Helpers](https://github.com/KonH/UDBase/wiki/UDBase.Helpers) - docs about helper tools and common features;
 
 ### CaptureScreen
 
