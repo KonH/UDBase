@@ -11,6 +11,9 @@ namespace UDBase.Controllers.SceneSystem.UI {
 
 		IScene _scene;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(IScene scene) {
 			_scene = scene;

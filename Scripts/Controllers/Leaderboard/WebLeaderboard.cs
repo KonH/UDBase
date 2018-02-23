@@ -13,7 +13,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 	/// 
 	/// Examples:
 	/// Get scores:
-	/// GET {url}/api/Score/top/{game}?max={max}&param={param}&version={version}
+	/// GET {url}/api/Score/top/{game}?max={max}&amp;param={param}&amp;version={version}
 	/// 
 	/// Post scores:
 	/// POST {url}/api/Score/
@@ -64,14 +64,6 @@ namespace UDBase.Controllers.LeaderboardSystem {
 			/// </summary>
 			[Tooltip("Basic Auth Password")]
 			public string ClientPassword;
-
-			public Settings(string url, string gameName, string gameVersion, string clientName, string clientPassword) {
-				Url = url;
-				GameName = gameName;
-				GameVersion = gameVersion;
-				ClientName = clientName;
-				ClientPassword = clientPassword;
-			}
 		}
 
 		readonly string                     _url;
@@ -84,12 +76,13 @@ namespace UDBase.Controllers.LeaderboardSystem {
 
 		ILog _log;
 
-		public WebLeaderboard(Settings settings, ILog log) {
+		public WebLeaderboard(Settings settings, ILog log, WebClient client) {
 			_log      = log;
 			Version   = settings.GameVersion;
 			_url      = settings.Url;
 			_gameName = settings.GameName;
-			_client   = new WebClient(settings.ClientName, settings.ClientPassword);
+			_client   = client;
+			_client.AddUserData(settings.ClientName, settings.ClientPassword);
 			_postHeaders.Add("Content-Type", "application/json");
 		}
 

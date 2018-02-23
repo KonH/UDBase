@@ -7,10 +7,10 @@
 	/// For example, you have some scene structure like that (or much more complicated):
 	/// - MainMenu (loaded by name)
 	/// Level_1, Level_2, .., Level_N (custom type with parameter)
-	// Your custom class/struct needs to inherit from ISceneInfo and implement Name property with your custom logics.
-	// Another simple option you can use is enum like Scenes { MainMenu, Level }, which can be used in both cases:
-	// LoadScene(Scenes.MainMenu) => loads "MainMenu"
-	// LoadScene(Scenes.Level, "1") => loads "Level_1"
+	/// Your custom class/struct needs to inherit from ISceneInfo and implement Name property with your custom logics.
+	/// Another simple option you can use is enum like Scenes { MainMenu, Level }, which can be used in both cases:
+	/// LoadScene(Scenes.MainMenu) => loads "MainMenu"
+	/// LoadScene(Scenes.Level, "1") => loads "Level_1"
 	/// </summary>
 	public interface IScene {
 

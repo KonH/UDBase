@@ -4,7 +4,7 @@ using UnityEngine;
 namespace UDBase.Controllers.ContentSystem {
 
 	/// <summary>
-	/// Content setup cache
+	/// Content config cache, internal structure
 	/// </summary>
 	public class ContentConfigCache : ScriptableObject {
 

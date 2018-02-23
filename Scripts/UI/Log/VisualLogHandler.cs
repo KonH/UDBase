@@ -118,6 +118,9 @@ namespace UDBase.Controllers.LogSystem.UI {
 
 		Settings _settings;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(Settings settings) {
 			_settings = settings;

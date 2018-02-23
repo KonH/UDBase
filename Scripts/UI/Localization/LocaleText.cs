@@ -22,6 +22,9 @@ namespace UDBase.Controllers.LocalizationSystem.UI {
 		ILocalization _locale;
 		IEvent        _events;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(ILocalization locale, IEvent events) {
 			_locale = locale;

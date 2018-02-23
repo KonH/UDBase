@@ -8,13 +8,42 @@ namespace UDBase.Tweens {
 	/// </summary>
 	[AddComponentMenu("UDBase/Tweens/RotationTween")]
 	public class RotationTween : MonoBehaviour {
+
+		/// <summary>
+		/// Starts automatically?
+		/// </summary>
 		[Tooltip("Starts automatically?")]
-		public bool       AutoPlay = true;
-		public Vector3    EndValue = Vector3.zero;
-		public float      Duration = 0.0f;
-		public RotateMode Mode     = RotateMode.Fast;
-		public int        Loops    = -1;
-		public Ease       Ease     = Ease.Unset;
+		public bool AutoPlay = true;
+
+		/// <summary>
+		/// End rotation value
+		/// </summary>
+		[Tooltip("End rotation value")]
+		public Vector3 EndValue = Vector3.zero;
+
+		/// <summary>
+		/// Full rotation time
+		/// </summary>
+		[Tooltip("Full rotation time")]
+		public float Duration;
+
+		/// <summary>
+		/// DOTween rotation mode
+		/// </summary>
+		[Tooltip("DOTween rotation mode")]
+		public RotateMode Mode = RotateMode.Fast;
+
+		/// <summary>
+		/// How many loops required? (-1 = unlimited)
+		/// </summary>
+		[Tooltip("How many loops required? (-1 = unlimited)")]
+		public int Loops = -1;
+
+		/// <summary>
+		/// DOTween ease mode
+		/// </summary>
+		[Tooltip("DOTween ease mode")]
+		public Ease Ease = Ease.Unset;
 
 		Sequence _seq;
 

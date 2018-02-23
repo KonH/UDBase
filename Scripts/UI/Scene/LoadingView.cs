@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Zenject;
 
 namespace UDBase.Controllers.SceneSystem.UI {
+
 	/// <summary>
 	/// Component to show IScene loading progress on UnityEngine.UI.Text (in percent format) and Image (use fill amount)
 	/// </summary>
@@ -19,6 +20,9 @@ namespace UDBase.Controllers.SceneSystem.UI {
 		AsyncLoadHelper _helper;
 		float           _progress;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(AsyncLoadHelper helper) {
 			_helper = helper;

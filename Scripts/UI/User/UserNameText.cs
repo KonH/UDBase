@@ -16,6 +16,9 @@ namespace UDBase.Controllers.UserSystem.UI {
 		IUser  _user;
 		IEvent _events;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(IUser user, IEvent events) {
 			_user   = user;

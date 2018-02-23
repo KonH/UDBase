@@ -9,11 +9,31 @@ using LanguageKeyDict =
 		System.Collections.Generic.Dictionary<string, string>>;
 
 namespace UDBase.Controllers.LocalizationSystem {
+
+	/// <summary>
+	/// Localization source which uses CSV file in format:
+	/// first line header: ignored; language_name_0; ...; language_name_N;
+	/// (language_name = UnityEngine.SystemLanguage name)
+	/// next lines: key; value_for_language_0; ...; value_for_language_N;
+	/// </summary>
 	public class SingleLocaleParser : ILocaleParser, ILogContext {
 
+		/// <summary>
+		/// Settings for CSV single locale parser
+		/// </summary>
 		[Serializable]
 		public class Settings {
+
+			/// <summary>
+			/// The character which separates fields
+			/// </summary>
+			[Tooltip("The character which separates fields")]
 			public char Separator;
+
+			/// <summary>
+			/// Filename in resources
+			/// </summary>
+			[Tooltip("Filename in resources")]
 			public string FileName;
 		}
 
@@ -21,6 +41,9 @@ namespace UDBase.Controllers.LocalizationSystem {
 
 		ILog _log;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		public SingleLocaleParser(Settings settings, ILog log) {
 			_log = log;
 			var content = GetLocaleContent(settings.FileName);

@@ -4,11 +4,18 @@ using UDBase.Controllers.SaveSystem;
 using FullSerializer;
 
 namespace UDBase.Controllers.LocalizationSystem {
+
+	/// <summary>
+	/// Save node for store current language with ISave
+	/// </summary>
 	public class LocalizationSaveNode : ISaveSource {
 		[fsProperty("cur_language")]
 		public SystemLanguage CurrentLanguage { get; set; }
 	}
 
+	/// <summary>
+	/// Localization controller which uses ISave to store current language
+	/// </summary>
 	public class SaveLocalization : ILocalization {
 
 		public SystemLanguage CurrentLanguage {
@@ -26,6 +33,9 @@ namespace UDBase.Controllers.LocalizationSystem {
 		readonly ILocalization _impl;
 		readonly ISave         _save;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		public SaveLocalization(Localization.Settings settings, ILocaleParser parser, IEvent events, ISave save) {
 			_impl = new Localization(settings, parser, events);
 			_save = save;
@@ -43,6 +53,9 @@ namespace UDBase.Controllers.LocalizationSystem {
 			_save.SaveNode(node);
 		}
 
+		/// <summary>
+		/// Detects current language at first time
+		/// </summary>
 		protected SystemLanguage DetectLanguage() {
 			return Application.systemLanguage;
 		}

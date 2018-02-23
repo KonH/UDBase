@@ -25,6 +25,9 @@ namespace UDBase.Installers {
 
 		protected BuildType _buildType;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public virtual void Init([InjectOptional]BuildType buildType) {
 			_buildType = buildType;

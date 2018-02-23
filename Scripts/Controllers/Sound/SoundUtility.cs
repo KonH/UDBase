@@ -29,6 +29,9 @@ namespace UDBase.Controllers.SoundSystem {
 
 		IAudio _audio;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(IAudio audio, SoundUtility.Settings settings) {
 			_audio = audio;

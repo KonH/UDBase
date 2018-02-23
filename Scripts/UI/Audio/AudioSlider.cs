@@ -4,12 +4,18 @@ using UDBase.Controllers.EventSystem;
 using Zenject;
 
 namespace UDBase.Controllers.AudioSystem.UI {
+	
 	/// <summary>
 	/// UnityEngine.UI.Slider to control given channel volume settings
 	/// </summary>
 	[RequireComponent(typeof(Slider))]
 	[AddComponentMenu("UDBase/UI/Audio/AudioSlider")]
 	public class AudioSlider : MonoBehaviour {
+
+		/// <summary>
+		/// Channel which volume will be changed
+		/// </summary>
+		[Tooltip("Channel which volume will be changed")]
 		public ChannelSettings Settings = new ChannelSettings();
 
 		Slider _slider;
@@ -17,6 +23,9 @@ namespace UDBase.Controllers.AudioSystem.UI {
 		IAudio _audio;
 		IEvent _events;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(IAudio audio, IEvent events) {
 			_audio  = audio;

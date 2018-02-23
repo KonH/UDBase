@@ -3,7 +3,7 @@
 namespace UDBase.Controllers.ContentSystem {
 
 	/// <summary>
-	/// Content asset, which used is ContentConfig
+	/// Content asset, which created in ContentConfig and used in IContent methods
 	/// </summary>
 	public class ContentId : ScriptableObject {
 		public ContentLoadType LoadType;

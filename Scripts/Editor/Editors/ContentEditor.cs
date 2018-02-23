@@ -252,13 +252,13 @@ namespace UDBase.EditorTools {
 			var item = CreateContentId(config);
 			item.name = "Item" + config.Items.Count;
 			item.LoadType = ContentLoadType.Direct;
-			config.Add(item);
+			config.Items.Add(item);
 			cache.Add(item);
 			Save(config, cache);
 		}
 
 		void RemoveContentId(ContentConfig config, ContentConfigCache cache, ContentId item) {
-			config.Remove(item);
+			config.Items.Remove(item);
 			cache.Remove(item);
 			AssetUtility.RemoveSubAsset(item);
 		}

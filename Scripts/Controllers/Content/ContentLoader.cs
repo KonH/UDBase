@@ -25,6 +25,9 @@ namespace UDBase.Controllers.ContentSystem {
 
 		List<IContent> _loaders;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(List<IContent> loaders) {
 			_loaders = loaders;

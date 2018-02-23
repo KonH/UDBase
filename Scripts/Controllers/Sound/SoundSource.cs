@@ -72,6 +72,9 @@ namespace UDBase.Controllers.SoundSystem {
 		IAudio _audio;
 		List<IContent> _loaders;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(IAudio audio, List<IContent> loaders) {
 			_audio = audio;
