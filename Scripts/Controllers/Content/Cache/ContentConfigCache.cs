@@ -2,6 +2,10 @@
 using UnityEngine;
 
 namespace UDBase.Controllers.ContentSystem {
+
+	/// <summary>
+	/// Content config cache, internal structure
+	/// </summary>
 	public class ContentConfigCache : ScriptableObject {
 
 		public List<ContentDescription> Items = new List<ContentDescription>();

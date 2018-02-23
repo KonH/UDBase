@@ -1,4 +1,7 @@
 ﻿namespace UDBase.Controllers.AudioSystem {
+	/// <summary>
+	/// Event, which fired when volume of specific channel was changed
+	/// </summary>
 	public struct VolumeChangeEvent {
 
 		public string Channel { get; private set; }

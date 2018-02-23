@@ -4,6 +4,10 @@ using UDBase.Utils;
 using UDBase.Controllers.EventSystem;
 
 namespace UDBase.Controllers.LocalizationSystem {
+
+	/// <summary>
+	/// Event which fired when language was changed
+	/// </summary>
 	public struct LanguageChanged {
 		public SystemLanguage NewLanguage { get; }
 
@@ -14,10 +18,21 @@ namespace UDBase.Controllers.LocalizationSystem {
 		public override string ToString() => $"LanguageChanged: {NewLanguage}";
 	}
 
+	/// <summary>
+	/// Default localization controller
+	/// </summary>
 	public class Localization : ILocalization {
 
+		/// <summary>
+		/// Common localization settings
+		/// </summary>
 		[Serializable]
 		public class Settings {
+
+			/// <summary>
+			/// Language to set when user language isn't supported
+			/// </summary>
+			[Tooltip("Language to set when user language isn't supported")]
 			public SystemLanguage DefaultLanguage;
 		}
 
@@ -40,6 +55,9 @@ namespace UDBase.Controllers.LocalizationSystem {
 		readonly ILocaleParser _parser;
 		readonly IEvent        _events;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		public Localization(Settings settings, ILocaleParser parser, IEvent events) {
 			_parser = parser;
 			_events = events;
@@ -47,6 +65,9 @@ namespace UDBase.Controllers.LocalizationSystem {
 			CurrentLanguage = DetectLanguage();
 		}
 
+		/// <summary>
+		/// Detect language at first time
+		/// </summary>
 		protected SystemLanguage DetectLanguage() {
 			return Application.systemLanguage;
 		}

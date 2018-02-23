@@ -2,9 +2,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UDBase.Utils;
 
 namespace UDBase.Controllers.SceneSystem {
+
+	/// <summary>
+	/// Helper class for async scene loading
+	/// </summary>
 	public class AsyncLoadHelper : MonoBehaviour {
 		public float Progress { get; private set; }
 
@@ -18,13 +21,11 @@ namespace UDBase.Controllers.SceneSystem {
 			SceneManager.activeSceneChanged -= OnSceneChanged;
 		}
 
-		void OnSceneChanged(UnityEngine.SceneManagement.Scene scene0, UnityEngine.SceneManagement.Scene scene1) {
-			if ( _loadCallback != null ) {
-				_loadCallback();
-			}
+		void OnSceneChanged(Scene scene0, Scene scene1) {
+			_loadCallback?.Invoke();
 		}
 
-		public void LoadScene(string sceneName, Action callback) {
+		internal void LoadScene(string sceneName, Action callback) {
 			_loadCallback = callback;
 			StartCoroutine(LoadSceneCoroutine(sceneName));
 		}

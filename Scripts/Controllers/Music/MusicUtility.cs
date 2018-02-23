@@ -3,10 +3,14 @@ using UDBase.Utils;
 using UDBase.Controllers.SoundSystem;
 
 namespace UDBase.Controllers.MusicSystem {
+
+	/// <summary>
+	/// Utility class for playing music
+	/// </summary>
 	public class MusicUtility : MonoBehaviour {
 		SoundSource _currentSource;
 
-		public void StopTrack() {
+		internal void StopTrack() {
 			if ( _currentSource ) {
 				_currentSource.DestroyOnStop = true;
 				_currentSource.Stop();
@@ -21,7 +25,7 @@ namespace UDBase.Controllers.MusicSystem {
 			return null;
 		}
 
-		public void SetupTrack() {
+		internal void SetupTrack() {
 			var holder = GameObject.FindObjectOfType<MusicHolder>();
 			if ( holder ) {
 				Destroy(holder);
@@ -30,13 +34,13 @@ namespace UDBase.Controllers.MusicSystem {
 			}
 		}
 
-		public void Pause() {
+		internal void Pause() {
 			if ( _currentSource ) {
 				_currentSource.Pause();
 			}
 		}
 
-		public void UnPause() {
+		internal void UnPause() {
 			if ( _currentSource ) {
 				_currentSource.UnPause();
 			}

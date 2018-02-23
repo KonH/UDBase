@@ -2,16 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
-using UDBase.Utils;
 using UDBase.Controllers.SaveSystem;
 using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
+using Zenject;
 
 namespace UDBase.Controllers.AudioSystem {
-	public class SaveAudioController : IAudio {
-		
+
+	/// <summary>
+	/// SaveAudioController is AudioController decorator for saving volume and mute parameters between sessions using ISave
+	/// </summary>
+	public class SaveAudioController : IAudio, IInitializable {
+
+		/// <summary>
+		/// Settings for SaveAudioController
+		/// </summary>
 		[Serializable]
 		public class Settings : AudioController.Settings {
+			
+			/// <summary>
+			/// Defines how normalized volume needs to change for saving  
+			/// </summary>
+			[Tooltip("Defines how normalized volume needs to change for saving")]
 			public float SaveDelta;
 		}
 
@@ -27,7 +39,6 @@ namespace UDBase.Controllers.AudioSystem {
 			_save = save;
 			_saveDelta = settings.SaveDelta;
 			LoadState();
-			UnityHelper.AddPersistantStartCallback(SetupState);
 		}
 
 		void LoadState() {
@@ -35,6 +46,14 @@ namespace UDBase.Controllers.AudioSystem {
 			if ( _node.Channels == null ) {
 				_node.Channels = new Dictionary<string, ChannelNode>();
 			}
+		}
+
+		/// <summary>
+		/// Initialize this instance is required because channels can't be set correctly in constructor 
+		/// (Unity audio mixer initialization specific) 
+		/// </summary>
+		public void Initialize() {
+			SetupState();
 		}
 
 		void SetupState() {
@@ -47,8 +66,6 @@ namespace UDBase.Controllers.AudioSystem {
 				}
 			}
 		}
-
-		public void Reset() {}
 
 		public void MuteChannel(string channelParam) {
 			_controller.MuteChannel(channelParam);

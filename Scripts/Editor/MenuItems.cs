@@ -78,5 +78,10 @@ namespace UDBase.EditorTools {
 		public static void SetContentTypeForAllConfigs_AssetBundle() {
 			ContentEditor.SetContentTypeForAll(ContentLoadType.AssetBundle);
 		}
+
+		[MenuItem("UDBase/Dev/Update .csproj")]
+		public static void DevUpdateCsprojFile() {
+			CSProjUpdater.UpdateCsprojFile("UDBase.Scripts");
+		}
 	}
 }

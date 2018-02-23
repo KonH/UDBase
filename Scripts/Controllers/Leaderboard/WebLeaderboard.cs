@@ -1,27 +1,69 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 using FullSerializer;
 
 namespace UDBase.Controllers.LeaderboardSystem {
-	public class WebLeaderboard : ILeaderboard {
-		
+
+	/// <summary>
+	/// Leaderboard implementation uses web server with API described here:
+	/// https://github.com/KonH/LeaderboardService
+	/// 
+	/// Examples:
+	/// Get scores:
+	/// GET {url}/api/Score/top/{game}?max={max}&amp;param={param}&amp;version={version}
+	/// 
+	/// Post scores:
+	/// POST {url}/api/Score/
+	/// {
+	///    "game": "{game}",
+	///    "version": "{version}",
+	///    "param": "{param}",
+	///    "score": {playerScore},
+	///    "user": "{playerName}",
+	/// }
+	/// 
+	/// For authorization Basic Auth is used by default
+	/// </summary>
+	public class WebLeaderboard : ILeaderboard, ILogContext {
+
+		/// <summary>
+		/// Backend access parameters
+		/// </summary>
 		[Serializable]
 		public class Settings {
-			public string Url;
-			public string GameName;
-			public string GameVersion;
-			public string ClientName;
-			public string ClientPassword;
 
-			public Settings(string url, string gameName, string gameVersion, string clientName, string clientPassword) {
-				Url = url;
-				GameName = gameName;
-				GameVersion = gameVersion;
-				ClientName = clientName;
-				ClientPassword = clientPassword;
-			}
+			/// <summary>
+			/// Base URL of leaderboard service
+			/// </summary>
+			[Tooltip("Base URL of leaderboard service")]
+			public string Url;
+
+			/// <summary>
+			/// The {game} url parameter
+			/// </summary>
+			[Tooltip("The {game} url parameter")]
+			public string GameName;
+
+			/// <summary>
+			/// The {version} url parameter
+			/// </summary>
+			[Tooltip("The {version} url parameter")]
+			public string GameVersion;
+
+			/// <summary>
+			/// Basic Auth UserName
+			/// </summary>
+			[Tooltip("Basic Auth UserName")]
+			public string ClientName;
+
+			/// <summary>
+			/// Basic Auth Password
+			/// </summary>
+			[Tooltip("Basic Auth Password")]
+			public string ClientPassword;
 		}
 
 		readonly string                     _url;
@@ -34,12 +76,13 @@ namespace UDBase.Controllers.LeaderboardSystem {
 
 		ILog _log;
 
-		public WebLeaderboard(Settings settings, ILog log) {
+		public WebLeaderboard(Settings settings, ILog log, WebClient client) {
 			_log      = log;
 			Version   = settings.GameVersion;
 			_url      = settings.Url;
 			_gameName = settings.GameName;
-			_client   = new WebClient(settings.ClientName, settings.ClientPassword);
+			_client   = client;
+			_client.AddUserData(settings.ClientName, settings.ClientPassword);
 			_postHeaders.Add("Content-Type", "application/json");
 		}
 
@@ -69,21 +112,21 @@ namespace UDBase.Controllers.LeaderboardSystem {
 				var data = fsJsonParser.Parse(response.Text);
 				_serializer.TryDeserialize(data, ref result);
 			} else {
-				_log.ErrorFormat(LogTags.Leaderboard, "Wrong response: {0}, '{1}'", response.Code, response.Text);
+				_log.ErrorFormat(this, "Wrong response: {0}, '{1}'", response.Code, response.Text);
 			}
-			if ( callback != null ) {
-				callback(result);
-			}
+			callback?.Invoke(result);
 		}
 
-		public void PostScore(string param, string userName, int score, Action<bool> callback) {
-			var item = new LeaderboardItem(_gameName, Version, param, userName, score);
+		public void PostScore(string parameter, string playerName, int score, Action<bool> callback) {
+			var item = new LeaderboardItem(_gameName, Version, parameter, playerName, score);
 			fsData data = null;
 			_serializer.TrySerialize(item, out data);
 			var dataString = data.ToString();
-			_log.MessageFormat(LogTags.Leaderboard, "Serialized score item: '{0}'", dataString);
-			var url = "https://konhit.xyz/lbservice/api/Score";
-			_client.SendJsonPostRequest(url, dataString, headers: _postHeaders, onComplete: (response) => OnPostScoreComplete(response, callback));
+			_log.MessageFormat(this, "Serialized score item: '{0}'", dataString);
+			var postUrl = $"{_url}/api/Score";
+			_client.SendJsonPostRequest(
+				postUrl, dataString, headers: _postHeaders, onComplete: (response) => OnPostScoreComplete(response, callback)
+			);
 		}
 
 		void OnPostScoreComplete(NetUtils.Response response, Action<bool> callback) {
@@ -91,11 +134,9 @@ namespace UDBase.Controllers.LeaderboardSystem {
 			if ( IsCorrectResponse(response) && response.Code == 201 ) {
 				result = true;
 			} else {
-				_log.ErrorFormat(LogTags.Leaderboard, "Wrong response: {0}, '{1}'", response.Code, response.Text);
+				_log.ErrorFormat(this, "Wrong response: {0}, '{1}'", response.Code, response.Text);
 			}
-			if ( callback != null ) {
-				callback(result);
-			}
+			callback?.Invoke(result);
 		}
 	}
 }

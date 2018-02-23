@@ -4,13 +4,30 @@ using UnityEngine;
 using Zenject;
 
 namespace UDBase.Controllers.ContentSystem {
+
+	/// <summary>
+	/// Simple content loader
+	/// </summary>
+	[AddComponentMenu("UDBase/Content/ContentLoader")]
 	public class ContentLoader : MonoBehaviour {
 
+		/// <summary>
+		/// ContentId to load
+		/// </summary>
+		[Tooltip("ContentId to load")]
 		public ContentId Id;
-		public bool      InstantiateOnStart;
+
+		/// <summary>
+		/// Need to load content on start?
+		/// </summary>
+		[Tooltip("Need to load content on start?")]
+		public bool InstantiateOnStart;
 
 		List<IContent> _loaders;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(List<IContent> loaders) {
 			_loaders = loaders;

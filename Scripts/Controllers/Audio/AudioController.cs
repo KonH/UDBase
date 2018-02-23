@@ -4,17 +4,39 @@ using UnityEngine.Audio;
 using UDBase.Controllers.LogSystem;
 using System.Collections.Generic;
 using UDBase.Controllers.EventSystem;
-using UDBase.Utils;
+using Zenject;
 
 namespace UDBase.Controllers.AudioSystem {
-	public class AudioController : IAudio {
+
+	/// <summary>
+	/// AudioController changes volume and mute settings within current session
+	/// </summary>
+	public class AudioController : IAudio, ILogContext, IInitializable {
 		const float MinVolume = -80.0f;
 		const float MaxVolume = 0.0f;
 
+		/// <summary>
+		/// Settings for AudioController
+		/// </summary>
 		[Serializable]
 		public class Settings {
+
+			/// <summary>
+			/// The mixer asset path in resources
+			/// </summary>
+			[Tooltip("The mixer asset path in resources")]
 			public string MixerPath;
+
+			/// <summary>
+			/// What channels is need to use in that mixer
+			/// </summary>
+			[Tooltip("What channels is need to use in that mixer")]
 			public List<string> Channels;
+
+			/// <summary>
+			/// Normalized initial volume to use
+			/// </summary>
+			[Tooltip("Normalized initial volume to use")]
 			public float InitialVolume;
 		}
 
@@ -40,11 +62,18 @@ namespace UDBase.Controllers.AudioSystem {
 
 			_mixer = Resources.Load(_mixerPath) as AudioMixer;
 			if ( _mixer ) {
-				_log.MessageFormat(LogTags.Audio, "AudioMixer loaded from '{0}'", _mixerPath);
+				_log.MessageFormat(this, "AudioMixer loaded from '{0}'", _mixerPath);
 			} else {
-				_log.ErrorFormat(LogTags.Audio, "AudioMixer not found at '{0}'", _mixerPath);
+				_log.ErrorFormat(this, "AudioMixer not found at '{0}'", _mixerPath);
 			}
-			UnityHelper.AddPersistantStartCallback(() => InitializeChannels());
+		}
+
+		/// <summary>
+		/// Initialize this instance is required because channels can't be set correctly in constructor 
+		/// (Unity audio mixer initialization specific) 
+		/// </summary>
+		public void Initialize() {
+			InitializeChannels();
 		}
 
 		void InitializeChannels() {
@@ -163,7 +192,7 @@ namespace UDBase.Controllers.AudioSystem {
 				_groups.Add(channelName, group);
 			}
 			if ( !group ) {
-				_log.ErrorFormat(LogTags.Audio, "Cannot find channel with name '{0}'", channelName);
+				_log.ErrorFormat(this, "Cannot find channel with name '{0}'", channelName);
 			}
 			return group;
 		}

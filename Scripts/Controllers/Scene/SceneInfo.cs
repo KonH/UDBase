@@ -1,6 +1,10 @@
 ﻿using System.Text;
 
 namespace UDBase.Controllers.SceneSystem {
+
+	/// <summary>
+	/// Scene info factory
+	/// </summary>
 	public static class SceneInfo {
 		public static ISceneInfo Get<T>(T type) {
 			return new SceneParam<T>(type, "");
@@ -15,9 +19,10 @@ namespace UDBase.Controllers.SceneSystem {
 		}
 	}
 
-	/*
-	 * Basic scene info - requires only name
-	 */
+	/// <summary>
+	/// Basic scene info - requires only name.
+	/// Example: MainMenu, Settings, etc.
+	/// </summary>
 	public struct SceneName : ISceneInfo {
 		public string Name { get; private set; }
 
@@ -30,9 +35,10 @@ namespace UDBase.Controllers.SceneSystem {
 		}
 	}
 
-	/*
-	 * Specific info - custom type and (optional) parameter
-	 */
+	/// <summary>
+	/// Specific info - custom type and (optional) parameter.
+	/// Example: Level_1, Level_N, etc.
+	/// </summary>
 	public struct SceneParam<T> : ISceneInfo {
 		public string Type  { get; private set; }
 		public string Param { get; private set; }
@@ -49,9 +55,10 @@ namespace UDBase.Controllers.SceneSystem {
 		}
 	}
 
-	/*
-	 * And much more specific info - custom type and > 1 parameter
-	 */
+	/// <summary>
+	/// Multi scene parameter - custom type with >1 parameters.
+	/// Example: Level_Type1_1, Level_TypeN_N, etc.
+	/// </summary>
 	public struct MultiSceneParam<T> : ISceneInfo {
 		public string   Type   { get; private set; }
 		public string[] Params { get; private set; }

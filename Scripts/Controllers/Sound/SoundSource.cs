@@ -5,16 +5,61 @@ using UDBase.Controllers.ContentSystem;
 using Zenject;
 
 namespace UDBase.Controllers.SoundSystem {
+
+	/// <summary>
+	/// AudioSource wrapper to use in ISound
+	/// </summary>
+	[AddComponentMenu("UDBase/Sound/SoundSource")]
 	[RequireComponent(typeof(AudioSource))]
 	public class SoundSource : MonoBehaviour {
+
+		/// <summary>
+		/// Content holder for current audio clip
+		/// </summary>
+		[Tooltip("Content holder for current audio clip")]
 		public AudioClipHolder Holder;
+
+		/// <summary>
+		/// The settings for the channel to play with
+		/// </summary>
+		[Tooltip("The settings for the channel to play with")]
 		public ChannelSettings Settings;
-		public bool            AutoPlay;
-		public bool            Loop;
-		public float           Delay;
-		public float           FadeIn;
-		public float           FadeOut;
-		public bool            DestroyOnStop;
+
+		/// <summary>
+		/// Is need to play on start?
+		/// </summary>
+		[Tooltip("Is need to play on start?")]
+		public bool AutoPlay;
+
+		/// <summary>
+		/// Is need to play over and over?
+		/// </summary>
+		[Tooltip("Is need to play over and over?")]
+		public bool Loop;
+
+		/// <summary>
+		/// Time to wait before playing
+		/// </summary>
+		[Tooltip("Time to wait before playing")]
+		public float Delay;
+
+		/// <summary>
+		/// Time to maximize volume from 0 on start
+		/// </summary>
+		[Tooltip("Time to maximize volume from 0 on start")]
+		public float FadeIn;
+
+		/// <summary>
+		/// Time to minimize volume to 0 before end
+		/// </summary>
+		[Tooltip("Time to minimize volume to 0 before end")]
+		public float FadeOut;
+
+		/// <summary>
+		/// Destroy instance on stop?
+		/// </summary>
+		[Tooltip("Destroy instance on stop?")]
+		public bool DestroyOnStop;
 
 		AudioSource _source;
 		bool        _sheduled;
@@ -27,6 +72,9 @@ namespace UDBase.Controllers.SoundSystem {
 		IAudio _audio;
 		List<IContent> _loaders;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(IAudio audio, List<IContent> loaders) {
 			_audio = audio;
@@ -34,9 +82,6 @@ namespace UDBase.Controllers.SoundSystem {
 		}
 
 		void OnValidate() {
-			if ( string.IsNullOrEmpty(Settings.ChannelName) && string.IsNullOrEmpty(Settings.ChannelParam) && !Settings.DefaultMusic ) {
-				Settings.DefaultSound = true;
-			}
 			_source = GetComponent<AudioSource>();
 			if ( _source ) {
 				_source.playOnAwake = false;
@@ -89,7 +134,6 @@ namespace UDBase.Controllers.SoundSystem {
 		}
 
 		void Setup() {
-			Settings.SetupChannelParams();
 			var mixerGroup = _audio.GetMixerGroup(Settings.ChannelName);
 			if ( !_source ) {
 				_source = GetComponent<AudioSource>();
@@ -110,6 +154,9 @@ namespace UDBase.Controllers.SoundSystem {
 			}
 		}
 
+		/// <summary>
+		/// Play the current assigned sound (force is allows to skip Delay)
+		/// </summary>
 		public void Play(bool force = false) {
 			if ( !force && (Delay > 0) ) {
 				ShedulePlay();
@@ -128,14 +175,23 @@ namespace UDBase.Controllers.SoundSystem {
 			_playDelay = Delay;
 		}
 
+		/// <summary>
+		/// Pause playing sound
+		/// </summary>
 		public void Pause() {
 			_source.Pause();
 		}
 
+		/// <summary>
+		/// Resume playing sound
+		/// </summary>
 		public void UnPause() {
 			_source.UnPause();
 		}
 
+		/// <summary>
+		/// Stop playing sound
+		/// </summary>
 		public void Stop() {
 			if ( FadeOut > 0 ) {
 				_fadeOut = true;

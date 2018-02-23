@@ -1,17 +1,18 @@
 ﻿using System.IO;
 using UnityEngine;
-using UDBase.Common;
 using UDBase.Utils;
 
 namespace UDBase.EditorTools {
 	public static class CaptureScreen {
+		const string ScreenshotsDirectory = "Screenshots";
+
 		static string GetRandomName() {
 			return System.DateTime.Now.ToString("hh.mm.ss") + "." + Mathf.Abs(new System.Object().GetHashCode()) + ".png";
 		}
 
 		public static void Make(int superSize) {
-			var dir = UDBaseConfig.ScreenshotsDirectory;
-			if(!IOTool.DirectoryExist(dir)) {
+			var dir = ScreenshotsDirectory;
+			if ( !Directory.Exists(dir) ) {
 				IOTool.CreateDirectory(dir);
 			}
 			var fileName = GetRandomName();
@@ -21,12 +22,12 @@ namespace UDBase.EditorTools {
 		}
 
 		public static void Open() {
-			IOTool.Open(UDBaseConfig.ScreenshotsDirectory);
+			IOTool.Open(ScreenshotsDirectory);
 		}
 
 		public static void Clear() {
-			var dir = UDBaseConfig.ScreenshotsDirectory;
-			if(IOTool.DirectoryExist(dir)) {
+			var dir = ScreenshotsDirectory;
+			if ( Directory.Exists(dir) ) {
 				IOTool.DeleteDirectory(dir, true);
 				Debug.Log("Directorory cleared: " + dir);
 			}

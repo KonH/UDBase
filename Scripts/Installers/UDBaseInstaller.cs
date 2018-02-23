@@ -15,12 +15,19 @@ using UDBase.Controllers.ContentSystem;
 using UDBase.Controllers.LeaderboardSystem;
 using UDBase.Controllers.LocalizationSystem;
 using Zenject;
+using AssetBundles;
 
 namespace UDBase.Installers {
+	/// <summary>
+	/// Base UDBase installer with set of helper methods to bind UDBase controllers and helpers 
+	/// </summary>
     public abstract class UDBaseInstaller : MonoInstaller {
 
 		protected BuildType _buildType;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public virtual void Init([InjectOptional]BuildType buildType) {
 			_buildType = buildType;
@@ -30,7 +37,8 @@ namespace UDBase.Installers {
 			Container.Bind<ILog>().To<EmptyLog>().AsSingle();
 		}
 
-		public void AddUnityLogger() {
+		public void AddUnityLogger(UnityLog.Settings settings) {
+			Container.BindInstance(settings);
 			Container.Bind<ILog>().To<UnityLog>().AsSingle();
 		}
 
@@ -41,7 +49,7 @@ namespace UDBase.Installers {
 		}
 
 		public void AddNetUtils() {
-			Container.Bind<NetUtils>().ToSelf().AsSingle();
+			Container.Bind<NetUtils>().FromNewComponentOnNewGameObject().AsSingle();
 			Container.Bind<WebClient>().ToSelf().AsTransient();
 		}
 
@@ -64,7 +72,8 @@ namespace UDBase.Installers {
         }
 
         public void AddBundleContentLoader(AssetBundleContentController.Settings settings) {
-            Container.Bind<AssetBundleHelper>().FromNewComponentOnNewGameObject().AsSingle();
+			Container.Bind<AssetBundleManager>().FromNewComponentOnNewGameObject().AsSingle();
+			Container.Bind<AssetBundleHelper>().FromNewComponentOnNewGameObject().AsSingle();
             Container.BindInstance(settings);
             Container.Bind<IContent>().To<AssetBundleContentController>().AsSingle();
         }
@@ -80,12 +89,12 @@ namespace UDBase.Installers {
 
         public void AddAudio(AudioController.Settings settings) {
             Container.BindInstance(settings);
-            Container.Bind<IAudio>().To<AudioController>().AsSingle();
+            Container.Bind(typeof(IAudio), typeof(IInitializable)).To<AudioController>().AsSingle();
         }
 
         public void AddSaveAudio(SaveAudioController.Settings settings) {
             Container.BindInstance(settings);
-            Container.Bind<IAudio>().To<SaveAudioController>().AsSingle();
+            Container.Bind(typeof(IAudio), typeof(IInitializable)).To<SaveAudioController>().AsSingle();
         }
 
         public void AddSound(SoundUtility.Settings settings) {
@@ -95,6 +104,7 @@ namespace UDBase.Installers {
         }
 
         public void AddMusic() {
+			Container.Bind<MusicUtility>().FromNewComponentOnNewGameObject().AsSingle();
             Container.Bind<IMusic>().To<MusicController>().AsSingle().NonLazy();
         }
 

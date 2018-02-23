@@ -1,8 +1,11 @@
 ﻿using UnityEngine.SceneManagement;
-using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
 
 namespace UDBase.Controllers.SceneSystem {
+
+	/// <summary>
+	/// Synchronous scene loader 
+	/// </summary>
 	public sealed class DirectSceneLoader : IScene {
 		public ISceneInfo CurrentScene { get; private set; }
 

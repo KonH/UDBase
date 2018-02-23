@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UDBase.Common;
 using UDBase.Utils.Json.Fullserializer;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ConfigSystem {
-	public sealed class FsJsonResourcesConfig : IConfig {
+
+	/// <summary>
+	/// Config controller, which uses JSON file serialization via Fullserializer
+	/// </summary>
+	public sealed class FsJsonResourcesConfig : IConfig, ILogContext {
 		readonly string                   _fileName;
 		readonly Dictionary<Type, string> _nodeNames = new Dictionary<Type, string>();
 		
@@ -23,12 +26,9 @@ namespace UDBase.Controllers.ConfigSystem {
 				_configContent = config.text;
 				_nodeContainer = new FsJsonNodeContainer(_configContent, _nodeNames, _log);
 			} else {
-				_log.ErrorFormat(
-					LogTags.Config,
-					"Can't read config file from Resources/{0}", 
-					_fileName);
+				_log.ErrorFormat(this, "Can't read config file from Resources/{0}",  _fileName);
 			}
-			_log.MessageFormat(LogTags.Config, "Config content: \"{0}\"", _configContent);
+			_log.MessageFormat(this, "Config content: \"{0}\"", _configContent);
 			foreach ( var item in settings.Items ) {
 				AddNode(item.Type, item.Name);
 			}
@@ -39,7 +39,7 @@ namespace UDBase.Controllers.ConfigSystem {
 				if( !_nodeNames.ContainsKey(type) ) {
 					_nodeNames.Add(type, name);
 				} else {
-					_log.ErrorFormat(LogTags.Config, "Config: node already added: {0}!", type);
+					_log.ErrorFormat(this, "Config: node already added: {0}!", type);
 				}
 			} else {
 				_nodeContainer.Add(type, name);

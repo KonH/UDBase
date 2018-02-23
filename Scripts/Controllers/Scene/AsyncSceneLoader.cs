@@ -1,22 +1,32 @@
 ﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using UDBase.Controllers.LogSystem;
 using UDBase.Controllers.EventSystem;
-using UDBase.Utils;
-using Zenject;
 
 namespace UDBase.Controllers.SceneSystem {
+
+	/// <summary>
+	/// Asynchronous scene loader
+	/// </summary>
 	public sealed class AsyncSceneLoader : IScene {
+
+		/// <summary>
+		/// Base settings for AsyncSceneLoader, when you need to custom loading scene
+		/// </summary>
 		public class BaseSettings {
 			public virtual ISceneInfo LoadingSceneInfo { get; }
-
-			public BaseSettings(ISceneInfo loadingSceneInfo = null) {
-				LoadingSceneInfo = loadingSceneInfo;
-			}
 		}
 
+		/// <summary>
+		/// Settings.
+		/// </summary>
 		[Serializable]
 		public class Settings : BaseSettings {
+
+			/// <summary>
+			/// Loading scene name
+			/// </summary>
+			[Tooltip("Loading scene name")]
 			public string LoadingScene;
 
 			public override ISceneInfo LoadingSceneInfo {
@@ -40,7 +50,7 @@ namespace UDBase.Controllers.SceneSystem {
 		AsyncLoadHelper _helper;
 		IEvent _events;
 
-		public AsyncSceneLoader(IEvent events, Settings settings, AsyncLoadHelper helper) {
+		public AsyncSceneLoader(IEvent events, BaseSettings settings, AsyncLoadHelper helper) {
 			_events       = events;
 			_loadingScene = settings.LoadingSceneInfo;
 			_helper       = helper;

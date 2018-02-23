@@ -9,11 +9,31 @@ using LanguageKeyDict =
 		System.Collections.Generic.Dictionary<string, string>>;
 
 namespace UDBase.Controllers.LocalizationSystem {
-	public class SingleLocaleParser : ILocaleParser {
 
+	/// <summary>
+	/// Localization source which uses CSV file in format:
+	/// first line header: ignored; language_name_0; ...; language_name_N;
+	/// (language_name = UnityEngine.SystemLanguage name)
+	/// next lines: key; value_for_language_0; ...; value_for_language_N;
+	/// </summary>
+	public class SingleLocaleParser : ILocaleParser, ILogContext {
+
+		/// <summary>
+		/// Settings for CSV single locale parser
+		/// </summary>
 		[Serializable]
 		public class Settings {
+
+			/// <summary>
+			/// The character which separates fields
+			/// </summary>
+			[Tooltip("The character which separates fields")]
 			public char Separator;
+
+			/// <summary>
+			/// Filename in resources
+			/// </summary>
+			[Tooltip("Filename in resources")]
 			public string FileName;
 		}
 
@@ -21,6 +41,9 @@ namespace UDBase.Controllers.LocalizationSystem {
 
 		ILog _log;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		public SingleLocaleParser(Settings settings, ILog log) {
 			_log = log;
 			var content = GetLocaleContent(settings.FileName);
@@ -32,7 +55,7 @@ namespace UDBase.Controllers.LocalizationSystem {
 			if ( asset ) {
 				return asset.text;
 			} else {
-				_log.ErrorFormat(LogTags.Localization, "Can't find file '{0}' in Resources", fileName);
+				_log.ErrorFormat(this, "Can't find file '{0}' in Resources", fileName);
 				return string.Empty;
 			}
 		}
@@ -53,7 +76,7 @@ namespace UDBase.Controllers.LocalizationSystem {
 					AddContent(languages, line, separator, values);
 				}
 			} else {
-				_log.Error(LogTags.Localization, "File is in wrong format");
+				_log.Error(this, "File is in wrong format");
 			}
 			return values;
 		}
@@ -71,7 +94,7 @@ namespace UDBase.Controllers.LocalizationSystem {
 					if ( Enum.TryParse(langStr, out langValue) ) {
 						languages.Add(langValue);
 					} else {
-						_log.ErrorFormat(LogTags.Localization, "Unknown language: '{0}'", langStr);
+						_log.ErrorFormat(this, "Unknown language: '{0}'", langStr);
 					}
 				}
 			}
@@ -94,7 +117,7 @@ namespace UDBase.Controllers.LocalizationSystem {
 				if ( !langDict.ContainsKey(key) ) {
 					langDict.Add(key, value);
 				} else {
-					_log.ErrorFormat(LogTags.Localization, "Several values for '{0}' in language {1}", key, language);
+					_log.ErrorFormat(this, "Several values for '{0}' in language {1}", key, language);
 				}
 			}
 		}
@@ -109,10 +132,10 @@ namespace UDBase.Controllers.LocalizationSystem {
 			if ( _values.TryGetValue(language, out keyDict) ) {
 				var found = keyDict.TryGetValue(key, out value);
 				if ( !found ) {
-					_log.ErrorFormat(LogTags.Localization, "Can't find value '{0}' in language {1}", key, language);
+					_log.ErrorFormat(this, "Can't find value '{0}' in language {1}", key, language);
 				}
 			} else {
-				_log.ErrorFormat(LogTags.Localization, "Can't find language {0}", language);
+				_log.ErrorFormat(this, "Can't find language {0}", language);
 			}
 			return value;
 		}

@@ -7,10 +7,14 @@ using UDBase.Utils;
 using Zenject;
 
 namespace UDBase.Controllers.LogSystem.UI {
+	/// <summary>
+	/// Component to show ILog messages in visual overlay
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/Log/VisualLogHandler")]
 	public class VisualLogHandler : MonoBehaviour {
 		[Serializable]
-		public class Settings {
-			public string PrefabName;
+		public class Settings : CommonLogSettings {
+			public string         PrefabName;
 			public ButtonPosition OpenButtonPosition;
 		}
 
@@ -106,18 +110,42 @@ namespace UDBase.Controllers.LogSystem.UI {
 		readonly Dictionary<LogType, bool> _typeStates = new Dictionary<LogType, bool>();
 		readonly Dictionary<string, bool>  _tagStates  = new Dictionary<string, bool>();
 		readonly LogContainer              _container  = new LogContainer();
-		
+		readonly List<string>              _tagNames       = new List<string>();
+		readonly List<ToggleContainer>     _items      = new List<ToggleContainer>();
+
 		StringBuilder _sb = new StringBuilder(10000);
 		LoggerState   _state;
 
+		Settings _settings;
+
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(Settings settings) {
+			_settings = settings;
 			Clear(true);
 			SetupTypes();
-			SetupTags(Enum.GetNames(typeof(LogTags)));
+			SetupTags();
 			ChangeState(new HiddenState(this));
 			AttachButtonToPosition(settings.OpenButtonPosition);
 			SetupButtons();
+		}
+
+		/// <summary>
+		/// Add given message to log handler to display in visual overlay
+		/// </summary>
+		public void AddMessage(LogType type, ILogContext context, string msg) {
+			if ( !_settings.IsContextEnabled(context) ) {
+				return;
+			}
+			var tagName = context.ToString();
+			if ( !_tagNames.Contains(tagName) ) {
+				_tagNames.Add(tagName);
+				SetupTags();
+			}
+			_container.Store(msg, type, tagName);
+			ApplyMessage(msg, type, tagName, true);
 		}
 
 		Transform GetButtonPos(ButtonPosition pos) {
@@ -165,24 +193,35 @@ namespace UDBase.Controllers.LogSystem.UI {
 				_typeStates.Add(type, state);
 			}
 
-			SetupToggles(TypeSample, Enum.GetNames(typeof(LogType)), states, OnTypeChanged);
+			SetupToggles(null, TypeSample, Enum.GetNames(typeof(LogType)), states, OnTypeChanged);
 		}
 
-		void SetupTags(string[] tags) {
-			var states = new bool[tags.Length];
-			for( int i = 0; i < tags.Length; i++) {
-				var curTag = tags[i];
+		void SetupTags() {
+			_tagStates.Clear();
+			var states = new bool[_tagNames.Count];
+			for( int i = 0; i < _tagNames.Count; i++) {
+				var curTag = _tagNames[i];
 				var state = PlayerPrefsUtils.GetBool(FormatTagKey(curTag), true);
 				states[i] = state;
 				_tagStates.Add(curTag, state);
 			}
-			SetupToggles(TagSample, tags, states, OnTagChanged);
+			SetupToggles(_items, TagSample, _tagNames.ToArray(), states, OnTagChanged);
 		}
 
-		void SetupToggles(ToggleContainer template, string[] names, bool[] values, Action<string, bool> callback) {
-			for(int i = 0; i < names.Length; i++) {
+		void SetupToggles(List<ToggleContainer> items, ToggleContainer template, string[] names, bool[] values, Action<string, bool> callback) {
+			if ( items != null ) {
+				foreach ( var item in _items ) {
+					Destroy(item.gameObject);
+				}
+				items.Clear();
+			}
+			for (int i = 0; i < names.Length; i++) {
 				var newItem = Instantiate(template, template.transform.parent) as ToggleContainer;
+				newItem.gameObject.SetActive(true);
 				newItem.Init(values[i], names[i], callback);
+				if ( items != null ) {
+					items.Add(newItem);
+				}
 			}
 			template.gameObject.SetActive(false);
 		}
@@ -208,7 +247,7 @@ namespace UDBase.Controllers.LogSystem.UI {
 			PlayerPrefsUtils.SetBool(FormatTagKey(tagName), state);
 		}
 
-		public void Clear(bool full) {
+		void Clear(bool full) {
 			if( full ) {
 				_container.Entries.Clear();
 			}
@@ -229,10 +268,6 @@ namespace UDBase.Controllers.LogSystem.UI {
 			return _typeStates[type];
 		}
 
-		public void AddMessage(LogType type, string tagName, string msg) {
-			_container.Store(msg, type, tagName);
-			ApplyMessage(msg, type, tagName, true);
-		}
 
 		string GetColor(LogType type) {
 			switch( type ) {

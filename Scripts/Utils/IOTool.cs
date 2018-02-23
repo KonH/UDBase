@@ -4,19 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace UDBase.Utils {
+	/// <summary>
+	/// Input/output helpers
+	/// </summary>
 	public static class IOTool {
-		public static string GetPath(params string[] path) {
-			var result = path[0];
-			for(int i = 1; i < path.Length; i++) {
-				result = Path.Combine(result, path[i]);
-			}
-			return result;
-		}
 
-		public static bool DirectoryExist(string path) {
-			return Directory.Exists(path);
-		}
-			
+		/// <summary>
+		/// Exception-safe helper for Directory.CreateDirectory (silent = 'no log output')
+		/// </summary>
 		public static bool CreateDirectory(string path, bool silent = false) {
 			try {
 				Directory.CreateDirectory(path);
@@ -28,7 +23,10 @@ namespace UDBase.Utils {
 				return false;
 			}
 		}
-			
+
+		/// <summary>
+		/// Exception-safe helper for Directory.Delete (silent = 'no log output')
+		/// </summary>
 		public static bool DeleteDirectory(string path, bool recursive, bool silent = false) {
 			try {
 				Directory.Delete(path, recursive);
@@ -39,6 +37,9 @@ namespace UDBase.Utils {
 			}
 		}
 
+		/// <summary>
+		/// Exception-safe helper for new DirectoryInfo().GetFiles(); (silent = 'no log output')
+		/// </summary>
 		public static FileInfo[] GetDirFiles(string path, string searchPattern, bool silent = false) {
 			try {
 				var dir = new DirectoryInfo(path);
@@ -51,6 +52,9 @@ namespace UDBase.Utils {
 			}
 		}
 
+		/// <summary>
+		/// Exception-safe helper for File.WriteAllText (silent = 'no log output')
+		/// </summary>
 		public static void WriteAllText(string path, string contents, bool silent = false) {
 			try {
 				File.WriteAllText(path, contents);
@@ -61,11 +65,10 @@ namespace UDBase.Utils {
 			}
 		}
 
-		public static void WriteAllLines(string path, List<string> contents, bool silent = false) {
-			WriteAllLines(path, contents.ToArray(), silent);
-		}
-
-		public static void WriteAllLines(string path, string[] contents, bool silent = false) {
+		/// <summary>
+		/// Exception-safe helper for File.WriteAllLines (silent = 'no log output')
+		/// </summary>
+		public static void WriteAllLines(string path, IEnumerable<string> contents, bool silent = false) {
 			try {
 				File.WriteAllLines(path, contents);
 			} catch (Exception e) {
@@ -75,6 +78,9 @@ namespace UDBase.Utils {
 			}
 		}
 
+		/// <summary>
+		/// Exception-safe helper for File.ReadAllText (silent = 'no log output')
+		/// </summary>
 		public static string ReadAllText(string path, bool silent = false) {
 			try {
 				return File.ReadAllText(path);
@@ -86,6 +92,9 @@ namespace UDBase.Utils {
 			}
 		}
 
+		/// <summary>
+		/// Exception-safe helper for File.ReadAllLines (silent = 'no log output')
+		/// </summary>
 		public static string[] ReadAllLines(string path, bool silent = false) {
 			try {
 				return File.ReadAllLines(path);
@@ -97,6 +106,9 @@ namespace UDBase.Utils {
 			}
 		}
 
+		/// <summary>
+		/// Exception-safe helper for File.Copy (silent = 'no log output')
+		/// </summary>
 		public static bool CopyFile(string originPath, string destinationPath, bool silent = false) {
 			try {
 				File.Copy(originPath, destinationPath);
@@ -110,6 +122,9 @@ namespace UDBase.Utils {
 			}
 		}
 
+		/// <summary>
+		/// Exception-safe helper for File.Create (silent = 'no log output')
+		/// </summary>
 		public static bool CreateFile(string path, bool silent = false) {
 			try {
 				var fs = File.Create(path);
@@ -123,6 +138,9 @@ namespace UDBase.Utils {
 			}
 		}
 
+		/// <summary>
+		/// Exception-safe helper for File.Delete (silent = 'no log output')
+		/// </summary>
 		public static bool DeleteFile(string path, bool silent = false) {
 			try {
 				File.Delete(path);
@@ -135,6 +153,9 @@ namespace UDBase.Utils {
 			}
 		}
 
+		/// <summary>
+		/// Exception-safe helper for open file/directory (silent = 'no log output')
+		/// </summary>
 		public static bool Open(string path, bool silent = false) {
 			try {
 				var trimmedPath = path.TrimEnd(new[]{'\\', '/'});

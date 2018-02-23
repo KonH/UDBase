@@ -3,19 +3,17 @@ using UnityEngine;
 using UDBase.Controllers.SoundSystem;
 
 namespace UDBase.Controllers.MusicSystem {
-	public class MusicHolder : MonoBehaviour {
-		public List<SoundSource> Sources = new List<SoundSource>();
-		public bool              Loop    = true;
 
-		void OnValidate() {
-			foreach ( var s in Sources ) {
-				s.AutoPlay = true;
-				s.Loop = Loop;
-				if ( string.IsNullOrEmpty(s.Settings.ChannelName) ) {
-					s.Settings.DefaultSound = false;
-					s.Settings.DefaultMusic = true;
-				}
-			}
-		}
+	/// <summary>
+	/// MusicHolder is a set of music for the scene
+	/// </summary>
+	[AddComponentMenu("UDBase/Music/MusicHolder")]
+	public class MusicHolder : MonoBehaviour {
+
+		/// <summary>
+		/// All tracks for scene, on of it selected randomly on scene start
+		/// </summary>
+		[Tooltip("All tracks for scene, on of it selected randomly on scene start")]
+		public List<SoundSource> Sources = new List<SoundSource>();
 	}
 }

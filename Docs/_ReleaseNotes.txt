@@ -1,3 +1,16 @@
+v.0.12.0
+Breaking changes:
+- Removed: CompositeEnum, UDBaseConfig, JsonUtils, AssetUtils, CoroutineHelper, ICustomUpdate, EnumUtility, ApplicationQuitTracker, UnityCallbackTracker, UnityHelper, UpdateHelper;
+- Log tags replaced with log context;
+Improvements:
+- Docs moved to GitHub wiki and now generated from sources;
+- RandomUtils;
+- Assembly definition files used;
+Extensions:
+- OneLine;
+Other:
+- Utility to update docs;
+
 v.0.11.0
 New controllers:
 - Localization;

@@ -4,40 +4,118 @@ using UDBase.Controllers.EventSystem;
 using Zenject;
 
 namespace UDBase.UI.Common {
-	public class UIElement : MonoBehaviour {
-		public static List<UIElement> Instances = new List<UIElement>();
 
+	/// <summary>
+	/// UIElement is a set of canvas elements with ability to show/hide. 
+	/// If your element contains buttons or other interactable element, CanvasGroup is required.
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/Element")]
+	public class UIElement : MonoBehaviour {
+		internal static List<UIElement> Instances = new List<UIElement>();
+
+		/// <summary>
+		/// UI Element lifetime state
+		/// </summary>
 		public enum UIElementState {
+
+			/// <summary>
+			/// None
+			/// </summary>
 			None,
+
+			/// <summary>
+			/// Starts to shown
+			/// </summary>
 			Showing,
+
+			/// <summary>
+			/// Fully shown
+			/// </summary>
 			Shown,
+
+			/// <summary>
+			/// Starts to hide
+			/// </summary>
 			Hiding,
+
+			/// <summary>
+			/// Fully hidden
+			/// </summary>
 			Hidden
 		}
 
-		public bool   AutoShow       = true;
-		public bool   InitialActive  = true;
-		public bool   DisableOnHide  = true;
-		public bool   CacheAnimation = true;
-		public bool   Ordered       = false;
-		public string Group          = null;
-		
+		/// <summary>
+		/// Needs to show element when it is instantiated?
+		/// </summary>
+		[Tooltip("Needs to show element when it is instantiated?")]
+		public bool AutoShow = true;
+
+		/// <summary>
+		/// Needs to set element interactable when it is firstly presented?
+		/// </summary>
+		[Tooltip("Needs to set element interactable when it is firstly presented?")]
+		public bool InitialActive  = true;
+
+		/// <summary>
+		/// Needs to disable element when it is hidden?
+		/// </summary>
+		[Tooltip("Needs to disable element when it is hidden?")]
+		public bool DisableOnHide = true;
+
+		/// <summary>
+		/// If set, animation retrieved only at first time (usuful if you don't change it at runtime)
+		/// </summary>
+		[Tooltip("If set, animation retrieved only at first time (usuful if you don't change it at runtime)")]
+		public bool CacheAnimation = true;
+
+		/// <summary>
+		/// If checked, Childs will start to show after parent element is shown
+		/// and all Childs will be hidden before parent element start to hide
+		/// </summary>
+		[Tooltip(
+			@"If checked, Childs will start to show after parent element is shown
+			and all Childs will be hidden before parent element start to hide")]
+		public bool Ordered;
+
+		/// <summary>
+		/// Optional, you can set it to get ability to interact with all elements with given group
+		/// </summary>
+		[Tooltip("Optional, you can set it to get ability to interact with all elements with given group")]
+		public string Group;
+
+		/// <summary>
+		/// Child elements
+		/// </summary>
+		[Tooltip("Child elements")]
 		public List<UIElement> Childs = new List<UIElement>();
 
+		/// <summary>
+		/// Has al least one child?
+		/// </summary>
 		public bool HasChilds {
 			get {
 				return Childs.Count > 0;
 			}
 		}
 
+		/// <summary>
+		/// Has a parent element?
+		/// </summary>
 		public bool HasParent {
 			get {
 				return _parent;
 			}
 		}
 
+		/// <summary>
+		/// Current lifetime state
+		/// </summary>
+		/// <value>The state.</value>
 		public UIElementState State { get; private set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this element is interactable
+		/// </summary>
 		public bool IsInteractable {
 			get {
 				return _isInteractable;
@@ -63,12 +141,12 @@ namespace UDBase.UI.Common {
 
 		IEvent _events;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(IEvent events) {
 			_events = events;
-		}
-
-		void Awake() {
 			Instances.Add(this);
 			if( CacheAnimation ) {
 				AssingAnimation(true);
@@ -127,7 +205,7 @@ namespace UDBase.UI.Common {
 				(State != UIElementState.Shown);
 		}
 
-		public void SetHidden() {
+		void SetHidden() {
 			if( _clearAnimation != null ) {
 				_clearAnimation.Clear();
 			}
@@ -138,7 +216,7 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		public void SetShown() {
+		void SetShown() {
 			if( _clearAnimation != null ) {
 				_clearAnimation.Clear();
 			}
@@ -149,6 +227,9 @@ namespace UDBase.UI.Common {
 			}
 		}
 
+		/// <summary>
+		/// Show element with assigned animations
+		/// </summary>
 		[ContextMenu("Show")]
 		public void Show() {
 			State = UIElementState.Showing;
@@ -169,7 +250,7 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		public void OnShowComplete() {
+		void OnShowComplete() {
 			State = UIElementState.Shown;
 			_events.Fire(new UI_ElementShown(this));
 			if( Ordered ) {
@@ -185,6 +266,9 @@ namespace UDBase.UI.Common {
 				(State != UIElementState.Hidden);
 		}
 
+		/// <summary>
+		/// Hide element with assigned animations
+		/// </summary>
 		[ContextMenu("Hide")]
 		public void Hide() {
 			State = UIElementState.Hiding;
@@ -211,7 +295,7 @@ namespace UDBase.UI.Common {
 			}
 		}
 
-		public void OnHideComplete() {
+		void OnHideComplete() {
 			if( DisableOnHide ) {
 				gameObject.SetActive(false);
 			}
@@ -219,11 +303,17 @@ namespace UDBase.UI.Common {
 			_events.Fire(new UI_ElementHidden(this));
 		}
 
+		/// <summary>
+		/// Enable interactions with this element
+		/// </summary>
 		[ContextMenu("Activate")]
 		public void Activate() {
 			IsInteractable = true;
 		}
 
+		/// <summary>
+		/// Disable interactions with this element
+		/// </summary>
 		[ContextMenu("Deactivate")]
 		public void Deactivate() {
 			IsInteractable = false;
@@ -235,12 +325,13 @@ namespace UDBase.UI.Common {
 				_groupChecked = true;
 			}
 			if( _group ) {
-				_group.interactable = _isInteractable;
+				_group.interactable = isInteractable;
 			}
 		}
 
 		void OnDestroy() {
 			Instances.Remove(this);
+			_events?.Unsubscribe<UI_ElementHidden>(OnElementHidden);
 		}
 	}
 }

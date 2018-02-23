@@ -7,29 +7,66 @@ using UnityEngine.Networking;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils {
-	public class NetUtils {
+
+	/// <summary>
+	/// Utility to perform web requests
+	/// </summary>
+	public class NetUtils : MonoBehaviour, ILogContext {
+
+		/// <summary>
+		/// Default request timeout value
+		/// </summary>
 		public const float DefaultTimeout = 10.0f;
 
+		/// <summary>
+		/// Request response wrapper
+		/// </summary>
 		public class Response {
-			public long   Code    { get; private set; }
-			public string Text    { get; private set; }
-			public string Error   { get; private set; }
-			public bool   Timeout { get; private set; }
 
+			/// <summary>
+			/// Respronse conde
+			/// </summary>
+			public long Code { get; private set; }
+
+			/// <summary>
+			/// Data as text
+			/// </summary>
+			public string Text { get; private set; }
+
+			/// <summary>
+			/// Error text
+			/// </summary>
+			public string Error { get; private set; }
+
+			/// <summary>
+			/// Is it failed by timeout
+			/// </summary>
+			public bool Timeout { get; private set; }
+
+			/// <summary>
+			/// Response headers
+			/// </summary>
 			public Dictionary<string, string> Headers { get; private set; }
-			
+
+			/// <summary>
+			/// Is error happen?
+			/// </summary>
 			public bool HasError {
 				get {
 					return !string.IsNullOrEmpty(Error);
 				}
 			}
+
+			/// <summary>
+			/// Is response empty?
+			/// </summary>
 			public bool IsEmpty { 
 				get {
 					return string.IsNullOrEmpty(Text);
 				}
 			}
 			
-			public Response(long code, string text, string error, Dictionary<string, string> headers, bool timeout) {
+			internal Response(long code, string text, string error, Dictionary<string, string> headers, bool timeout) {
 				Code    = code;
 				Text    = text;
 				Error   = error;
@@ -37,6 +74,9 @@ namespace UDBase.Utils {
 				Timeout = timeout;
 			}
 
+			/// <summary>
+			/// Safety get concrete header value by its name
+			/// </summary>
 			public string GetHeader(string name) {
 				string value = null;
 				if ( Headers != null ) {
@@ -45,6 +85,9 @@ namespace UDBase.Utils {
 				return value;
 			}
 
+			/// <summary>
+			/// Return text if it isn't empty or error and code instread
+			/// </summary>
 			public string GetNonEmptyText() {
 				return !string.IsNullOrEmpty(Text) ?
 					Text :
@@ -54,10 +97,16 @@ namespace UDBase.Utils {
 
 		ILog _log;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		public NetUtils(ILog log) {
 			_log = log;
 		}
 
+		/// <summary>
+		/// Creates the basic authorization header value by user name and password
+		/// </summary>
 		public string CreateBasicAuthorization(string userName, string userPassword) {
 			var prefix = "Basic ";
 			var userPassBlock = Encoding.ASCII.GetBytes(userName + ":" + userPassword);
@@ -86,6 +135,9 @@ namespace UDBase.Utils {
 			return UnityWebRequest.Delete(url);
 		}
 
+		/// <summary>
+		/// Sends the get request
+		/// </summary>
 		public void SendGetRequest(
 			string url,
 			float timeout = DefaultTimeout,
@@ -96,6 +148,9 @@ namespace UDBase.Utils {
 			SendRequest(req, timeout, headers, onComplete);
 		}
 
+		/// <summary>
+		/// Sends the post request
+		/// </summary>
 		public void SendPostRequest(
 			string url,
 			string data,
@@ -107,6 +162,9 @@ namespace UDBase.Utils {
 			SendRequest(req, timeout, headers, onComplete);
 		}
 
+		/// <summary>
+		/// Sends the post request with 'application/json' contentType
+		/// </summary>
 		public void SendJsonPostRequest(
 			string url,
 			string data,
@@ -118,6 +176,9 @@ namespace UDBase.Utils {
 			SendRequest(req, timeout, headers, onComplete);
 		}
 
+		/// <summary>
+		/// Sends the delete request
+		/// </summary>
 		public void SendDeleteRequest(
 			string url,
 			float timeout = DefaultTimeout,
@@ -128,6 +189,9 @@ namespace UDBase.Utils {
 			SendRequest(req, timeout, headers, onComplete);
 		}
 
+		/// <summary>
+		/// Sends the request
+		/// </summary>
 		public void SendRequest(
 			UnityWebRequest request, 
 			float timeout = DefaultTimeout, 
@@ -135,7 +199,7 @@ namespace UDBase.Utils {
 			Action<Response> onComplete = null)
 		{
 			AddHeaders(request, headers);
-			UnityHelper.StartCoroutine(RequestCoroutine(request, timeout, headers, onComplete));
+			StartCoroutine(RequestCoroutine(request, timeout, onComplete));
 		}
 
 		float CurrentTime {
@@ -144,10 +208,16 @@ namespace UDBase.Utils {
 			}
 		}
 
+		/// <summary>
+		/// Add given header to request
+		/// </summary>
 		public void AddHeader(UnityWebRequest request, string name, string value) {
 			request.SetRequestHeader(name, value);
 		}
 
+		/// <summary>
+		/// Add given headers to request
+		/// </summary>
 		public void AddHeaders(UnityWebRequest request, Dictionary<string, string> headers) {
 			if ( headers != null ) {
 				var iter = headers.GetEnumerator();
@@ -158,7 +228,7 @@ namespace UDBase.Utils {
 			}
 		}
 
-		IEnumerator RequestCoroutine(UnityWebRequest request, float timeout, Dictionary<string, string> headers, Action<Response> onComplete) {
+		IEnumerator RequestCoroutine(UnityWebRequest request, float timeout, Action<Response> onComplete) {
 			using ( request ) {
 				var startTime = CurrentTime;
 				var isTimeout = false;
@@ -183,15 +253,13 @@ namespace UDBase.Utils {
 				request.GetResponseHeaders(),
 				isTimeout);
 			if ( isTimeout ) {
-				_log.ErrorFormat(LogTags.Network, "Request to '{0}': timeout", url);
+				_log.ErrorFormat(this, "Request to '{0}': timeout", url);
 			} else if ( request.isNetworkError ) {
-				_log.ErrorFormat(LogTags.Network, "Request to '{0}': error: '{1}'", url, request.error);
+				_log.ErrorFormat(this, "Request to '{0}': error: '{1}'", url, request.error);
 			} else {
-				_log.MessageFormat(LogTags.Network, "Request to '{0}': response code: {1}, text: '{2}'", url, request.responseCode, response.Text);
+				_log.MessageFormat(this, "Request to '{0}': response code: {1}, text: '{2}'", url, request.responseCode, response.Text);
 			}
-			if ( onComplete != null ) {
-				onComplete(response);
-			}
+			onComplete?.Invoke(response);
 		}
 	}
 }

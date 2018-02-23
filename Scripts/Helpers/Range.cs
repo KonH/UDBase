@@ -1,6 +1,9 @@
 ﻿using System;
 
 namespace UDBase.Helpers {
+	/// <summary>
+	/// Base range helper class for work with values in specific range 
+	/// </summary>
 	public abstract class Range<T> {
 		public T Start;
 		public T End;
@@ -17,10 +20,13 @@ namespace UDBase.Helpers {
 		public abstract T    Random();
 
 		public override string ToString() {
-			return string.Format("Range: [{0}, {1}]", Start, End);
+			return $"Range: [{Start}, {End}]";
 		}
 	}
 
+	/// <summary>
+	/// Integer range helper class for work with values in specific range 
+	/// </summary>
 	[Serializable]
 	public class IntRange:Range<int> {
 
@@ -28,23 +34,38 @@ namespace UDBase.Helpers {
 
 		public IntRange(int start, int end):base(start, end) {}
 
+		/// <summary>
+		/// Returns true if range is valid (End &gt; Start)
+		/// </summary>
 		public override bool IsValid() {
 			return End > Start;
 		}
 
+		/// <summary>
+		/// Check that given value in Start &lt;= value &lt;= End
+		/// </summary>
 		public override bool Contains(int value) {
 			return (value >= Start) && (value <= End);
 		}
 
+		/// <summary>
+		/// Return value in Start &lt;= value &lt; End
+		/// </summary>
 		public override int Random() {
 			return UnityEngine.Random.Range(Start, End);
 		}
 
+		/// <summary>
+		/// Return value in Start &lt;= value &lt;= End
+		/// </summary>
 		public int RandomInclusive() {
 			return UnityEngine.Random.Range(Start, End + 1);
 		}
 	}
 
+	/// <summary>
+	/// Float range helper class for work with values in specific range 
+	/// </summary>
 	[Serializable]
 	public class FloatRange:Range<float> {
 
@@ -52,14 +73,24 @@ namespace UDBase.Helpers {
 
 		public FloatRange(float start, float end):base(start, end) {}
 
+		/// <summary>
+		/// Returns true if range is valid (End > Start)
+		/// </summary>
+		/// <returns></returns>
 		public override bool IsValid() {
 			return End > Start;
 		}
 
+		/// <summary>
+		/// Check that given value in Start &lt;= value &lt;= End
+		/// </summary>
 		public override bool Contains(float value) {
 			return (value >= Start) && (value <= End);
 		}
 
+		/// <summary>
+		/// Return value in Start &lt;= value &lt; End
+		/// </summary>
 		public override float Random() {
 			return UnityEngine.Random.Range(Start, End);
 		}

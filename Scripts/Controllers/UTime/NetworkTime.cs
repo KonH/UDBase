@@ -4,7 +4,13 @@ using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.UTime {
-	public class NetworkTime : ITime {
+
+	/// <summary>
+	/// Time controller uses remote server.
+	/// Supported response format: "2016-12-25T14:12:33+00:00"
+	/// Reference implementation is here: https://github.com/KonH/DotNetCoreTimeServer
+	/// </summary>
+	public class NetworkTime : ITime, ILogContext {
 
 		[Serializable]
 		public class Settings {
@@ -15,7 +21,7 @@ namespace UDBase.Controllers.UTime {
 		readonly string _url;
 		readonly float  _timeout;
 		
-		DateTime _startDate = default(DateTime);
+		DateTime _startDate;
 		float    _startTime;
 
 		NetUtils _net;
@@ -39,19 +45,19 @@ namespace UDBase.Controllers.UTime {
 				if( DateTime.TryParse(response.Text, out dt) ) {
 					_startDate = dt.ToUniversalTime();
 					_startTime = GetAppTime();
-					_log.MessageFormat(LogTags.Time, "NetworkTime: {0}", _startDate);
+					_log.MessageFormat(this, "NetworkTime: {0}", _startDate);
 					IsAvailable = true;
 				} else {
-					_log.ErrorFormat(LogTags.Time, "Parsing error: '{0}' to DateTime", dt);
+					_log.ErrorFormat(this, "Parsing error: '{0}' to DateTime", dt);
 					IsFailed = true;
 				}
 			} else {
 				if( response.HasError ) {
-					_log.ErrorFormat(LogTags.Time, "Request error: {0}", response.Error);
+					_log.ErrorFormat(this, "Request error: {0}", response.Error);
 				} else if( response.Timeout ) {
-					_log.Error(LogTags.Time, "Request timeout");
+					_log.Error(this, "Request timeout");
 				} else {
-					_log.Error(LogTags.Time, "Request unknown error");
+					_log.Error(this, "Request unknown error");
 				}
 				IsFailed = true;
 			}

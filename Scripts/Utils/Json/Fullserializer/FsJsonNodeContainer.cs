@@ -4,7 +4,7 @@ using FullSerializer;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Utils.Json.Fullserializer {
-	public sealed class FsJsonNodeContainer {
+	sealed class FsJsonNodeContainer : ILogContext {
 		readonly Dictionary<string, fsData>  _nodes;
 		readonly Dictionary<Type, string>    _names      = new Dictionary<Type, string>();
 		readonly Dictionary<Type, object>    _cache      = new Dictionary<Type, object>();
@@ -28,7 +28,7 @@ namespace UDBase.Utils.Json.Fullserializer {
 			if( !_names.ContainsKey(type) ) {
 				_names.Add(type, name);
 			} else {
-				_log.ErrorFormat(LogTags.Json, "Type already exist: {0}!", type);  
+				_log.ErrorFormat(this, "Type already exist: {0}!", type);  
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace UDBase.Utils.Json.Fullserializer {
 						_cache.Add(type, value);
 					}
 				} else {
-					_log.ErrorFormat(LogTags.Json, "NodeContainer.LoadNode: Can't find node: {0}!", type);
+					_log.ErrorFormat(this, "NodeContainer.LoadNode: Can't find node: {0}!", type);
 				}
 			}
 			return (T)value;

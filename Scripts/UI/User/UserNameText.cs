@@ -5,13 +5,20 @@ using UnityEngine.UI;
 using Zenject;
 
 namespace UDBase.Controllers.UserSystem.UI {
+	/// <summary>
+	/// Display IUser.Name on UnityEngine.UI.Text component
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/User/UserNameText")]
 	[RequireComponent(typeof(Text))]
 	public class UserNameText : MonoBehaviour {
 		Text _text;
 
-		IUser _user;
+		IUser  _user;
 		IEvent _events;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		[Inject]
 		public void Init(IUser user, IEvent events) {
 			_user   = user;

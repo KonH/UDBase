@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 using UDBase.Utils;
 
 namespace UDBase.EditorTools {
@@ -50,7 +51,7 @@ namespace UDBase.EditorTools {
 		}
 
 		static string[] GetReleaseNotes() {
-			var path = IOTool.GetPath(AssetsDir, BaseDir, DocsDir, ReleaseNotesFile);
+			var path = Path.Combine(AssetsDir, BaseDir, DocsDir, ReleaseNotesFile);
 			return IOTool.ReadAllLines(path);
 		}
 	}

@@ -3,9 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace UDBase.UI.Common {
+
+	/// <summary>
+	/// Controller to play animation combinations on UI element
+	/// </summary>
+	[AddComponentMenu("UDBase/UI/AnimationController")]
     public class UIAnimationController : MonoBehaviour, IShowAnimation, IHideAnimation, IClearAnimation {
+
+		/// <summary>
+		/// Shoud animations played step by step?
+		/// </summary>
+		[Tooltip("Shoud animations played step by step?")]
 		public bool StepByStep = true;
+
+		/// <summary>
+		/// All show animations
+		/// </summary>
+		[Tooltip("All show animations")]
 		public List<UIShowHideAnimation> ShowSteps = new List<UIShowHideAnimation>();
+
+		/// <summary>
+		/// All hide animations
+		/// </summary>
+		[Tooltip("All hide animations")]
 		public List<UIShowHideAnimation> HideSteps = new List<UIShowHideAnimation>();
 
 		List<UIShowHideAnimation> _showTemp = new List<UIShowHideAnimation>();

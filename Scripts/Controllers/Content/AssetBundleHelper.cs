@@ -2,31 +2,36 @@
 using System.Collections;
 using UnityEngine;
 using AssetBundles;
-using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 
 namespace UDBase.Controllers.ContentSystem {
-	public class AssetBundleHelper : MonoBehaviour {
+
+	/// <summary>
+	/// Helper utility for AssetBundleContentController
+	/// </summary>
+	public class AssetBundleHelper : MonoBehaviour, ILogContext {
 
 		public bool Ready { get; private set; }
 
 		string _streamingAssetsPath;
 		string _baseUrl;
 
-		ILog _log;
+		ILog               _log;
+		AssetBundleManager _manager;
 
-		public void Init(ILog log, string streamingAssetsPath, string baseUrl) {
+		public void Init(ILog log, AssetBundleManager manager, string streamingAssetsPath, string baseUrl) {
 			_log = log;
+			_manager = manager;
 			_streamingAssetsPath = streamingAssetsPath;
 			_baseUrl = baseUrl;
 			_log.MessageFormat(
-				LogTags.Content,
+				this,
 				"Init AssetBundle helper: '{0}', '{1}'",
 				_streamingAssetsPath, _baseUrl);
 		}
 
 		IEnumerator Start() {
-			yield return StartCoroutine(InitializeManager());
+			yield return StartCoroutine(InitializeManager(_manager));
 		}
 
 		protected void InitializeSourceUrl() {
@@ -41,14 +46,13 @@ namespace UDBase.Controllers.ContentSystem {
 			} else if ( _baseUrl != null ) {
 				AssetBundleManager.SetSourceAssetBundleURL(_baseUrl);
 			} else {
-				_log.Error(LogTags.Content, "You need to set streaming asset path or base url!");
+				_log.Error(this, "You need to set streaming asset path or base url!");
 			}
 			#endif
 		}
 
-		protected IEnumerator InitializeManager() {
+		protected IEnumerator InitializeManager(AssetBundleManager manager) {
 			InitializeSourceUrl();
-			UnityHelper.AddPersistant<AssetBundleManager>();
 			var request = AssetBundleManager.Initialize();			
 			if (request != null) {
 				yield return StartCoroutine(request);
@@ -72,12 +76,16 @@ namespace UDBase.Controllers.ContentSystem {
 			T asset = request.GetAsset<T>();
 			var elapsedTime = Time.realtimeSinceStartup - startTime;
 			_log.MessageFormat(
-				LogTags.Content,
+				this,
 				"Asset '{0}' {1} loaded in {2} seconds",
 				assetName, asset ? "was" : "was not", elapsedTime);
 			if( callback != null ) {
 				callback(asset);
 			}
+		}
+
+		public override string ToString() {
+			return "AssetBundleHelper";
 		}
 	}
 }

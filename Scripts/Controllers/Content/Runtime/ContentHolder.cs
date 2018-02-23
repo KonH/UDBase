@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 
 namespace UDBase.Controllers.ContentSystem {
+
+	/// <summary>
+	/// ContentId holder with type validation on changes.
+	/// It preventing from select incorrect item in inspector.
+	/// </summary>
 	public class ContentHolder<T>: ISerializationCallbackReceiver {
 		public ContentId Id;
 

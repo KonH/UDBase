@@ -2,16 +2,26 @@
 using System.Collections.Generic;
 
 namespace UDBase.Utils {
+
+	/// <summary>
+	/// HetUtils wrapper to send web requests with authorization
+	/// </summary>
 	public class WebClient {
 
 		const string AuthHeaderName = "Authorization";
 
+		/// <summary>
+		/// Is any request in progress
+		/// </summary>
 		public bool InProgress {
 			get {
 				return _requestCount > 0;
 			}
 		}
 
+		/// <summary>
+		/// Is client authorized?
+		/// </summary>
 		public bool HasAuthorization {
 			get {
 				return !string.IsNullOrEmpty(_authHeaderValue);
@@ -24,13 +34,19 @@ namespace UDBase.Utils {
 
 		NetUtils _net;
 
+		/// <summary>
+		/// Init with dependencies
+		/// </summary>
 		public WebClient(NetUtils net) {
 			_net = net;
 			_authHeaderValue = "";
 			_authHeaderOnly = new Dictionary<string, string>();
 		}
 
-		public WebClient(string userName, string userPassword) {
+		/// <summary>
+		/// Adds the user name and password to use with this client
+		/// </summary>
+		public void AddUserData(string userName, string userPassword) {
 			_authHeaderValue = _net.CreateBasicAuthorization(userName, userPassword);
 			_authHeaderOnly = UpdateHeaders(new Dictionary<string, string>());
 		}
@@ -45,11 +61,17 @@ namespace UDBase.Utils {
 			}
 		}
 
+		/// <summary>
+		/// Adds auth header value
+		/// </summary>
 		public void ApplyAuthHeader(string value) {
 			_authHeaderValue = value;
 			_authHeaderOnly = UpdateHeaders(new Dictionary<string, string>());
 		}
 
+		/// <summary>
+		/// Sends the get request
+		/// </summary>
 		public void SendGetRequest(
 			string url,
 			float timeout = NetUtils.DefaultTimeout,
@@ -60,12 +82,13 @@ namespace UDBase.Utils {
 			headers = UpdateHeaders(headers);
 			_net.SendGetRequest(url, timeout, headers, resp => {
 				_requestCount--;
-				if ( onComplete != null ) {
-					onComplete(resp);
-				}
+				onComplete?.Invoke(resp);
 			});
 		}
 
+		/// <summary>
+		/// Sends the post request.
+		/// </summary>
 		public void SendPostRequest(
 			string url,
 			string data,
@@ -77,12 +100,13 @@ namespace UDBase.Utils {
 			headers = UpdateHeaders(headers);
 			_net.SendPostRequest(url, data, timeout, headers, resp => {
 				_requestCount--;
-				if ( onComplete != null ) {
-					onComplete(resp);
-				}
+				onComplete?.Invoke(resp);
 			});
 		}
 
+		/// <summary>
+		/// Sends the json post request
+		/// </summary>
 		public void SendJsonPostRequest(
 			string url,
 			string data,
@@ -94,12 +118,13 @@ namespace UDBase.Utils {
 			headers = UpdateHeaders(headers);
 			_net.SendJsonPostRequest(url, data, timeout, headers, resp => {
 				_requestCount--;
-				if ( onComplete != null ) {
-					onComplete(resp);
-				}
+				onComplete?.Invoke(resp);
 			});
 		}
 
+		/// <summary>
+		/// Sends the delete request
+		/// </summary>
 		public void SendDeleteRequest(
 			string url,
 			float timeout = NetUtils.DefaultTimeout,
@@ -109,9 +134,7 @@ namespace UDBase.Utils {
 			headers = UpdateHeaders(headers);
 			_net.SendDeleteRequest(url, timeout, headers, resp => {
 				_requestCount--;
-				if ( onComplete != null ) {
-					onComplete(resp);
-				}
+				onComplete?.Invoke(resp);
 			});
 		}
 	}

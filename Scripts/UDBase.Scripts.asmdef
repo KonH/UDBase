@@ -1,0 +1,8 @@
+{
+    "name": "UDBase.Scripts",
+    "references": [
+        "UDBase.Extensions"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": []
+}
