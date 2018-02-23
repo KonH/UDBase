@@ -50,7 +50,7 @@ namespace UDBase.Controllers.SceneSystem {
 		AsyncLoadHelper _helper;
 		IEvent _events;
 
-		public AsyncSceneLoader(IEvent events, BaseSettings settings, AsyncLoadHelper helper) {
+		public AsyncSceneLoader(IEvent events, Settings settings, AsyncLoadHelper helper) {
 			_events       = events;
 			_loadingScene = settings.LoadingSceneInfo;
 			_helper       = helper;
