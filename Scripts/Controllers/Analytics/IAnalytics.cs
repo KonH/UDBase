@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace UDBase.Controllers.AnalyticsSystem {
 
@@ -16,5 +17,20 @@ namespace UDBase.Controllers.AnalyticsSystem {
 		/// Raise event with additional data dictionary
 		/// </summary>
 		void Event(string eventName, Dictionary<string, object> data);
+
+		/// <summary>
+		/// Adds data item, which be sent with all next events 
+		/// </summary>
+		void AddSessionData(string key, object value);
+
+		/// <summary>
+		/// Update data item, which be sent with all next events 
+		/// </summary>
+		void UpdateSessionData(string key, Func<object, object> valueChange);
+
+		/// <summary>
+		/// Removes session data item with given key
+		/// </summary>
+		void RemoveSessionData(string key);
 	}
 }
