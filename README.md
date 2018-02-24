@@ -2,7 +2,7 @@
 
 # UDBase 
 
-**Current version:** 0.12.0
+**Current version:** 0.13.0
 
 **Unity version:** 2017.3.0f3 (last tested)
 
@@ -81,6 +81,8 @@ In other cases, Zenject asserts show you what hidden dependencies is required an
 - **[Sound](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.SoundSystem)** (Sound playing system)
 - **[Music](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.MusicSystem)** (Music playing system for scenes)
 - **[Localization](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.LocalizationSystem)** (localization)
+- **[Analytics](https://github.com/KonH/UDBase/wiki/UDBase.Controllers.AnalyticsSystem)** (analytics)
+
 
 ## Extensions
 - [Zenject](https://github.com/modesttree/Zenject) - DI-container
