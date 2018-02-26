@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rotorz.Games.Reflection;
+using OneLine;
 
 namespace UDBase.Controllers.ConfigSystem {
 
@@ -43,6 +44,7 @@ namespace UDBase.Controllers.ConfigSystem {
 			/// Items, which presented in config
 			/// </summary>
 			[Tooltip("Items, which presented in config")]
+			[OneLine]
 			public List<ConfigItem> Items;
 		}
 

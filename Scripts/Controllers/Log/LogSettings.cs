@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Rotorz.Games.Reflection;
+using OneLine;
 
 namespace UDBase.Controllers.LogSystem {
 
@@ -39,6 +40,7 @@ namespace UDBase.Controllers.LogSystem {
 		/// The contexts with specific enabled state
 		/// </summary>
 		[Tooltip("The contexts with specific enabled state")]
+		[OneLine]
 		public List<LogNode> Nodes = new List<LogNode>();
 
 		internal bool IsContextEnabled(ILogContext context) {
