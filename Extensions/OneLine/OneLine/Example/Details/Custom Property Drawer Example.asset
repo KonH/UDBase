@@ -11,8 +11,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9cda7dbd5e943a38c44d0a82e6cd6e, type: 3}
   m_Name: Custom Property Drawer Example
   m_EditorClassIdentifier: 
-  someFloats:
-    first: 0
-    second: 0
-    third: 0
-  rootRange: 0
+  directDrawer:
+    parent:
+      first: Default drawer
+    child:
+      first: Default drawer
+      second: Default drawer
+  attributeDrawer:
+    pureRange: 42
+    parent:
+      first: Default drawer
+    child:
+      first: Default drawer
+  directWithoutChildren:
+    parent:
+      first: Default drawer
+    child:
+      first: Default drawer
+  attributeWithoutChildren:
+    pureRange: 42
+    parent:
+      first: Default drawer
+    child:
+      first: Default drawer
