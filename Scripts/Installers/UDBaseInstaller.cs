@@ -12,6 +12,7 @@ using UDBase.Controllers.MusicSystem;
 using UDBase.Controllers.LogSystem.UI;
 using UDBase.Controllers.ConfigSystem;
 using UDBase.Controllers.ContentSystem;
+using UDBase.Controllers.AnalyticsSystem;
 using UDBase.Controllers.LeaderboardSystem;
 using UDBase.Controllers.LocalizationSystem;
 using Zenject;
@@ -149,6 +150,10 @@ namespace UDBase.Installers {
 		public void AddSaveLocalization(Localization.Settings settings) {
 			Container.BindInstance(settings);
 			Container.Bind<ILocalization>().To<SaveLocalization>().AsSingle();
+		}
+
+		public void AddUnityAnalytics() {
+			Container.Bind<IAnalytics>().To<UnityAnalyticsController>().AsSingle();
 		}
     }
 }

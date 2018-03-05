@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UDBase.Utils;
 using Rotorz.Games.Reflection;
+using OneLine;
 
 namespace UDBase.Controllers.SaveSystem {
 
@@ -43,6 +44,7 @@ namespace UDBase.Controllers.SaveSystem {
 			/// Set of items to save
 			/// </summary>
 			[Tooltip("Set of items to save")]
+			[OneLine]
 			public List<SaveItem> Items;
 		}
 

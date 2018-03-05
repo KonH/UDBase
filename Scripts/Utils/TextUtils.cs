@@ -2,6 +2,7 @@
 using System.Text;
 
 namespace UDBase.Utils {
+
 	/// <summary>
 	/// Utils for text processing
 	/// </summary>
@@ -47,6 +48,22 @@ namespace UDBase.Utils {
 		/// </summary>
 		public static string TrimQuotes(string text) {
 			return text?.Trim('\"', '\'');
+		}
+	}
+
+	/// <summary>
+	/// Utility class to hold string function, that called only when ToString() is called.
+	/// Useful for allocation-safe log calls.
+	/// </summary>
+	public class StringFunctor {
+		Func<string> _func;
+
+		public StringFunctor(Func<string> func) {
+			_func = func;
+		}
+
+		public override string ToString() {
+			return _func();
 		}
 	}
 }
