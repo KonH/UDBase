@@ -26,7 +26,7 @@ Release notes in plain text you can find here - [Docs/_ReleaseNotes.txt](Docs/_R
 
 ### Using git-submodule
 1. First time: 
-	1. Add project as git-submodule to your Unity project: `git submodule add git@github.com:KonH/UDBase.git Assets/UDBase`
+	1. Add project as git-submodule to your Unity project: `git submodule add https://github.com/KonH/UDBase.git Assets/UDBase`
 2. If you clone your project already with submodule:
 	1. Initialize submodule: `git submodule init`
 	2. Update submodule: `git submodule update`
