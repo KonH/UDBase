@@ -8,7 +8,7 @@ namespace UDBase.UI.Common {
 	/// <summary>
 	/// Set element visibility from transparent to solid when shown
 	/// </summary>
-	[AddComponentMenu("UDBase/UI/ShowHideAnimation")]
+	[AddComponentMenu("UDBase/UI/FadeAnimation")]
 	[RequireComponent(typeof(CanvasGroup))]
     public class UIFadeAnimation : UIShowHideAnimation {
 
