@@ -1,6 +1,5 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityEngine.Profiling;
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -94,11 +93,11 @@ namespace OneLine {
 #region OnGUI
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+            if (Event.current.type == EventType.Layout){ return; } // In [Expandable] popup it happens
             if (inspectorUtil.IsOutOfScreen(position)){ return; } // Culling
 
             if (arraysSizeObserver.IsArraySizeChanged(property)){ ResetCache(); }
 
-            Profiler.BeginSample("OneLine.OnGUI");
             rootDirectoryDrawer.RootDepth = property.depth;
             directoryDrawer.RootDepth = property.depth;
             position = rootDirectoryDrawer.DrawPrefixLabel(position, property);
@@ -110,7 +109,6 @@ namespace OneLine {
             DrawLine(position, property, (slice,rect) => slice.Draw(rect));
 
             EditorGUI.indentLevel = indentLevel;
-            Profiler.EndSample();
         }
 
         private Rect DrawHeaderIfNeed(Rect position, SerializedProperty property){
