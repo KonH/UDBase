@@ -1,0 +1,11 @@
+{
+    "name": "OneLine.Example.Details.Editor",
+    "references": [
+        "OneLine.Editor",
+        "UDBase.Extensions"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

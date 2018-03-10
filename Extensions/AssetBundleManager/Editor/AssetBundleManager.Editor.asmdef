@@ -1,0 +1,10 @@
+{
+    "name": "AssetBundleManager.Editor",
+    "references": [
+        "UDBase.Extensions"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}

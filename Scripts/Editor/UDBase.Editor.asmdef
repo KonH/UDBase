@@ -1,0 +1,11 @@
+{
+    "name": "UDBase.Editor",
+    "references": [
+        "UDBase.Scripts",
+        "UDBase.Extensions"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": []
+}
