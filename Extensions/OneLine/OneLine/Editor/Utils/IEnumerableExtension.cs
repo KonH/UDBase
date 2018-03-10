@@ -6,7 +6,7 @@ using System.Text;
 using UnityEditor;
 
 namespace OneLine {
-    internal static class IEnumerableExtension {
+    public static class IEnumerableExtension {
 
         public static IEnumerable<TResult> Merge<TFirst, TSecond, TResult> (this IEnumerable<TFirst> first,
                                                                             IEnumerable<TSecond> second,
