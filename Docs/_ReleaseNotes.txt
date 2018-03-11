@@ -1,3 +1,11 @@
+v.0.14.0
+Fixes:
+- Workaround for asmdef usage with OneLIne;
+- Correct way to use asmdef with editor scripts;
+- Fade animation naming in add component menu;
+Extensions:
+- OneLine updated;
+
 v.0.13.0
 New controller:
 - Analytics;
