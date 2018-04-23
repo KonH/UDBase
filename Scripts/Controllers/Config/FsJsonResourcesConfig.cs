@@ -47,6 +47,12 @@ namespace UDBase.Controllers.ConfigSystem {
 			return this;
 		}
 
+		public void Reload() {
+			// Isn't used
+		}
+
+		public bool IsReady() => true;
+
 		public T GetNode<T>() where T:IConfigSource {
 			return (_nodeContainer != null) ? _nodeContainer.LoadNode<T>(false) : default(T);
 		}
