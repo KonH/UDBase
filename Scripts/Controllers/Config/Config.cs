@@ -60,5 +60,32 @@ namespace UDBase.Controllers.ConfigSystem {
 			[Tooltip("Name of asset with json-config in Resources")]
 			public string FileName;
 		}
+
+		/// <summary>
+		/// FsJsonNetworkConfig settings
+		/// </summary>
+		[Serializable]
+		public class JsonNetworkSettings : JsonSettings {
+
+			/// <summary>
+			/// Url of web server
+			/// </summary>
+			[Tooltip("Url of web server")]
+			public string Url;
+
+			/// <summary>
+			/// File name on web server
+			/// </summary>
+			[Tooltip("File name on web server")]
+			public string WebFileName;
+
+			/// <summary>
+			/// Get full url to config based on current Url
+			/// (can be overrided in your child settings class to use version/platform specific separation)
+			/// </summary>
+			public virtual string GetFullConfigUrl() {
+				return string.Format("{0}/{1}", Url, WebFileName);
+			}
+		}
 	}
 }

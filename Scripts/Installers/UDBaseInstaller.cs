@@ -113,10 +113,15 @@ namespace UDBase.Installers {
             Container.Bind<IUser>().To<SaveUser>().AsSingle();
         }
 
-        public void AddJsonConfig(Config.JsonSettings settings) {
+        public void AddJsonResourcesConfig(Config.JsonSettings settings) {
             Container.BindInstance(settings);
             Container.Bind<IConfig>().To<FsJsonResourcesConfig>().AsSingle();
         }
+
+		public void AddJsonNetworkConfig(Config.JsonNetworkSettings settings) {
+			Container.BindInstance(settings);
+			Container.Bind<IConfig>().To<FsJsonNetworkConfig>().AsSingle();
+		}
 
         public void AddInMemorySave() {
             Container.Bind<ISave>().To<InMemorySave>().AsSingle();
