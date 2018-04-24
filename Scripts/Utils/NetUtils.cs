@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UDBase.Controllers.LogSystem;
+using Zenject;
 
 namespace UDBase.Utils {
 
@@ -100,7 +101,8 @@ namespace UDBase.Utils {
 		/// <summary>
 		/// Init with dependencies
 		/// </summary>
-		public NetUtils(ILog log) {
+		[Inject]
+		public void Initialize(ILog log) {
 			_log = log;
 		}
 
