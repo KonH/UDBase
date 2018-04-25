@@ -7,7 +7,15 @@ using Zenject;
 namespace UDBase.Controllers.ConfigSystem {
 
 	/// <summary>
-	/// Config controller, which uses JSON file (located on remote web server), serialized via Fullserializer
+	/// Config controller, which uses JSON file (located on remote web server), serialized via Fullserializer.
+	/// How to use:
+	/// 1. Save config in your client Resources
+	/// 2. When config update is required, upload new version to your web server
+	/// 3. Client starts with default config in Resources and tries to load stored config from data path immediately
+	/// 4. Client tries to load new config from web server at the same time
+	/// 5. If config not loaded to data path yet, Resources config is used
+	/// 6. When config loaded from web server, it saved to data path and used
+	/// 7. If config can't be loaded because of some problem, but loaded previously to data path, it used from here
 	/// </summary>
 	public sealed class FsJsonNetworkConfig : FsJsonBaseConfig, ILogContext, IInitializable {
 		readonly NetUtils            _net;
