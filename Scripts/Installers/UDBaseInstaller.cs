@@ -120,7 +120,7 @@ namespace UDBase.Installers {
 
 		public void AddJsonNetworkConfig(Config.JsonNetworkSettings settings) {
 			Container.BindInstance(settings);
-			Container.Bind<IConfig>().To<FsJsonNetworkConfig>().AsSingle();
+			Container.Bind(typeof(IConfig), typeof(IInitializable)).To<FsJsonNetworkConfig>().AsSingle().NonLazy();
 		}
 
         public void AddInMemorySave() {

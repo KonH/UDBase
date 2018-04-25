@@ -1,38 +1,38 @@
 ﻿using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
+using Zenject;
 
 namespace UDBase.Controllers.ConfigSystem {
 
 	/// <summary>
 	/// Config controller, which uses JSON file (located on remote web server), serialized via Fullserializer
 	/// </summary>
-	public sealed class FsJsonNetworkConfig : FsJsonBaseConfig, ILogContext {
+	public sealed class FsJsonNetworkConfig : FsJsonBaseConfig, ILogContext, IInitializable {
 
 		// TODO:
 		// + Fix parsing issue
 		// + Load config from web server
 		// ++ Local
 		// ++ konhit.xyz
-		// - Use unity web request caching instead of dataConfig?
 		// - IsReady usage & example
 		// - Reload
-		// - Blocking errors?
-		// - Preloading
+		// + Preloading
 
 		readonly NetUtils _net;
-
-		readonly IConfig _embeddedFallback;
+		readonly string   _url;
+		readonly IConfig  _embeddedFallback;
 
 		bool _isReady = false;
 
 		public FsJsonNetworkConfig(Config.JsonNetworkSettings settings, NetUtils net, ILog log) : base(log) {
-			_net = net;
-
+			_net              = net;
+			_url              = settings.GetFullConfigUrl();
 			_embeddedFallback = new FsJsonResourcesConfig(settings, log);
-
 			InitNodes(settings.Items);
+		}
 
-			TryLoadConfig(settings.GetFullConfigUrl());
+		public void Initialize() {
+			TryLoadConfig(_url);
 		}
 
 		void TryLoadConfig(string url) {
