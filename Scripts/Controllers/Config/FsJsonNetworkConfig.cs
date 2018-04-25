@@ -1,4 +1,6 @@
-﻿using UDBase.Utils;
+﻿using System.IO;
+using UnityEngine;
+using UDBase.Utils;
 using UDBase.Controllers.LogSystem;
 using Zenject;
 
@@ -8,26 +10,25 @@ namespace UDBase.Controllers.ConfigSystem {
 	/// Config controller, which uses JSON file (located on remote web server), serialized via Fullserializer
 	/// </summary>
 	public sealed class FsJsonNetworkConfig : FsJsonBaseConfig, ILogContext, IInitializable {
+		readonly NetUtils            _net;
+		readonly string              _url;
+		readonly IConfig             _embeddedFallback;
+		readonly Config.JsonSettings _loadedSettings;
 
-		// TODO:
-		// + Fix parsing issue
-		// + Load config from web server
-		// ++ Local
-		// ++ konhit.xyz
-		// - IsReady usage & example
-		// + Preloading
-
-		readonly NetUtils _net;
-		readonly string   _url;
-		readonly IConfig  _embeddedFallback;
-
-		bool _isReady = false;
+		IConfig  _loadedFallback;
 
 		public FsJsonNetworkConfig(Config.JsonNetworkSettings settings, NetUtils net, ILog log) : base(log) {
+			_loadedSettings   = settings;
 			_net              = net;
 			_url              = settings.GetFullConfigUrl();
 			_embeddedFallback = new FsJsonResourcesConfig(settings, log);
+
+			InitLoadedFallback();
 			InitNodes(settings.Items);
+		}
+
+		void InitLoadedFallback() {
+			_loadedFallback = new FsJsonDataConfig(_loadedSettings, _log);
 		}
 
 		public void Initialize() {
@@ -41,18 +42,23 @@ namespace UDBase.Controllers.ConfigSystem {
 		void OnConfigLoaded(NetUtils.Response response) {
 			if ( !response.HasError ) {
 				var configContent = TextUtils.TrimFileContent(response.Text);
-				LoadContent(configContent);
-				_isReady = true;
+				SaveContent(configContent);
 			}
 		}
 
+		void SaveContent(string configContent) {
+			var path = Path.Combine(Application.persistentDataPath, _loadedSettings.FileName + ".json");
+			IOTool.WriteAllText(path, configContent);
+			InitLoadedFallback();
+		}
+
 		public override bool IsReady() {
-			return _isReady;
+			return _loadedFallback.IsReady();
 		}
 
 		public override T GetNode<T>() {
 			if ( IsReady() ) {
-				return base.GetNode<T>();
+				return _loadedFallback.GetNode<T>();
 			} else {
 				return _embeddedFallback.GetNode<T>();
 			}
