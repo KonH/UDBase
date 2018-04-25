@@ -12,7 +12,6 @@ namespace UDBase.Controllers.ConfigSystem {
 		readonly Dictionary<Type, string> _nodeNames = new Dictionary<Type, string>();
 		
 		FsJsonNodeContainer _nodeContainer;
-		string              _configContent;
 
 		protected ILog _log;
 
@@ -27,9 +26,8 @@ namespace UDBase.Controllers.ConfigSystem {
 		}
 
 		protected void LoadContent(string configContent) {
-			_configContent = configContent;
-			_nodeContainer = new FsJsonNodeContainer(_configContent, _nodeNames, _log);
-			_log.MessageFormat(this, "Config content: \"{0}\"", _configContent);
+			_nodeContainer = new FsJsonNodeContainer(configContent, _nodeNames, _log);
+			_log.MessageFormat(this, "Config content: \"{0}\"", configContent);
 		}
 
 		protected void AddNode(Type type, string name) {

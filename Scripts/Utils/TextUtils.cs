@@ -49,6 +49,14 @@ namespace UDBase.Utils {
 		public static string TrimQuotes(string text) {
 			return text?.Trim('\"', '\'');
 		}
+
+		/// <summary>
+		/// Trim all begin/end empty chars and possible byte order mark in file content start
+		/// https://en.wikipedia.org/wiki/Byte_order_mark
+		/// </summary>
+		public static string TrimFileContent(string text) {
+			return text?.Trim().TrimStart('\uFEFF');
+		}
 	}
 
 	/// <summary>

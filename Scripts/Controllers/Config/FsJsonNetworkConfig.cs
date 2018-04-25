@@ -9,10 +9,10 @@ namespace UDBase.Controllers.ConfigSystem {
 	public sealed class FsJsonNetworkConfig : FsJsonBaseConfig, ILogContext {
 
 		// TODO:
-		// - Fix parsing issue
-		// - Load config from web server
-		// -- Local
-		// -- konhit.xyz
+		// + Fix parsing issue
+		// + Load config from web server
+		// ++ Local
+		// ++ konhit.xyz
 		// - Use unity web request caching instead of dataConfig?
 		// - IsReady usage & example
 		// - Reload
@@ -41,7 +41,8 @@ namespace UDBase.Controllers.ConfigSystem {
 
 		void OnConfigLoaded(NetUtils.Response response) {
 			if ( !response.HasError ) {
-				LoadContent(response.Text);
+				var configContent = TextUtils.TrimFileContent(response.Text);
+				LoadContent(configContent);
 				_isReady = true;
 			}
 		}
