@@ -8,11 +8,6 @@
 	public interface IConfig {
 
 		/// <summary>
-		/// Method to safe reload config in expected place
-		/// </summary>
-		void Reload();
-
-		/// <summary>
 		/// Is current config instance ready to use
 		/// </summary>
 		bool IsReady();

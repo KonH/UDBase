@@ -15,7 +15,6 @@ namespace UDBase.Controllers.ConfigSystem {
 		// ++ Local
 		// ++ konhit.xyz
 		// - IsReady usage & example
-		// - Reload
 		// + Preloading
 
 		readonly NetUtils _net;
@@ -49,10 +48,6 @@ namespace UDBase.Controllers.ConfigSystem {
 
 		public override bool IsReady() {
 			return _isReady;
-		}
-
-		public override void Reload() {
-			// TODO
 		}
 
 		public override T GetNode<T>() {

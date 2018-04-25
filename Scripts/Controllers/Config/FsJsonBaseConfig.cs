@@ -42,8 +42,6 @@ namespace UDBase.Controllers.ConfigSystem {
 			}
 		}
 
-		public virtual void Reload() { }
-
 		public virtual bool IsReady() => true;
 
 		public virtual T GetNode<T>() where T:IConfigSource {
