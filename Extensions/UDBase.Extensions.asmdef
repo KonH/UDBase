@@ -1,3 +1,8 @@
-﻿{
-	"name": "UDBase.Extensions"
+{
+    "name": "UDBase.Extensions",
+    "references": [],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
 }

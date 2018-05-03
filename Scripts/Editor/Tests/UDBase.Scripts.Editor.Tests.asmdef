@@ -1,0 +1,12 @@
+{
+    "name": "UDBase.Scripts.Editor.Tests",
+    "references": [
+        "UDBase.Scripts"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
