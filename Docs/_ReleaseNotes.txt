@@ -1,6 +1,8 @@
 v.0.16.0
 Features:
 - Unity 2018.1.0f2 support;
+Extensions:
+- Zenject updated;
 
 v.0.15.0
 Feature:

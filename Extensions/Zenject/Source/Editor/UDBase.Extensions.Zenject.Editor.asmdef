@@ -1,0 +1,12 @@
+{
+    "name": "UDBase.Extensions.Zenject.Editor",
+    "references": [
+        "UDBase.Extensions"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
