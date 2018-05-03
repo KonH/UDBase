@@ -2,9 +2,9 @@
 
 # UDBase 
 
-**Current version:** 0.15.0
+**Current version:** 0.16.0
 
-**Unity version:** 2017.4.1f1 (last tested)
+**Unity version:** 2018.1.0f2 (last tested)
 
 Repository link: [https://github.com/KonH/UDBase](https://github.com/KonH/UDBase)
 
