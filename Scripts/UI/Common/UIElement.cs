@@ -11,7 +11,7 @@ namespace UDBase.UI.Common {
 	/// </summary>
 	[AddComponentMenu("UDBase/UI/Element")]
 	public class UIElement : MonoBehaviour {
-		internal static List<UIElement> Instances = new List<UIElement>();
+		internal static HashSet<UIElement> Instances = new HashSet<UIElement>();
 
 		/// <summary>
 		/// UI Element lifetime state
@@ -147,7 +147,6 @@ namespace UDBase.UI.Common {
 		[Inject]
 		public void Init(IEvent events) {
 			_events = events;
-			Instances.Add(this);
 			if( CacheAnimation ) {
 				AssingAnimation(true);
 			}
@@ -156,7 +155,6 @@ namespace UDBase.UI.Common {
 					Childs[i].SetParent(this);
 				}
 			}
-			_events.Subscribe<UI_ElementHidden>(this, OnElementHidden);
 		}
 
 		bool IsChild(UIElement element) {
@@ -180,6 +178,16 @@ namespace UDBase.UI.Common {
 
 		void SetParent(UIElement parent) {
 			_parent = parent;
+		}
+
+		void OnEnable() {
+			Instances.Add(this);
+			_events?.Subscribe<UI_ElementHidden>(this, OnElementHidden);
+		}
+
+		void OnDisable() {
+			Instances.Remove(this);
+			_events?.Unsubscribe<UI_ElementHidden>(OnElementHidden);
 		}
 
 		void Start() {
@@ -327,11 +335,6 @@ namespace UDBase.UI.Common {
 			if( _group ) {
 				_group.interactable = isInteractable;
 			}
-		}
-
-		void OnDestroy() {
-			Instances.Remove(this);
-			_events?.Unsubscribe<UI_ElementHidden>(OnElementHidden);
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace UDBase.UI.Common {
 	/// With UIManager you can show overlays and dialogs and also switch elements visibility: all or by its group.
 	/// You can specify key command to Show/Hide elements using ShowHideToggle field.
 	/// UIManager is created by request if it is not exist on scene before.
-	/// To show overlay/dialog you need to add* UICanvas* component to your canvas, that will show that elements, or assign it directly.
+	/// To show overlay/dialog you need to add *UICanvas* component to your canvas, that will show that elements, or assign it directly.
 	/// </summary>
 	public class UIManager : MonoBehaviour {
 
@@ -100,8 +100,7 @@ namespace UDBase.UI.Common {
 		/// </summary>
 		public void ShowAll() {
 			var elements = UIElement.Instances;
-			for( int i = 0; i < elements.Count; i++ ) {
-				var element = elements[i];
+			foreach ( var element in elements ) {
 				if( !element.HasParent ) {
 					element.Show();
 				}
@@ -113,10 +112,9 @@ namespace UDBase.UI.Common {
 		/// </summary>
 		public void HideAll() {
 			var elements = UIElement.Instances;
-			for( int i = 0; i < elements.Count; i++ ) {
-				var element = elements[i];
-				if( !element.HasParent ) {
-					elements[i].Hide();
+			foreach ( var element in elements ) {
+				if ( !element.HasParent ) {
+					element.Hide();
 				}
 			}
 		}
@@ -126,8 +124,7 @@ namespace UDBase.UI.Common {
 		/// </summary>
 		public void Show(string group) {
 			var elements = UIElement.Instances;
-			for( int i = 0; i < elements.Count; i++ ) {
-				var element = elements[i];
+			foreach ( var element in elements ) {
 				if( !element.HasParent && (element.Group == group) ) {
 					element.Show();
 				}
@@ -139,9 +136,8 @@ namespace UDBase.UI.Common {
 		/// </summary>
 		public void Hide(string group) {
 			var elements = UIElement.Instances;
-			for( int i = 0; i < elements.Count; i++ ) {
-				var element = elements[i];
-				if( !element.HasParent && (element.Group == group) ) {
+			foreach ( var element in elements ) {
+				if ( !element.HasParent && (element.Group == group) ) {
 					element.Hide();
 				}
 			}
@@ -224,9 +220,8 @@ namespace UDBase.UI.Common {
 		List<UIElement> GetBlockedElements() {
 			var elements = UIElement.Instances;
 			var blockedElements = new List<UIElement>();
-			for( int i = 0; i < elements.Count; i++ ) {
-				var element = elements[i];
-				if( element.IsInteractable ) {
+			foreach ( var element in elements ) {
+				if ( element.IsInteractable ) {
 					element.Deactivate();
 					blockedElements.Add(element);
 				}
