@@ -1,6 +1,10 @@
 v.0.16.0
 Features:
+- ULogger;
 - Unity 2018.1.0f2 support;
+Fixes:
+- Fix non-cleanup issue on UIElements;
+- Fix asmdef-related issues;
 Extensions:
 - Zenject updated;
 
