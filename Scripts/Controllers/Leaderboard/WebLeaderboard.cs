@@ -74,10 +74,10 @@ namespace UDBase.Controllers.LeaderboardSystem {
 
 		public string Version { get; set; }
 
-		ILog _log;
+		ULogger _log;
 
 		public WebLeaderboard(Settings settings, ILog log, WebClient client) {
-			_log      = log;
+			_log      = log.CreateLogger(this);
 			Version   = settings.GameVersion;
 			_url      = settings.Url;
 			_gameName = settings.GameName;
@@ -112,7 +112,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 				var data = fsJsonParser.Parse(response.Text);
 				_serializer.TryDeserialize(data, ref result);
 			} else {
-				_log.ErrorFormat(this, "Wrong response: {0}, '{1}'", response.Code, response.Text);
+				_log.ErrorFormat("Wrong response: {0}, '{1}'", response.Code, response.Text);
 			}
 			callback?.Invoke(result);
 		}
@@ -122,7 +122,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 			fsData data = null;
 			_serializer.TrySerialize(item, out data);
 			var dataString = data.ToString();
-			_log.MessageFormat(this, "Serialized score item: '{0}'", dataString);
+			_log.MessageFormat("Serialized score item: '{0}'", dataString);
 			var postUrl = $"{_url}/api/Score";
 			_client.SendJsonPostRequest(
 				postUrl, dataString, headers: _postHeaders, onComplete: (response) => OnPostScoreComplete(response, callback)
@@ -134,7 +134,7 @@ namespace UDBase.Controllers.LeaderboardSystem {
 			if ( IsCorrectResponse(response) && response.Code == 201 ) {
 				result = true;
 			} else {
-				_log.ErrorFormat(this, "Wrong response: {0}, '{1}'", response.Code, response.Text);
+				_log.ErrorFormat("Wrong response: {0}, '{1}'", response.Code, response.Text);
 			}
 			callback?.Invoke(result);
 		}

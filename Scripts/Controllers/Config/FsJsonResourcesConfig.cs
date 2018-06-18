@@ -14,7 +14,7 @@ namespace UDBase.Controllers.ConfigSystem {
 			if( config ) {
 				LoadContent(config.text);
 			} else {
-				_log.ErrorFormat(this, "Can't read config file from Resources/{0}",  fileName);
+				_logger.ErrorFormat("Can't read config file from Resources/{0}",  fileName);
 			}
 			InitNodes(settings.Items);
 		}

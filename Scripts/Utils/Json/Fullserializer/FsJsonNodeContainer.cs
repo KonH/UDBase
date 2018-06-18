@@ -10,10 +10,10 @@ namespace UDBase.Utils.Json.Fullserializer {
 		readonly Dictionary<Type, object>    _cache      = new Dictionary<Type, object>();
 		readonly fsSerializer                _serializer = new fsSerializer();
 
-		ILog _log;
+		ULogger _log;
 
 		public FsJsonNodeContainer(string content, Dictionary<Type, string> names, ILog log) {
-			_log = log;
+			_log = log.CreateLogger(this);
 			if (!string.IsNullOrEmpty(content)) {
 				var data = fsJsonParser.Parse(content);
 				_nodes = data.AsDictionary;
@@ -28,7 +28,7 @@ namespace UDBase.Utils.Json.Fullserializer {
 			if( !_names.ContainsKey(type) ) {
 				_names.Add(type, name);
 			} else {
-				_log.ErrorFormat(this, "Type already exist: {0}!", type);  
+				_log.ErrorFormat("Type already exist: {0}!", type);  
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace UDBase.Utils.Json.Fullserializer {
 						_cache.Add(type, value);
 					}
 				} else {
-					_log.ErrorFormat(this, "NodeContainer.LoadNode: Can't find node: {0}!", type);
+					_log.ErrorFormat("NodeContainer.LoadNode: Can't find node: {0}!", type);
 				}
 			}
 			return (T)value;

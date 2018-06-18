@@ -96,14 +96,14 @@ namespace UDBase.Utils {
 			}
 		}
 
-		ILog _log;
+		ULogger _log;
 
 		/// <summary>
 		/// Init with dependencies
 		/// </summary>
 		[Inject]
 		public void Initialize(ILog log) {
-			_log = log;
+			_log = log.CreateLogger(this);
 		}
 
 		/// <summary>
@@ -255,11 +255,11 @@ namespace UDBase.Utils {
 				request.GetResponseHeaders(),
 				isTimeout);
 			if ( isTimeout ) {
-				_log.ErrorFormat(this, "Request to '{0}': timeout", url);
+				_log.ErrorFormat("Request to '{0}': timeout", url);
 			} else if ( request.isNetworkError ) {
-				_log.ErrorFormat(this, "Request to '{0}': error: '{1}'", url, request.error);
+				_log.ErrorFormat("Request to '{0}': error: '{1}'", url, request.error);
 			} else {
-				_log.MessageFormat(this, "Request to '{0}': response code: {1}, text: '{2}'", url, request.responseCode, response.Text);
+				_log.MessageFormat("Request to '{0}': response code: {1}, text: '{2}'", url, request.responseCode, response.Text);
 			}
 			onComplete?.Invoke(response);
 		}

@@ -25,13 +25,13 @@ namespace UDBase.Controllers.UTime {
 		float    _startTime;
 
 		NetUtils _net;
-		ILog _log;
+		ULogger _log;
 
 		public NetworkTime(Settings settings, NetUtils net, ILog log) {
 			_url      = settings.Url;
 			_timeout  = settings.Timeout;
 			_net = net;
-			_log = log;
+			_log = log.CreateLogger(this);
 			_net.SendGetRequest(_url, timeout: _timeout, onComplete: OnTimeRequestComplete);
 		}
 
@@ -45,19 +45,19 @@ namespace UDBase.Controllers.UTime {
 				if( DateTime.TryParse(response.Text, out dt) ) {
 					_startDate = dt.ToUniversalTime();
 					_startTime = GetAppTime();
-					_log.MessageFormat(this, "NetworkTime: {0}", _startDate);
+					_log.MessageFormat("NetworkTime: {0}", _startDate);
 					IsAvailable = true;
 				} else {
-					_log.ErrorFormat(this, "Parsing error: '{0}' to DateTime", dt);
+					_log.ErrorFormat("Parsing error: '{0}' to DateTime", dt);
 					IsFailed = true;
 				}
 			} else {
 				if( response.HasError ) {
-					_log.ErrorFormat(this, "Request error: {0}", response.Error);
+					_log.ErrorFormat("Request error: {0}", response.Error);
 				} else if( response.Timeout ) {
-					_log.Error(this, "Request timeout");
+					_log.Error("Request timeout");
 				} else {
-					_log.Error(this, "Request unknown error");
+					_log.Error("Request unknown error");
 				}
 				IsFailed = true;
 			}

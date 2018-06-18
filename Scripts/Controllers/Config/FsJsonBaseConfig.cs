@@ -13,10 +13,12 @@ namespace UDBase.Controllers.ConfigSystem {
 		
 		FsJsonNodeContainer _nodeContainer;
 
-		protected ILog _log;
+		protected ILog    _log;
+		protected ULogger _logger;
 
 		public FsJsonBaseConfig(ILog log) {
-			_log = log;
+			_log    = log;
+			_logger = log.CreateLogger(this);
 		}
 
 		protected void InitNodes(List<Config.ConfigItem> nodes) {
@@ -27,7 +29,7 @@ namespace UDBase.Controllers.ConfigSystem {
 
 		protected void LoadContent(string configContent) {
 			_nodeContainer = new FsJsonNodeContainer(configContent, _nodeNames, _log);
-			_log.MessageFormat(this, "Config content: \"{0}\"", configContent);
+			_logger.MessageFormat("Config content: \"{0}\"", configContent);
 		}
 
 		protected void AddNode(Type type, string name) {
@@ -35,7 +37,7 @@ namespace UDBase.Controllers.ConfigSystem {
 				if( !_nodeNames.ContainsKey(type) ) {
 					_nodeNames.Add(type, name);
 				} else {
-					_log.ErrorFormat(this, "Config: node already added: {0}!", type);
+					_logger.ErrorFormat("Config: node already added: {0}!", type);
 				}
 			} else {
 				_nodeContainer.Add(type, name);

@@ -12,11 +12,11 @@ namespace UDBase.Utils.Json.Fullserializer {
 		readonly fsSerializer             _serializer = new fsSerializer();
 		readonly NodeCache                _nodeCache  = new NodeCache();
 
-		ILog _log;
+		ULogger _log;
 
 		public FsJsonListContainer(FsJsonNodeContainer nodeContainer, ILog log) {
 			_nodeContainer = nodeContainer;
-			_log = log;
+			_log = log.CreateLogger(this);
 		}
 
 		public void Add<T>(string name) {
@@ -24,7 +24,7 @@ namespace UDBase.Utils.Json.Fullserializer {
 			if( !_names.ContainsKey(type) ) {
 				_names.Add(type, name);
 			} else {
-				_log.ErrorFormat(this, "Type already exist: {0}!", type);  
+				_log.ErrorFormat("Type already exist: {0}!", type);  
 			}
 		}
 
@@ -48,7 +48,7 @@ namespace UDBase.Utils.Json.Fullserializer {
 					}
 				}
 			}
-			_log.ErrorFormat(this, "ListContainer.LoadItem: Can't find node: {0}!", typeof(T));
+			_log.ErrorFormat("ListContainer.LoadItem: Can't find node: {0}!", typeof(T));
 			return autoFill ? Activator.CreateInstance<T>() : default(T);
 		}
 

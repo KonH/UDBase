@@ -13,12 +13,12 @@ namespace UDBase.Controllers.LeaderboardSystem {
 		
 		public string Version { get; set; }
 
-		ILog _log;
+		ULogger _log;
 
 		List<LeaderboardItem> _items = new List<LeaderboardItem>();
 
 		public LocalLeaderboard(ILog log) {
-			_log = log;
+			_log = log.CreateLogger(this);
 		}
 
 		public void GetScores(int max, string parameter, Action<List<LeaderboardItem>> callback) {
@@ -29,14 +29,13 @@ namespace UDBase.Controllers.LeaderboardSystem {
 				}
 			}
 			var result = filteredData.Take(max).OrderByDescending(i => i.Score).ToList();
-			_log.MessageFormat(this, "Retrieve {0} items for parameter '{1}'", result.Count, parameter);
+			_log.MessageFormat("Retrieve {0} items for parameter '{1}'", result.Count, parameter);
 			callback?.Invoke(result);
 		}
 
 		public void PostScore(string parameter, string playerName, int score, Action<bool> callback) {
 			_items.Add(new LeaderboardItem(string.Empty, string.Empty, parameter, playerName,  score));
 			_log.MessageFormat(
-				this,
 				"Add item: param: '{0}', playerName: '{1}', score = {2}",
 				parameter, playerName, score);
 			callback?.Invoke(true);

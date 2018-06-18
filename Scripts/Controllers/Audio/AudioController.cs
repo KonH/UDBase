@@ -50,11 +50,11 @@ namespace UDBase.Controllers.AudioSystem {
 
 		AudioMixer _mixer;
 
-		ILog _log;
-		IEvent _events;
+		ULogger _log;
+		IEvent  _events;
 		
 		public AudioController(Settings settings, ILog log, IEvent events) {
-			_log           = log;
+			_log           = log.CreateLogger(this);
 			_events        = events;
 			_mixerPath     = settings.MixerPath;
 			_channels      = settings.Channels;
@@ -62,9 +62,9 @@ namespace UDBase.Controllers.AudioSystem {
 
 			_mixer = Resources.Load(_mixerPath) as AudioMixer;
 			if ( _mixer ) {
-				_log.MessageFormat(this, "AudioMixer loaded from '{0}'", _mixerPath);
+				_log.MessageFormat("AudioMixer loaded from '{0}'", _mixerPath);
 			} else {
-				_log.ErrorFormat(this, "AudioMixer not found at '{0}'", _mixerPath);
+				_log.ErrorFormat("AudioMixer not found at '{0}'", _mixerPath);
 			}
 		}
 
@@ -192,7 +192,7 @@ namespace UDBase.Controllers.AudioSystem {
 				_groups.Add(channelName, group);
 			}
 			if ( !group ) {
-				_log.ErrorFormat(this, "Cannot find channel with name '{0}'", channelName);
+				_log.ErrorFormat("Cannot find channel with name '{0}'", channelName);
 			}
 			return group;
 		}

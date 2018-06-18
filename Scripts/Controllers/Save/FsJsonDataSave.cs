@@ -22,10 +22,12 @@ namespace UDBase.Controllers.SaveSystem {
 		string              _filePath    = "";
 		FsJsonNodeContainer _container;
 
-		ILog _log;
+		ILog    _log;
+		ULogger _logger;
 
 		public FsJsonDataSave(Save.JsonSettings settings, ILog log) {
 			_log = log;
+			_logger = log.CreateLogger(this);
 			_prettyJson = settings.PrettyJson;
 			_fileName   = settings.FileName;
 			_versioning = settings.Versioning;
@@ -37,11 +39,11 @@ namespace UDBase.Controllers.SaveSystem {
 			}
 			_filePath = Path.Combine(Application.persistentDataPath, _fileName);
 			if( !TryLoadContainer() ) {
-				_log.MessageFormat(this, "JsonDataSave: Can't read save file from {0}, re-create it.", _fileName);
+				_logger.MessageFormat("JsonDataSave: Can't read save file from {0}, re-create it.", _fileName);
 				IOTool.CreateFile(_filePath);
 				TryLoadContainer();
 			}
-			_log.MessageFormat(this, "Save content: \"{0}\"", _saveContent);
+			_logger.MessageFormat("Save content: \"{0}\"", _saveContent);
 		}
 
 		bool TryLoadContainer() {
@@ -62,7 +64,7 @@ namespace UDBase.Controllers.SaveSystem {
 				if( !_names.ContainsKey(type) ) {
 					_names.Add(type, name);
 				} else {
-					_log.ErrorFormat(this, "FsJsonDataSave: node already added: {0}!", type);
+					_logger.ErrorFormat("FsJsonDataSave: node already added: {0}!", type);
 				}
 			} else {
 				_container.Add(type, name);
@@ -76,7 +78,7 @@ namespace UDBase.Controllers.SaveSystem {
 			}
 			var type = typeof(T);
 			if( !_names.ContainsKey(type) ) {
-				_log.ErrorFormat(this, "GetNode: node is not added: {0}!", type);
+				_logger.ErrorFormat("GetNode: node is not added: {0}!", type);
 			}
 			return Activator.CreateInstance<T>();
 		}
@@ -91,12 +93,12 @@ namespace UDBase.Controllers.SaveSystem {
 					}
 					_saveContent = _container.GetNodesContent(_prettyJson);
 					IOTool.WriteAllText(_filePath, _saveContent);
-					_log.MessageFormat(this, "New save content: \"{0}\"", _saveContent);
+					_logger.MessageFormat("New save content: \"{0}\"", _saveContent);
 				} else {
-					_log.ErrorFormat(this, "SaveNode: node is not added: {0}!", typeof(T));
+					_logger.ErrorFormat("SaveNode: node is not added: {0}!", typeof(T));
 				}
 			} else {
-				_log.Error(this, "SaveNode: could not load container!");
+				_logger.Error("SaveNode: could not load container!");
 			}
 		}
 	}

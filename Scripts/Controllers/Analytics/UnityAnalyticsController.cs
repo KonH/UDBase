@@ -15,10 +15,10 @@ namespace UDBase.Controllers.AnalyticsSystem {
 		Dictionary<string, object> _tempDict    = new Dictionary<string, object>();
 		Dictionary<string, object> _sessionData = new Dictionary<string, object>();
 
-		ILog _log;
+		ULogger _log;
 
 		public UnityAnalyticsController(ILog log) {
-			_log = log;
+			_log = log.CreateLogger(this);
 		}
 
 		public void Event(string eventName) {
@@ -29,7 +29,7 @@ namespace UDBase.Controllers.AnalyticsSystem {
 				return;
 			}
 			var result = Analytics.CustomEvent(eventName);
-			_log.MessageFormat(this, "Fired event: '{0}', result: {1}", eventName, result);
+			_log.MessageFormat("Fired event: '{0}', result: {1}", eventName, result);
 		}
 
 		public void Event(string eventName, Dictionary<string, object> userData) {
@@ -44,7 +44,7 @@ namespace UDBase.Controllers.AnalyticsSystem {
 				}
 				return dataSb.ToString();
 			});
-			_log.MessageFormat(this, "Fired event: '{0}' with data: {1}, result: {2}", eventName, getDataInfo, result);
+			_log.MessageFormat("Fired event: '{0}' with data: {1}, result: {2}", eventName, getDataInfo, result);
 		}
 
 		public void AddSessionData(string key, object value) {
