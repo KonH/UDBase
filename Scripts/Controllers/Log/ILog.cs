@@ -2,11 +2,17 @@
 	/// <summary>
 	/// Log interface without additional allocation when less then 5 parameters is used.
 	/// To use ILog you need to use ILogContext object, which specify area of logging and allow you to filter logs at runtime.
+	/// Also, you can create ULogger for shorter logging calls.
 	/// Notes:
 	/// All these boilerplate is required to avoid additional allocation for params usage. 
 	/// Generics is required to avoid boxing in valye type cases.
 	/// </summary>
 	public interface ILog {
+
+		/// <summary>
+		/// Creates logger for shorter calls to ILog
+		/// </summary>
+		ULogger CreateLogger(ILogContext context);
 
 		/// <summary>
 		/// Log message with given context

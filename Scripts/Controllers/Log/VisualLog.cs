@@ -23,6 +23,8 @@ namespace UDBase.Controllers.LogSystem {
 			_handler = handler;
 		}
 
+		public ULogger CreateLogger(ILogContext context) { return new ULogger(this, context); }
+
 		public void Assert(ILogContext context, string msg) {
 			_handler.AddMessage(LogType.Assert, context, msg);
 		}

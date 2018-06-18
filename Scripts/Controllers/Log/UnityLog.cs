@@ -17,6 +17,8 @@ namespace UDBase.Controllers.LogSystem {
 			_settings = settings;
 		}
 
+		public ULogger CreateLogger(ILogContext context) { return new ULogger(this, context); }
+
 		public void Assert(ILogContext context, string msg) {
 			if ( _settings.IsContextEnabled(context) ) {
 				Debug.unityLogger.Log(LogType.Assert, context.ToString(), msg);

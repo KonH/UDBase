@@ -4,6 +4,7 @@
 	/// Logger without any output for cases when you don't need any logs
 	/// </summary>
 	public sealed class EmptyLog : ILog {
+		public ULogger CreateLogger(ILogContext context) { return new ULogger(this, context); }
 		public void Assert(ILogContext context, string msg) { }
 		public void AssertFormat<T1>(ILogContext context, string msg, T1 arg1) { }
 		public void AssertFormat<T1, T2>(ILogContext context, string msg, T1 arg1, T2 arg2) { }
