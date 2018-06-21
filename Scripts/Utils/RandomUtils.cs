@@ -35,6 +35,19 @@ namespace UDBase.Utils {
 		}
 
 		/// <summary>
+		/// Returns random value from Dictionary collection
+		/// </summary>
+		public static TValue GetItem<TKey, TValue>(Dictionary<TKey, TValue> items) {
+			if ( (items != null) && (items.Count > 0) ) {
+				TKey[] keys = new TKey[items.Keys.Count];
+				items.Keys.CopyTo(keys, 0);
+				var key = GetItem(keys);
+				return items[key];
+			}
+			return default(TValue);
+		}
+
+		/// <summary>
 		/// Returns random value from Array collection
 		/// </summary>
 		public static T GetItem<T>(T[] items) {
