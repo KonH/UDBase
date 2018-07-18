@@ -163,57 +163,58 @@ namespace UDBase.UI.Common {
 		/// <summary>
 		/// Shows the overlay with closing callback
 		/// </summary>
-		public void ShowOverlay(ContentId content, Action callback) {
-			ShowDialog(content, _ => SafeCallback(callback));
+		public void ShowOverlay(ContentId content, Action callback, Action<GameObject> init = null) {
+			ShowDialog(content, _ => SafeCallback(callback), init);
 		}
 
 		/// <summary>
 		/// Shows the overlay with closing callback
 		/// </summary>
-		public void ShowOverlay(GameObject prefab, Action callback) {
-			ShowDialog(prefab, _ => SafeCallback(callback));
+		public void ShowOverlay(GameObject prefab, Action callback, Action<GameObject> init = null) {
+			ShowDialog(prefab, _ => SafeCallback(callback), init);
 		}
 
 		/// <summary>
 		/// Shows the dialog with positive and negative callbacks
 		/// </summary>
-		public void ShowDialog(ContentId content, Action onOk, Action onCancel) {
-			ShowDialog(content, (result) => SelectionCallback(result, onOk, onCancel));
+		public void ShowDialog(ContentId content, Action onOk, Action onCancel, Action<GameObject> init = null) {
+			ShowDialog(content, (result) => SelectionCallback(result, onOk, onCancel), init);
 		}
 
 		/// <summary>
 		/// Shows the dialog with positive and decision result callback
 		/// </summary>
-		public void ShowDialog(ContentId content, Action<bool> callback) {
+		public void ShowDialog(ContentId content, Action<bool> callback, Action<GameObject> init = null) {
 			if( !_isLoading ) {
 				_isLoading = true;
-				_loaders.GetLoaderFor(content).LoadAsync<GameObject>(content, (go) => ShowDialog(go, callback));
+				_loaders.GetLoaderFor(content).LoadAsync<GameObject>(content, (go) => ShowDialog(go, callback, init));
 			}
 		}
 
 		/// <summary>
 		/// Shows the dialog with positive and negative callbacks
 		/// </summary>
-		public void ShowDialog(GameObject prefab, Action onOk, Action onCancel) {
-			ShowDialog(prefab, (result) => SelectionCallback(result, onOk, onCancel));
+		public void ShowDialog(GameObject prefab, Action onOk, Action onCancel, Action<GameObject> init = null) {
+			ShowDialog(prefab, (result) => SelectionCallback(result, onOk, onCancel), init);
 		}
 
 		/// <summary>
 		/// Shows the dialog with positive and decision result callback
 		/// </summary>
-		public void ShowDialog(GameObject prefab, Action<bool> callback) {
+		public void ShowDialog(GameObject prefab, Action<bool> callback, Action<GameObject> init = null) {
 			_isLoading = false;
 			var overlay = _overlayFactory.Create(prefab);
-			ProcessOverlay(overlay, callback);
+			ProcessOverlay(overlay, callback, init);
 		}
 
-		void ProcessOverlay(UIOverlay dialog, Action<bool> callback) {
+		void ProcessOverlay(UIOverlay dialog, Action<bool> callback, Action<GameObject> init) {
 			if( _settings.Canvas ) {
 				dialog.transform.SetParent(_settings.Canvas.transform, false);
 			}
 			var blockedElements = GetBlockedElements();
 			var dialogGroup = new UIDialogGroup(blockedElements, callback);
 			_dialogs.Push(dialogGroup);
+			init?.Invoke(dialog.gameObject);
 			dialog.Show();
 		}
 
