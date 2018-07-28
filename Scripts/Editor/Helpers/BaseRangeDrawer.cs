@@ -10,7 +10,7 @@ namespace UDBase.Helpers {
 			var maxWidth = 0.0f;
 			EditorStyles.label.CalcMinMaxWidth(new GUIContent(property.name), out minWidth, out maxWidth);
 			var headerRect = new Rect(position);
-			headerRect.width = maxWidth;
+			headerRect.width = Mathf.Max(maxWidth, 100.0f);
 			EditorGUI.LabelField(headerRect, property.name);
 			var start = property.FindPropertyRelative("Start");
 			var end   = property.FindPropertyRelative("End");
