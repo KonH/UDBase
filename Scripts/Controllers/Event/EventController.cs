@@ -11,7 +11,9 @@ namespace UDBase.Controllers.EventSystem {
 		readonly Dictionary<Type, EventHandlerBase> _handlers    = new Dictionary<Type, EventHandlerBase>();
 		readonly Dictionary<Type, List<object>>     _tmpHandlers = new Dictionary<Type, List<object>>();
 
+	#pragma warning disable 0414
 		ULogger _log;
+	#pragma warning restore 0414
 
 		public EventController(ILog log) {
 			_log = log.CreateLogger(this);
@@ -42,13 +44,17 @@ namespace UDBase.Controllers.EventSystem {
 			if( handler != null ) {
 				handler.Fire(arg);
 			}
+		#if !ENABLE_IL2CPP
 			_log.MessageFormat("Fire: {0}", arg);
+		#endif
 		}
 
 		public void Subscribe<T>(object handler, Action<T> callback) {
 			var eventHandler = GetOrCreateHandler<T>();
 			eventHandler.Subscribe(handler, callback);
+		#if !ENABLE_IL2CPP
 			_log.MessageFormat("Subscribe: {0} for {1}", typeof(T), handler);
+		#endif
 		}
 
 		public void Unsubscribe<T>(Action<T> action) {
@@ -56,7 +62,9 @@ namespace UDBase.Controllers.EventSystem {
 			if( handler != null ) {
 				handler.Unsubscribe(action);
 			}
+		#if !ENABLE_IL2CPP
 			_log.MessageFormat("Unsubscribe: {0}", typeof(T));
+		#endif
 		}
 	
 		/// <summary>
