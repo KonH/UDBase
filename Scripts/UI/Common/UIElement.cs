@@ -195,6 +195,8 @@ namespace UDBase.UI.Common {
 				IsInteractable = InitialActive;
 				if( AutoShow ) {
 					Show();
+				} else {
+					State = UIElementState.Hidden;
 				}
 			}
 		}
@@ -334,6 +336,22 @@ namespace UDBase.UI.Common {
 			}
 			if( _group ) {
 				_group.interactable = isInteractable;
+			}
+		}
+
+		/// <summary>
+		/// Shows element, if it is hidden and opposite
+		/// </summary>
+		public void Switch() {
+			switch ( State ) {
+				case UIElementState.None:
+				case UIElementState.Shown:
+					Hide();
+					break;
+				
+				case UIElementState.Hidden:
+					Show();
+					break;
 			}
 		}
 	}
