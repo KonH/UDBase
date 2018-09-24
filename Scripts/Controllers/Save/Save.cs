@@ -32,6 +32,13 @@ namespace UDBase.Controllers.SaveSystem {
 			/// </summary>
 			[Tooltip("Name of the instance in save file")]
 			public string Name;
+
+			public SaveItem() { }
+
+			public SaveItem(Type type, string name) {
+				Type = type;
+				Name = name;
+			}
 		}
 
 		/// <summary>
