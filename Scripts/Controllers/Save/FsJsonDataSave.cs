@@ -16,6 +16,7 @@ namespace UDBase.Controllers.SaveSystem {
 		readonly bool                     _prettyJson;
 		readonly string                   _fileName;
 		readonly bool                     _versioning;
+		readonly bool                     _autoFlush;
 		readonly Dictionary<Type, string> _names = new Dictionary<Type, string>();
 		
 		string              _saveContent = "";
@@ -31,6 +32,7 @@ namespace UDBase.Controllers.SaveSystem {
 			_prettyJson = settings.PrettyJson;
 			_fileName   = settings.FileName;
 			_versioning = settings.Versioning;
+			_autoFlush  = settings.AutoFlush;
 			if( _versioning ) {
 				AddNode(typeof(SaveInfoNode), "_info");
 			}
@@ -92,14 +94,20 @@ namespace UDBase.Controllers.SaveSystem {
 						_container.SaveNode(saveInfo);
 					}
 					_saveContent = _container.GetNodesContent(_prettyJson);
-					IOTool.WriteAllText(_filePath, _saveContent);
-					_logger.MessageFormat("New save content: \"{0}\"", _saveContent);
+					if ( _autoFlush ) {
+						Flush();
+					}
 				} else {
 					_logger.ErrorFormat("SaveNode: node is not added: {0}!", typeof(T));
 				}
 			} else {
 				_logger.Error("SaveNode: could not load container!");
 			}
+		}
+
+		public void Flush() {
+			IOTool.WriteAllText(_filePath, _saveContent);
+			_logger.MessageFormat("New save content: \"{0}\"", _saveContent);
 		}
 	}
 }

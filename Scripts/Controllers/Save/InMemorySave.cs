@@ -20,5 +20,7 @@ namespace UDBase.Controllers.SaveSystem {
 		}
 
 		public void SaveNode<T>(T node) where T:ISaveSource {}
+
+		public void Flush() {}
 	}
 }

@@ -78,6 +78,12 @@ namespace UDBase.Controllers.SaveSystem {
 			/// </summary>
 			[Tooltip("Do you need SaveInfoNode in your save?")]
 			public bool Versioning;
+
+			/// <summary>
+			/// Do you need to flush changes to file after each SaveNode call?
+			/// </summary>
+			[Tooltip("Do you need to flush changes to file after each SaveNode call?")]
+			public bool AutoFlush = true;
 		}
 
 		/// <summary>

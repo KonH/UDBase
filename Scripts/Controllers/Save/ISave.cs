@@ -17,5 +17,10 @@
 		/// Save new or updated node
 		/// </summary>
 		void SaveNode<T>(T node) where T:ISaveSource;
+
+		/// <summary>
+		/// Flush save to file
+		/// </summary>
+		void Flush();
 	}
 }
