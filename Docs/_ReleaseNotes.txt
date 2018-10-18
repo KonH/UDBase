@@ -1,3 +1,18 @@
+v.0.17.0
+Fixes:
+- Prevent IL2CPP compilation issue;
+- Range label is now shown properly;
+- UIElement: correct initial state without AutoShow;
+Features:
+- RandomUtils.GetItem with elements weight;
+- Add AppVersionText component;
+Enchancements:
+- Added dictionary get rundom item method;
+- Added common dict utils;
+- Adds explicit constructors to easyiest setup save items from code;
+- Add callback to initialize UIOverlay;
+- UIElement.Switch method;
+
 v.0.16.0
 Features:
 - ULogger;
