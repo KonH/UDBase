@@ -1,0 +1,10 @@
+{
+    "name": "Unity-Weld-Editor",
+    "references": [
+        "Unity-Weld"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
