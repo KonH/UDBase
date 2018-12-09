@@ -1,8 +1,11 @@
 {
     "name": "UDBase.Scripts",
     "references": [
-        "UDBase.Extensions"
+        "UDBase.Extensions",
+        "Unity-Weld"
     ],
+    "optionalUnityReferences": [],
     "includePlatforms": [],
-    "excludePlatforms": []
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
 }
