@@ -3,12 +3,16 @@ using UnityWeld.Binding;
 
 namespace UDBase.ViewModels {
 	public abstract class BaseListViewModel<TModel, TViewModel> : MonoBehaviour where TModel : class where TViewModel : class {
-		[Binding] public ObservableList<TViewModel> Items { get; set; } = new ObservableList<TViewModel>();
+		[Binding] public ObservableList<TViewModel> Items { get; set; } = null;
 
 		protected ObservableList<TModel> ModelItems;
 
 		public void Init(ObservableList<TModel> items) {
 			ModelItems = items;
+			Items = new ObservableList<TViewModel>();
+			foreach ( var item in ModelItems ) {
+				Items.Add(CreateView(item));
+			}
 		}
 
 		protected void OnEnable() {
