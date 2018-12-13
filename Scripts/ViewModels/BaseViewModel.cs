@@ -10,13 +10,17 @@ namespace UDBase.ViewModels {
 		}
 
 		protected void OnEnable() {
-			Model.PropertyChanged += PropertyChanged;
+			Model.PropertyChanged += OnPropertyChanged;
 		}
 
 		protected void OnDisable() {
-			Model.PropertyChanged -= PropertyChanged;
+			Model.PropertyChanged -= OnPropertyChanged;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
+
+		protected void OnPropertyChanged(object sender, PropertyChangedEventArgs args) {
+			PropertyChanged?.Invoke(sender, args);
+		}
 	}
 }
