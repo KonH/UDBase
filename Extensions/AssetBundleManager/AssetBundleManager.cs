@@ -441,6 +441,7 @@ namespace AssetBundles
             }
             else
             {
+            #pragma warning disable 618
                 WWW download = null;
 
                 if (!bundleBaseDownloadingURL.EndsWith("/"))
@@ -459,7 +460,8 @@ namespace AssetBundles
                 m_InProgressOperations.Add(new AssetBundleDownloadFromWebOperation(assetBundleName, download));
             }
             m_DownloadingBundles.Add(assetBundleName);
-
+            #pragma warning restore 618
+            
             return false;
         }
 

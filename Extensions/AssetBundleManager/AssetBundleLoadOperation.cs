@@ -147,9 +147,12 @@ namespace AssetBundles
     }
 #endif
 
+#pragma warning disable 618
     public class AssetBundleDownloadFromWebOperation : AssetBundleDownloadOperation
     {
+    
         WWW m_WWW;
+   
         string m_Url;
 
         public AssetBundleDownloadFromWebOperation(string assetBundleName, WWW www)
@@ -184,6 +187,7 @@ namespace AssetBundles
             return m_Url;
         }
     }
+#pragma warning restore 618
 
 #if UNITY_EDITOR
     public class AssetBundleLoadLevelSimulationOperation : AssetBundleLoadOperation
@@ -202,10 +206,12 @@ namespace AssetBundles
                 return;
             }
 
+        #pragma warning disable 618
             if (isAdditive)
                 m_Operation = UnityEditor.EditorApplication.LoadLevelAdditiveAsyncInPlayMode(levelPaths[0]);
             else
                 m_Operation = UnityEditor.EditorApplication.LoadLevelAsyncInPlayMode(levelPaths[0]);
+        #pragma warning restore 618
         }
 
         public override bool Update()
