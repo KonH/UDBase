@@ -30,13 +30,13 @@ namespace Zenject
         bool _parentNewObjectsUnderContext = true;
 
         [SerializeField]
-        ReflectionBakingCoverageModes _editorReflectionBakingCoverageMode;
+        ReflectionBakingCoverageModes _editorReflectionBakingCoverageMode = default(ReflectionBakingCoverageModes);
 
         [SerializeField]
-        ReflectionBakingCoverageModes _buildsReflectionBakingCoverageMode;
+        ReflectionBakingCoverageModes _buildsReflectionBakingCoverageMode = default(ReflectionBakingCoverageModes);
 
         [SerializeField]
-        ZenjectSettings _settings;
+        ZenjectSettings _settings = null;
 
         DiContainer _container;
 

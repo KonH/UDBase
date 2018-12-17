@@ -10,7 +10,7 @@ namespace Zenject
     public class ScriptableObjectInstallerBase : ScriptableObject, IInstaller
     {
         [Inject]
-        DiContainer _container;
+        DiContainer _container = null;
 
         protected DiContainer Container
         {

@@ -192,7 +192,9 @@ namespace Zenject.Internal
         {
             var assetPath = ZenUnityEditorUtil.ConvertFullAbsolutePathToAssetPath(absoluteDir);
             var prefabPath = (Path.Combine(assetPath, ProjectContext.ProjectContextResourcePath) + ".prefab").Replace("\\", "/");
+        #pragma warning disable 618
             var emptyPrefab = PrefabUtility.CreateEmptyPrefab(prefabPath);
+        #pragma warning restore 618
 
             var gameObject = new GameObject();
 
@@ -200,7 +202,9 @@ namespace Zenject.Internal
             {
                 gameObject.AddComponent<ProjectContext>();
 
+            #pragma warning disable 618
                 var prefabObj = PrefabUtility.ReplacePrefab(gameObject, emptyPrefab);
+            #pragma warning restore 618
 
                 Selection.activeObject = prefabObj;
             }
