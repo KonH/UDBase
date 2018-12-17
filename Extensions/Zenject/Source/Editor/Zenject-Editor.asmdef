@@ -1,0 +1,16 @@
+{
+    "name": "Zenject-Editor",
+    "references": [
+        "UDBase.Extensions.Zenject"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}

@@ -2,10 +2,15 @@
     "name": "UDBase.Scripts",
     "references": [
         "UDBase.Extensions",
-        "Unity-Weld"
+        "Unity-Weld",
+        "UDBase.Extensions.Zenject"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
-    "allowUnsafeCode": false
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
 }
