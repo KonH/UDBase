@@ -41,15 +41,15 @@ namespace UDBase.Controllers.AudioSystem {
 
 		[SerializeField]
 		[Tooltip("Volume parameter to use")]
-		string _channelParam;
+		string _channelParam = null;
 		[SerializeField]
 		[Tooltip("Channel name to use")]
-		string _channelName;
+		string _channelName = null;
 		[SerializeField]
 		[Tooltip("Use default sound channelName/param?")]
-		bool _defaultSound;
+		bool _defaultSound = false;
 		[SerializeField]
 		[Tooltip("Use default music channelName/param?")]
-		bool _defaultMusic;
+		bool _defaultMusic = false;
 	}
 }

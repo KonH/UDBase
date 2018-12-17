@@ -14,7 +14,7 @@ namespace UDBase.EditorTools {
 		Vector2                        _scrollPos = Vector2.zero;
 
 		[InjectOptional]
-		IEvent _events;
+		IEvent _events = null;
 
 		void OnGUI() {
 			_ready = UpdateState();
